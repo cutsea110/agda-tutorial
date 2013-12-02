@@ -1,0 +1,637 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Péter Diviánszky" />
+  <title>Term Inference and Implicit Arguments</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Term Inference and Implicit Arguments</h1>
+<h2 class="author">Péter Diviánszky</h2>
+<h3 class="date">2013. 01.</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#imports">Imports</a></li>
+<li><a href="#term-inference">Term inference</a></li>
+<li><a href="#implicit-arguments">Implicit arguments</a></li>
+<li><a href="#named-and-multiple-implicit-arguments">Named and multiple implicit arguments</a></li>
+<li><a href="#syntactic-abbreviations">Syntactic abbreviations</a></li>
+</ul>
+</div>
+<h1 id="imports"><a href="#imports">Imports</a></h1>
+<p><pre
+><a name="89"
+  >
+</a
+  ><a name="104" class="Keyword"
+  >module</a
+  ><a name="110"
+  > </a
+  ><a name="111" href="Term_Inference.html#1" class="Module Operator"
+  >Term_Inference</a
+  ><a name="125"
+  > </a
+  ><a name="126" class="Keyword"
+  >where</a
+  ><a name="131"
+  >
+
+</a
+  ><a name="133" class="Keyword"
+  >open</a
+  ><a name="137"
+  > </a
+  ><a name="138" class="Keyword"
+  >import</a
+  ><a name="144"
+  > </a
+  ><a name="145" href="Data.Empty.html#1" class="Module"
+  >Data.Empty</a
+  ><a name="155"
+  >    </a
+  ><a name="159" class="Keyword"
+  >using</a
+  ><a name="164"
+  > </a
+  ><a name="165" class="Symbol"
+  >(</a
+  ><a name="166"
+  >&#8869;</a
+  ><a name="167" class="Symbol"
+  >)</a
+  ><a name="168"
+  >
+</a
+  ><a name="169" class="Keyword"
+  >open</a
+  ><a name="173"
+  > </a
+  ><a name="174" class="Keyword"
+  >import</a
+  ><a name="180"
+  > </a
+  ><a name="181" href="Data.Unit.html#1" class="Module"
+  >Data.Unit</a
+  ><a name="190"
+  >     </a
+  ><a name="195" class="Keyword"
+  >using</a
+  ><a name="200"
+  > </a
+  ><a name="201" class="Symbol"
+  >(</a
+  ><a name="202"
+  >&#8868;</a
+  ><a name="203" class="Symbol"
+  >;</a
+  ><a name="204"
+  > tt</a
+  ><a name="207" class="Symbol"
+  >)</a
+  ><a name="208"
+  >
+</a
+  ><a name="209" class="Keyword"
+  >open</a
+  ><a name="213"
+  > </a
+  ><a name="214" class="Keyword"
+  >import</a
+  ><a name="220"
+  > </a
+  ><a name="221" href="Data.Sum.html#1" class="Module"
+  >Data.Sum</a
+  ><a name="229"
+  >      </a
+  ><a name="235" class="Keyword"
+  >using</a
+  ><a name="240"
+  > </a
+  ><a name="241" class="Symbol"
+  >(</a
+  ><a name="242"
+  >_&#8846;_</a
+  ><a name="245" class="Symbol"
+  >;</a
+  ><a name="246"
+  > inj&#8321;</a
+  ><a name="251" class="Symbol"
+  >;</a
+  ><a name="252"
+  > inj&#8322;</a
+  ><a name="257" class="Symbol"
+  >)</a
+  ><a name="258"
+  >
+</a
+  ><a name="259" class="Keyword"
+  >open</a
+  ><a name="263"
+  > </a
+  ><a name="264" class="Keyword"
+  >import</a
+  ><a name="270"
+  > </a
+  ><a name="271" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="279"
+  >      </a
+  ><a name="285" class="Keyword"
+  >using</a
+  ><a name="290"
+  > </a
+  ><a name="291" class="Symbol"
+  >(</a
+  ><a name="292"
+  >&#8469;</a
+  ><a name="293" class="Symbol"
+  >;</a
+  ><a name="294"
+  > zero</a
+  ><a name="299" class="Symbol"
+  >;</a
+  ><a name="300"
+  > suc</a
+  ><a name="304" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="term-inference"><a href="#term-inference">Term inference</a></h1>
+<p>The Agda compiler tries to infer terms marked with underscore.<br />If the choice of term is ambiguous, term inference fails.</p>
+<p>Examples:</p>
+<p><pre
+><a name="481"
+  >
+</a
+  ><a name="496" class="Keyword"
+  >data</a
+  ><a name="500"
+  > </a
+  ><a name="501" href="Term_Inference.html#501" class="Datatype"
+  >Fin&#8242;</a
+  ><a name="505"
+  > </a
+  ><a name="506" class="Symbol"
+  >:</a
+  ><a name="507"
+  > </a
+  ><a name="508" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="509"
+  > </a
+  ><a name="510" class="Symbol"
+  >&#8594;</a
+  ><a name="511"
+  > </a
+  ><a name="512" class="PrimitiveType"
+  >Set</a
+  ><a name="515"
+  > </a
+  ><a name="516" class="Keyword"
+  >where</a
+  ><a name="521"
+  >
+  </a
+  ><a name="524" href="Term_Inference.html#524" class="InductiveConstructor"
+  >zero</a
+  ><a name="528"
+  > </a
+  ><a name="529" class="Symbol"
+  >:</a
+  ><a name="530"
+  > </a
+  ><a name="531" class="Symbol"
+  >(</a
+  ><a name="532" href="Term_Inference.html#532" class="Bound"
+  >n</a
+  ><a name="533"
+  > </a
+  ><a name="534" class="Symbol"
+  >:</a
+  ><a name="535"
+  > </a
+  ><a name="536" class="Symbol"
+  >_)</a
+  ><a name="538"
+  > </a
+  ><a name="539" class="Symbol"
+  >&#8594;</a
+  ><a name="540"
+  > </a
+  ><a name="541" href="Term_Inference.html#501" class="Datatype"
+  >Fin&#8242;</a
+  ><a name="545"
+  > </a
+  ><a name="546" class="Symbol"
+  >(</a
+  ><a name="547" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="550"
+  > </a
+  ><a name="551" href="Term_Inference.html#532" class="Bound"
+  >n</a
+  ><a name="552" class="Symbol"
+  >)</a
+  ><a name="553"
+  >   </a
+  ><a name="556" class="Comment"
+  >-- &#8469; is inferred</a
+  ><a name="572"
+  >
+  </a
+  ><a name="575" href="Term_Inference.html#575" class="InductiveConstructor"
+  >suc</a
+  ><a name="578"
+  >  </a
+  ><a name="580" class="Symbol"
+  >:</a
+  ><a name="581"
+  > </a
+  ><a name="582" class="Symbol"
+  >(</a
+  ><a name="583" href="Term_Inference.html#583" class="Bound"
+  >n</a
+  ><a name="584"
+  > </a
+  ><a name="585" class="Symbol"
+  >:</a
+  ><a name="586"
+  > </a
+  ><a name="587" class="Symbol"
+  >_)</a
+  ><a name="589"
+  > </a
+  ><a name="590" class="Symbol"
+  >&#8594;</a
+  ><a name="591"
+  > </a
+  ><a name="592" href="Term_Inference.html#501" class="Datatype"
+  >Fin&#8242;</a
+  ><a name="596"
+  > </a
+  ><a name="597" href="Term_Inference.html#583" class="Bound"
+  >n</a
+  ><a name="598"
+  > </a
+  ><a name="599" class="Symbol"
+  >&#8594;</a
+  ><a name="600"
+  > </a
+  ><a name="601" href="Term_Inference.html#501" class="Datatype"
+  >Fin&#8242;</a
+  ><a name="605"
+  > </a
+  ><a name="606" class="Symbol"
+  >(</a
+  ><a name="607" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="610"
+  > </a
+  ><a name="611" href="Term_Inference.html#583" class="Bound"
+  >n</a
+  ><a name="612" class="Symbol"
+  >)</a
+  ><a name="613"
+  >   </a
+  ><a name="616" class="Comment"
+  >-- &#8469; is inferred</a
+  ><a name="632"
+  >
+
+</a
+  ><a name="634" href="Term_Inference.html#634" class="Function"
+  >x</a
+  ><a name="635"
+  > </a
+  ><a name="636" class="Symbol"
+  >:</a
+  ><a name="637"
+  > </a
+  ><a name="638" href="Term_Inference.html#501" class="Datatype"
+  >Fin&#8242;</a
+  ><a name="642"
+  > </a
+  ><a name="643" class="Number"
+  >3</a
+  ><a name="644"
+  >
+</a
+  ><a name="645" href="Term_Inference.html#634" class="Function"
+  >x</a
+  ><a name="646"
+  > </a
+  ><a name="647" class="Symbol"
+  >=</a
+  ><a name="648"
+  > </a
+  ><a name="649" href="Term_Inference.html#575" class="InductiveConstructor"
+  >suc</a
+  ><a name="652"
+  > </a
+  ><a name="653" class="Symbol"
+  >_</a
+  ><a name="654"
+  > </a
+  ><a name="655" class="Symbol"
+  >(</a
+  ><a name="656" href="Term_Inference.html#524" class="InductiveConstructor"
+  >zero</a
+  ><a name="660"
+  > </a
+  ><a name="661" class="Symbol"
+  >_)</a
+  ><a name="663"
+  >   </a
+  ><a name="666" class="Comment"
+  >-- 2 and 1 are inferred</a
+  ></pre
+></p>
+<hr />
+<p>If term inference fails we see yellow colour.</p>
+<h1 id="implicit-arguments"><a href="#implicit-arguments">Implicit arguments</a></h1>
+<p>Underscores can be hidden:<br />Make arguments of constructors <em>implicit</em> with curly brackets.</p>
+<p><pre
+><a name="886"
+  >
+</a
+  ><a name="901" class="Keyword"
+  >data</a
+  ><a name="905"
+  > </a
+  ><a name="906" href="Term_Inference.html#906" class="Datatype"
+  >Fin</a
+  ><a name="909"
+  > </a
+  ><a name="910" class="Symbol"
+  >:</a
+  ><a name="911"
+  > </a
+  ><a name="912" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="913"
+  > </a
+  ><a name="914" class="Symbol"
+  >&#8594;</a
+  ><a name="915"
+  > </a
+  ><a name="916" class="PrimitiveType"
+  >Set</a
+  ><a name="919"
+  > </a
+  ><a name="920" class="Keyword"
+  >where</a
+  ><a name="925"
+  >
+  </a
+  ><a name="928" href="Term_Inference.html#928" class="InductiveConstructor"
+  >zero</a
+  ><a name="932"
+  > </a
+  ><a name="933" class="Symbol"
+  >:</a
+  ><a name="934"
+  > </a
+  ><a name="935" class="Symbol"
+  >{</a
+  ><a name="936" href="Term_Inference.html#936" class="Bound"
+  >n</a
+  ><a name="937"
+  > </a
+  ><a name="938" class="Symbol"
+  >:</a
+  ><a name="939"
+  > </a
+  ><a name="940" class="Symbol"
+  >_}</a
+  ><a name="942"
+  > </a
+  ><a name="943" class="Symbol"
+  >&#8594;</a
+  ><a name="944"
+  > </a
+  ><a name="945" href="Term_Inference.html#906" class="Datatype"
+  >Fin</a
+  ><a name="948"
+  > </a
+  ><a name="949" class="Symbol"
+  >(</a
+  ><a name="950" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="953"
+  > </a
+  ><a name="954" href="Term_Inference.html#936" class="Bound"
+  >n</a
+  ><a name="955" class="Symbol"
+  >)</a
+  ><a name="956"
+  >
+  </a
+  ><a name="959" href="Term_Inference.html#959" class="InductiveConstructor"
+  >suc</a
+  ><a name="962"
+  >  </a
+  ><a name="964" class="Symbol"
+  >:</a
+  ><a name="965"
+  > </a
+  ><a name="966" class="Symbol"
+  >{</a
+  ><a name="967" href="Term_Inference.html#967" class="Bound"
+  >n</a
+  ><a name="968"
+  > </a
+  ><a name="969" class="Symbol"
+  >:</a
+  ><a name="970"
+  > </a
+  ><a name="971" class="Symbol"
+  >_}</a
+  ><a name="973"
+  > </a
+  ><a name="974" class="Symbol"
+  >&#8594;</a
+  ><a name="975"
+  > </a
+  ><a name="976" href="Term_Inference.html#906" class="Datatype"
+  >Fin</a
+  ><a name="979"
+  > </a
+  ><a name="980" href="Term_Inference.html#967" class="Bound"
+  >n</a
+  ><a name="981"
+  > </a
+  ><a name="982" class="Symbol"
+  >&#8594;</a
+  ><a name="983"
+  > </a
+  ><a name="984" href="Term_Inference.html#906" class="Datatype"
+  >Fin</a
+  ><a name="987"
+  > </a
+  ><a name="988" class="Symbol"
+  >(</a
+  ><a name="989" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="992"
+  > </a
+  ><a name="993" href="Term_Inference.html#967" class="Bound"
+  >n</a
+  ><a name="994" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p>After this we have</p>
+<p><pre
+><a name="1026"
+  >
+</a
+  ><a name="1041" href="Term_Inference.html#1041" class="Function"
+  >x&#8242;</a
+  ><a name="1043"
+  > </a
+  ><a name="1044" class="Symbol"
+  >:</a
+  ><a name="1045"
+  > </a
+  ><a name="1046" href="Term_Inference.html#906" class="Datatype"
+  >Fin</a
+  ><a name="1049"
+  > </a
+  ><a name="1050" class="Number"
+  >3</a
+  ><a name="1051"
+  >
+</a
+  ><a name="1052" href="Term_Inference.html#1041" class="Function"
+  >x&#8242;</a
+  ><a name="1054"
+  > </a
+  ><a name="1055" class="Symbol"
+  >=</a
+  ><a name="1056"
+  > </a
+  ><a name="1057" href="Term_Inference.html#959" class="InductiveConstructor"
+  >suc</a
+  ><a name="1060"
+  > </a
+  ><a name="1061" class="Symbol"
+  >{_}</a
+  ><a name="1064"
+  > </a
+  ><a name="1065" class="Symbol"
+  >(</a
+  ><a name="1066" href="Term_Inference.html#928" class="InductiveConstructor"
+  >zero</a
+  ><a name="1070"
+  > </a
+  ><a name="1071" class="Symbol"
+  >{_})</a
+  ><a name="1075"
+  > </a
+  ></pre
+></p>
+<p><code>{_}</code> can be deleted:</p>
+<p><pre
+><a name="1110"
+  >
+</a
+  ><a name="1125" href="Term_Inference.html#1125" class="Function"
+  >x&#8243;</a
+  ><a name="1127"
+  > </a
+  ><a name="1128" class="Symbol"
+  >:</a
+  ><a name="1129"
+  > </a
+  ><a name="1130" href="Term_Inference.html#906" class="Datatype"
+  >Fin</a
+  ><a name="1133"
+  > </a
+  ><a name="1134" class="Number"
+  >3</a
+  ><a name="1135"
+  >
+</a
+  ><a name="1136" href="Term_Inference.html#1125" class="Function"
+  >x&#8243;</a
+  ><a name="1138"
+  > </a
+  ><a name="1139" class="Symbol"
+  >=</a
+  ><a name="1140"
+  > </a
+  ><a name="1141" href="Term_Inference.html#959" class="InductiveConstructor"
+  >suc</a
+  ><a name="1144"
+  > </a
+  ><a name="1145" href="Term_Inference.html#928" class="InductiveConstructor"
+  >zero</a
+  ></pre
+></p>
+<hr />
+<p>Although <code>zero : Fin 1</code> and <code>zero : Fin 2</code>, <code>zero</code> does not have multiple different types; the implicit arguments make the types unique.</p>
+<!--
+| The definition yields the statements
+|
+| ~~~~~~~~~~~~~~~~~ 
+| zero : Fin 1
+| zero : Fin 2
+| zero : Fin 3
+| ...
+| suc zero : Fin 2
+| suc zero : Fin 3
+| suc zero : Fin 4
+| ...
+| suc (suc zero) : Fin 3
+| suc (suc zero) : Fin 4
+| suc (suc zero) : Fin 5
+| ...
+| ...
+| ~~~~~~~~~~~~~~~~~
+| which can be rearranged as
+| 
+| ~~~~~~~~~~~~~~~~~ 
+| zero : Fin 1
+| 
+| zero : Fin 2
+| suc zero : Fin 2
+| 
+| zero : Fin 3
+| suc zero : Fin 3
+| suc (suc zero) : Fin 3
+| 
+| zero : Fin 4
+| suc zero : Fin 4
+| suc (suc zero) : Fin 4
+| suc (suc (suc zero)) : Fin 4
+| 
+| ...
+| ~~~~~~~~~~~~~~~~~
+-->
+
+<h1 id="named-and-multiple-implicit-arguments"><a href="#named-and-multiple-implicit-arguments">Named and multiple implicit arguments</a></h1>
+<p>TODO</p>
+<h1 id="syntactic-abbreviations"><a href="#syntactic-abbreviations">Syntactic abbreviations</a></h1>
+<pre><code>data Fin′ : ℕ → Set where
+  zero : (n : _) → Fin′ (suc n)
+  suc  : (n : _) → Fin′ n → Fin′ (suc n)
+
+data Fin : ℕ → Set where
+  zero : {n : _} → Fin (suc n)
+  suc  : {n : _} → Fin n → Fin (suc n)</code></pre>
+<p>Variables with inferred types can be introduced by <code>∀</code>:</p>
+<pre><code>data Fin′ : ℕ → Set where
+  zero : ∀ n → Fin′ (suc n)
+  suc  : ∀ n → Fin′ n → Fin′ (suc n)
+
+data Fin : ℕ → Set where
+  zero : ∀ {n} → Fin (suc n)
+  suc  : ∀ {n} → Fin n → Fin (suc n)</code></pre>
+</body>
+</html>

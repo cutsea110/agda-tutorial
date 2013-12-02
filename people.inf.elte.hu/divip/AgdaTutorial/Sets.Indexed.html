@@ -1,0 +1,568 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Péter Diviánszky" />
+  <title>Indexed Sets</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Indexed Sets</h1>
+<h2 class="author">Péter Diviánszky</h2>
+<h3 class="date">2013. 01.</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#imports">Imports</a></li>
+<li><a href="#fin-family-of-finite-sets"><code>Fin</code>, family of finite sets</a></li>
+<li><a href="#definition-of-fin">Definition of <code>Fin</code></a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#vec-a-n-an"><code>Vec A n</code> ~ <code>A</code><sup><code>n</code></sup></a></li>
+<li><a href="#exercise">Exercise</a></li>
+</ul>
+</div>
+<h1 id="imports"><a href="#imports">Imports</a></h1>
+<p><pre
+><a name="63"
+  >
+</a
+  ><a name="78" class="Keyword"
+  >module</a
+  ><a name="84"
+  > </a
+  ><a name="85" href="Sets.Indexed.html#1" class="Module"
+  >Sets.Indexed</a
+  ><a name="97"
+  > </a
+  ><a name="98" class="Keyword"
+  >where</a
+  ><a name="103"
+  >
+
+</a
+  ><a name="105" class="Keyword"
+  >open</a
+  ><a name="109"
+  > </a
+  ><a name="110" class="Keyword"
+  >import</a
+  ><a name="116"
+  > </a
+  ><a name="117" href="Data.Empty.html#1" class="Module"
+  >Data.Empty</a
+  ><a name="127"
+  >    </a
+  ><a name="131" class="Keyword"
+  >using</a
+  ><a name="136"
+  > </a
+  ><a name="137" class="Symbol"
+  >(</a
+  ><a name="138"
+  >&#8869;</a
+  ><a name="139" class="Symbol"
+  >)</a
+  ><a name="140"
+  >
+</a
+  ><a name="141" class="Keyword"
+  >open</a
+  ><a name="145"
+  > </a
+  ><a name="146" class="Keyword"
+  >import</a
+  ><a name="152"
+  > </a
+  ><a name="153" href="Data.Unit.html#1" class="Module"
+  >Data.Unit</a
+  ><a name="162"
+  >     </a
+  ><a name="167" class="Keyword"
+  >using</a
+  ><a name="172"
+  > </a
+  ><a name="173" class="Symbol"
+  >(</a
+  ><a name="174"
+  >&#8868;</a
+  ><a name="175" class="Symbol"
+  >;</a
+  ><a name="176"
+  > tt</a
+  ><a name="179" class="Symbol"
+  >)</a
+  ><a name="180"
+  >
+</a
+  ><a name="181" class="Keyword"
+  >open</a
+  ><a name="185"
+  > </a
+  ><a name="186" class="Keyword"
+  >import</a
+  ><a name="192"
+  > </a
+  ><a name="193" href="Data.Sum.html#1" class="Module"
+  >Data.Sum</a
+  ><a name="201"
+  >      </a
+  ><a name="207" class="Keyword"
+  >using</a
+  ><a name="212"
+  > </a
+  ><a name="213" class="Symbol"
+  >(</a
+  ><a name="214"
+  >_&#8846;_</a
+  ><a name="217" class="Symbol"
+  >;</a
+  ><a name="218"
+  > inj&#8321;</a
+  ><a name="223" class="Symbol"
+  >;</a
+  ><a name="224"
+  > inj&#8322;</a
+  ><a name="229" class="Symbol"
+  >)</a
+  ><a name="230"
+  >
+</a
+  ><a name="231" class="Keyword"
+  >open</a
+  ><a name="235"
+  > </a
+  ><a name="236" class="Keyword"
+  >import</a
+  ><a name="242"
+  > </a
+  ><a name="243" href="Data.Bool.html#1" class="Module"
+  >Data.Bool</a
+  ><a name="252"
+  >     </a
+  ><a name="257" class="Keyword"
+  >using</a
+  ><a name="262"
+  > </a
+  ><a name="263" class="Symbol"
+  >(</a
+  ><a name="264"
+  >Bool</a
+  ><a name="268" class="Symbol"
+  >;</a
+  ><a name="269"
+  > true</a
+  ><a name="274" class="Symbol"
+  >;</a
+  ><a name="275"
+  > false</a
+  ><a name="281" class="Symbol"
+  >)</a
+  ><a name="282"
+  >
+</a
+  ><a name="283" class="Keyword"
+  >open</a
+  ><a name="287"
+  > </a
+  ><a name="288" class="Keyword"
+  >import</a
+  ><a name="294"
+  > </a
+  ><a name="295" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="303"
+  >      </a
+  ><a name="309" class="Keyword"
+  >using</a
+  ><a name="314"
+  > </a
+  ><a name="315" class="Symbol"
+  >(</a
+  ><a name="316"
+  >&#8469;</a
+  ><a name="317" class="Symbol"
+  >;</a
+  ><a name="318"
+  > zero</a
+  ><a name="323" class="Symbol"
+  >;</a
+  ><a name="324"
+  > suc</a
+  ><a name="328" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="fin-family-of-finite-sets"><a href="#fin-family-of-finite-sets"><code>Fin</code>, family of finite sets</a></h1>
+<p>We wish to define a <code>ℕ</code>-indexed family of sets <code>Fin</code> such that <code>Fin n</code> has exactly <code>n</code> elements.</p>
+<p>Given the definition of <code>Fin</code>, the following equivalences would hold:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">n</th>
+<th align="left">Sets with n elements</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">0</td>
+<td align="left"><code>Fin 0</code> ~ <code>⊥</code></td>
+</tr>
+<tr class="even">
+<td align="left">1</td>
+<td align="left"><code>Fin 1</code> ~ <code>⊤</code> ~ <code>Maybe ⊥</code> ~ <code>⊤ ⊎ ⊥</code></td>
+</tr>
+<tr class="odd">
+<td align="left">2</td>
+<td align="left"><code>Fin 2</code> ~ <code>Bool</code> ~ <code>Maybe ⊤</code> ~ <code>Maybe (Maybe ⊥)</code> ~ <code>⊤ ⊎ ⊤ ⊎ ⊥</code></td>
+</tr>
+<tr class="even">
+<td align="left">3</td>
+<td align="left"><code>Fin 3</code> ~ <code>Maybe Bool</code> ~ <code>Maybe (Maybe (Maybe ⊥))</code> ~ <code>⊤ ⊎ ⊤ ⊎ ⊤ ⊎ ⊥</code></td>
+</tr>
+<tr class="odd">
+<td align="left">4</td>
+<td align="left"><code>Fin 4</code> ~ <code>Maybe (Maybe (Maybe (Maybe ⊥)))</code> ~ <code>⊤ ⊎ ⊤ ⊎ ⊤ ⊎ ⊤ ⊎ ⊥</code></td>
+</tr>
+<tr class="even">
+<td align="left">...</td>
+<td align="left">...</td>
+</tr>
+</tbody>
+</table>
+<h1 id="definition-of-fin"><a href="#definition-of-fin">Definition of <code>Fin</code></a></h1>
+<p><code>Fin</code> is a set <em>indexed with</em> a natural number<br />(we use <code>Fin</code> because this is not the final definition of <code>Fin</code>):</p>
+<p><pre
+><a name="1079"
+  >
+</a
+  ><a name="1094" class="Keyword"
+  >data</a
+  ><a name="1098"
+  > </a
+  ><a name="1099" href="Sets.Indexed.html#1099" class="Datatype"
+  >Fin</a
+  ><a name="1102"
+  > </a
+  ><a name="1103" class="Symbol"
+  >:</a
+  ><a name="1104"
+  > </a
+  ><a name="1105" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1106"
+  > </a
+  ><a name="1107" class="Symbol"
+  >&#8594;</a
+  ><a name="1108"
+  > </a
+  ><a name="1109" class="PrimitiveType"
+  >Set</a
+  ><a name="1112"
+  > </a
+  ><a name="1113" class="Keyword"
+  >where</a
+  ><a name="1118"
+  >
+  </a
+  ><a name="1121" href="Sets.Indexed.html#1121" class="InductiveConstructor"
+  >zero</a
+  ><a name="1125"
+  > </a
+  ><a name="1126" class="Symbol"
+  >:</a
+  ><a name="1127"
+  > </a
+  ><a name="1128" class="Symbol"
+  >(</a
+  ><a name="1129" href="Sets.Indexed.html#1129" class="Bound"
+  >n</a
+  ><a name="1130"
+  > </a
+  ><a name="1131" class="Symbol"
+  >:</a
+  ><a name="1132"
+  > </a
+  ><a name="1133" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1134" class="Symbol"
+  >)</a
+  ><a name="1135"
+  > </a
+  ><a name="1136" class="Symbol"
+  >&#8594;</a
+  ><a name="1137"
+  > </a
+  ><a name="1138" href="Sets.Indexed.html#1099" class="Datatype"
+  >Fin</a
+  ><a name="1141"
+  > </a
+  ><a name="1142" class="Symbol"
+  >(</a
+  ><a name="1143" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1146"
+  > </a
+  ><a name="1147" href="Sets.Indexed.html#1129" class="Bound"
+  >n</a
+  ><a name="1148" class="Symbol"
+  >)</a
+  ><a name="1149"
+  >
+  </a
+  ><a name="1152" href="Sets.Indexed.html#1152" class="InductiveConstructor"
+  >suc</a
+  ><a name="1155"
+  >  </a
+  ><a name="1157" class="Symbol"
+  >:</a
+  ><a name="1158"
+  > </a
+  ><a name="1159" class="Symbol"
+  >(</a
+  ><a name="1160" href="Sets.Indexed.html#1160" class="Bound"
+  >n</a
+  ><a name="1161"
+  > </a
+  ><a name="1162" class="Symbol"
+  >:</a
+  ><a name="1163"
+  > </a
+  ><a name="1164" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1165" class="Symbol"
+  >)</a
+  ><a name="1166"
+  > </a
+  ><a name="1167" class="Symbol"
+  >&#8594;</a
+  ><a name="1168"
+  > </a
+  ><a name="1169" href="Sets.Indexed.html#1099" class="Datatype"
+  >Fin</a
+  ><a name="1172"
+  > </a
+  ><a name="1173" href="Sets.Indexed.html#1160" class="Bound"
+  >n</a
+  ><a name="1174"
+  > </a
+  ><a name="1175" class="Symbol"
+  >&#8594;</a
+  ><a name="1176"
+  > </a
+  ><a name="1177" href="Sets.Indexed.html#1099" class="Datatype"
+  >Fin</a
+  ><a name="1180"
+  > </a
+  ><a name="1181" class="Symbol"
+  >(</a
+  ><a name="1182" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1185"
+  > </a
+  ><a name="1186" href="Sets.Indexed.html#1160" class="Bound"
+  >n</a
+  ><a name="1187" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p>The definition yields the statements</p>
+<pre><code>zero 0 : Fin 1
+zero 1 : Fin 2
+zero 2 : Fin 3
+...
+suc 1 (zero 0) : Fin 2
+suc 2 (zero 1) : Fin 3
+suc 3 (zero 2) : Fin 4
+...
+suc 2 (suc 1 (zero 0)) : Fin 3
+suc 3 (suc 2 (zero 1)) : Fin 4
+suc 4 (suc 3 (zero 2)) : Fin 5
+...
+...</code></pre>
+<p>which can be rearranged as</p>
+<pre><code>zero 0 : Fin 1
+
+zero 1 : Fin 2
+suc 1 (zero 0) : Fin 2
+
+zero 2 : Fin 3
+suc 2 (zero 1) : Fin 3
+suc 2 (suc 1 (zero 0)) : Fin 3
+
+zero 3 : Fin 4
+suc 3 (zero 2) : Fin 4
+suc 3 (suc 2 (zero 1)) : Fin 4
+suc 3 (suc 2 (suc 1 (zero 0))) : Fin 4
+
+...</code></pre>
+<p>So we can conclude that <code>Fin n</code> has <code>n</code> distinct elements.</p>
+<h1 id="exercises"><a href="#exercises">Exercises</a></h1>
+<ul>
+<li>Define a <code>Bool</code> indexed family of sets such that the set indexed by <code>false</code> contains no elements and the set indexed by <code>true</code> contains one element!</li>
+<li>Define a <code>ℕ</code> indexed family of sets such that the sets indexed by even numbers contain one element and the others are empty!</li>
+</ul>
+<h1 id="vec-a-n-an"><a href="#vec-a-n-an"><code>Vec A n</code> ~ <code>A</code><sup><code>n</code></sup></a></h1>
+<p><code>Vec A n</code> is an <code>n</code>-tuple of elements of <code>A</code>:</p>
+<p><pre
+><a name="2433"
+  >
+</a
+  ><a name="2448" class="Keyword"
+  >data</a
+  ><a name="2452"
+  > </a
+  ><a name="2453" href="Sets.Indexed.html#2453" class="Datatype"
+  >Vec</a
+  ><a name="2456"
+  > </a
+  ><a name="2457" class="Symbol"
+  >(</a
+  ><a name="2458" href="Sets.Indexed.html#2458" class="Bound"
+  >A</a
+  ><a name="2459"
+  > </a
+  ><a name="2460" class="Symbol"
+  >:</a
+  ><a name="2461"
+  > </a
+  ><a name="2462" class="PrimitiveType"
+  >Set</a
+  ><a name="2465" class="Symbol"
+  >)</a
+  ><a name="2466"
+  > </a
+  ><a name="2467" class="Symbol"
+  >:</a
+  ><a name="2468"
+  > </a
+  ><a name="2469" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2470"
+  > </a
+  ><a name="2471" class="Symbol"
+  >&#8594;</a
+  ><a name="2472"
+  > </a
+  ><a name="2473" class="PrimitiveType"
+  >Set</a
+  ><a name="2476"
+  > </a
+  ><a name="2477" class="Keyword"
+  >where</a
+  ><a name="2482"
+  >
+  </a
+  ><a name="2485" href="Sets.Indexed.html#2485" class="InductiveConstructor"
+  >[]</a
+  ><a name="2487"
+  >  </a
+  ><a name="2489" class="Symbol"
+  >:</a
+  ><a name="2490"
+  > </a
+  ><a name="2491" href="Sets.Indexed.html#2453" class="Datatype"
+  >Vec</a
+  ><a name="2494"
+  > </a
+  ><a name="2495" href="Sets.Indexed.html#2458" class="Bound"
+  >A</a
+  ><a name="2496"
+  > </a
+  ><a name="2497" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="2501"
+  >
+  </a
+  ><a name="2504" href="Sets.Indexed.html#2504" class="InductiveConstructor"
+  >cons</a
+  ><a name="2508"
+  > </a
+  ><a name="2509" class="Symbol"
+  >:</a
+  ><a name="2510"
+  > </a
+  ><a name="2511" class="Symbol"
+  >(</a
+  ><a name="2512" href="Sets.Indexed.html#2512" class="Bound"
+  >n</a
+  ><a name="2513"
+  > </a
+  ><a name="2514" class="Symbol"
+  >:</a
+  ><a name="2515"
+  > </a
+  ><a name="2516" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2517" class="Symbol"
+  >)</a
+  ><a name="2518"
+  > </a
+  ><a name="2519" class="Symbol"
+  >&#8594;</a
+  ><a name="2520"
+  > </a
+  ><a name="2521" href="Sets.Indexed.html#2458" class="Bound"
+  >A</a
+  ><a name="2522"
+  > </a
+  ><a name="2523" class="Symbol"
+  >&#8594;</a
+  ><a name="2524"
+  > </a
+  ><a name="2525" href="Sets.Indexed.html#2453" class="Datatype"
+  >Vec</a
+  ><a name="2528"
+  > </a
+  ><a name="2529" href="Sets.Indexed.html#2458" class="Bound"
+  >A</a
+  ><a name="2530"
+  > </a
+  ><a name="2531" href="Sets.Indexed.html#2512" class="Bound"
+  >n</a
+  ><a name="2532"
+  > </a
+  ><a name="2533" class="Symbol"
+  >&#8594;</a
+  ><a name="2534"
+  > </a
+  ><a name="2535" href="Sets.Indexed.html#2453" class="Datatype"
+  >Vec</a
+  ><a name="2538"
+  > </a
+  ><a name="2539" href="Sets.Indexed.html#2458" class="Bound"
+  >A</a
+  ><a name="2540"
+  > </a
+  ><a name="2541" class="Symbol"
+  >(</a
+  ><a name="2542" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2545"
+  > </a
+  ><a name="2546" href="Sets.Indexed.html#2512" class="Bound"
+  >n</a
+  ><a name="2547" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p>Examples:</p>
+<pre><code>[] : Vec ℕ 0
+[] : Vec Bool 0
+...
+
+cons 0 true [] : Vec Bool 1
+...
+
+cons 1 false (cons 0 true []) : Vec Bool 2
+...
+...</code></pre>
+<h1 id="exercise"><a href="#exercise">Exercise</a></h1>
+<ul>
+<li>Define a <code>Bool</code> indexed family of sets with two parameters, <code>A</code> and <code>B</code>, such that the set indexed by <code>false</code> contains an <code>A</code> element and the set indexed by <code>true</code> contains a <code>B</code> element!</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Functions Defined by Cases</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Functions Defined by Cases</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#negation-as-a-function">Negation as a function</a></li>
+<li><a href="#computational-content-of-functions">Computational content of functions</a></li>
+<li><a href="#logical-and">Logical AND</a></li>
+<li><a href="#exercise-__">Exercise: <code>_∨_</code></a></li>
+<li><a href="#exercises">Exercises</a></li>
+</ul>
+</div>
+<p><pre
+><a name="29"
+  >
+</a
+  ><a name="44" class="Keyword"
+  >module</a
+  ><a name="50"
+  > </a
+  ><a name="51" href="Functions.Cases.html#1" class="Module"
+  >Functions.Cases</a
+  ><a name="66"
+  > </a
+  ><a name="67" class="Keyword"
+  >where</a
+  ><a name="72"
+  >
+
+</a
+  ><a name="74" class="Keyword"
+  >open</a
+  ><a name="78"
+  > </a
+  ><a name="79" class="Keyword"
+  >import</a
+  ><a name="85"
+  > </a
+  ><a name="86" href="Sets.Enumerated.html#1" class="Module"
+  >Sets.Enumerated</a
+  ><a name="101"
+  > </a
+  ><a name="102" class="Keyword"
+  >using</a
+  ><a name="107"
+  > </a
+  ><a name="108" class="Symbol"
+  >(</a
+  ><a name="109"
+  >Bool</a
+  ><a name="113" class="Symbol"
+  >;</a
+  ><a name="114"
+  > true</a
+  ><a name="119" class="Symbol"
+  >;</a
+  ><a name="120"
+  > false</a
+  ><a name="126" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="negation-as-a-function"><a href="#negation-as-a-function">Negation as a function</a></h1>
+<p>Representation of negation as a function from <code>Bool</code> to <code>Bool</code>:</p>
+<p><pre
+><a name="257"
+  >
+</a
+  ><a name="272" href="Functions.Cases.html#272" class="Function"
+  >not</a
+  ><a name="275"
+  > </a
+  ><a name="276" class="Symbol"
+  >:</a
+  ><a name="277"
+  > </a
+  ><a name="278" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ><a name="282"
+  > </a
+  ><a name="283" class="Symbol"
+  >&#8594;</a
+  ><a name="284"
+  > </a
+  ><a name="285" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ><a name="289"
+  >
+</a
+  ><a name="290" href="Functions.Cases.html#272" class="Function"
+  >not</a
+  ><a name="293"
+  > </a
+  ><a name="294" href="Sets.Enumerated.html#212" class="InductiveConstructor"
+  >true</a
+  ><a name="298"
+  >  </a
+  ><a name="300" class="Symbol"
+  >=</a
+  ><a name="301"
+  > </a
+  ><a name="302" href="Sets.Enumerated.html#227" class="InductiveConstructor"
+  >false</a
+  ><a name="307"
+  >
+</a
+  ><a name="308" href="Functions.Cases.html#272" class="Function"
+  >not</a
+  ><a name="311"
+  > </a
+  ><a name="312" href="Sets.Enumerated.html#227" class="InductiveConstructor"
+  >false</a
+  ><a name="317"
+  > </a
+  ><a name="318" class="Symbol"
+  >=</a
+  ><a name="319"
+  > </a
+  ><a name="320" href="Sets.Enumerated.html#212" class="InductiveConstructor"
+  >true</a
+  ></pre
+></p>
+<p>We pattern match on the elements that appear in set <code>Bool</code> namely <code>true</code> and <code>false</code> to define how the function works.</p>
+<h1 id="computational-content-of-functions"><a href="#computational-content-of-functions">Computational content of functions</a></h1>
+<p>We have elements of <code>Bool</code> like</p>
+<p><code>not true : Bool</code><br /><code>not (not (not false)) : Bool</code></p>
+<p>but these are not new elements: their normal form is either <code>true</code> or <code>false</code>.</p>
+<p>In the interactive environment we can compute the normal form by C-<code>c</code> C-<code>n</code>.</p>
+<p>Functions have <em>computational content</em>.<br />For example, <code>not</code> defines not just a relation between <code>Bool</code> and <code>Bool</code>, but also an algorithm how to compute the negated value.</p>
+<h1 id="logical-and"><a href="#logical-and">Logical AND</a></h1>
+<p>Logical AND could be defined with four alternatives but here is a shorter definition with two alternatives with variables:</p>
+<p><pre
+><a name="1118"
+  >
+</a
+  ><a name="1132" href="Functions.Cases.html#1132" class="Function Operator"
+  >_&#8743;_</a
+  ><a name="1135"
+  >   </a
+  ><a name="1138" class="Symbol"
+  >:</a
+  ><a name="1139"
+  > </a
+  ><a name="1140" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ><a name="1144"
+  > </a
+  ><a name="1145" class="Symbol"
+  >&#8594;</a
+  ><a name="1146"
+  > </a
+  ><a name="1147" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ><a name="1151"
+  > </a
+  ><a name="1152" class="Symbol"
+  >&#8594;</a
+  ><a name="1153"
+  > </a
+  ><a name="1154" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ><a name="1158"
+  >
+</a
+  ><a name="1159" href="Sets.Enumerated.html#212" class="InductiveConstructor"
+  >true</a
+  ><a name="1163"
+  >  </a
+  ><a name="1165" href="Functions.Cases.html#1132" class="Function Operator"
+  >&#8743;</a
+  ><a name="1166"
+  > </a
+  ><a name="1167" href="Functions.Cases.html#1167" class="Bound"
+  >x</a
+  ><a name="1168"
+  > </a
+  ><a name="1169" class="Symbol"
+  >=</a
+  ><a name="1170"
+  > </a
+  ><a name="1171" href="Functions.Cases.html#1167" class="Bound"
+  >x</a
+  ><a name="1172"
+  >
+</a
+  ><a name="1173" href="Sets.Enumerated.html#227" class="InductiveConstructor"
+  >false</a
+  ><a name="1178"
+  > </a
+  ><a name="1179" href="Functions.Cases.html#1132" class="Function Operator"
+  >&#8743;</a
+  ><a name="1180"
+  > </a
+  ><a name="1181" class="Symbol"
+  >_</a
+  ><a name="1182"
+  > </a
+  ><a name="1183" class="Symbol"
+  >=</a
+  ><a name="1184"
+  > </a
+  ><a name="1185" href="Sets.Enumerated.html#227" class="InductiveConstructor"
+  >false</a
+  ><a name="1190"
+  >
+
+</a
+  ><a name="1192" class="Keyword"
+  >infixr</a
+  ><a name="1198"
+  > </a
+  ><a name="1199" class="Number"
+  >6</a
+  ><a name="1200"
+  > _&#8743;_</a
+  ></pre
+></p>
+<ul>
+<li>We can use variables as patterns.</li>
+<li>We can use wildcard (an underscore) as a pattern.<br /> A wildcard pattern is an unnamed variable.</li>
+<li>Similar to data sets
+<ul>
+<li>Underscores in names like <code>_∧_</code> denote the space for the operands.</li>
+<li><code>infixr</code> gives the fixity</li>
+</ul></li>
+</ul>
+<h1 id="exercise-__"><a href="#exercise-__">Exercise: <code>_∨_</code></a></h1>
+<ol style="list-style-type: upper-alpha">
+<li>Define logical OR:</li>
+</ol>
+<p><pre
+><a name="1544"
+  >
+</a
+  ><a name="1559" class="Keyword"
+  >infixr</a
+  ><a name="1565"
+  > </a
+  ><a name="1566" class="Number"
+  >5</a
+  ><a name="1567"
+  > _&#8744;_
+ 
+</a
+  ><a name="1574" href="Functions.Cases.html#1574" class="Function Operator"
+  >_&#8744;_</a
+  ><a name="1577"
+  >   </a
+  ><a name="1580" class="Symbol"
+  >:</a
+  ><a name="1581"
+  > </a
+  ><a name="1582" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ><a name="1586"
+  > </a
+  ><a name="1587" class="Symbol"
+  >&#8594;</a
+  ><a name="1588"
+  > </a
+  ><a name="1589" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ><a name="1593"
+  > </a
+  ><a name="1594" class="Symbol"
+  >&#8594;</a
+  ><a name="1595"
+  > </a
+  ><a name="1596" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ></pre
+></p>
+<ol start="2" style="list-style-type: upper-alpha">
+<li>Define logical OR with one alternative, with the help of <code>not</code> and <code>_∧_</code>!</li>
+</ol>
+<h1 id="exercises"><a href="#exercises">Exercises</a></h1>
+<ol style="list-style-type: upper-alpha">
+<li><p>Define a set named <code>Answer</code> with three elements, <code>yes</code>, <code>no</code> and <code>maybe</code>.</p>
+<p>Define logical operations on <code>Answer</code>!</p></li>
+<li><p>Define a set named <code>Quarter</code> with four elements, <code>east</code>, <code>west</code>, <code>north</code> and <code>south</code>.</p>
+<p>Define a function <code>turnLeft : Quarter → Quarter</code>.</p>
+<p>Define the functions <code>turnBack</code> and <code>turnRight</code> with the help of <code>turnLeft</code>! (By either pattern matching or defining a specific function composition function.)</p></li>
+</ol>
+</body>
+</html>

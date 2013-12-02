@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Péter Diviánszky" />
+  <title>A Practical Agda Tutorial</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">A Practical Agda Tutorial</h1>
+<h2 class="author">Péter Diviánszky</h2>
+<h3 class="date">2012. 09. 19.</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#goal">Goal</a></li>
+<li><a href="#ideology">Ideology</a></li>
+<li><a href="#goal-details">Goal details</a></li>
+<li><a href="#resources">Resources</a></li>
+<li><a href="#planned-methodology">Planned methodology</a></li>
+<li><a href="#social-contract">Social contract</a></li>
+<li><a href="#state-of-art">State of art</a></li>
+<li><a href="#demo">Demo</a></li>
+<li><a href="#thank-you-for-listening">Thank you for listening!</a></li>
+</ul>
+</div>
+<p><em>for AIM XVI</em></p>
+<h1 id="goal"><a href="#goal">Goal</a></h1>
+<p>Let people play and explore some programming in Agda without theoretical background.</p>
+<h1 id="ideology"><a href="#ideology">Ideology</a></h1>
+<p>Assumptions</p>
+<ul>
+<li>Most IT people are not interested in theory in the first place.</li>
+<li>One can go a long way without any theoretical knowledge in Agda.
+<ul>
+<li>The proposed tutorial is a demonstration for this.</li>
+</ul></li>
+<li>Much background theoretical remarks interrupts the playing experience.</li>
+<li>Students react quite differently to theoretical remarks.<br /> (confused ↔ want to know a lot more)</li>
+<li>People who already played with Agda are more open to theoretical background.
+<ul>
+<li>We give pointers on a separate page.<br /> There are pointers on that page into the tutorial.</li>
+</ul></li>
+</ul>
+<h1 id="goal-details"><a href="#goal-details">Goal details</a></h1>
+<dl>
+<dt><strong>Subgoals</strong></dt>
+<dd><ul>
+<li>Give the semantics of Agda programs by examples.</li>
+<li>Teach Agda programming skills.
+<ul>
+<li>when to use which language construct</li>
+</ul></li>
+<li>Give a methodology to write correct Agda programs.
+<ul>
+<li>what does program correctness mean</li>
+<li>how to be more sure that the program is correct</li>
+</ul></li>
+</ul>
+</dd>
+<dt><strong>Requirements</strong></dt>
+<dd><ul>
+<li>Only secondary school mathematics is required.</li>
+<li>no Haskell, type theory, category theory, ...</li>
+<li>followable without a tutor</li>
+</ul>
+</dd>
+<dt><strong>Audience</strong></dt>
+<dd><ul>
+<li>for newcomers</li>
+</ul>
+</dd>
+</dl>
+<h1 id="resources"><a href="#resources">Resources</a></h1>
+<p>This is the 4th semester we teach Agda at ELTE Budapest.</p>
+<ul>
+<li>13 week × 90 min</li>
+<li>3-8 students</li>
+<li>Lecturers: Péter Diviánszky and Ambrus Kaposi*<br /></li>
+<li>The course material is revised each semester.</li>
+</ul>
+<hr />
+<p>*We also learn as we teach which may be inspired this practical tutorial.</p>
+<h1 id="planned-methodology"><a href="#planned-methodology">Planned methodology</a></h1>
+<p>Tutorial: <em>Idiomatic solutions for practical exercises taken into pieces, sorted and explained.</em></p>
+<ol style="list-style-type: decimal">
+<li>Collect interesting exercises for students
+<ul>
+<li>practical problems like <strong>roman numerals, leap years, ...</strong></li>
+</ul></li>
+<li>Write idiomatic Agda solutions for the problems.
+<ol style="list-style-type: upper-alpha">
+<li><strong>specification</strong> (mainly with data types)</li>
+<li>implementation (functions)</li>
+</ol></li>
+<li>Take the solutions into incremental pieces.
+<ul>
+<li>essential problems like sorting should appear here!</li>
+</ul></li>
+<li>Sort the pieces by the language constructs/techniques used.
+<ul>
+<li><strong>data types first, functions later</strong></li>
+<li>...</li>
+</ul></li>
+<li>Fill in semantic gaps with ad-hoc exercises.
+<ul>
+<li>revisit non-idiomatic code when the idiomatic solution is possible</li>
+<li>try to <strong>avoid this step</strong></li>
+</ul></li>
+<li>Hide all Agda code!<br /> Unhide code for the first appearance of any language construct/technique used and add <strong>very practical explanations</strong>.</li>
+</ol>
+<hr />
+<p>The emphasised parts are the features of this tutorial, especially what kind of problems we take in the 1st step.</p>
+<p>We can improve at every step 1-6 which explains that the tutorial is rewritten every time.</p>
+<h1 id="social-contract"><a href="#social-contract">Social contract</a></h1>
+<ul>
+<li>remain freely available and ready to fork
+<ul>
+<li><em>Problem:</em> we have to give univ. students different exercises...</li>
+</ul></li>
+<li>give citation of sources if applicable</li>
+<li>try to merge with similar tutorials if any</li>
+</ul>
+<h1 id="state-of-art"><a href="#state-of-art">State of art</a></h1>
+<ul>
+<li>Only ~1/6 is ready.</li>
+<li>The methodology is not strictly followed yet.
+<ul>
+<li>There are too much ad-hoc exercises.</li>
+</ul></li>
+<li>Currently Peter is working on it.</li>
+</ul>
+<p>The darcs repository is located at <a href="http://hub.darcs.net/divip/AgdaTutorial">http://hub.darcs.net/divip/AgdaTutorial</a></p>
+<p>You are welcome to send patches (please send small patches first)!</p>
+<h1 id="demo"><a href="#demo">Demo</a></h1>
+<p><a href="Index.html">We visit the current tutorial.</a></p>
+<h1 id="thank-you-for-listening"><a href="#thank-you-for-listening">Thank you for listening!</a></h1>
+<p>Thank you for any feedback.</p>
+</body>
+</html>

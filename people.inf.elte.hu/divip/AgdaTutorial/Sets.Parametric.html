@@ -1,0 +1,1061 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Ambrus Kaposi and Péter Diviánszky" />
+  <title>Parametric Sets</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Parametric Sets</h1>
+<h2 class="author">Ambrus Kaposi and Péter Diviánszky</h2>
+<h3 class="date">2011. 09. 15.</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#import-list">Import List</a></li>
+<li><a href="#definition-of-list">Definition of <code>List</code></a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#cartesian-product"><code>_×_</code>: Cartesian Product</a></li>
+<li><a href="#exercises-1">Exercises</a></li>
+<li><a href="#disjoint-union-sum"><code>_⊎_</code>: Disjoint Union (Sum)</a></li>
+<li><a href="#exercises-2">Exercises</a></li>
+<li><a href="#mutually-recursive-sets">Mutually recursive sets</a></li>
+<li><a href="#non-regular-recursive-set">Non-regular recursive set</a></li>
+<li><a href="#nested-set">Nested set</a></li>
+</ul>
+</div>
+<h1 id="import-list"><a href="#import-list">Import List</a></h1>
+<p><pre
+><a name="98"
+  >
+</a
+  ><a name="113" class="Keyword"
+  >module</a
+  ><a name="119"
+  > </a
+  ><a name="120" href="Sets.Parametric.html#1" class="Module"
+  >Sets.Parametric</a
+  ><a name="135"
+  > </a
+  ><a name="136" class="Keyword"
+  >where</a
+  ><a name="141"
+  >
+</a
+  ><a name="142" class="Keyword"
+  >open</a
+  ><a name="146"
+  > </a
+  ><a name="147" class="Keyword"
+  >import</a
+  ><a name="153"
+  > </a
+  ><a name="154" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ></pre
+></p>
+<h1 id="definition-of-list"><a href="#definition-of-list">Definition of <code>List</code></a></h1>
+<p>Definition of <code>List</code>:</p>
+<p><pre
+><a name="234"
+  >
+</a
+  ><a name="249" class="Keyword"
+  >data</a
+  ><a name="253"
+  > </a
+  ><a name="254" href="Sets.Parametric.html#254" class="Datatype"
+  >List</a
+  ><a name="258"
+  > </a
+  ><a name="259" class="Symbol"
+  >(</a
+  ><a name="260" href="Sets.Parametric.html#260" class="Bound"
+  >A</a
+  ><a name="261"
+  > </a
+  ><a name="262" class="Symbol"
+  >:</a
+  ><a name="263"
+  > </a
+  ><a name="264" class="PrimitiveType"
+  >Set</a
+  ><a name="267" class="Symbol"
+  >)</a
+  ><a name="268"
+  > </a
+  ><a name="269" class="Symbol"
+  >:</a
+  ><a name="270"
+  > </a
+  ><a name="271" class="PrimitiveType"
+  >Set</a
+  ><a name="274"
+  > </a
+  ><a name="275" class="Keyword"
+  >where</a
+  ><a name="280"
+  >
+  </a
+  ><a name="283" href="Sets.Parametric.html#283" class="InductiveConstructor"
+  >[]</a
+  ><a name="285"
+  >  </a
+  ><a name="287" class="Symbol"
+  >:</a
+  ><a name="288"
+  > </a
+  ><a name="289" href="Sets.Parametric.html#254" class="Datatype"
+  >List</a
+  ><a name="293"
+  > </a
+  ><a name="294" href="Sets.Parametric.html#260" class="Bound"
+  >A</a
+  ><a name="295"
+  >
+  </a
+  ><a name="298" href="Sets.Parametric.html#298" class="InductiveConstructor Operator"
+  >_&#8759;_</a
+  ><a name="301"
+  > </a
+  ><a name="302" class="Symbol"
+  >:</a
+  ><a name="303"
+  > </a
+  ><a name="304" href="Sets.Parametric.html#260" class="Bound"
+  >A</a
+  ><a name="305"
+  > </a
+  ><a name="306" class="Symbol"
+  >&#8594;</a
+  ><a name="307"
+  > </a
+  ><a name="308" href="Sets.Parametric.html#254" class="Datatype"
+  >List</a
+  ><a name="312"
+  > </a
+  ><a name="313" href="Sets.Parametric.html#260" class="Bound"
+  >A</a
+  ><a name="314"
+  > </a
+  ><a name="315" class="Symbol"
+  >&#8594;</a
+  ><a name="316"
+  > </a
+  ><a name="317" href="Sets.Parametric.html#254" class="Datatype"
+  >List</a
+  ><a name="321"
+  > </a
+  ><a name="322" href="Sets.Parametric.html#260" class="Bound"
+  >A</a
+  ><a name="323"
+  >
+
+</a
+  ><a name="325" class="Keyword"
+  >infixr</a
+  ><a name="331"
+  > </a
+  ><a name="332" class="Number"
+  >5</a
+  ><a name="333"
+  > _&#8759;_</a
+  ></pre
+></p>
+<p><em>Interpretation</em>: <code>List A</code> ∈ <code>Set</code>, where <code>A</code> ∈ <code>Set</code>. We call <code>A</code> a parameter of <code>List</code> and we can refer to <code>A</code> in the definition of the set elements.</p>
+<p><em>Example:</em> elements of <code>List Bool</code>:</p>
+<pre><code>[]  
+true  ∷ []  
+false ∷ []
+true  ∷ true  ∷ []  
+false ∷ true  ∷ []  
+true  ∷ false ∷ []  
+false ∷ false ∷ []  
+...</code></pre>
+<h1 id="exercises"><a href="#exercises">Exercises</a></h1>
+<ul>
+<li>What is the connection between <code>List ⊤</code> and <code>ℕ</code>?</li>
+<li>Define a <code>Maybe</code> set (lists with 0 or 1 elements)!</li>
+<li>Define parametric trees (various sorts)!</li>
+</ul>
+<h1 id="cartesian-product"><a href="#cartesian-product"><code>_×_</code>: Cartesian Product</a></h1>
+<p>The definition of Cartesian product:</p>
+<p><pre
+><a name="952"
+  >
+</a
+  ><a name="967" class="Keyword"
+  >data</a
+  ><a name="971"
+  > </a
+  ><a name="972" href="Sets.Parametric.html#972" class="Datatype Operator"
+  >_&#215;_</a
+  ><a name="975"
+  > </a
+  ><a name="976" class="Symbol"
+  >(</a
+  ><a name="977" href="Sets.Parametric.html#977" class="Bound"
+  >A</a
+  ><a name="978"
+  > </a
+  ><a name="979" href="Sets.Parametric.html#979" class="Bound"
+  >B</a
+  ><a name="980"
+  > </a
+  ><a name="981" class="Symbol"
+  >:</a
+  ><a name="982"
+  > </a
+  ><a name="983" class="PrimitiveType"
+  >Set</a
+  ><a name="986" class="Symbol"
+  >)</a
+  ><a name="987"
+  > </a
+  ><a name="988" class="Symbol"
+  >:</a
+  ><a name="989"
+  > </a
+  ><a name="990" class="PrimitiveType"
+  >Set</a
+  ><a name="993"
+  > </a
+  ><a name="994" class="Keyword"
+  >where</a
+  ><a name="999"
+  >
+  </a
+  ><a name="1002" href="Sets.Parametric.html#1002" class="InductiveConstructor Operator"
+  >_,_</a
+  ><a name="1005"
+  > </a
+  ><a name="1006" class="Symbol"
+  >:</a
+  ><a name="1007"
+  > </a
+  ><a name="1008" href="Sets.Parametric.html#977" class="Bound"
+  >A</a
+  ><a name="1009"
+  > </a
+  ><a name="1010" class="Symbol"
+  >&#8594;</a
+  ><a name="1011"
+  > </a
+  ><a name="1012" href="Sets.Parametric.html#979" class="Bound"
+  >B</a
+  ><a name="1013"
+  > </a
+  ><a name="1014" class="Symbol"
+  >&#8594;</a
+  ><a name="1015"
+  > </a
+  ><a name="1016" href="Sets.Parametric.html#977" class="Bound"
+  >A</a
+  ><a name="1017"
+  > </a
+  ><a name="1018" href="Sets.Parametric.html#972" class="Datatype Operator"
+  >&#215;</a
+  ><a name="1019"
+  > </a
+  ><a name="1020" href="Sets.Parametric.html#979" class="Bound"
+  >B</a
+  ><a name="1021"
+  >
+
+</a
+  ><a name="1023" class="Keyword"
+  >infixr</a
+  ><a name="1029"
+  > </a
+  ><a name="1030" class="Number"
+  >4</a
+  ><a name="1031"
+  > _,_
+</a
+  ><a name="1036" class="Keyword"
+  >infixr</a
+  ><a name="1042"
+  > </a
+  ><a name="1043" class="Number"
+  >2</a
+  ><a name="1044"
+  > _&#215;_</a
+  ></pre
+></p>
+<p><code>(A B : Set)</code> is the way of specifying a set that is parameterised by two sets.</p>
+<p><em>Example:</em><br />Elements of <code>Bool × Bool</code> (the extra space is needed before the comma):</p>
+<pre><code> true , true 
+ true , false
+ false , true
+ false , false</code></pre>
+<h1 id="exercises-1"><a href="#exercises-1">Exercises</a></h1>
+<ul>
+<li>How many elements are there in <code>⊤ × ⊤</code>, <code>⊤ × ⊥</code>, <code>⊥ × ⊤</code> and <code>⊥ × ⊥</code>?</li>
+<li>How should we define <code>Top</code> so that ∀ A : Set. <code>Top × A</code> would be isomorphic to <code>A</code> (neutral element of <code>_×_</code>)?</li>
+</ul>
+<h1 id="disjoint-union-sum"><a href="#disjoint-union-sum"><code>_⊎_</code>: Disjoint Union (Sum)</a></h1>
+<p>Definition:</p>
+<p><pre
+><a name="1589"
+  >
+</a
+  ><a name="1604" class="Keyword"
+  >data</a
+  ><a name="1608"
+  > </a
+  ><a name="1609" href="Sets.Parametric.html#1609" class="Datatype Operator"
+  >_&#8846;_</a
+  ><a name="1612"
+  > </a
+  ><a name="1613" class="Symbol"
+  >(</a
+  ><a name="1614" href="Sets.Parametric.html#1614" class="Bound"
+  >A</a
+  ><a name="1615"
+  > </a
+  ><a name="1616" href="Sets.Parametric.html#1616" class="Bound"
+  >B</a
+  ><a name="1617"
+  > </a
+  ><a name="1618" class="Symbol"
+  >:</a
+  ><a name="1619"
+  > </a
+  ><a name="1620" class="PrimitiveType"
+  >Set</a
+  ><a name="1623" class="Symbol"
+  >)</a
+  ><a name="1624"
+  > </a
+  ><a name="1625" class="Symbol"
+  >:</a
+  ><a name="1626"
+  > </a
+  ><a name="1627" class="PrimitiveType"
+  >Set</a
+  ><a name="1630"
+  > </a
+  ><a name="1631" class="Keyword"
+  >where</a
+  ><a name="1636"
+  >
+  </a
+  ><a name="1639" href="Sets.Parametric.html#1639" class="InductiveConstructor"
+  >inj&#8321;</a
+  ><a name="1643"
+  > </a
+  ><a name="1644" class="Symbol"
+  >:</a
+  ><a name="1645"
+  > </a
+  ><a name="1646" href="Sets.Parametric.html#1614" class="Bound"
+  >A</a
+  ><a name="1647"
+  > </a
+  ><a name="1648" class="Symbol"
+  >&#8594;</a
+  ><a name="1649"
+  > </a
+  ><a name="1650" href="Sets.Parametric.html#1614" class="Bound"
+  >A</a
+  ><a name="1651"
+  > </a
+  ><a name="1652" href="Sets.Parametric.html#1609" class="Datatype Operator"
+  >&#8846;</a
+  ><a name="1653"
+  > </a
+  ><a name="1654" href="Sets.Parametric.html#1616" class="Bound"
+  >B</a
+  ><a name="1655"
+  >
+  </a
+  ><a name="1658" href="Sets.Parametric.html#1658" class="InductiveConstructor"
+  >inj&#8322;</a
+  ><a name="1662"
+  > </a
+  ><a name="1663" class="Symbol"
+  >:</a
+  ><a name="1664"
+  > </a
+  ><a name="1665" href="Sets.Parametric.html#1616" class="Bound"
+  >B</a
+  ><a name="1666"
+  > </a
+  ><a name="1667" class="Symbol"
+  >&#8594;</a
+  ><a name="1668"
+  > </a
+  ><a name="1669" href="Sets.Parametric.html#1614" class="Bound"
+  >A</a
+  ><a name="1670"
+  > </a
+  ><a name="1671" href="Sets.Parametric.html#1609" class="Datatype Operator"
+  >&#8846;</a
+  ><a name="1672"
+  > </a
+  ><a name="1673" href="Sets.Parametric.html#1616" class="Bound"
+  >B</a
+  ><a name="1674"
+  >
+
+</a
+  ><a name="1676" class="Keyword"
+  >infixr</a
+  ><a name="1682"
+  > </a
+  ><a name="1683" class="Number"
+  >1</a
+  ><a name="1684"
+  > _&#8846;_</a
+  ></pre
+></p>
+<h1 id="exercises-2"><a href="#exercises-2">Exercises</a></h1>
+<ul>
+<li>What are the elements of <code>Bool ⊎ ⊤</code>?</li>
+<li>What are the elements of <code>⊤ ⊎ (⊤ ⊎ ⊤)</code>?</li>
+<li>Name an already learned isomorphic type to <code>⊤ ⊎ ⊤</code>!</li>
+<li>How should we define <code>Bottom</code> so that ∀ A : Set. <code>Bottom ⊎ A</code> would be isomorphic to <code>A</code> (Neutral element of <code>_⊎_</code>)?</li>
+<li>Give an isomorphic definition of <code>Maybe A</code> with the help of <code>_⊎_</code> and <code>⊤</code>!</li>
+</ul>
+<h1 id="mutually-recursive-sets"><a href="#mutually-recursive-sets">Mutually recursive sets</a></h1>
+<p><code>List₁</code> and <code>List₂</code> are mutually recursive parametric sets:</p>
+<p><pre
+><a name="2169"
+  >
+</a
+  ><a name="2184" class="Keyword"
+  >data</a
+  ><a name="2188"
+  > </a
+  ><a name="2189" href="Sets.Parametric.html#2189" class="Datatype"
+  >List&#8321;</a
+  ><a name="2194"
+  > </a
+  ><a name="2195" class="Symbol"
+  >(</a
+  ><a name="2196" href="Sets.Parametric.html#2196" class="Bound"
+  >A</a
+  ><a name="2197"
+  > </a
+  ><a name="2198" href="Sets.Parametric.html#2198" class="Bound"
+  >B</a
+  ><a name="2199"
+  > </a
+  ><a name="2200" class="Symbol"
+  >:</a
+  ><a name="2201"
+  > </a
+  ><a name="2202" class="PrimitiveType"
+  >Set</a
+  ><a name="2205" class="Symbol"
+  >)</a
+  ><a name="2206"
+  > </a
+  ><a name="2207" class="Symbol"
+  >:</a
+  ><a name="2208"
+  > </a
+  ><a name="2209" class="PrimitiveType"
+  >Set</a
+  ><a name="2212"
+  >
+</a
+  ><a name="2213" class="Keyword"
+  >data</a
+  ><a name="2217"
+  > </a
+  ><a name="2218" href="Sets.Parametric.html#2218" class="Datatype"
+  >List&#8322;</a
+  ><a name="2223"
+  > </a
+  ><a name="2224" class="Symbol"
+  >(</a
+  ><a name="2225" href="Sets.Parametric.html#2225" class="Bound"
+  >A</a
+  ><a name="2226"
+  > </a
+  ><a name="2227" href="Sets.Parametric.html#2227" class="Bound"
+  >B</a
+  ><a name="2228"
+  > </a
+  ><a name="2229" class="Symbol"
+  >:</a
+  ><a name="2230"
+  > </a
+  ><a name="2231" class="PrimitiveType"
+  >Set</a
+  ><a name="2234" class="Symbol"
+  >)</a
+  ><a name="2235"
+  > </a
+  ><a name="2236" class="Symbol"
+  >:</a
+  ><a name="2237"
+  > </a
+  ><a name="2238" class="PrimitiveType"
+  >Set</a
+  ><a name="2241"
+  >
+
+</a
+  ><a name="2243" class="Keyword"
+  >data</a
+  ><a name="2247"
+  > </a
+  ><a name="2248" href="Sets.Parametric.html#2189" class="Datatype"
+  >List&#8321;</a
+  ><a name="2253"
+  > </a
+  ><a name="2254" class="Symbol"
+  >(</a
+  ><a name="2255" href="Sets.Parametric.html#2255" class="Bound"
+  >A</a
+  ><a name="2256"
+  > </a
+  ><a name="2257" href="Sets.Parametric.html#2257" class="Bound"
+  >B</a
+  ><a name="2258"
+  > </a
+  ><a name="2259" class="Symbol"
+  >:</a
+  ><a name="2260"
+  > </a
+  ><a name="2261" class="PrimitiveType"
+  >Set</a
+  ><a name="2264" class="Symbol"
+  >)</a
+  ><a name="2265"
+  > </a
+  ><a name="2266" class="Keyword"
+  >where</a
+  ><a name="2271"
+  >
+  </a
+  ><a name="2274" href="Sets.Parametric.html#2274" class="InductiveConstructor"
+  >[]</a
+  ><a name="2276"
+  >  </a
+  ><a name="2278" class="Symbol"
+  >:</a
+  ><a name="2279"
+  >                 </a
+  ><a name="2296" href="Sets.Parametric.html#2189" class="Datatype"
+  >List&#8321;</a
+  ><a name="2301"
+  > </a
+  ><a name="2302" href="Sets.Parametric.html#2255" class="Bound"
+  >A</a
+  ><a name="2303"
+  > </a
+  ><a name="2304" href="Sets.Parametric.html#2257" class="Bound"
+  >B</a
+  ><a name="2305"
+  >
+  </a
+  ><a name="2308" href="Sets.Parametric.html#2308" class="InductiveConstructor Operator"
+  >_&#8759;_</a
+  ><a name="2311"
+  > </a
+  ><a name="2312" class="Symbol"
+  >:</a
+  ><a name="2313"
+  > </a
+  ><a name="2314" href="Sets.Parametric.html#2255" class="Bound"
+  >A</a
+  ><a name="2315"
+  > </a
+  ><a name="2316" class="Symbol"
+  >&#8594;</a
+  ><a name="2317"
+  > </a
+  ><a name="2318" href="Sets.Parametric.html#2218" class="Datatype"
+  >List&#8322;</a
+  ><a name="2323"
+  > </a
+  ><a name="2324" href="Sets.Parametric.html#2255" class="Bound"
+  >A</a
+  ><a name="2325"
+  > </a
+  ><a name="2326" href="Sets.Parametric.html#2257" class="Bound"
+  >B</a
+  ><a name="2327"
+  > </a
+  ><a name="2328" class="Symbol"
+  >&#8594;</a
+  ><a name="2329"
+  > </a
+  ><a name="2330" href="Sets.Parametric.html#2189" class="Datatype"
+  >List&#8321;</a
+  ><a name="2335"
+  > </a
+  ><a name="2336" href="Sets.Parametric.html#2255" class="Bound"
+  >A</a
+  ><a name="2337"
+  > </a
+  ><a name="2338" href="Sets.Parametric.html#2257" class="Bound"
+  >B</a
+  ><a name="2339"
+  >
+
+</a
+  ><a name="2341" class="Keyword"
+  >data</a
+  ><a name="2345"
+  > </a
+  ><a name="2346" href="Sets.Parametric.html#2218" class="Datatype"
+  >List&#8322;</a
+  ><a name="2351"
+  > </a
+  ><a name="2352" class="Symbol"
+  >(</a
+  ><a name="2353" href="Sets.Parametric.html#2353" class="Bound"
+  >A</a
+  ><a name="2354"
+  > </a
+  ><a name="2355" href="Sets.Parametric.html#2355" class="Bound"
+  >B</a
+  ><a name="2356"
+  > </a
+  ><a name="2357" class="Symbol"
+  >:</a
+  ><a name="2358"
+  > </a
+  ><a name="2359" class="PrimitiveType"
+  >Set</a
+  ><a name="2362" class="Symbol"
+  >)</a
+  ><a name="2363"
+  > </a
+  ><a name="2364" class="Keyword"
+  >where</a
+  ><a name="2369"
+  >
+  </a
+  ><a name="2372" href="Sets.Parametric.html#2372" class="InductiveConstructor Operator"
+  >_&#8759;_</a
+  ><a name="2375"
+  > </a
+  ><a name="2376" class="Symbol"
+  >:</a
+  ><a name="2377"
+  > </a
+  ><a name="2378" href="Sets.Parametric.html#2355" class="Bound"
+  >B</a
+  ><a name="2379"
+  > </a
+  ><a name="2380" class="Symbol"
+  >&#8594;</a
+  ><a name="2381"
+  > </a
+  ><a name="2382" href="Sets.Parametric.html#2189" class="Datatype"
+  >List&#8321;</a
+  ><a name="2387"
+  > </a
+  ><a name="2388" href="Sets.Parametric.html#2353" class="Bound"
+  >A</a
+  ><a name="2389"
+  > </a
+  ><a name="2390" href="Sets.Parametric.html#2355" class="Bound"
+  >B</a
+  ><a name="2391"
+  > </a
+  ><a name="2392" class="Symbol"
+  >&#8594;</a
+  ><a name="2393"
+  > </a
+  ><a name="2394" href="Sets.Parametric.html#2218" class="Datatype"
+  >List&#8322;</a
+  ><a name="2399"
+  > </a
+  ><a name="2400" href="Sets.Parametric.html#2353" class="Bound"
+  >A</a
+  ><a name="2401"
+  > </a
+  ><a name="2402" href="Sets.Parametric.html#2355" class="Bound"
+  >B</a
+  ></pre
+></p>
+<p><em>Exercise:</em> list the smallest first 5 elements of <code>List₁ ⊤ Bool</code>!</p>
+<h1 id="non-regular-recursive-set"><a href="#non-regular-recursive-set">Non-regular recursive set</a></h1>
+<p>List the first smallest 4 (+4) elements of the following dataset (let <code>A</code> = <code>⊤</code> and <code>B</code> = <code>Bool</code> and reversed):</p>
+<p><pre
+><a name="2648"
+  >
+</a
+  ><a name="2663" class="Keyword"
+  >data</a
+  ><a name="2667"
+  > </a
+  ><a name="2668" href="Sets.Parametric.html#2668" class="Datatype"
+  >AlterList</a
+  ><a name="2677"
+  > </a
+  ><a name="2678" class="Symbol"
+  >(</a
+  ><a name="2679" href="Sets.Parametric.html#2679" class="Bound"
+  >A</a
+  ><a name="2680"
+  > </a
+  ><a name="2681" href="Sets.Parametric.html#2681" class="Bound"
+  >B</a
+  ><a name="2682"
+  > </a
+  ><a name="2683" class="Symbol"
+  >:</a
+  ><a name="2684"
+  > </a
+  ><a name="2685" class="PrimitiveType"
+  >Set</a
+  ><a name="2688" class="Symbol"
+  >)</a
+  ><a name="2689"
+  > </a
+  ><a name="2690" class="Symbol"
+  >:</a
+  ><a name="2691"
+  > </a
+  ><a name="2692" class="PrimitiveType"
+  >Set</a
+  ><a name="2695"
+  >  </a
+  ><a name="2697" class="Keyword"
+  >where</a
+  ><a name="2702"
+  >
+  </a
+  ><a name="2705" href="Sets.Parametric.html#2705" class="InductiveConstructor"
+  >[]</a
+  ><a name="2707"
+  >  </a
+  ><a name="2709" class="Symbol"
+  >:</a
+  ><a name="2710"
+  >                     </a
+  ><a name="2731" href="Sets.Parametric.html#2668" class="Datatype"
+  >AlterList</a
+  ><a name="2740"
+  > </a
+  ><a name="2741" href="Sets.Parametric.html#2679" class="Bound"
+  >A</a
+  ><a name="2742"
+  > </a
+  ><a name="2743" href="Sets.Parametric.html#2681" class="Bound"
+  >B</a
+  ><a name="2744"
+  >
+  </a
+  ><a name="2747" href="Sets.Parametric.html#2747" class="InductiveConstructor Operator"
+  >_&#8759;_</a
+  ><a name="2750"
+  > </a
+  ><a name="2751" class="Symbol"
+  >:</a
+  ><a name="2752"
+  > </a
+  ><a name="2753" href="Sets.Parametric.html#2679" class="Bound"
+  >A</a
+  ><a name="2754"
+  > </a
+  ><a name="2755" class="Symbol"
+  >&#8594;</a
+  ><a name="2756"
+  > </a
+  ><a name="2757" href="Sets.Parametric.html#2668" class="Datatype"
+  >AlterList</a
+  ><a name="2766"
+  > </a
+  ><a name="2767" href="Sets.Parametric.html#2681" class="Bound"
+  >B</a
+  ><a name="2768"
+  > </a
+  ><a name="2769" href="Sets.Parametric.html#2679" class="Bound"
+  >A</a
+  ><a name="2770"
+  > </a
+  ><a name="2771" class="Symbol"
+  >&#8594;</a
+  ><a name="2772"
+  > </a
+  ><a name="2773" href="Sets.Parametric.html#2668" class="Datatype"
+  >AlterList</a
+  ><a name="2782"
+  > </a
+  ><a name="2783" href="Sets.Parametric.html#2679" class="Bound"
+  >A</a
+  ><a name="2784"
+  > </a
+  ><a name="2785" href="Sets.Parametric.html#2681" class="Bound"
+  >B</a
+  ></pre
+></p>
+<h1 id="nested-set"><a href="#nested-set">Nested set</a></h1>
+<p><code>Square</code>, the set of square matrices with 2<sup>n</sup> rows, is nested, because at least one of its constructors refers to the set defined with more complex parameter(s):</p>
+<p><pre
+><a name="2985"
+  >
+</a
+  ><a name="3001" class="Keyword"
+  >data</a
+  ><a name="3005"
+  > </a
+  ><a name="3006" href="Sets.Parametric.html#3006" class="Datatype"
+  >T4</a
+  ><a name="3008"
+  > </a
+  ><a name="3009" class="Symbol"
+  >(</a
+  ><a name="3010" href="Sets.Parametric.html#3010" class="Bound"
+  >A</a
+  ><a name="3011"
+  > </a
+  ><a name="3012" class="Symbol"
+  >:</a
+  ><a name="3013"
+  > </a
+  ><a name="3014" class="PrimitiveType"
+  >Set</a
+  ><a name="3017" class="Symbol"
+  >)</a
+  ><a name="3018"
+  > </a
+  ><a name="3019" class="Symbol"
+  >:</a
+  ><a name="3020"
+  > </a
+  ><a name="3021" class="PrimitiveType"
+  >Set</a
+  ><a name="3024"
+  > </a
+  ><a name="3025" class="Keyword"
+  >where</a
+  ><a name="3030"
+  >
+  </a
+  ><a name="3033" href="Sets.Parametric.html#3033" class="InductiveConstructor"
+  >quad</a
+  ><a name="3037"
+  > </a
+  ><a name="3038" class="Symbol"
+  >:</a
+  ><a name="3039"
+  > </a
+  ><a name="3040" href="Sets.Parametric.html#3010" class="Bound"
+  >A</a
+  ><a name="3041"
+  > </a
+  ><a name="3042" class="Symbol"
+  >&#8594;</a
+  ><a name="3043"
+  > </a
+  ><a name="3044" href="Sets.Parametric.html#3010" class="Bound"
+  >A</a
+  ><a name="3045"
+  > </a
+  ><a name="3046" class="Symbol"
+  >&#8594;</a
+  ><a name="3047"
+  > </a
+  ><a name="3048" href="Sets.Parametric.html#3010" class="Bound"
+  >A</a
+  ><a name="3049"
+  > </a
+  ><a name="3050" class="Symbol"
+  >&#8594;</a
+  ><a name="3051"
+  > </a
+  ><a name="3052" href="Sets.Parametric.html#3010" class="Bound"
+  >A</a
+  ><a name="3053"
+  > </a
+  ><a name="3054" class="Symbol"
+  >&#8594;</a
+  ><a name="3055"
+  > </a
+  ><a name="3056" href="Sets.Parametric.html#3006" class="Datatype"
+  >T4</a
+  ><a name="3058"
+  > </a
+  ><a name="3059" href="Sets.Parametric.html#3010" class="Bound"
+  >A</a
+  ><a name="3060"
+  >
+
+</a
+  ><a name="3062" class="Keyword"
+  >data</a
+  ><a name="3066"
+  > </a
+  ><a name="3067" href="Sets.Parametric.html#3067" class="Datatype"
+  >Square</a
+  ><a name="3073"
+  > </a
+  ><a name="3074" class="Symbol"
+  >(</a
+  ><a name="3075" href="Sets.Parametric.html#3075" class="Bound"
+  >A</a
+  ><a name="3076"
+  > </a
+  ><a name="3077" class="Symbol"
+  >:</a
+  ><a name="3078"
+  > </a
+  ><a name="3079" class="PrimitiveType"
+  >Set</a
+  ><a name="3082" class="Symbol"
+  >)</a
+  ><a name="3083"
+  > </a
+  ><a name="3084" class="Symbol"
+  >:</a
+  ><a name="3085"
+  > </a
+  ><a name="3086" class="PrimitiveType"
+  >Set</a
+  ><a name="3089"
+  > </a
+  ><a name="3090" class="Keyword"
+  >where</a
+  ><a name="3095"
+  >
+  </a
+  ><a name="3098" href="Sets.Parametric.html#3098" class="InductiveConstructor"
+  >zero</a
+  ><a name="3102"
+  > </a
+  ><a name="3103" class="Symbol"
+  >:</a
+  ><a name="3104"
+  >            </a
+  ><a name="3116" href="Sets.Parametric.html#3075" class="Bound"
+  >A</a
+  ><a name="3117"
+  >  </a
+  ><a name="3119" class="Symbol"
+  >&#8594;</a
+  ><a name="3120"
+  > </a
+  ><a name="3121" href="Sets.Parametric.html#3067" class="Datatype"
+  >Square</a
+  ><a name="3127"
+  > </a
+  ><a name="3128" href="Sets.Parametric.html#3075" class="Bound"
+  >A</a
+  ><a name="3129"
+  >   </a
+  ><a name="3132" class="Comment"
+  >-- 2^0 rows</a
+  ><a name="3143"
+  >
+  </a
+  ><a name="3146" href="Sets.Parametric.html#3146" class="InductiveConstructor"
+  >suc</a
+  ><a name="3149"
+  >  </a
+  ><a name="3151" class="Symbol"
+  >:</a
+  ><a name="3152"
+  > </a
+  ><a name="3153" href="Sets.Parametric.html#3067" class="Datatype"
+  >Square</a
+  ><a name="3159"
+  > </a
+  ><a name="3160" class="Symbol"
+  >(</a
+  ><a name="3161" href="Sets.Parametric.html#3006" class="Datatype"
+  >T4</a
+  ><a name="3163"
+  > </a
+  ><a name="3164" href="Sets.Parametric.html#3075" class="Bound"
+  >A</a
+  ><a name="3165" class="Symbol"
+  >)</a
+  ><a name="3166"
+  > </a
+  ><a name="3167" class="Symbol"
+  >&#8594;</a
+  ><a name="3168"
+  > </a
+  ><a name="3169" href="Sets.Parametric.html#3067" class="Datatype"
+  >Square</a
+  ><a name="3175"
+  > </a
+  ><a name="3176" href="Sets.Parametric.html#3075" class="Bound"
+  >A</a
+  ><a name="3177"
+  >   </a
+  ><a name="3180" class="Comment"
+  >-- 2^(n+1) rows</a
+  ></pre
+></p>
+<p><em>Example:</em></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Set</th>
+<th align="left">1st,</th>
+<th align="left">2nd,</th>
+<th align="left">3rd,</th>
+<th align="left">...</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>Square ℕ</code> = {</td>
+<td align="left"><code>zero 3</code>; <code>zero 16</code>; ...;</td>
+<td align="left"><code>suc (zero (t4 1 2 3 4))</code>; ...;</td>
+<td align="left"><code>x</code>;...;</td>
+<td align="left">...</td>
+</tr>
+<tr class="even">
+<td align="left"><code>Square (T4 ℕ)</code>= {</td>
+<td align="left"><code>zero (t4 1 2 3 4)</code>; ...;</td>
+<td align="left"><code>suc (zero (t4 (t4 ...) ...))</code>; ...;</td>
+<td align="left">...;</td>
+<td align="left">...</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>Square (T4 (T4 ℕ))</code>= {</td>
+<td align="left"><code>zero (t4 (t4 ...) ...)</code>; ...;</td>
+<td align="left">...;</td>
+<td align="left">...;</td>
+<td align="left">...</td>
+</tr>
+<tr class="even">
+<td align="left">...</td>
+<td align="left">...</td>
+<td align="left">...</td>
+<td align="left">...</td>
+<td align="left">...</td>
+</tr>
+</tbody>
+</table>
+<p><code>x : Square ℕ</code><br /><code>x = suc (suc (zero (t4 (t4 1 2 3 4) (t4 5 6 7 8) (t4 9 10 11 12) (t4 13 14 15 16))))</code></p>
+<pre class="sourceCode latex"><code class="sourceCode latex">\left(\begin{array}{cccc}1&amp;2&amp;5&amp;6\\3&amp;4&amp;7&amp;8\\9&amp;10&amp;13&amp;14\\11&amp;12&amp;15&amp;16\end{array}\right)</code></pre>
+<hr />
+<p>Nested sets are special non-regular sets.<br />Nested sets can be translated to mutually recursive regular sets.</p>
+</body>
+</html>

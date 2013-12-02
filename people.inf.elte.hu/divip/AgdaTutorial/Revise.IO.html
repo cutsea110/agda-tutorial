@@ -1,0 +1,1102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>IO Operations</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">IO Operations</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#characters">Characters</a></li>
+<li><a href="#strings">Strings</a></li>
+<li><a href="#exercise">Exercise</a></li>
+<li><a href="#equality-on-strings">Equality on strings</a></li>
+<li><a href="#the-io-type">The <code>IO</code> type</a></li>
+<li><a href="#the-unit-type">The unit type</a></li>
+<li><a href="#io-primitives">IO primitives</a></li>
+<li><a href="#the-main-function">The <code>main</code> function</a></li>
+<li><a href="#compilation">Compilation</a></li>
+<li><a href="#io-connectives-return">IO connectives: <code>return</code></a></li>
+<li><a href="#io-connectives-__">IO connectives: <code>_&gt;&gt;=_</code></a></li>
+<li><a href="#adding-a-new-primitive">Adding a new primitive</a></li>
+<li><a href="#examples">Examples</a></li>
+<li><a href="#exercise-1">Exercise</a></li>
+<li><a href="#infinite-computations">Infinite computations</a></li>
+</ul>
+</div>
+<p><pre
+><a name="16"
+  >
+</a
+  ><a name="31" class="Keyword"
+  >module</a
+  ><a name="37"
+  > </a
+  ><a name="38" href="Revise.IO.html#1" class="Module"
+  >Revise.IO</a
+  ><a name="47"
+  > </a
+  ><a name="48" class="Keyword"
+  >where</a
+  ></pre
+></p>
+<h1 id="characters"><a href="#characters">Characters</a></h1>
+<p><pre
+><a name="87"
+  >
+</a
+  ><a name="102" class="Keyword"
+  >open</a
+  ><a name="106"
+  > </a
+  ><a name="107" class="Keyword"
+  >import</a
+  ><a name="113"
+  > </a
+  ><a name="114" href="Data.Char.html#1" class="Module"
+  >Data.Char</a
+  ><a name="123"
+  > </a
+  ><a name="124" class="Keyword"
+  >using</a
+  ><a name="129"
+  > </a
+  ><a name="130" class="Symbol"
+  >(</a
+  ><a name="131"
+  >Char</a
+  ><a name="135" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p>The <code>Char</code> type:</p>
+<pre><code>Char : Set    -- abstract</code></pre>
+<p>Agda has character literals:</p>
+<p><pre
+><a name="226"
+  >
+</a
+  ><a name="241" href="Revise.IO.html#241" class="Function Operator"
+  >char_a</a
+  ><a name="247"
+  > </a
+  ><a name="248" class="Symbol"
+  >:</a
+  ><a name="249"
+  > </a
+  ><a name="250" href="Data.Char.html#692" class="Postulate"
+  >Char</a
+  ><a name="254"
+  >
+</a
+  ><a name="255" href="Revise.IO.html#241" class="Function Operator"
+  >char_a</a
+  ><a name="261"
+  > </a
+  ><a name="262" class="Symbol"
+  >=</a
+  ><a name="263"
+  > </a
+  ><a name="264" class="String"
+  >'a'</a
+  ></pre
+></p>
+<p>Some operations on characters:</p>
+<pre><code>toNat : Char → ℕ   -- unicode code
+
+_==_ : Char → Char → Bool
+
+_≟_ : Decidable {A = Char} _≡_   -- see later</code></pre>
+<h1 id="strings"><a href="#strings">Strings</a></h1>
+<p><pre
+><a name="450"
+  >
+</a
+  ><a name="465" class="Keyword"
+  >open</a
+  ><a name="469"
+  > </a
+  ><a name="470" class="Keyword"
+  >import</a
+  ><a name="476"
+  > </a
+  ><a name="477" href="Data.String.html#1" class="Module"
+  >Data.String</a
+  ><a name="488"
+  > </a
+  ><a name="489" class="Keyword"
+  >using</a
+  ><a name="494"
+  > </a
+  ><a name="495" class="Symbol"
+  >(</a
+  ><a name="496"
+  >String</a
+  ><a name="502" class="Symbol"
+  >;</a
+  ><a name="503"
+  > Costring</a
+  ><a name="512" class="Symbol"
+  >;</a
+  ><a name="513"
+  > toCostring</a
+  ><a name="524" class="Symbol"
+  >;</a
+  ><a name="525"
+  > _++_</a
+  ><a name="530" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p>The <code>String</code> and <code>Costring</code> types:</p>
+<pre><code>String : Set     -- abstract
+
+Costring : Set
+Costring = Colist Char</code></pre>
+<p>Agda has string literals:</p>
+<p><pre
+><a name="686"
+  >
+</a
+  ><a name="701" href="Revise.IO.html#701" class="Function Operator"
+  >string_hello</a
+  ><a name="713"
+  > </a
+  ><a name="714" class="Symbol"
+  >:</a
+  ><a name="715"
+  > </a
+  ><a name="716" href="Data.String.html#900" class="Postulate"
+  >String</a
+  ><a name="722"
+  >
+</a
+  ><a name="723" href="Revise.IO.html#701" class="Function Operator"
+  >string_hello</a
+  ><a name="735"
+  > </a
+  ><a name="736" class="Symbol"
+  >=</a
+  ><a name="737"
+  > </a
+  ><a name="738" class="String"
+  >&quot;hello&quot;</a
+  ></pre
+></p>
+<p>Some operations:</p>
+<pre><code>_++_ : String → String → String
+
+toList : String → List Char
+
+toCostring : String → Costring
+
+toVec : (s : String) → Vec Char (length (toList s))
+
+fromList : List Char → String</code></pre>
+<h1 id="exercise"><a href="#exercise">Exercise</a></h1>
+<p><pre
+><a name="992"
+  >
+</a
+  ><a name="1007" class="Keyword"
+  >open</a
+  ><a name="1011"
+  > </a
+  ><a name="1012" class="Keyword"
+  >import</a
+  ><a name="1018"
+  > </a
+  ><a name="1019" href="Data.List.html#1" class="Module"
+  >Data.List</a
+  ><a name="1028"
+  > </a
+  ><a name="1029" class="Keyword"
+  >using</a
+  ><a name="1034"
+  > </a
+  ><a name="1035" class="Symbol"
+  >(</a
+  ><a name="1036"
+  >List</a
+  ><a name="1040" class="Symbol"
+  >;</a
+  ><a name="1041"
+  > _&#8759;_</a
+  ><a name="1045" class="Symbol"
+  >;</a
+  ><a name="1046"
+  > []</a
+  ><a name="1049" class="Symbol"
+  >)</a
+  ><a name="1050"
+  >
+
+</a
+  ><a name="1052" href="Revise.IO.html#1052" class="Function"
+  >unlines</a
+  ><a name="1059"
+  > </a
+  ><a name="1060" class="Symbol"
+  >:</a
+  ><a name="1061"
+  > </a
+  ><a name="1062" href="Data.List.html#659" class="Datatype"
+  >List</a
+  ><a name="1066"
+  > </a
+  ><a name="1067" href="Data.String.html#900" class="Postulate"
+  >String</a
+  ><a name="1073"
+  > </a
+  ><a name="1074" class="Symbol"
+  >&#8594;</a
+  ><a name="1075"
+  > </a
+  ><a name="1076" href="Data.String.html#900" class="Postulate"
+  >String</a
+  ><a name="1082"
+  >
+</a
+  ><a name="1083" href="Revise.IO.html#1052" class="Function"
+  >unlines</a
+  ><a name="1090"
+  > </a
+  ><a name="1091" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="1093"
+  >       </a
+  ><a name="1100" class="Symbol"
+  >=</a
+  ><a name="1101"
+  > </a
+  ><a name="1102" class="String"
+  >&quot;&quot;</a
+  ><a name="1104"
+  >
+</a
+  ><a name="1105" href="Revise.IO.html#1052" class="Function"
+  >unlines</a
+  ><a name="1112"
+  > </a
+  ><a name="1113" class="Symbol"
+  >(</a
+  ><a name="1114" href="Revise.IO.html#1114" class="Bound"
+  >x</a
+  ><a name="1115"
+  > </a
+  ><a name="1116" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="1117"
+  > </a
+  ><a name="1118" href="Revise.IO.html#1118" class="Bound"
+  >xs</a
+  ><a name="1120" class="Symbol"
+  >)</a
+  ><a name="1121"
+  > </a
+  ><a name="1122" class="Symbol"
+  >=</a
+  ><a name="1123"
+  > </a
+  ><a name="1124" href="Revise.IO.html#1114" class="Bound"
+  >x</a
+  ><a name="1125"
+  > </a
+  ><a name="1126" href="Data.String.html#1352" class="Function Operator"
+  >++</a
+  ><a name="1128"
+  > </a
+  ><a name="1129" class="String"
+  >&quot;\n&quot;</a
+  ><a name="1133"
+  > </a
+  ><a name="1134" href="Data.String.html#1352" class="Function Operator"
+  >++</a
+  ><a name="1136"
+  > </a
+  ><a name="1137" href="Revise.IO.html#1052" class="Function"
+  >unlines</a
+  ><a name="1144"
+  > </a
+  ><a name="1145" href="Revise.IO.html#1118" class="Bound"
+  >xs</a
+  ></pre
+></p>
+<h1 id="equality-on-strings"><a href="#equality-on-strings">Equality on strings</a></h1>
+<pre><code>_==_ : String → String → Bool
+
+_≟_ : Decidable {A = String} _≡_</code></pre>
+<h1 id="the-io-type"><a href="#the-io-type">The <code>IO</code> type</a></h1>
+<p><pre
+><a name="1307"
+  >
+</a
+  ><a name="1322" class="Keyword"
+  >open</a
+  ><a name="1326"
+  > </a
+  ><a name="1327" class="Keyword"
+  >import</a
+  ><a name="1333"
+  > </a
+  ><a name="1334" href="IO.Primitive.html#1" class="Module"
+  >IO.Primitive</a
+  ></pre
+></p>
+<p><code>IO A</code> denotes a computation which may do I/O operations and at the end delivers a value of type <code>A</code>.</p>
+<p>For example, <code>IO ℕ</code> is a computation which delivers a natural number.</p>
+<pre><code>IO : Set → Set</code></pre>
+<h1 id="the-unit-type"><a href="#the-unit-type">The unit type</a></h1>
+<p><pre
+><a name="1581"
+  >
+</a
+  ><a name="1596" class="Keyword"
+  >open</a
+  ><a name="1600"
+  > </a
+  ><a name="1601" class="Keyword"
+  >import</a
+  ><a name="1607"
+  > </a
+  ><a name="1608" href="Foreign.Haskell.html#1" class="Module"
+  >Foreign.Haskell</a
+  ><a name="1623"
+  > </a
+  ><a name="1624" class="Keyword"
+  >using</a
+  ><a name="1629"
+  > </a
+  ><a name="1630" class="Symbol"
+  >(</a
+  ><a name="1631"
+  >Unit</a
+  ><a name="1635" class="Symbol"
+  >;</a
+  ><a name="1636"
+  > unit</a
+  ><a name="1641" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p><code>Unit</code> is isomorphic to <code>⊤</code>:</p>
+<pre><code>data Unit : Set where
+  unit : Unit</code></pre>
+<h1 id="io-primitives"><a href="#io-primitives">IO primitives</a></h1>
+<pre><code>getContents : IO Costring
+putStr      : Costring → IO Unit
+putStrLn    : Costring → IO Unit
+
+readFile    : String → IO Costring
+writeFile   : String → Costring → IO Unit
+appendFile  : String → Costring → IO Unit</code></pre>
+<h1 id="the-main-function"><a href="#the-main-function">The <code>main</code> function</a></h1>
+<p><pre
+><a name="2037"
+  >
+</a
+  ><a name="2052" href="Revise.IO.html#2052" class="Function"
+  >main</a
+  ><a name="2056"
+  > </a
+  ><a name="2057" class="Symbol"
+  >:</a
+  ><a name="2058"
+  > </a
+  ><a name="2059" href="IO.Primitive.html#448" class="Postulate"
+  >IO</a
+  ><a name="2061"
+  > </a
+  ><a name="2062" href="Foreign.Haskell.html#295" class="Datatype"
+  >Unit</a
+  ><a name="2066"
+  >
+</a
+  ><a name="2067" href="Revise.IO.html#2052" class="Function"
+  >main</a
+  ><a name="2071"
+  > </a
+  ><a name="2072" class="Symbol"
+  >=</a
+  ><a name="2073"
+  > </a
+  ><a name="2074" href="IO.Primitive.html#1501" class="Postulate"
+  >putStrLn</a
+  ><a name="2082"
+  > </a
+  ><a name="2083" class="Symbol"
+  >(</a
+  ><a name="2084" href="Data.String.html#1617" class="Function"
+  >toCostring</a
+  ><a name="2094"
+  > </a
+  ><a name="2095" class="String"
+  >&quot;Hello World!&quot;</a
+  ><a name="2109" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="compilation"><a href="#compilation">Compilation</a></h1>
+<p>Compilation of the <code>main</code> function: C-<code>c</code> C-<code>x</code> C-<code>c</code><br />(or from the Emacs Agda menu)</p>
+<p>If you get the error <code>Could not find module IO.FFI</code>, try to do</p>
+<pre><code>$ cd &lt;path-to-standard-library&gt;
+$ cd ffi
+$ cabal install</code></pre>
+<h1 id="io-connectives-return"><a href="#io-connectives-return">IO connectives: <code>return</code></a></h1>
+<p><code>return x</code> do no I/O operations just returns <code>x</code></p>
+<pre><code>return : {A : Set} → A → IO A</code></pre>
+<p>This program does nothing:</p>
+<p><pre
+><a name="2535"
+  >
+</a
+  ><a name="2550" href="Revise.IO.html#2550" class="Function"
+  >main&#8242;</a
+  ><a name="2555"
+  > </a
+  ><a name="2556" class="Symbol"
+  >:</a
+  ><a name="2557"
+  > </a
+  ><a name="2558" href="IO.Primitive.html#448" class="Postulate"
+  >IO</a
+  ><a name="2560"
+  > </a
+  ><a name="2561" href="Foreign.Haskell.html#295" class="Datatype"
+  >Unit</a
+  ><a name="2565"
+  >
+</a
+  ><a name="2566" href="Revise.IO.html#2550" class="Function"
+  >main&#8242;</a
+  ><a name="2571"
+  > </a
+  ><a name="2572" class="Symbol"
+  >=</a
+  ><a name="2573"
+  > </a
+  ><a name="2574" href="IO.Primitive.html#588" class="Postulate"
+  >return</a
+  ><a name="2580"
+  > </a
+  ><a name="2581" href="Foreign.Haskell.html#314" class="InductiveConstructor"
+  >unit</a
+  ></pre
+></p>
+<h1 id="io-connectives-__"><a href="#io-connectives-__">IO connectives: <code>_&gt;&gt;=_</code></a></h1>
+<p>The computation <code>m &gt;&gt;= f</code> first runs the computation <code>m</code> which delivers a return value <code>a</code>, then runs the computation <code>f a</code> and returns its return value.</p>
+<pre><code>_&gt;&gt;=_  : {A B : Set} → IO A → (A → IO B) → IO B</code></pre>
+<p>With <code>return</code>, <code>_&gt;&gt;=_</code> and the privitives we can construct lots of computations already!</p>
+<h1 id="adding-a-new-primitive"><a href="#adding-a-new-primitive">Adding a new primitive</a></h1>
+<p>This is how to add a new primitive if not present.</p>
+<p><pre
+><a name="3035"
+  >
+</a
+  ><a name="3050" class="Keyword"
+  >postulate</a
+  ><a name="3059"
+  >
+  </a
+  ><a name="3062" href="Revise.IO.html#3062" class="Postulate"
+  >getLine</a
+  ><a name="3069"
+  > </a
+  ><a name="3070" class="Symbol"
+  >:</a
+  ><a name="3071"
+  > </a
+  ><a name="3072" href="IO.Primitive.html#448" class="Postulate"
+  >IO</a
+  ><a name="3074"
+  > </a
+  ><a name="3075" href="Data.String.html#1012" class="Function"
+  >Costring</a
+  ><a name="3083"
+  >
+
+</a
+  ><a name="3085" class="Symbol"
+  >{-#</a
+  ><a name="3088"
+  > </a
+  ><a name="3089" class="Keyword"
+  >COMPILED</a
+  ><a name="3097"
+  > </a
+  ><a name="3098" href="Revise.IO.html#3062" class="Postulate"
+  >getLine</a
+  ><a name="3105"
+  > getLine </a
+  ><a name="3114" class="Symbol"
+  >#-}</a
+  ></pre
+></p>
+<p>The second argument of the <code>COMPILED</code> pragma should be a valid Haskell expression.</p>
+<h1 id="examples"><a href="#examples">Examples</a></h1>
+<p><pre
+><a name="3232"
+  >
+</a
+  ><a name="3247" href="Revise.IO.html#3247" class="Function"
+  >main&#8243;</a
+  ><a name="3252"
+  > </a
+  ><a name="3253" class="Symbol"
+  >=</a
+  ><a name="3254"
+  > </a
+  ><a name="3255" href="Revise.IO.html#3062" class="Postulate"
+  >getLine</a
+  ><a name="3262"
+  > </a
+  ><a name="3263" href="IO.Primitive.html#628" class="Postulate Operator"
+  >&gt;&gt;=</a
+  ><a name="3266"
+  > </a
+  ><a name="3267" href="IO.Primitive.html#1501" class="Postulate"
+  >putStrLn</a
+  ><a name="3275"
+  >
+
+</a
+  ><a name="3277" class="Keyword"
+  >open</a
+  ><a name="3281"
+  > </a
+  ><a name="3282" class="Keyword"
+  >import</a
+  ><a name="3288"
+  > </a
+  ><a name="3289" href="Data.Colist.html#1" class="Module"
+  >Data.Colist</a
+  ><a name="3300"
+  > </a
+  ><a name="3301" class="Keyword"
+  >renaming</a
+  ><a name="3309"
+  > </a
+  ><a name="3310" class="Symbol"
+  >(</a
+  ><a name="3311"
+  >_++_ </a
+  ><a name="3316" class="Symbol"
+  >to</a
+  ><a name="3318"
+  > _+++_</a
+  ><a name="3324" class="Symbol"
+  >)</a
+  ><a name="3325"
+  >
+
+</a
+  ><a name="3327" href="Revise.IO.html#3327" class="Function"
+  >main&#8244;</a
+  ><a name="3332"
+  > </a
+  ><a name="3333" class="Symbol"
+  >=</a
+  ><a name="3334"
+  >
+    </a
+  ><a name="3339" href="Revise.IO.html#3062" class="Postulate"
+  >getLine</a
+  ><a name="3346"
+  > </a
+  ><a name="3347" href="IO.Primitive.html#628" class="Postulate Operator"
+  >&gt;&gt;=</a
+  ><a name="3350"
+  > </a
+  ><a name="3351" class="Symbol"
+  >&#955;</a
+  ><a name="3352"
+  > </a
+  ><a name="3353" href="Revise.IO.html#3353" class="Bound"
+  >x</a
+  ><a name="3354"
+  > </a
+  ><a name="3355" class="Symbol"
+  >&#8594;</a
+  ><a name="3356"
+  > 
+    </a
+  ><a name="3362" href="IO.Primitive.html#1501" class="Postulate"
+  >putStrLn</a
+  ><a name="3370"
+  > </a
+  ><a name="3371" class="Symbol"
+  >(</a
+  ><a name="3372" href="Data.String.html#1617" class="Function"
+  >toCostring</a
+  ><a name="3382"
+  > </a
+  ><a name="3383" class="String"
+  >&quot;Hello &quot;</a
+  ><a name="3391"
+  > </a
+  ><a name="3392" href="Data.Colist.html#2746" class="Function Operator"
+  >+++</a
+  ><a name="3395"
+  > </a
+  ><a name="3396" href="Revise.IO.html#3353" class="Bound"
+  >x</a
+  ><a name="3397" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="exercise-1"><a href="#exercise-1">Exercise</a></h1>
+<p>Write a program which gets a line, and echoes it if the line is not empty.</p>
+<h1 id="infinite-computations"><a href="#infinite-computations">Infinite computations</a></h1>
+<p><pre
+><a name="3551"
+  >
+</a
+  ><a name="3566" class="Keyword"
+  >open</a
+  ><a name="3570"
+  > </a
+  ><a name="3571" class="Keyword"
+  >import</a
+  ><a name="3577"
+  > </a
+  ><a name="3578" href="Data.List.html#1" class="Module"
+  >Data.List</a
+  ><a name="3587"
+  > </a
+  ><a name="3588" class="Keyword"
+  >renaming</a
+  ><a name="3596"
+  > </a
+  ><a name="3597" class="Symbol"
+  >(</a
+  ><a name="3598"
+  >_++_ </a
+  ><a name="3603" class="Symbol"
+  >to</a
+  ><a name="3605"
+  > _++L_</a
+  ><a name="3611" class="Symbol"
+  >)</a
+  ><a name="3612"
+  >
+</a
+  ><a name="3613" class="Keyword"
+  >open</a
+  ><a name="3617"
+  > </a
+  ><a name="3618" class="Keyword"
+  >import</a
+  ><a name="3624"
+  > </a
+  ><a name="3625" href="Coinduction.html#1" class="Module"
+  >Coinduction</a
+  ><a name="3636"
+  >
+
+</a
+  ><a name="3638" href="Revise.IO.html#3638" class="Function"
+  >f</a
+  ><a name="3639"
+  > </a
+  ><a name="3640" class="Symbol"
+  >:</a
+  ><a name="3641"
+  > </a
+  ><a name="3642" href="Data.List.html#659" class="Datatype"
+  >List</a
+  ><a name="3646"
+  > </a
+  ><a name="3647" href="Data.Char.html#692" class="Postulate"
+  >Char</a
+  ><a name="3651"
+  > </a
+  ><a name="3652" class="Symbol"
+  >&#8594;</a
+  ><a name="3653"
+  > </a
+  ><a name="3654" href="Data.List.html#659" class="Datatype"
+  >List</a
+  ><a name="3658"
+  > </a
+  ><a name="3659" href="Data.Char.html#692" class="Postulate"
+  >Char</a
+  ><a name="3663"
+  > </a
+  ><a name="3664" class="Symbol"
+  >&#8594;</a
+  ><a name="3665"
+  > </a
+  ><a name="3666" href="Data.String.html#1012" class="Function"
+  >Costring</a
+  ><a name="3674"
+  > </a
+  ><a name="3675" class="Symbol"
+  >&#8594;</a
+  ><a name="3676"
+  > </a
+  ><a name="3677" href="Data.String.html#1012" class="Function"
+  >Costring</a
+  ><a name="3685"
+  >
+</a
+  ><a name="3686" href="Revise.IO.html#3638" class="Function"
+  >f</a
+  ><a name="3687"
+  > </a
+  ><a name="3688" href="Revise.IO.html#3688" class="Bound"
+  >acc</a
+  ><a name="3691"
+  > </a
+  ><a name="3692" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="3694"
+  > </a
+  ><a name="3695" href="Data.Colist.html#1251" class="InductiveConstructor"
+  >[]</a
+  ><a name="3697"
+  > </a
+  ><a name="3698" class="Symbol"
+  >=</a
+  ><a name="3699"
+  > </a
+  ><a name="3700" href="Data.Colist.html#1251" class="InductiveConstructor"
+  >[]</a
+  ><a name="3702"
+  >
+</a
+  ><a name="3703" href="Revise.IO.html#3638" class="Function"
+  >f</a
+  ><a name="3704"
+  > </a
+  ><a name="3705" href="Revise.IO.html#3705" class="Bound"
+  >acc</a
+  ><a name="3708"
+  > </a
+  ><a name="3709" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="3711"
+  > </a
+  ><a name="3712" class="Symbol"
+  >(</a
+  ><a name="3713" class="String"
+  >'\n'</a
+  ><a name="3717"
+  > </a
+  ><a name="3718" href="Data.Colist.html#1268" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3719"
+  > </a
+  ><a name="3720" href="Revise.IO.html#3720" class="Bound"
+  >xs</a
+  ><a name="3722" class="Symbol"
+  >)</a
+  ><a name="3723"
+  > </a
+  ><a name="3724" class="Symbol"
+  >=</a
+  ><a name="3725"
+  > </a
+  ><a name="3726" class="String"
+  >'\n'</a
+  ><a name="3730"
+  > </a
+  ><a name="3731" href="Data.Colist.html#1268" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3732"
+  > </a
+  ><a name="3733" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="3734"
+  > </a
+  ><a name="3735" class="Symbol"
+  >(</a
+  ><a name="3736"
+  > </a
+  ><a name="3737" href="Revise.IO.html#3638" class="Function"
+  >f</a
+  ><a name="3738"
+  > </a
+  ><a name="3739" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="3741"
+  > </a
+  ><a name="3742" class="Symbol"
+  >(</a
+  ><a name="3743" href="Data.List.html#2993" class="Function"
+  >reverse</a
+  ><a name="3750"
+  > </a
+  ><a name="3751" href="Revise.IO.html#3705" class="Bound"
+  >acc</a
+  ><a name="3754"
+  > </a
+  ><a name="3755" href="Data.List.html#1073" class="Function Operator"
+  >++L</a
+  ><a name="3758"
+  > </a
+  ><a name="3759" class="String"
+  >'\n'</a
+  ><a name="3763"
+  > </a
+  ><a name="3764" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3765"
+  > </a
+  ><a name="3766" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="3768" class="Symbol"
+  >)</a
+  ><a name="3769"
+  > </a
+  ><a name="3770" class="Symbol"
+  >(</a
+  ><a name="3771" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="3772"
+  > </a
+  ><a name="3773" href="Revise.IO.html#3720" class="Bound"
+  >xs</a
+  ><a name="3775" class="Symbol"
+  >))</a
+  ><a name="3777"
+  >
+</a
+  ><a name="3778" href="Revise.IO.html#3638" class="Function"
+  >f</a
+  ><a name="3779"
+  > </a
+  ><a name="3780" href="Revise.IO.html#3780" class="Bound"
+  >acc</a
+  ><a name="3783"
+  > </a
+  ><a name="3784" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="3786"
+  > </a
+  ><a name="3787" class="Symbol"
+  >(</a
+  ><a name="3788" href="Revise.IO.html#3788" class="Bound"
+  >x</a
+  ><a name="3789"
+  > </a
+  ><a name="3790" href="Data.Colist.html#1268" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3791"
+  > </a
+  ><a name="3792" href="Revise.IO.html#3792" class="Bound"
+  >xs</a
+  ><a name="3794" class="Symbol"
+  >)</a
+  ><a name="3795"
+  > </a
+  ><a name="3796" class="Symbol"
+  >=</a
+  ><a name="3797"
+  > </a
+  ><a name="3798" href="Revise.IO.html#3788" class="Bound"
+  >x</a
+  ><a name="3799"
+  > </a
+  ><a name="3800" href="Data.Colist.html#1268" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3801"
+  > </a
+  ><a name="3802" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="3803"
+  > </a
+  ><a name="3804" href="Revise.IO.html#3638" class="Function"
+  >f</a
+  ><a name="3805"
+  > </a
+  ><a name="3806" class="Symbol"
+  >(</a
+  ><a name="3807" href="Revise.IO.html#3788" class="Bound"
+  >x</a
+  ><a name="3808"
+  > </a
+  ><a name="3809" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3810"
+  > </a
+  ><a name="3811" href="Revise.IO.html#3780" class="Bound"
+  >acc</a
+  ><a name="3814" class="Symbol"
+  >)</a
+  ><a name="3815"
+  > </a
+  ><a name="3816" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="3818"
+  > </a
+  ><a name="3819" class="Symbol"
+  >(</a
+  ><a name="3820" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="3821"
+  > </a
+  ><a name="3822" href="Revise.IO.html#3792" class="Bound"
+  >xs</a
+  ><a name="3824" class="Symbol"
+  >)</a
+  ><a name="3825"
+  >
+</a
+  ><a name="3826" href="Revise.IO.html#3638" class="Function"
+  >f</a
+  ><a name="3827"
+  > </a
+  ><a name="3828" href="Revise.IO.html#3828" class="Bound"
+  >acc</a
+  ><a name="3831"
+  > </a
+  ><a name="3832" class="Symbol"
+  >(</a
+  ><a name="3833" href="Revise.IO.html#3833" class="Bound"
+  >x</a
+  ><a name="3834"
+  > </a
+  ><a name="3835" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3836"
+  > </a
+  ><a name="3837" href="Revise.IO.html#3837" class="Bound"
+  >xs</a
+  ><a name="3839" class="Symbol"
+  >)</a
+  ><a name="3840"
+  > </a
+  ><a name="3841" href="Revise.IO.html#3841" class="Bound"
+  >zs</a
+  ><a name="3843"
+  > </a
+  ><a name="3844" class="Symbol"
+  >=</a
+  ><a name="3845"
+  > </a
+  ><a name="3846" href="Revise.IO.html#3833" class="Bound"
+  >x</a
+  ><a name="3847"
+  > </a
+  ><a name="3848" href="Data.Colist.html#1268" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3849"
+  > </a
+  ><a name="3850" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="3851"
+  > </a
+  ><a name="3852" href="Revise.IO.html#3638" class="Function"
+  >f</a
+  ><a name="3853"
+  > </a
+  ><a name="3854" href="Revise.IO.html#3828" class="Bound"
+  >acc</a
+  ><a name="3857"
+  > </a
+  ><a name="3858" href="Revise.IO.html#3837" class="Bound"
+  >xs</a
+  ><a name="3860"
+  > </a
+  ><a name="3861" href="Revise.IO.html#3841" class="Bound"
+  >zs</a
+  ><a name="3863"
+  >
+
+</a
+  ><a name="3865" href="Revise.IO.html#3865" class="Function"
+  >trans</a
+  ><a name="3870"
+  > </a
+  ><a name="3871" class="Symbol"
+  >:</a
+  ><a name="3872"
+  > </a
+  ><a name="3873" href="Data.String.html#1012" class="Function"
+  >Costring</a
+  ><a name="3881"
+  > </a
+  ><a name="3882" class="Symbol"
+  >&#8594;</a
+  ><a name="3883"
+  > </a
+  ><a name="3884" href="Data.String.html#1012" class="Function"
+  >Costring</a
+  ><a name="3892"
+  >
+</a
+  ><a name="3893" href="Revise.IO.html#3865" class="Function"
+  >trans</a
+  ><a name="3898"
+  > </a
+  ><a name="3899" class="Symbol"
+  >=</a
+  ><a name="3900"
+  > </a
+  ><a name="3901" href="Revise.IO.html#3638" class="Function"
+  >f</a
+  ><a name="3902"
+  > </a
+  ><a name="3903" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="3905"
+  > </a
+  ><a name="3906" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="3908"
+  >
+
+</a
+  ><a name="3910" href="Revise.IO.html#3910" class="Function"
+  >main&#8279;</a
+  ><a name="3915"
+  > </a
+  ><a name="3916" class="Symbol"
+  >=</a
+  ><a name="3917"
+  > </a
+  ><a name="3918" href="IO.Primitive.html#1313" class="Postulate"
+  >getContents</a
+  ><a name="3929"
+  > </a
+  ><a name="3930" href="IO.Primitive.html#628" class="Postulate Operator"
+  >&gt;&gt;=</a
+  ><a name="3933"
+  > </a
+  ><a name="3934" class="Symbol"
+  >&#955;</a
+  ><a name="3935"
+  > </a
+  ><a name="3936" href="Revise.IO.html#3936" class="Bound"
+  >x</a
+  ><a name="3937"
+  > </a
+  ><a name="3938" class="Symbol"
+  >&#8594;</a
+  ><a name="3939"
+  > </a
+  ><a name="3940" href="IO.Primitive.html#1466" class="Postulate"
+  >putStr</a
+  ><a name="3946"
+  > </a
+  ><a name="3947" class="Symbol"
+  >(</a
+  ><a name="3948" href="Revise.IO.html#3865" class="Function"
+  >trans</a
+  ><a name="3953"
+  > </a
+  ><a name="3954" href="Revise.IO.html#3936" class="Bound"
+  >x</a
+  ><a name="3955" class="Symbol"
+  >)</a
+  ></pre
+></p>
+</body>
+</html>

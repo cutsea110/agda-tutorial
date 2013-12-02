@@ -1,0 +1,3123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Abstract Algebra in Agda</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Abstract Algebra in Agda</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#semigroup-property">Semigroup property</a></li>
+<li><a href="#exercise">Exercise</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#monoid-property">Monoid property</a></li>
+<li><a href="#exercise-1">Exercise</a></li>
+<li><a href="#usage-1">Usage</a></li>
+<li><a href="#named-binary-operations">Named binary operations</a></li>
+<li><a href="#exercise-2">Exercise</a></li>
+<li><a href="#named-function-properties">Named function properties</a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#commutative-monoid-property">Commutative monoid property</a></li>
+<li><a href="#exercises-1">Exercises</a></li>
+<li><a href="#the-type-of-all-semigroups">The type of all semigroups</a></li>
+<li><a href="#exercises-2">Exercises</a></li>
+<li><a href="#some-defined-operations">Some defined operations</a></li>
+<li><a href="#standard-library-definitions">Standard Library definitions</a></li>
+</ul>
+</div>
+<p><pre
+><a name="27"
+  >
+</a
+  ><a name="42" class="Keyword"
+  >module</a
+  ><a name="48"
+  > </a
+  ><a name="49" href="Application.Algebra.html#1" class="Module"
+  >Application.Algebra</a
+  ><a name="68"
+  > </a
+  ><a name="69" class="Keyword"
+  >where</a
+  ><a name="74"
+  >
+
+</a
+  ><a name="76" class="Keyword"
+  >open</a
+  ><a name="80"
+  > </a
+  ><a name="81" class="Keyword"
+  >import</a
+  ><a name="87"
+  > </a
+  ><a name="88" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="96"
+  > </a
+  ><a name="97" class="Keyword"
+  >using</a
+  ><a name="102"
+  > </a
+  ><a name="103" class="Symbol"
+  >(</a
+  ><a name="104"
+  >&#8469;</a
+  ><a name="105" class="Symbol"
+  >;</a
+  ><a name="106"
+  > zero</a
+  ><a name="111" class="Symbol"
+  >;</a
+  ><a name="112"
+  > suc</a
+  ><a name="116" class="Symbol"
+  >;</a
+  ><a name="117"
+  > _+_</a
+  ><a name="121" class="Symbol"
+  >)</a
+  ><a name="122"
+  >
+</a
+  ><a name="123" class="Keyword"
+  >open</a
+  ><a name="127"
+  > </a
+  ><a name="128" class="Keyword"
+  >import</a
+  ><a name="134"
+  > </a
+  ><a name="135" href="Data.Product.html#1" class="Module"
+  >Data.Product</a
+  ><a name="147"
+  > </a
+  ><a name="148" class="Keyword"
+  >using</a
+  ><a name="153"
+  > </a
+  ><a name="154" class="Symbol"
+  >(</a
+  ><a name="155"
+  >_&#215;_</a
+  ><a name="158" class="Symbol"
+  >;</a
+  ><a name="159"
+  > _,_</a
+  ><a name="163" class="Symbol"
+  >;</a
+  ><a name="164"
+  > proj&#8321;</a
+  ><a name="170" class="Symbol"
+  >;</a
+  ><a name="171"
+  > proj&#8322;</a
+  ><a name="177" class="Symbol"
+  >)</a
+  ><a name="178"
+  >
+</a
+  ><a name="179" class="Keyword"
+  >open</a
+  ><a name="183"
+  > </a
+  ><a name="184" class="Keyword"
+  >import</a
+  ><a name="190"
+  > </a
+  ><a name="191" href="Relation.Binary.PropositionalEquality.html#1" class="Module"
+  >Relation.Binary.PropositionalEquality</a
+  ><a name="228"
+  > </a
+  ><a name="229" class="Keyword"
+  >using</a
+  ><a name="234"
+  > </a
+  ><a name="235" class="Symbol"
+  >(</a
+  ><a name="236"
+  >_&#8801;_</a
+  ><a name="239" class="Symbol"
+  >;</a
+  ><a name="240"
+  > refl</a
+  ><a name="245" class="Symbol"
+  >;</a
+  ><a name="246"
+  > cong</a
+  ><a name="251" class="Symbol"
+  >;</a
+  ><a name="252"
+  > setoid</a
+  ><a name="259" class="Symbol"
+  >)</a
+  ><a name="260"
+  >
+
+</a
+  ><a name="262" class="Keyword"
+  >import</a
+  ><a name="268"
+  > </a
+  ><a name="269" href="Relation.Binary.EqReasoning.html#1" class="Module"
+  >Relation.Binary.EqReasoning</a
+  ><a name="296"
+  > </a
+  ><a name="297" class="Symbol"
+  >as</a
+  ><a name="299"
+  > </a
+  ><a name="300" class="Module"
+  >EqR</a
+  ></pre
+></p>
+<h1 id="semigroup-property"><a href="#semigroup-property">Semigroup property</a></h1>
+<p>Let <code>A</code> be a type and let <code>_∙_</code> be a binary operation on <code>A</code>. <code>A</code> with <code>_∙_</code> forms a semigroup iff <code>_∙_</code> is associative.</p>
+<p>We can model the semigroup proposition as follows:</p>
+<p><pre
+><a name="531"
+  >
+</a
+  ><a name="546" class="Keyword"
+  >record</a
+  ><a name="552"
+  > </a
+  ><a name="553" href="Application.Algebra.html#553" class="Record"
+  >IsSemigroup</a
+  ><a name="564"
+  > </a
+  ><a name="565" class="Symbol"
+  >{</a
+  ><a name="566" href="Application.Algebra.html#566" class="Bound"
+  >A</a
+  ><a name="567"
+  > </a
+  ><a name="568" class="Symbol"
+  >:</a
+  ><a name="569"
+  > </a
+  ><a name="570" class="PrimitiveType"
+  >Set</a
+  ><a name="573" class="Symbol"
+  >}</a
+  ><a name="574"
+  > </a
+  ><a name="575" class="Symbol"
+  >(</a
+  ><a name="576" href="Application.Algebra.html#576" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="579"
+  > </a
+  ><a name="580" class="Symbol"
+  >:</a
+  ><a name="581"
+  > </a
+  ><a name="582" href="Application.Algebra.html#566" class="Bound"
+  >A</a
+  ><a name="583"
+  > </a
+  ><a name="584" class="Symbol"
+  >&#8594;</a
+  ><a name="585"
+  > </a
+  ><a name="586" href="Application.Algebra.html#566" class="Bound"
+  >A</a
+  ><a name="587"
+  > </a
+  ><a name="588" class="Symbol"
+  >&#8594;</a
+  ><a name="589"
+  > </a
+  ><a name="590" href="Application.Algebra.html#566" class="Bound"
+  >A</a
+  ><a name="591" class="Symbol"
+  >)</a
+  ><a name="592"
+  > </a
+  ><a name="593" class="Symbol"
+  >:</a
+  ><a name="594"
+  > </a
+  ><a name="595" class="PrimitiveType"
+  >Set</a
+  ><a name="598"
+  > </a
+  ><a name="599" class="Keyword"
+  >where</a
+  ><a name="604"
+  >
+  </a
+  ><a name="607" class="Keyword"
+  >field</a
+  ><a name="612"
+  >
+    </a
+  ><a name="617" href="Application.Algebra.html#617" class="Field"
+  >assoc</a
+  ><a name="622"
+  >         </a
+  ><a name="631" class="Symbol"
+  >:</a
+  ><a name="632"
+  > </a
+  ><a name="633" class="Symbol"
+  >&#8704;</a
+  ><a name="634"
+  > </a
+  ><a name="635" href="Application.Algebra.html#635" class="Bound"
+  >x</a
+  ><a name="636"
+  > </a
+  ><a name="637" href="Application.Algebra.html#637" class="Bound"
+  >y</a
+  ><a name="638"
+  > </a
+  ><a name="639" href="Application.Algebra.html#639" class="Bound"
+  >z</a
+  ><a name="640"
+  > </a
+  ><a name="641" class="Symbol"
+  >&#8594;</a
+  ><a name="642"
+  >  </a
+  ><a name="644" class="Symbol"
+  >(</a
+  ><a name="645" href="Application.Algebra.html#635" class="Bound"
+  >x</a
+  ><a name="646"
+  > </a
+  ><a name="647" href="Application.Algebra.html#576" class="Bound Operator"
+  >&#8729;</a
+  ><a name="648"
+  > </a
+  ><a name="649" href="Application.Algebra.html#637" class="Bound"
+  >y</a
+  ><a name="650" class="Symbol"
+  >)</a
+  ><a name="651"
+  > </a
+  ><a name="652" href="Application.Algebra.html#576" class="Bound Operator"
+  >&#8729;</a
+  ><a name="653"
+  > </a
+  ><a name="654" href="Application.Algebra.html#639" class="Bound"
+  >z</a
+  ><a name="655"
+  >  </a
+  ><a name="657" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="658"
+  >  </a
+  ><a name="660" href="Application.Algebra.html#635" class="Bound"
+  >x</a
+  ><a name="661"
+  > </a
+  ><a name="662" href="Application.Algebra.html#576" class="Bound Operator"
+  >&#8729;</a
+  ><a name="663"
+  > </a
+  ><a name="664" class="Symbol"
+  >(</a
+  ><a name="665" href="Application.Algebra.html#637" class="Bound"
+  >y</a
+  ><a name="666"
+  > </a
+  ><a name="667" href="Application.Algebra.html#576" class="Bound Operator"
+  >&#8729;</a
+  ><a name="668"
+  > </a
+  ><a name="669" href="Application.Algebra.html#639" class="Bound"
+  >z</a
+  ><a name="670" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="exercise"><a href="#exercise">Exercise</a></h1>
+<p>Prove that <code>ℕ</code> with <code>_+_</code> forms a semigroup!</p>
+<p><pre
+><a name="748"
+  >
+</a
+  ><a name="763" href="Application.Algebra.html#763" class="Function"
+  >&#8469;+-isSemigroup</a
+  ><a name="777"
+  > </a
+  ><a name="778" class="Symbol"
+  >:</a
+  ><a name="779"
+  > </a
+  ><a name="780" href="Application.Algebra.html#553" class="Record"
+  >IsSemigroup</a
+  ><a name="791"
+  > </a
+  ><a name="792" href="Data.Nat.html#2239" class="Primitive Operator"
+  >_+_</a
+  ></pre
+></p>
+<h1 id="usage"><a href="#usage">Usage</a></h1>
+<p>Usage example:</p>
+<p><pre
+><a name="1054"
+  >
+</a
+  ><a name="1069" class="Keyword"
+  >module</a
+  ><a name="1075"
+  > </a
+  ><a name="1076" href="Application.Algebra.html#1076" class="Module"
+  >Usage&#8321;</a
+  ><a name="1082"
+  > </a
+  ><a name="1083" class="Keyword"
+  >where</a
+  ><a name="1088"
+  >
+  </a
+  ><a name="1091" class="Keyword"
+  >open</a
+  ><a name="1095"
+  > </a
+  ><a name="1096" href="Application.Algebra.html#553" class="Module"
+  >IsSemigroup</a
+  ><a name="1107"
+  >
+
+  </a
+  ><a name="1111" href="Application.Algebra.html#1111" class="Function"
+  >ex</a
+  ><a name="1113"
+  > </a
+  ><a name="1114" class="Symbol"
+  >:</a
+  ><a name="1115"
+  > </a
+  ><a name="1116" class="Symbol"
+  >&#8704;</a
+  ><a name="1117"
+  > </a
+  ><a name="1118" href="Application.Algebra.html#1118" class="Bound"
+  >n</a
+  ><a name="1119"
+  > </a
+  ><a name="1120" class="Symbol"
+  >&#8594;</a
+  ><a name="1121"
+  > </a
+  ><a name="1122" class="Symbol"
+  >(</a
+  ><a name="1123" href="Application.Algebra.html#1118" class="Bound"
+  >n</a
+  ><a name="1124"
+  > </a
+  ><a name="1125" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1126"
+  > </a
+  ><a name="1127" class="Number"
+  >1</a
+  ><a name="1128" class="Symbol"
+  >)</a
+  ><a name="1129"
+  > </a
+  ><a name="1130" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1131"
+  > </a
+  ><a name="1132" class="Number"
+  >1</a
+  ><a name="1133"
+  > </a
+  ><a name="1134" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="1135"
+  > </a
+  ><a name="1136" href="Application.Algebra.html#1118" class="Bound"
+  >n</a
+  ><a name="1137"
+  > </a
+  ><a name="1138" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1139"
+  > </a
+  ><a name="1140" class="Number"
+  >2</a
+  ><a name="1141"
+  >
+  </a
+  ><a name="1144" href="Application.Algebra.html#1111" class="Function"
+  >ex</a
+  ><a name="1146"
+  > </a
+  ><a name="1147" href="Application.Algebra.html#1147" class="Bound"
+  >n</a
+  ><a name="1148"
+  > </a
+  ><a name="1149" class="Symbol"
+  >=</a
+  ><a name="1150"
+  > </a
+  ><a name="1151" href="Application.Algebra.html#617" class="Function"
+  >assoc</a
+  ><a name="1156"
+  > </a
+  ><a name="1157" href="Application.Algebra.html#763" class="Function"
+  >&#8469;+-isSemigroup</a
+  ><a name="1171"
+  > </a
+  ><a name="1172" href="Application.Algebra.html#1147" class="Bound"
+  >n</a
+  ><a name="1173"
+  > </a
+  ><a name="1174" class="Number"
+  >1</a
+  ><a name="1175"
+  > </a
+  ><a name="1176" class="Number"
+  >1</a
+  ></pre
+></p>
+<p>With applied module opening:</p>
+<p><pre
+><a name="1218"
+  >
+</a
+  ><a name="1233" class="Keyword"
+  >module</a
+  ><a name="1239"
+  > </a
+  ><a name="1240" href="Application.Algebra.html#1240" class="Module"
+  >Usage&#8322;</a
+  ><a name="1246"
+  > </a
+  ><a name="1247" class="Keyword"
+  >where</a
+  ><a name="1252"
+  >
+  </a
+  ><a name="1255" class="Keyword"
+  >open</a
+  ><a name="1259"
+  > </a
+  ><a name="1260" href="Application.Algebra.html#553" class="Module"
+  >IsSemigroup</a
+  ><a name="1271"
+  > </a
+  ><a name="1272" href="Application.Algebra.html#763" class="Function"
+  >&#8469;+-isSemigroup</a
+  ><a name="1286"
+  >
+
+  </a
+  ><a name="1290" href="Application.Algebra.html#1290" class="Function"
+  >ex</a
+  ><a name="1292"
+  > </a
+  ><a name="1293" class="Symbol"
+  >:</a
+  ><a name="1294"
+  > </a
+  ><a name="1295" class="Symbol"
+  >&#8704;</a
+  ><a name="1296"
+  > </a
+  ><a name="1297" href="Application.Algebra.html#1297" class="Bound"
+  >n</a
+  ><a name="1298"
+  > </a
+  ><a name="1299" class="Symbol"
+  >&#8594;</a
+  ><a name="1300"
+  > </a
+  ><a name="1301" class="Symbol"
+  >(</a
+  ><a name="1302" href="Application.Algebra.html#1297" class="Bound"
+  >n</a
+  ><a name="1303"
+  > </a
+  ><a name="1304" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1305"
+  > </a
+  ><a name="1306" class="Number"
+  >1</a
+  ><a name="1307" class="Symbol"
+  >)</a
+  ><a name="1308"
+  > </a
+  ><a name="1309" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1310"
+  > </a
+  ><a name="1311" class="Number"
+  >1</a
+  ><a name="1312"
+  > </a
+  ><a name="1313" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="1314"
+  > </a
+  ><a name="1315" href="Application.Algebra.html#1297" class="Bound"
+  >n</a
+  ><a name="1316"
+  > </a
+  ><a name="1317" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1318"
+  > </a
+  ><a name="1319" class="Number"
+  >2</a
+  ><a name="1320"
+  >
+  </a
+  ><a name="1323" href="Application.Algebra.html#1290" class="Function"
+  >ex</a
+  ><a name="1325"
+  > </a
+  ><a name="1326" href="Application.Algebra.html#1326" class="Bound"
+  >n</a
+  ><a name="1327"
+  > </a
+  ><a name="1328" class="Symbol"
+  >=</a
+  ><a name="1329"
+  > </a
+  ><a name="1330" href="Application.Algebra.html#617" class="Function"
+  >assoc</a
+  ><a name="1335"
+  > </a
+  ><a name="1336" href="Application.Algebra.html#1326" class="Bound"
+  >n</a
+  ><a name="1337"
+  > </a
+  ><a name="1338" class="Number"
+  >1</a
+  ><a name="1339"
+  > </a
+  ><a name="1340" class="Number"
+  >1</a
+  ></pre
+></p>
+<p>With local module opening:</p>
+<p><pre
+><a name="1380"
+  >
+</a
+  ><a name="1395" class="Keyword"
+  >module</a
+  ><a name="1401"
+  > </a
+  ><a name="1402" href="Application.Algebra.html#1402" class="Module"
+  >Usage&#8323;</a
+  ><a name="1408"
+  > </a
+  ><a name="1409" class="Keyword"
+  >where</a
+  ><a name="1414"
+  >
+  </a
+  ><a name="1417" href="Application.Algebra.html#1417" class="Function"
+  >ex</a
+  ><a name="1419"
+  > </a
+  ><a name="1420" class="Symbol"
+  >:</a
+  ><a name="1421"
+  > </a
+  ><a name="1422" class="Symbol"
+  >&#8704;</a
+  ><a name="1423"
+  > </a
+  ><a name="1424" href="Application.Algebra.html#1424" class="Bound"
+  >n</a
+  ><a name="1425"
+  > </a
+  ><a name="1426" class="Symbol"
+  >&#8594;</a
+  ><a name="1427"
+  > </a
+  ><a name="1428" class="Symbol"
+  >(</a
+  ><a name="1429" href="Application.Algebra.html#1424" class="Bound"
+  >n</a
+  ><a name="1430"
+  > </a
+  ><a name="1431" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1432"
+  > </a
+  ><a name="1433" class="Number"
+  >1</a
+  ><a name="1434" class="Symbol"
+  >)</a
+  ><a name="1435"
+  > </a
+  ><a name="1436" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1437"
+  > </a
+  ><a name="1438" class="Number"
+  >1</a
+  ><a name="1439"
+  > </a
+  ><a name="1440" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="1441"
+  > </a
+  ><a name="1442" href="Application.Algebra.html#1424" class="Bound"
+  >n</a
+  ><a name="1443"
+  > </a
+  ><a name="1444" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1445"
+  > </a
+  ><a name="1446" class="Number"
+  >2</a
+  ><a name="1447"
+  >
+  </a
+  ><a name="1450" href="Application.Algebra.html#1417" class="Function"
+  >ex</a
+  ><a name="1452"
+  > </a
+  ><a name="1453" href="Application.Algebra.html#1453" class="Bound"
+  >n</a
+  ><a name="1454"
+  > </a
+  ><a name="1455" class="Symbol"
+  >=</a
+  ><a name="1456"
+  > </a
+  ><a name="1457" href="Application.Algebra.html#617" class="Function"
+  >assoc</a
+  ><a name="1462"
+  > </a
+  ><a name="1463" href="Application.Algebra.html#1453" class="Bound"
+  >n</a
+  ><a name="1464"
+  > </a
+  ><a name="1465" class="Number"
+  >1</a
+  ><a name="1466"
+  > </a
+  ><a name="1467" class="Number"
+  >1</a
+  ><a name="1468"
+  >  </a
+  ><a name="1470" class="Keyword"
+  >where</a
+  ><a name="1475"
+  >
+    </a
+  ><a name="1480" class="Keyword"
+  >open</a
+  ><a name="1484"
+  > </a
+  ><a name="1485" href="Application.Algebra.html#553" class="Module"
+  >IsSemigroup</a
+  ><a name="1496"
+  > </a
+  ><a name="1497" href="Application.Algebra.html#763" class="Function"
+  >&#8469;+-isSemigroup</a
+  ></pre
+></p>
+<h1 id="monoid-property"><a href="#monoid-property">Monoid property</a></h1>
+<p><code>IsMonoid {A} _∙_ ε</code> represents the proposition that (<code>A</code>, <code>_∙_</code>, <code>ε</code>) is a monoid:</p>
+<p><pre
+><a name="1644"
+  >
+</a
+  ><a name="1659" class="Keyword"
+  >record</a
+  ><a name="1665"
+  > </a
+  ><a name="1666" href="Application.Algebra.html#1666" class="Record"
+  >IsMonoid</a
+  ><a name="1674"
+  > </a
+  ><a name="1675" class="Symbol"
+  >{</a
+  ><a name="1676" href="Application.Algebra.html#1676" class="Bound"
+  >A</a
+  ><a name="1677"
+  > </a
+  ><a name="1678" class="Symbol"
+  >:</a
+  ><a name="1679"
+  > </a
+  ><a name="1680" class="PrimitiveType"
+  >Set</a
+  ><a name="1683" class="Symbol"
+  >}</a
+  ><a name="1684"
+  > </a
+  ><a name="1685" class="Symbol"
+  >(</a
+  ><a name="1686" href="Application.Algebra.html#1686" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="1689"
+  > </a
+  ><a name="1690" class="Symbol"
+  >:</a
+  ><a name="1691"
+  > </a
+  ><a name="1692" href="Application.Algebra.html#1676" class="Bound"
+  >A</a
+  ><a name="1693"
+  > </a
+  ><a name="1694" class="Symbol"
+  >&#8594;</a
+  ><a name="1695"
+  > </a
+  ><a name="1696" href="Application.Algebra.html#1676" class="Bound"
+  >A</a
+  ><a name="1697"
+  > </a
+  ><a name="1698" class="Symbol"
+  >&#8594;</a
+  ><a name="1699"
+  > </a
+  ><a name="1700" href="Application.Algebra.html#1676" class="Bound"
+  >A</a
+  ><a name="1701" class="Symbol"
+  >)</a
+  ><a name="1702"
+  > </a
+  ><a name="1703" class="Symbol"
+  >(</a
+  ><a name="1704" href="Application.Algebra.html#1704" class="Bound"
+  >&#949;</a
+  ><a name="1705"
+  > </a
+  ><a name="1706" class="Symbol"
+  >:</a
+  ><a name="1707"
+  > </a
+  ><a name="1708" href="Application.Algebra.html#1676" class="Bound"
+  >A</a
+  ><a name="1709" class="Symbol"
+  >)</a
+  ><a name="1710"
+  > </a
+  ><a name="1711" class="Symbol"
+  >:</a
+  ><a name="1712"
+  > </a
+  ><a name="1713" class="PrimitiveType"
+  >Set</a
+  ><a name="1716"
+  > </a
+  ><a name="1717" class="Keyword"
+  >where</a
+  ><a name="1722"
+  >
+  </a
+  ><a name="1725" class="Keyword"
+  >field</a
+  ><a name="1730"
+  >
+    </a
+  ><a name="1735" href="Application.Algebra.html#1735" class="Field"
+  >isSemigroup</a
+  ><a name="1746"
+  > </a
+  ><a name="1747" class="Symbol"
+  >:</a
+  ><a name="1748"
+  > </a
+  ><a name="1749" href="Application.Algebra.html#553" class="Record"
+  >IsSemigroup</a
+  ><a name="1760"
+  > </a
+  ><a name="1761" href="Application.Algebra.html#1686" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="1764"
+  >
+    </a
+  ><a name="1769" href="Application.Algebra.html#1769" class="Field"
+  >identity</a
+  ><a name="1777"
+  >    </a
+  ><a name="1781" class="Symbol"
+  >:</a
+  ><a name="1782"
+  > </a
+  ><a name="1783" class="Symbol"
+  >(&#8704;</a
+  ><a name="1785"
+  > </a
+  ><a name="1786" href="Application.Algebra.html#1786" class="Bound"
+  >x</a
+  ><a name="1787"
+  > </a
+  ><a name="1788" class="Symbol"
+  >&#8594;</a
+  ><a name="1789"
+  > </a
+  ><a name="1790" href="Application.Algebra.html#1704" class="Bound"
+  >&#949;</a
+  ><a name="1791"
+  > </a
+  ><a name="1792" href="Application.Algebra.html#1686" class="Bound Operator"
+  >&#8729;</a
+  ><a name="1793"
+  > </a
+  ><a name="1794" href="Application.Algebra.html#1786" class="Bound"
+  >x</a
+  ><a name="1795"
+  > </a
+  ><a name="1796" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="1797"
+  > </a
+  ><a name="1798" href="Application.Algebra.html#1786" class="Bound"
+  >x</a
+  ><a name="1799" class="Symbol"
+  >)</a
+  ><a name="1800"
+  >  </a
+  ><a name="1802" href="Data.Product.html#1055" class="Function Operator"
+  >&#215;</a
+  ><a name="1803"
+  >  </a
+  ><a name="1805" class="Symbol"
+  >(&#8704;</a
+  ><a name="1807"
+  > </a
+  ><a name="1808" href="Application.Algebra.html#1808" class="Bound"
+  >x</a
+  ><a name="1809"
+  > </a
+  ><a name="1810" class="Symbol"
+  >&#8594;</a
+  ><a name="1811"
+  > </a
+  ><a name="1812" href="Application.Algebra.html#1808" class="Bound"
+  >x</a
+  ><a name="1813"
+  > </a
+  ><a name="1814" href="Application.Algebra.html#1686" class="Bound Operator"
+  >&#8729;</a
+  ><a name="1815"
+  > </a
+  ><a name="1816" href="Application.Algebra.html#1704" class="Bound"
+  >&#949;</a
+  ><a name="1817"
+  > </a
+  ><a name="1818" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="1819"
+  > </a
+  ><a name="1820" href="Application.Algebra.html#1808" class="Bound"
+  >x</a
+  ><a name="1821" class="Symbol"
+  >)</a
+  ><a name="1822"
+  >
+
+  </a
+  ><a name="1826" class="Keyword"
+  >open</a
+  ><a name="1830"
+  > </a
+  ><a name="1831" href="Application.Algebra.html#553" class="Module"
+  >IsSemigroup</a
+  ><a name="1842"
+  > </a
+  ><a name="1843" href="Application.Algebra.html#1735" class="Function"
+  >isSemigroup</a
+  ><a name="1854"
+  > </a
+  ><a name="1855" class="Keyword"
+  >public</a
+  ></pre
+></p>
+<p>Public opening at the end makes usage of <code>IsMonoid</code> easier.</p>
+<h1 id="exercise-1"><a href="#exercise-1">Exercise</a></h1>
+<p>Prove that (<code>ℕ</code>, <code>_+_</code>, <code>0</code>) forms a monoid!</p>
+<p><pre
+><a name="1999"
+  >
+</a
+  ><a name="2014" href="Application.Algebra.html#2014" class="Function"
+  >&#8469;+0-isMonoid</a
+  ><a name="2026"
+  > </a
+  ><a name="2027" class="Symbol"
+  >:</a
+  ><a name="2028"
+  > </a
+  ><a name="2029" href="Application.Algebra.html#1666" class="Record"
+  >IsMonoid</a
+  ><a name="2037"
+  > </a
+  ><a name="2038" href="Data.Nat.html#2239" class="Primitive Operator"
+  >_+_</a
+  ><a name="2041"
+  > </a
+  ><a name="2042" class="Number"
+  >0</a
+  ></pre
+></p>
+<h1 id="usage-1"><a href="#usage-1">Usage</a></h1>
+<p>Usage example:</p>
+<p><pre
+><a name="2409"
+  >
+</a
+  ><a name="2424" class="Keyword"
+  >module</a
+  ><a name="2430"
+  > </a
+  ><a name="2431" href="Application.Algebra.html#2431" class="Module"
+  >Usage&#8324;</a
+  ><a name="2437"
+  > </a
+  ><a name="2438" class="Keyword"
+  >where</a
+  ><a name="2443"
+  >
+  </a
+  ><a name="2446" href="Application.Algebra.html#2446" class="Function"
+  >ex</a
+  ><a name="2448"
+  > </a
+  ><a name="2449" class="Symbol"
+  >:</a
+  ><a name="2450"
+  > </a
+  ><a name="2451" class="Symbol"
+  >&#8704;</a
+  ><a name="2452"
+  > </a
+  ><a name="2453" href="Application.Algebra.html#2453" class="Bound"
+  >n</a
+  ><a name="2454"
+  > </a
+  ><a name="2455" class="Symbol"
+  >&#8594;</a
+  ><a name="2456"
+  > </a
+  ><a name="2457" class="Symbol"
+  >(</a
+  ><a name="2458" href="Application.Algebra.html#2453" class="Bound"
+  >n</a
+  ><a name="2459"
+  > </a
+  ><a name="2460" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="2461"
+  > </a
+  ><a name="2462" class="Number"
+  >0</a
+  ><a name="2463" class="Symbol"
+  >)</a
+  ><a name="2464"
+  > </a
+  ><a name="2465" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="2466"
+  > </a
+  ><a name="2467" href="Application.Algebra.html#2453" class="Bound"
+  >n</a
+  ><a name="2468"
+  > </a
+  ><a name="2469" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="2470"
+  > </a
+  ><a name="2471" href="Application.Algebra.html#2453" class="Bound"
+  >n</a
+  ><a name="2472"
+  > </a
+  ><a name="2473" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="2474"
+  > </a
+  ><a name="2475" href="Application.Algebra.html#2453" class="Bound"
+  >n</a
+  ><a name="2476"
+  >
+  </a
+  ><a name="2479" href="Application.Algebra.html#2446" class="Function"
+  >ex</a
+  ><a name="2481"
+  > </a
+  ><a name="2482" href="Application.Algebra.html#2482" class="Bound"
+  >n</a
+  ><a name="2483"
+  > </a
+  ><a name="2484" class="Symbol"
+  >=</a
+  ><a name="2485"
+  > </a
+  ><a name="2486" href="Relation.Binary.PropositionalEquality.html#1034" class="Function"
+  >cong</a
+  ><a name="2490"
+  > </a
+  ><a name="2491" class="Symbol"
+  >(&#955;</a
+  ><a name="2493"
+  > </a
+  ><a name="2494" href="Application.Algebra.html#2494" class="Bound"
+  >x</a
+  ><a name="2495"
+  > </a
+  ><a name="2496" class="Symbol"
+  >&#8594;</a
+  ><a name="2497"
+  > </a
+  ><a name="2498" href="Application.Algebra.html#2494" class="Bound"
+  >x</a
+  ><a name="2499"
+  > </a
+  ><a name="2500" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="2501"
+  > </a
+  ><a name="2502" href="Application.Algebra.html#2482" class="Bound"
+  >n</a
+  ><a name="2503" class="Symbol"
+  >)</a
+  ><a name="2504"
+  > </a
+  ><a name="2505" class="Symbol"
+  >(</a
+  ><a name="2506" href="Data.Product.html#539" class="Function"
+  >proj&#8322;</a
+  ><a name="2511"
+  > </a
+  ><a name="2512" href="Application.Algebra.html#1769" class="Function"
+  >identity</a
+  ><a name="2520"
+  > </a
+  ><a name="2521" href="Application.Algebra.html#2482" class="Bound"
+  >n</a
+  ><a name="2522" class="Symbol"
+  >)</a
+  ><a name="2523"
+  >  </a
+  ><a name="2525" class="Keyword"
+  >where</a
+  ><a name="2530"
+  >
+    </a
+  ><a name="2535" class="Keyword"
+  >open</a
+  ><a name="2539"
+  > </a
+  ><a name="2540" href="Application.Algebra.html#1666" class="Module"
+  >IsMonoid</a
+  ><a name="2548"
+  > </a
+  ><a name="2549" href="Application.Algebra.html#2014" class="Function"
+  >&#8469;+0-isMonoid</a
+  ><a name="2561"
+  >
+
+  </a
+  ><a name="2565" href="Application.Algebra.html#2565" class="Function"
+  >ex&#8242;</a
+  ><a name="2568"
+  > </a
+  ><a name="2569" class="Symbol"
+  >:</a
+  ><a name="2570"
+  > </a
+  ><a name="2571" class="Symbol"
+  >&#8704;</a
+  ><a name="2572"
+  > </a
+  ><a name="2573" href="Application.Algebra.html#2573" class="Bound"
+  >n</a
+  ><a name="2574"
+  > </a
+  ><a name="2575" class="Symbol"
+  >&#8594;</a
+  ><a name="2576"
+  > </a
+  ><a name="2577" class="Symbol"
+  >(</a
+  ><a name="2578" href="Application.Algebra.html#2573" class="Bound"
+  >n</a
+  ><a name="2579"
+  > </a
+  ><a name="2580" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="2581"
+  > </a
+  ><a name="2582" class="Number"
+  >0</a
+  ><a name="2583" class="Symbol"
+  >)</a
+  ><a name="2584"
+  > </a
+  ><a name="2585" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="2586"
+  > </a
+  ><a name="2587" href="Application.Algebra.html#2573" class="Bound"
+  >n</a
+  ><a name="2588"
+  > </a
+  ><a name="2589" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="2590"
+  > </a
+  ><a name="2591" href="Application.Algebra.html#2573" class="Bound"
+  >n</a
+  ><a name="2592"
+  > </a
+  ><a name="2593" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="2594"
+  > </a
+  ><a name="2595" href="Application.Algebra.html#2573" class="Bound"
+  >n</a
+  ><a name="2596"
+  >
+  </a
+  ><a name="2599" href="Application.Algebra.html#2565" class="Function"
+  >ex&#8242;</a
+  ><a name="2602"
+  > </a
+  ><a name="2603" href="Application.Algebra.html#2603" class="Bound"
+  >n</a
+  ><a name="2604"
+  > </a
+  ><a name="2605" class="Symbol"
+  >=</a
+  ><a name="2606"
+  > </a
+  ><a name="2607" href="Application.Algebra.html#617" class="Function"
+  >assoc</a
+  ><a name="2612"
+  > </a
+  ><a name="2613" href="Application.Algebra.html#2603" class="Bound"
+  >n</a
+  ><a name="2614"
+  > </a
+  ><a name="2615" class="Number"
+  >0</a
+  ><a name="2616"
+  > </a
+  ><a name="2617" href="Application.Algebra.html#2603" class="Bound"
+  >n</a
+  ><a name="2618"
+  >  </a
+  ><a name="2620" class="Keyword"
+  >where</a
+  ><a name="2625"
+  >
+    </a
+  ><a name="2630" class="Keyword"
+  >open</a
+  ><a name="2634"
+  > </a
+  ><a name="2635" href="Application.Algebra.html#1666" class="Module"
+  >IsMonoid</a
+  ><a name="2643"
+  > </a
+  ><a name="2644" href="Application.Algebra.html#2014" class="Function"
+  >&#8469;+0-isMonoid</a
+  ><a name="2656"
+  >   </a
+  ><a name="2659" class="Comment"
+  >-- we opened IsMonoid, not IsSemigroup</a
+  ></pre
+></p>
+<h1 id="named-binary-operations"><a href="#named-binary-operations">Named binary operations</a></h1>
+<p>Instead of <code>A → A → A</code> we can write <code>Op₂ A</code> if we define</p>
+<p><pre
+><a name="2816"
+  >
+</a
+  ><a name="2831" href="Application.Algebra.html#2831" class="Function"
+  >Op&#8322;</a
+  ><a name="2834"
+  > </a
+  ><a name="2835" class="Symbol"
+  >:</a
+  ><a name="2836"
+  > </a
+  ><a name="2837" class="PrimitiveType"
+  >Set</a
+  ><a name="2840"
+  > </a
+  ><a name="2841" class="Symbol"
+  >&#8594;</a
+  ><a name="2842"
+  > </a
+  ><a name="2843" class="PrimitiveType"
+  >Set</a
+  ><a name="2846"
+  >
+</a
+  ><a name="2847" href="Application.Algebra.html#2831" class="Function"
+  >Op&#8322;</a
+  ><a name="2850"
+  > </a
+  ><a name="2851" href="Application.Algebra.html#2851" class="Bound"
+  >A</a
+  ><a name="2852"
+  > </a
+  ><a name="2853" class="Symbol"
+  >=</a
+  ><a name="2854"
+  > </a
+  ><a name="2855" href="Application.Algebra.html#2851" class="Bound"
+  >A</a
+  ><a name="2856"
+  > </a
+  ><a name="2857" class="Symbol"
+  >&#8594;</a
+  ><a name="2858"
+  > </a
+  ><a name="2859" href="Application.Algebra.html#2851" class="Bound"
+  >A</a
+  ><a name="2860"
+  > </a
+  ><a name="2861" class="Symbol"
+  >&#8594;</a
+  ><a name="2862"
+  > </a
+  ><a name="2863" href="Application.Algebra.html#2851" class="Bound"
+  >A</a
+  ></pre
+></p>
+<p>Thus we can write</p>
+<p><pre
+><a name="2894"
+  >
+</a
+  ><a name="2909" class="Keyword"
+  >record</a
+  ><a name="2915"
+  > </a
+  ><a name="2916" href="Application.Algebra.html#2916" class="Record"
+  >IsSemigroup&#8242;</a
+  ><a name="2928"
+  > </a
+  ><a name="2929" class="Symbol"
+  >{</a
+  ><a name="2930" href="Application.Algebra.html#2930" class="Bound"
+  >A</a
+  ><a name="2931"
+  > </a
+  ><a name="2932" class="Symbol"
+  >:</a
+  ><a name="2933"
+  > </a
+  ><a name="2934" class="PrimitiveType"
+  >Set</a
+  ><a name="2937" class="Symbol"
+  >}</a
+  ><a name="2938"
+  > </a
+  ><a name="2939" class="Symbol"
+  >(</a
+  ><a name="2940" href="Application.Algebra.html#2940" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="2943"
+  > </a
+  ><a name="2944" class="Symbol"
+  >:</a
+  ><a name="2945"
+  > </a
+  ><a name="2946" href="Application.Algebra.html#2831" class="Function"
+  >Op&#8322;</a
+  ><a name="2949"
+  > </a
+  ><a name="2950" href="Application.Algebra.html#2930" class="Bound"
+  >A</a
+  ><a name="2951" class="Symbol"
+  >)</a
+  ><a name="2952"
+  > </a
+  ><a name="2953" class="Symbol"
+  >:</a
+  ><a name="2954"
+  > </a
+  ><a name="2955" class="PrimitiveType"
+  >Set</a
+  ><a name="2958"
+  > </a
+  ><a name="2959" class="Keyword"
+  >where</a
+  ><a name="2964"
+  >
+  </a
+  ><a name="2967" class="Keyword"
+  >field</a
+  ><a name="2972"
+  >
+    </a
+  ><a name="2977" href="Application.Algebra.html#2977" class="Field"
+  >assoc</a
+  ><a name="2982"
+  >         </a
+  ><a name="2991" class="Symbol"
+  >:</a
+  ><a name="2992"
+  > </a
+  ><a name="2993" class="Symbol"
+  >&#8704;</a
+  ><a name="2994"
+  > </a
+  ><a name="2995" href="Application.Algebra.html#2995" class="Bound"
+  >x</a
+  ><a name="2996"
+  > </a
+  ><a name="2997" href="Application.Algebra.html#2997" class="Bound"
+  >y</a
+  ><a name="2998"
+  > </a
+  ><a name="2999" href="Application.Algebra.html#2999" class="Bound"
+  >z</a
+  ><a name="3000"
+  > </a
+  ><a name="3001" class="Symbol"
+  >&#8594;</a
+  ><a name="3002"
+  >  </a
+  ><a name="3004" class="Symbol"
+  >(</a
+  ><a name="3005" href="Application.Algebra.html#2995" class="Bound"
+  >x</a
+  ><a name="3006"
+  > </a
+  ><a name="3007" href="Application.Algebra.html#2940" class="Bound Operator"
+  >&#8729;</a
+  ><a name="3008"
+  > </a
+  ><a name="3009" href="Application.Algebra.html#2997" class="Bound"
+  >y</a
+  ><a name="3010" class="Symbol"
+  >)</a
+  ><a name="3011"
+  > </a
+  ><a name="3012" href="Application.Algebra.html#2940" class="Bound Operator"
+  >&#8729;</a
+  ><a name="3013"
+  > </a
+  ><a name="3014" href="Application.Algebra.html#2999" class="Bound"
+  >z</a
+  ><a name="3015"
+  >  </a
+  ><a name="3017" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="3018"
+  >  </a
+  ><a name="3020" href="Application.Algebra.html#2995" class="Bound"
+  >x</a
+  ><a name="3021"
+  > </a
+  ><a name="3022" href="Application.Algebra.html#2940" class="Bound Operator"
+  >&#8729;</a
+  ><a name="3023"
+  > </a
+  ><a name="3024" class="Symbol"
+  >(</a
+  ><a name="3025" href="Application.Algebra.html#2997" class="Bound"
+  >y</a
+  ><a name="3026"
+  > </a
+  ><a name="3027" href="Application.Algebra.html#2940" class="Bound Operator"
+  >&#8729;</a
+  ><a name="3028"
+  > </a
+  ><a name="3029" href="Application.Algebra.html#2999" class="Bound"
+  >z</a
+  ><a name="3030" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="exercise-2"><a href="#exercise-2">Exercise</a></h1>
+<p>Define the type of unary operations as <code>Op₁</code>!</p>
+<h1 id="named-function-properties"><a href="#named-function-properties">Named function properties</a></h1>
+<p>We can name functions properties like</p>
+<p><pre
+><a name="3266"
+  >
+</a
+  ><a name="3281" href="Application.Algebra.html#3281" class="Function"
+  >Associative</a
+  ><a name="3292"
+  > </a
+  ><a name="3293" class="Symbol"
+  >:</a
+  ><a name="3294"
+  > </a
+  ><a name="3295" class="Symbol"
+  >{</a
+  ><a name="3296" href="Application.Algebra.html#3296" class="Bound"
+  >A</a
+  ><a name="3297"
+  > </a
+  ><a name="3298" class="Symbol"
+  >:</a
+  ><a name="3299"
+  > </a
+  ><a name="3300" class="PrimitiveType"
+  >Set</a
+  ><a name="3303" class="Symbol"
+  >}</a
+  ><a name="3304"
+  > </a
+  ><a name="3305" class="Symbol"
+  >&#8594;</a
+  ><a name="3306"
+  > </a
+  ><a name="3307" href="Application.Algebra.html#2831" class="Function"
+  >Op&#8322;</a
+  ><a name="3310"
+  > </a
+  ><a name="3311" href="Application.Algebra.html#3296" class="Bound"
+  >A</a
+  ><a name="3312"
+  > </a
+  ><a name="3313" class="Symbol"
+  >&#8594;</a
+  ><a name="3314"
+  > </a
+  ><a name="3315" class="PrimitiveType"
+  >Set</a
+  ><a name="3318"
+  >
+</a
+  ><a name="3319" href="Application.Algebra.html#3281" class="Function"
+  >Associative</a
+  ><a name="3330"
+  > </a
+  ><a name="3331" href="Application.Algebra.html#3331" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="3334"
+  > </a
+  ><a name="3335" class="Symbol"
+  >=</a
+  ><a name="3336"
+  > </a
+  ><a name="3337" class="Symbol"
+  >&#8704;</a
+  ><a name="3338"
+  > </a
+  ><a name="3339" href="Application.Algebra.html#3339" class="Bound"
+  >x</a
+  ><a name="3340"
+  > </a
+  ><a name="3341" href="Application.Algebra.html#3341" class="Bound"
+  >y</a
+  ><a name="3342"
+  > </a
+  ><a name="3343" href="Application.Algebra.html#3343" class="Bound"
+  >z</a
+  ><a name="3344"
+  > </a
+  ><a name="3345" class="Symbol"
+  >&#8594;</a
+  ><a name="3346"
+  >  </a
+  ><a name="3348" class="Symbol"
+  >(</a
+  ><a name="3349" href="Application.Algebra.html#3339" class="Bound"
+  >x</a
+  ><a name="3350"
+  > </a
+  ><a name="3351" href="Application.Algebra.html#3331" class="Bound Operator"
+  >&#8729;</a
+  ><a name="3352"
+  > </a
+  ><a name="3353" href="Application.Algebra.html#3341" class="Bound"
+  >y</a
+  ><a name="3354" class="Symbol"
+  >)</a
+  ><a name="3355"
+  > </a
+  ><a name="3356" href="Application.Algebra.html#3331" class="Bound Operator"
+  >&#8729;</a
+  ><a name="3357"
+  > </a
+  ><a name="3358" href="Application.Algebra.html#3343" class="Bound"
+  >z</a
+  ><a name="3359"
+  >  </a
+  ><a name="3361" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="3362"
+  >  </a
+  ><a name="3364" href="Application.Algebra.html#3339" class="Bound"
+  >x</a
+  ><a name="3365"
+  > </a
+  ><a name="3366" href="Application.Algebra.html#3331" class="Bound Operator"
+  >&#8729;</a
+  ><a name="3367"
+  > </a
+  ><a name="3368" class="Symbol"
+  >(</a
+  ><a name="3369" href="Application.Algebra.html#3341" class="Bound"
+  >y</a
+  ><a name="3370"
+  > </a
+  ><a name="3371" href="Application.Algebra.html#3331" class="Bound Operator"
+  >&#8729;</a
+  ><a name="3372"
+  > </a
+  ><a name="3373" href="Application.Algebra.html#3343" class="Bound"
+  >z</a
+  ><a name="3374" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p>After this definition we can write</p>
+<p><pre
+><a name="3422"
+  >
+</a
+  ><a name="3437" class="Keyword"
+  >record</a
+  ><a name="3443"
+  > </a
+  ><a name="3444" href="Application.Algebra.html#3444" class="Record"
+  >IsSemigroup&#8243;</a
+  ><a name="3456"
+  > </a
+  ><a name="3457" class="Symbol"
+  >{</a
+  ><a name="3458" href="Application.Algebra.html#3458" class="Bound"
+  >A</a
+  ><a name="3459"
+  > </a
+  ><a name="3460" class="Symbol"
+  >:</a
+  ><a name="3461"
+  > </a
+  ><a name="3462" class="PrimitiveType"
+  >Set</a
+  ><a name="3465" class="Symbol"
+  >}</a
+  ><a name="3466"
+  > </a
+  ><a name="3467" class="Symbol"
+  >(</a
+  ><a name="3468" href="Application.Algebra.html#3468" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="3471"
+  > </a
+  ><a name="3472" class="Symbol"
+  >:</a
+  ><a name="3473"
+  > </a
+  ><a name="3474" href="Application.Algebra.html#2831" class="Function"
+  >Op&#8322;</a
+  ><a name="3477"
+  > </a
+  ><a name="3478" href="Application.Algebra.html#3458" class="Bound"
+  >A</a
+  ><a name="3479" class="Symbol"
+  >)</a
+  ><a name="3480"
+  > </a
+  ><a name="3481" class="Symbol"
+  >:</a
+  ><a name="3482"
+  > </a
+  ><a name="3483" class="PrimitiveType"
+  >Set</a
+  ><a name="3486"
+  > </a
+  ><a name="3487" class="Keyword"
+  >where</a
+  ><a name="3492"
+  >
+  </a
+  ><a name="3495" class="Keyword"
+  >field</a
+  ><a name="3500"
+  >
+    </a
+  ><a name="3505" href="Application.Algebra.html#3505" class="Field"
+  >assoc</a
+  ><a name="3510"
+  >         </a
+  ><a name="3519" class="Symbol"
+  >:</a
+  ><a name="3520"
+  > </a
+  ><a name="3521" href="Application.Algebra.html#3281" class="Function"
+  >Associative</a
+  ><a name="3532"
+  > </a
+  ><a name="3533" href="Application.Algebra.html#3468" class="Bound Operator"
+  >_&#8729;_</a
+  ></pre
+></p>
+<h1 id="exercises"><a href="#exercises">Exercises</a></h1>
+<p>Define the following function properties!</p>
+<p><pre
+><a name="3612"
+  >
+</a
+  ><a name="3627" href="Application.Algebra.html#3627" class="Function"
+  >Commutative</a
+  ><a name="3638"
+  > </a
+  ><a name="3639" class="Symbol"
+  >:</a
+  ><a name="3640"
+  > </a
+  ><a name="3641" class="Symbol"
+  >{</a
+  ><a name="3642" href="Application.Algebra.html#3642" class="Bound"
+  >A</a
+  ><a name="3643"
+  > </a
+  ><a name="3644" class="Symbol"
+  >:</a
+  ><a name="3645"
+  > </a
+  ><a name="3646" class="PrimitiveType"
+  >Set</a
+  ><a name="3649" class="Symbol"
+  >}</a
+  ><a name="3650"
+  > </a
+  ><a name="3651" class="Symbol"
+  >&#8594;</a
+  ><a name="3652"
+  > </a
+  ><a name="3653" href="Application.Algebra.html#2831" class="Function"
+  >Op&#8322;</a
+  ><a name="3656"
+  > </a
+  ><a name="3657" href="Application.Algebra.html#3642" class="Bound"
+  >A</a
+  ><a name="3658"
+  > </a
+  ><a name="3659" class="Symbol"
+  >&#8594;</a
+  ><a name="3660"
+  > </a
+  ><a name="3661" class="PrimitiveType"
+  >Set</a
+  ><a name="3664"
+  > </a
+  ><a name="3665" class="Symbol"
+  >_</a
+  ></pre
+></p>
+<p>The first parameter of <code>LeftIdentity</code> is the neutral element.</p>
+<p><pre
+><a name="3817"
+  >
+</a
+  ><a name="3832" href="Application.Algebra.html#3832" class="Function"
+  >LeftIdentity</a
+  ><a name="3844"
+  > </a
+  ><a name="3845" class="Symbol"
+  >:</a
+  ><a name="3846"
+  > </a
+  ><a name="3847" class="Symbol"
+  >{</a
+  ><a name="3848" href="Application.Algebra.html#3848" class="Bound"
+  >A</a
+  ><a name="3849"
+  > </a
+  ><a name="3850" class="Symbol"
+  >:</a
+  ><a name="3851"
+  > </a
+  ><a name="3852" class="PrimitiveType"
+  >Set</a
+  ><a name="3855" class="Symbol"
+  >}</a
+  ><a name="3856"
+  > </a
+  ><a name="3857" class="Symbol"
+  >&#8594;</a
+  ><a name="3858"
+  > </a
+  ><a name="3859" href="Application.Algebra.html#3848" class="Bound"
+  >A</a
+  ><a name="3860"
+  > </a
+  ><a name="3861" class="Symbol"
+  >&#8594;</a
+  ><a name="3862"
+  > </a
+  ><a name="3863" href="Application.Algebra.html#2831" class="Function"
+  >Op&#8322;</a
+  ><a name="3866"
+  > </a
+  ><a name="3867" href="Application.Algebra.html#3848" class="Bound"
+  >A</a
+  ><a name="3868"
+  > </a
+  ><a name="3869" class="Symbol"
+  >&#8594;</a
+  ><a name="3870"
+  > </a
+  ><a name="3871" class="PrimitiveType"
+  >Set</a
+  ><a name="3874"
+  > </a
+  ><a name="3875" class="Symbol"
+  >_</a
+  ></pre
+></p>
+<p><pre
+><a name="3961"
+  >
+</a
+  ><a name="3976" href="Application.Algebra.html#3976" class="Function"
+  >RightIdentity</a
+  ><a name="3989"
+  > </a
+  ><a name="3990" class="Symbol"
+  >:</a
+  ><a name="3991"
+  > </a
+  ><a name="3992" class="Symbol"
+  >{</a
+  ><a name="3993" href="Application.Algebra.html#3993" class="Bound"
+  >A</a
+  ><a name="3994"
+  > </a
+  ><a name="3995" class="Symbol"
+  >:</a
+  ><a name="3996"
+  > </a
+  ><a name="3997" class="PrimitiveType"
+  >Set</a
+  ><a name="4000" class="Symbol"
+  >}</a
+  ><a name="4001"
+  > </a
+  ><a name="4002" class="Symbol"
+  >&#8594;</a
+  ><a name="4003"
+  > </a
+  ><a name="4004" href="Application.Algebra.html#3993" class="Bound"
+  >A</a
+  ><a name="4005"
+  > </a
+  ><a name="4006" class="Symbol"
+  >&#8594;</a
+  ><a name="4007"
+  > </a
+  ><a name="4008" href="Application.Algebra.html#2831" class="Function"
+  >Op&#8322;</a
+  ><a name="4011"
+  > </a
+  ><a name="4012" href="Application.Algebra.html#3993" class="Bound"
+  >A</a
+  ><a name="4013"
+  > </a
+  ><a name="4014" class="Symbol"
+  >&#8594;</a
+  ><a name="4015"
+  > </a
+  ><a name="4016" class="PrimitiveType"
+  >Set</a
+  ><a name="4019"
+  > </a
+  ><a name="4020" class="Symbol"
+  >_</a
+  ></pre
+></p>
+<p><pre
+><a name="4107"
+  >
+</a
+  ><a name="4122" href="Application.Algebra.html#4122" class="Function"
+  >Identity</a
+  ><a name="4130"
+  > </a
+  ><a name="4131" class="Symbol"
+  >:</a
+  ><a name="4132"
+  > </a
+  ><a name="4133" class="Symbol"
+  >{</a
+  ><a name="4134" href="Application.Algebra.html#4134" class="Bound"
+  >A</a
+  ><a name="4135"
+  > </a
+  ><a name="4136" class="Symbol"
+  >:</a
+  ><a name="4137"
+  > </a
+  ><a name="4138" class="PrimitiveType"
+  >Set</a
+  ><a name="4141" class="Symbol"
+  >}</a
+  ><a name="4142"
+  > </a
+  ><a name="4143" class="Symbol"
+  >&#8594;</a
+  ><a name="4144"
+  > </a
+  ><a name="4145" href="Application.Algebra.html#4134" class="Bound"
+  >A</a
+  ><a name="4146"
+  > </a
+  ><a name="4147" class="Symbol"
+  >&#8594;</a
+  ><a name="4148"
+  > </a
+  ><a name="4149" href="Application.Algebra.html#2831" class="Function"
+  >Op&#8322;</a
+  ><a name="4152"
+  > </a
+  ><a name="4153" href="Application.Algebra.html#4134" class="Bound"
+  >A</a
+  ><a name="4154"
+  > </a
+  ><a name="4155" class="Symbol"
+  >&#8594;</a
+  ><a name="4156"
+  > </a
+  ><a name="4157" class="PrimitiveType"
+  >Set</a
+  ><a name="4160"
+  > </a
+  ><a name="4161" class="Symbol"
+  >_</a
+  ></pre
+></p>
+<h1 id="commutative-monoid-property"><a href="#commutative-monoid-property">Commutative monoid property</a></h1>
+<p>Consider the following definition of the commutative monoid proposition:</p>
+<p><pre
+><a name="4394"
+  >
+</a
+  ><a name="4409" class="Keyword"
+  >record</a
+  ><a name="4415"
+  > </a
+  ><a name="4416" href="Application.Algebra.html#4416" class="Record"
+  >IsCommutativeMonoid&#8242;</a
+  ><a name="4436"
+  > </a
+  ><a name="4437" class="Symbol"
+  >{</a
+  ><a name="4438" href="Application.Algebra.html#4438" class="Bound"
+  >A</a
+  ><a name="4439"
+  > </a
+  ><a name="4440" class="Symbol"
+  >:</a
+  ><a name="4441"
+  > </a
+  ><a name="4442" class="PrimitiveType"
+  >Set</a
+  ><a name="4445" class="Symbol"
+  >}</a
+  ><a name="4446"
+  > </a
+  ><a name="4447" class="Symbol"
+  >(</a
+  ><a name="4448" href="Application.Algebra.html#4448" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="4451"
+  > </a
+  ><a name="4452" class="Symbol"
+  >:</a
+  ><a name="4453"
+  > </a
+  ><a name="4454" href="Application.Algebra.html#4438" class="Bound"
+  >A</a
+  ><a name="4455"
+  > </a
+  ><a name="4456" class="Symbol"
+  >&#8594;</a
+  ><a name="4457"
+  > </a
+  ><a name="4458" href="Application.Algebra.html#4438" class="Bound"
+  >A</a
+  ><a name="4459"
+  > </a
+  ><a name="4460" class="Symbol"
+  >&#8594;</a
+  ><a name="4461"
+  > </a
+  ><a name="4462" href="Application.Algebra.html#4438" class="Bound"
+  >A</a
+  ><a name="4463" class="Symbol"
+  >)</a
+  ><a name="4464"
+  > </a
+  ><a name="4465" class="Symbol"
+  >(</a
+  ><a name="4466" href="Application.Algebra.html#4466" class="Bound"
+  >&#949;</a
+  ><a name="4467"
+  > </a
+  ><a name="4468" class="Symbol"
+  >:</a
+  ><a name="4469"
+  > </a
+  ><a name="4470" href="Application.Algebra.html#4438" class="Bound"
+  >A</a
+  ><a name="4471" class="Symbol"
+  >)</a
+  ><a name="4472"
+  > </a
+  ><a name="4473" class="Symbol"
+  >:</a
+  ><a name="4474"
+  > </a
+  ><a name="4475" class="PrimitiveType"
+  >Set</a
+  ><a name="4478"
+  > </a
+  ><a name="4479" class="Keyword"
+  >where</a
+  ><a name="4484"
+  >
+  </a
+  ><a name="4487" class="Keyword"
+  >field</a
+  ><a name="4492"
+  >
+    </a
+  ><a name="4497" href="Application.Algebra.html#4497" class="Field"
+  >isMonoid</a
+  ><a name="4505"
+  > </a
+  ><a name="4506" class="Symbol"
+  >:</a
+  ><a name="4507"
+  > </a
+  ><a name="4508" href="Application.Algebra.html#1666" class="Record"
+  >IsMonoid</a
+  ><a name="4516"
+  > </a
+  ><a name="4517" href="Application.Algebra.html#4448" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="4520"
+  > </a
+  ><a name="4521" href="Application.Algebra.html#4466" class="Bound"
+  >&#949;</a
+  ><a name="4522"
+  >
+    </a
+  ><a name="4527" href="Application.Algebra.html#4527" class="Field"
+  >comm</a
+  ><a name="4531"
+  >     </a
+  ><a name="4536" class="Symbol"
+  >:</a
+  ><a name="4537"
+  > </a
+  ><a name="4538" href="Application.Algebra.html#3627" class="Function"
+  >Commutative</a
+  ><a name="4549"
+  > </a
+  ><a name="4550" href="Application.Algebra.html#4448" class="Bound Operator"
+  >_&#8729;_</a
+  ></pre
+></p>
+<p>This definition is correct, but redundant because commutativity and left identity properties entail the right identity property.</p>
+<p>A non-redundant and still easy-to-use definition is the following:</p>
+<p><pre
+><a name="4762"
+  >
+</a
+  ><a name="4777" class="Keyword"
+  >record</a
+  ><a name="4783"
+  > </a
+  ><a name="4784" href="Application.Algebra.html#4784" class="Record"
+  >IsCommutativeMonoid</a
+  ><a name="4803"
+  > </a
+  ><a name="4804" class="Symbol"
+  >{</a
+  ><a name="4805" href="Application.Algebra.html#4805" class="Bound"
+  >A</a
+  ><a name="4806"
+  > </a
+  ><a name="4807" class="Symbol"
+  >:</a
+  ><a name="4808"
+  > </a
+  ><a name="4809" class="PrimitiveType"
+  >Set</a
+  ><a name="4812" class="Symbol"
+  >}</a
+  ><a name="4813"
+  > </a
+  ><a name="4814" class="Symbol"
+  >(</a
+  ><a name="4815" href="Application.Algebra.html#4815" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="4818"
+  > </a
+  ><a name="4819" class="Symbol"
+  >:</a
+  ><a name="4820"
+  > </a
+  ><a name="4821" href="Application.Algebra.html#4805" class="Bound"
+  >A</a
+  ><a name="4822"
+  > </a
+  ><a name="4823" class="Symbol"
+  >&#8594;</a
+  ><a name="4824"
+  > </a
+  ><a name="4825" href="Application.Algebra.html#4805" class="Bound"
+  >A</a
+  ><a name="4826"
+  > </a
+  ><a name="4827" class="Symbol"
+  >&#8594;</a
+  ><a name="4828"
+  > </a
+  ><a name="4829" href="Application.Algebra.html#4805" class="Bound"
+  >A</a
+  ><a name="4830" class="Symbol"
+  >)</a
+  ><a name="4831"
+  > </a
+  ><a name="4832" class="Symbol"
+  >(</a
+  ><a name="4833" href="Application.Algebra.html#4833" class="Bound"
+  >&#949;</a
+  ><a name="4834"
+  > </a
+  ><a name="4835" class="Symbol"
+  >:</a
+  ><a name="4836"
+  > </a
+  ><a name="4837" href="Application.Algebra.html#4805" class="Bound"
+  >A</a
+  ><a name="4838" class="Symbol"
+  >)</a
+  ><a name="4839"
+  > </a
+  ><a name="4840" class="Symbol"
+  >:</a
+  ><a name="4841"
+  > </a
+  ><a name="4842" class="PrimitiveType"
+  >Set</a
+  ><a name="4845"
+  > </a
+  ><a name="4846" class="Keyword"
+  >where</a
+  ><a name="4851"
+  >
+  </a
+  ><a name="4854" class="Keyword"
+  >field</a
+  ><a name="4859"
+  >
+    </a
+  ><a name="4864" href="Application.Algebra.html#4864" class="Field"
+  >isSemigroup</a
+  ><a name="4875"
+  > </a
+  ><a name="4876" class="Symbol"
+  >:</a
+  ><a name="4877"
+  > </a
+  ><a name="4878" href="Application.Algebra.html#553" class="Record"
+  >IsSemigroup</a
+  ><a name="4889"
+  > </a
+  ><a name="4890" href="Application.Algebra.html#4815" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="4893"
+  >
+    </a
+  ><a name="4898" href="Application.Algebra.html#4898" class="Field"
+  >identity&#737;</a
+  ><a name="4907"
+  >   </a
+  ><a name="4910" class="Symbol"
+  >:</a
+  ><a name="4911"
+  > </a
+  ><a name="4912" href="Application.Algebra.html#3832" class="Function"
+  >LeftIdentity</a
+  ><a name="4924"
+  > </a
+  ><a name="4925" href="Application.Algebra.html#4833" class="Bound"
+  >&#949;</a
+  ><a name="4926"
+  > </a
+  ><a name="4927" href="Application.Algebra.html#4815" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="4930"
+  >
+    </a
+  ><a name="4935" href="Application.Algebra.html#4935" class="Field"
+  >comm</a
+  ><a name="4939"
+  >        </a
+  ><a name="4947" class="Symbol"
+  >:</a
+  ><a name="4948"
+  > </a
+  ><a name="4949" href="Application.Algebra.html#3627" class="Function"
+  >Commutative</a
+  ><a name="4960"
+  > </a
+  ><a name="4961" href="Application.Algebra.html#4815" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="4964"
+  >
+
+  </a
+  ><a name="4968" class="Keyword"
+  >open</a
+  ><a name="4972"
+  > </a
+  ><a name="4973" href="Application.Algebra.html#553" class="Module"
+  >IsSemigroup</a
+  ><a name="4984"
+  > </a
+  ><a name="4985" href="Application.Algebra.html#4864" class="Function"
+  >isSemigroup</a
+  ><a name="4996"
+  > </a
+  ><a name="4997" class="Keyword"
+  >public</a
+  ><a name="5003"
+  >
+
+  </a
+  ><a name="5007" href="Application.Algebra.html#5007" class="Function"
+  >identity</a
+  ><a name="5015"
+  > </a
+  ><a name="5016" class="Symbol"
+  >:</a
+  ><a name="5017"
+  > </a
+  ><a name="5018" href="Application.Algebra.html#4122" class="Function"
+  >Identity</a
+  ><a name="5026"
+  > </a
+  ><a name="5027" href="Application.Algebra.html#4833" class="Bound"
+  >&#949;</a
+  ><a name="5028"
+  > </a
+  ><a name="5029" href="Application.Algebra.html#4815" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="5032"
+  >
+  </a
+  ><a name="5035" href="Application.Algebra.html#5007" class="Function"
+  >identity</a
+  ><a name="5043"
+  > </a
+  ><a name="5044" class="Symbol"
+  >=</a
+  ><a name="5045"
+  > </a
+  ><a name="5046" class="Symbol"
+  >(</a
+  ><a name="5047" href="Application.Algebra.html#4898" class="Function"
+  >identity&#737;</a
+  ><a name="5056"
+  > </a
+  ><a name="5057" href="Data.Product.html#509" class="InductiveConstructor Operator"
+  >,</a
+  ><a name="5058"
+  > </a
+  ><a name="5059" href="Application.Algebra.html#5109" class="Function"
+  >identity&#691;</a
+  ><a name="5068" class="Symbol"
+  >)</a
+  ><a name="5069"
+  >
+    </a
+  ><a name="5074" class="Keyword"
+  >where</a
+  ><a name="5079"
+  >
+    </a
+  ><a name="5084" class="Keyword"
+  >open</a
+  ><a name="5088"
+  > </a
+  ><a name="5089" href="Relation.Binary.EqReasoning.html#1" class="Module"
+  >EqR</a
+  ><a name="5092"
+  > </a
+  ><a name="5093" class="Symbol"
+  >(</a
+  ><a name="5094" href="Relation.Binary.PropositionalEquality.html#1390" class="Function"
+  >setoid</a
+  ><a name="5100"
+  > </a
+  ><a name="5101" href="Application.Algebra.html#4805" class="Bound"
+  >A</a
+  ><a name="5102" class="Symbol"
+  >)</a
+  ><a name="5103"
+  >
+
+    </a
+  ><a name="5109" href="Application.Algebra.html#5109" class="Function"
+  >identity&#691;</a
+  ><a name="5118"
+  > </a
+  ><a name="5119" class="Symbol"
+  >:</a
+  ><a name="5120"
+  > </a
+  ><a name="5121" href="Application.Algebra.html#3976" class="Function"
+  >RightIdentity</a
+  ><a name="5134"
+  > </a
+  ><a name="5135" href="Application.Algebra.html#4833" class="Bound"
+  >&#949;</a
+  ><a name="5136"
+  > </a
+  ><a name="5137" href="Application.Algebra.html#4815" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="5140"
+  >
+    </a
+  ><a name="5145" href="Application.Algebra.html#5109" class="Function"
+  >identity&#691;</a
+  ><a name="5154"
+  > </a
+  ><a name="5155" class="Symbol"
+  >=</a
+  ><a name="5156"
+  > </a
+  ><a name="5157" class="Symbol"
+  >&#955;</a
+  ><a name="5158"
+  > </a
+  ><a name="5159" href="Application.Algebra.html#5159" class="Bound"
+  >x</a
+  ><a name="5160"
+  > </a
+  ><a name="5161" class="Symbol"
+  >&#8594;</a
+  ><a name="5162"
+  > </a
+  ><a name="5163" href="Relation.Binary.PreorderReasoning.html#1154" class="Function Operator"
+  >begin</a
+  ><a name="5168"
+  >
+      </a
+  ><a name="5175" class="Symbol"
+  >(</a
+  ><a name="5176" href="Application.Algebra.html#5159" class="Bound"
+  >x</a
+  ><a name="5177"
+  > </a
+  ><a name="5178" href="Application.Algebra.html#4815" class="Bound Operator"
+  >&#8729;</a
+  ><a name="5179"
+  > </a
+  ><a name="5180" href="Application.Algebra.html#4833" class="Bound"
+  >&#949;</a
+  ><a name="5181" class="Symbol"
+  >)</a
+  ><a name="5182"
+  >  </a
+  ><a name="5184" href="Relation.Binary.PreorderReasoning.html#1220" class="Function Operator"
+  >&#8776;&#10216;</a
+  ><a name="5186"
+  > </a
+  ><a name="5187" href="Application.Algebra.html#4935" class="Function"
+  >comm</a
+  ><a name="5191"
+  > </a
+  ><a name="5192" href="Application.Algebra.html#5159" class="Bound"
+  >x</a
+  ><a name="5193"
+  > </a
+  ><a name="5194" href="Application.Algebra.html#4833" class="Bound"
+  >&#949;</a
+  ><a name="5195"
+  > </a
+  ><a name="5196" href="Relation.Binary.PreorderReasoning.html#1220" class="Function Operator"
+  >&#10217;</a
+  ><a name="5197"
+  >
+      </a
+  ><a name="5204" class="Symbol"
+  >(</a
+  ><a name="5205" href="Application.Algebra.html#4833" class="Bound"
+  >&#949;</a
+  ><a name="5206"
+  > </a
+  ><a name="5207" href="Application.Algebra.html#4815" class="Bound Operator"
+  >&#8729;</a
+  ><a name="5208"
+  > </a
+  ><a name="5209" href="Application.Algebra.html#5159" class="Bound"
+  >x</a
+  ><a name="5210" class="Symbol"
+  >)</a
+  ><a name="5211"
+  >  </a
+  ><a name="5213" href="Relation.Binary.PreorderReasoning.html#1220" class="Function Operator"
+  >&#8776;&#10216;</a
+  ><a name="5215"
+  > </a
+  ><a name="5216" href="Application.Algebra.html#4898" class="Function"
+  >identity&#737;</a
+  ><a name="5225"
+  > </a
+  ><a name="5226" href="Application.Algebra.html#5159" class="Bound"
+  >x</a
+  ><a name="5227"
+  > </a
+  ><a name="5228" href="Relation.Binary.PreorderReasoning.html#1220" class="Function Operator"
+  >&#10217;</a
+  ><a name="5229"
+  >
+      </a
+  ><a name="5236" href="Application.Algebra.html#5159" class="Bound"
+  >x</a
+  ><a name="5237"
+  >        </a
+  ><a name="5245" href="Relation.Binary.PreorderReasoning.html#1519" class="Function Operator"
+  >&#8718;</a
+  ><a name="5246"
+  >
+
+  </a
+  ><a name="5250" href="Application.Algebra.html#5250" class="Function"
+  >isMonoid</a
+  ><a name="5258"
+  > </a
+  ><a name="5259" class="Symbol"
+  >:</a
+  ><a name="5260"
+  > </a
+  ><a name="5261" href="Application.Algebra.html#1666" class="Record"
+  >IsMonoid</a
+  ><a name="5269"
+  > </a
+  ><a name="5270" href="Application.Algebra.html#4815" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="5273"
+  > </a
+  ><a name="5274" href="Application.Algebra.html#4833" class="Bound"
+  >&#949;</a
+  ><a name="5275"
+  >
+  </a
+  ><a name="5278" href="Application.Algebra.html#5250" class="Function"
+  >isMonoid</a
+  ><a name="5286"
+  > </a
+  ><a name="5287" class="Symbol"
+  >=</a
+  ><a name="5288"
+  > </a
+  ><a name="5289" class="Keyword"
+  >record</a
+  ><a name="5295"
+  >
+    </a
+  ><a name="5300" class="Symbol"
+  >{</a
+  ><a name="5301"
+  > </a
+  ><a name="5302" class="Field"
+  >isSemigroup</a
+  ><a name="5313"
+  > </a
+  ><a name="5314" class="Symbol"
+  >=</a
+  ><a name="5315"
+  > </a
+  ><a name="5316" href="Application.Algebra.html#4864" class="Function"
+  >isSemigroup</a
+  ><a name="5327"
+  >
+    </a
+  ><a name="5332" class="Symbol"
+  >;</a
+  ><a name="5333"
+  > </a
+  ><a name="5334" class="Field"
+  >identity</a
+  ><a name="5342"
+  >    </a
+  ><a name="5346" class="Symbol"
+  >=</a
+  ><a name="5347"
+  > </a
+  ><a name="5348" href="Application.Algebra.html#5007" class="Function"
+  >identity</a
+  ><a name="5356"
+  >
+    </a
+  ><a name="5361" class="Symbol"
+  >}</a
+  ></pre
+></p>
+<ul>
+<li>When constructing <code>IsCommutativeMonoid</code>, we should provide the semigroup, left identity and commutativity properties.</li>
+<li>When using <code>IsCommutativeMonoid</code>, we have semigroup, associativity, monoid, identity and commutativity properties.</li>
+</ul>
+<h1 id="exercises-1"><a href="#exercises-1">Exercises</a></h1>
+<ol style="list-style-type: upper-alpha">
+<li><p>Define the group property!</p></li>
+<li><p>Define the abelian group property!</p></li>
+</ol>
+<h1 id="the-type-of-all-semigroups"><a href="#the-type-of-all-semigroups">The type of all semigroups</a></h1>
+<p>We can define the type of semigroups as</p>
+<p><pre
+><a name="5812"
+  >
+</a
+  ><a name="5827" class="Keyword"
+  >record</a
+  ><a name="5833"
+  > </a
+  ><a name="5834" href="Application.Algebra.html#5834" class="Record"
+  >Semigroup</a
+  ><a name="5843"
+  > </a
+  ><a name="5844" class="Symbol"
+  >:</a
+  ><a name="5845"
+  > </a
+  ><a name="5846" class="PrimitiveType"
+  >Set&#8321;</a
+  ><a name="5850"
+  > </a
+  ><a name="5851" class="Keyword"
+  >where</a
+  ><a name="5856"
+  >
+  </a
+  ><a name="5859" class="Keyword"
+  >infixl</a
+  ><a name="5865"
+  > </a
+  ><a name="5866" class="Number"
+  >7</a
+  ><a name="5867"
+  > _&#8729;_
+  </a
+  ><a name="5874" class="Keyword"
+  >field</a
+  ><a name="5879"
+  >
+    </a
+  ><a name="5884" href="Application.Algebra.html#5884" class="Field"
+  >Carrier</a
+  ><a name="5891"
+  >     </a
+  ><a name="5896" class="Symbol"
+  >:</a
+  ><a name="5897"
+  > </a
+  ><a name="5898" class="PrimitiveType"
+  >Set</a
+  ><a name="5901"
+  >
+    </a
+  ><a name="5906" href="Application.Algebra.html#5906" class="Field Operator"
+  >_&#8729;_</a
+  ><a name="5909"
+  >         </a
+  ><a name="5918" class="Symbol"
+  >:</a
+  ><a name="5919"
+  > </a
+  ><a name="5920" href="Application.Algebra.html#2831" class="Function"
+  >Op&#8322;</a
+  ><a name="5923"
+  > </a
+  ><a name="5924" href="Application.Algebra.html#5884" class="Bound"
+  >Carrier</a
+  ><a name="5931"
+  >
+    </a
+  ><a name="5936" href="Application.Algebra.html#5936" class="Field"
+  >isSemigroup</a
+  ><a name="5947"
+  > </a
+  ><a name="5948" class="Symbol"
+  >:</a
+  ><a name="5949"
+  > </a
+  ><a name="5950" href="Application.Algebra.html#553" class="Record"
+  >IsSemigroup</a
+  ><a name="5961"
+  > </a
+  ><a name="5962" href="Application.Algebra.html#5906" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="5965"
+  >
+
+  </a
+  ><a name="5969" class="Keyword"
+  >open</a
+  ><a name="5973"
+  > </a
+  ><a name="5974" href="Application.Algebra.html#553" class="Module"
+  >IsSemigroup</a
+  ><a name="5985"
+  > </a
+  ><a name="5986" href="Application.Algebra.html#5936" class="Function"
+  >isSemigroup</a
+  ><a name="5997"
+  > </a
+  ><a name="5998" class="Keyword"
+  >public</a
+  ></pre
+></p>
+<h1 id="exercises-2"><a href="#exercises-2">Exercises</a></h1>
+<ol style="list-style-type: upper-alpha">
+<li><p>Prove that (ℕ, +) is a semigroup (by proving that there is a corresponding element of <code>Semigroup</code>)!</p></li>
+<li><p>Define the types of all monoids as a record with fields <code>Carrier</code>, <code>_∙_</code>, <code>ε</code> and <code>isMonoid</code>!</p></li>
+</ol>
+<h1 id="some-defined-operations"><a href="#some-defined-operations">Some defined operations</a></h1>
+<p>We can define the multiplication by a natural number in any monoid:</p>
+<p><pre
+><a name="6650"
+  >
+</a
+  ><a name="6665" class="Keyword"
+  >module</a
+  ><a name="6671"
+  > </a
+  ><a name="6672" href="Application.Algebra.html#6672" class="Module"
+  >MonoidOperations</a
+  ><a name="6688"
+  > </a
+  ><a name="6689" class="Symbol"
+  >(</a
+  ><a name="6690" href="Application.Algebra.html#6690" class="Bound"
+  >m</a
+  ><a name="6691"
+  > </a
+  ><a name="6692" class="Symbol"
+  >:</a
+  ><a name="6693"
+  > </a
+  ><a name="6694" href="Application.Algebra.html#6266" class="Record"
+  >Monoid</a
+  ><a name="6700" class="Symbol"
+  >)</a
+  ><a name="6701"
+  > </a
+  ><a name="6702" class="Keyword"
+  >where</a
+  ><a name="6707"
+  >
+
+  </a
+  ><a name="6711" class="Keyword"
+  >open</a
+  ><a name="6715"
+  > </a
+  ><a name="6716" href="Application.Algebra.html#6266" class="Module"
+  >Monoid</a
+  ><a name="6722"
+  > </a
+  ><a name="6723" href="Application.Algebra.html#6690" class="Bound"
+  >m</a
+  ><a name="6724"
+  >
+
+  </a
+  ><a name="6728" class="Keyword"
+  >infixr</a
+  ><a name="6734"
+  > </a
+  ><a name="6735" class="Number"
+  >7</a
+  ><a name="6736"
+  > _&#215;&#8242;_
+
+  </a
+  ><a name="6745" href="Application.Algebra.html#6745" class="Function Operator"
+  >_&#215;&#8242;_</a
+  ><a name="6749"
+  > </a
+  ><a name="6750" class="Symbol"
+  >:</a
+  ><a name="6751"
+  > </a
+  ><a name="6752" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="6753"
+  > </a
+  ><a name="6754" class="Symbol"
+  >&#8594;</a
+  ><a name="6755"
+  > </a
+  ><a name="6756" href="Application.Algebra.html#6313" class="Function"
+  >Carrier</a
+  ><a name="6763"
+  > </a
+  ><a name="6764" class="Symbol"
+  >&#8594;</a
+  ><a name="6765"
+  > </a
+  ><a name="6766" href="Application.Algebra.html#6313" class="Function"
+  >Carrier</a
+  ><a name="6773"
+  >
+  </a
+  ><a name="6776" href="Data.Nat.html#714" class="InductiveConstructor"
+  >0</a
+  ><a name="6777"
+  >     </a
+  ><a name="6782" href="Application.Algebra.html#6745" class="Function Operator"
+  >&#215;&#8242;</a
+  ><a name="6784"
+  > </a
+  ><a name="6785" href="Application.Algebra.html#6785" class="Bound"
+  >x</a
+  ><a name="6786"
+  > </a
+  ><a name="6787" class="Symbol"
+  >=</a
+  ><a name="6788"
+  > </a
+  ><a name="6789" href="Application.Algebra.html#6359" class="Function"
+  >&#949;</a
+  ><a name="6790"
+  >
+  </a
+  ><a name="6793" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="6796"
+  > </a
+  ><a name="6797" href="Application.Algebra.html#6797" class="Bound"
+  >n</a
+  ><a name="6798"
+  > </a
+  ><a name="6799" href="Application.Algebra.html#6745" class="Function Operator"
+  >&#215;&#8242;</a
+  ><a name="6801"
+  > </a
+  ><a name="6802" href="Application.Algebra.html#6802" class="Bound"
+  >x</a
+  ><a name="6803"
+  > </a
+  ><a name="6804" class="Symbol"
+  >=</a
+  ><a name="6805"
+  > </a
+  ><a name="6806" href="Application.Algebra.html#6802" class="Bound"
+  >x</a
+  ><a name="6807"
+  > </a
+  ><a name="6808" href="Application.Algebra.html#6332" class="Function Operator"
+  >&#8729;</a
+  ><a name="6809"
+  > </a
+  ><a name="6810" href="Application.Algebra.html#6797" class="Bound"
+  >n</a
+  ><a name="6811"
+  > </a
+  ><a name="6812" href="Application.Algebra.html#6745" class="Function Operator"
+  >&#215;&#8242;</a
+  ><a name="6814"
+  > </a
+  ><a name="6815" href="Application.Algebra.html#6802" class="Bound"
+  >x</a
+  ></pre
+></p>
+<h1 id="standard-library-definitions"><a href="#standard-library-definitions">Standard Library definitions</a></h1>
+<p>You can find the given definitions in the following Standard Library modules:</p>
+<p><pre
+><a name="6955"
+  >
+</a
+  ><a name="6970" class="Keyword"
+  >import</a
+  ><a name="6976"
+  > </a
+  ><a name="6977" href="Algebra.FunctionProperties.html#1" class="Module"
+  >Algebra.FunctionProperties</a
+  ><a name="7003"
+  > </a
+  ><a name="7004" class="Keyword"
+  >using</a
+  ><a name="7009"
+  > </a
+  ><a name="7010" class="Symbol"
+  >(</a
+  ><a name="7011"
+  >Op&#8321;</a
+  ><a name="7014" class="Symbol"
+  >;</a
+  ><a name="7015"
+  > Op&#8322;</a
+  ><a name="7019" class="Symbol"
+  >)</a
+  ><a name="7020"
+  >
+</a
+  ><a name="7021" class="Keyword"
+  >import</a
+  ><a name="7027"
+  > </a
+  ><a name="7028" href="Algebra.FunctionProperties.html#1" class="Module"
+  >Algebra.FunctionProperties</a
+  ><a name="7054"
+  > </a
+  ><a name="7055" class="Keyword"
+  >using</a
+  ><a name="7060"
+  > </a
+  ><a name="7061" class="Symbol"
+  >(</a
+  ><a name="7062"
+  >Associative</a
+  ><a name="7073" class="Symbol"
+  >;</a
+  ><a name="7074"
+  > Commutative</a
+  ><a name="7086" class="Symbol"
+  >;</a
+  ><a name="7087"
+  > LeftIdentity</a
+  ><a name="7100" class="Symbol"
+  >;</a
+  ><a name="7101"
+  > RightIdentity</a
+  ><a name="7115" class="Symbol"
+  >;</a
+  ><a name="7116"
+  > Identity</a
+  ><a name="7125" class="Symbol"
+  >)</a
+  ><a name="7126"
+  > </a
+  ><a name="7127" class="Comment"
+  >-- and more function properties</a
+  ><a name="7158"
+  >
+</a
+  ><a name="7159" class="Keyword"
+  >import</a
+  ><a name="7165"
+  > </a
+  ><a name="7166" href="Algebra.Structures.html#1" class="Module"
+  >Algebra.Structures</a
+  ><a name="7184"
+  > </a
+  ><a name="7185" class="Keyword"
+  >using</a
+  ><a name="7190"
+  > </a
+  ><a name="7191" class="Symbol"
+  >(</a
+  ><a name="7192"
+  >IsSemigroup</a
+  ><a name="7203" class="Symbol"
+  >;</a
+  ><a name="7204"
+  > IsMonoid</a
+  ><a name="7213" class="Symbol"
+  >;</a
+  ><a name="7214"
+  > IsCommutativeMonoid</a
+  ><a name="7234" class="Symbol"
+  >)</a
+  ><a name="7235"
+  > </a
+  ><a name="7236" class="Comment"
+  >-- and more</a
+  ><a name="7247"
+  >
+</a
+  ><a name="7248" class="Keyword"
+  >import</a
+  ><a name="7254"
+  > </a
+  ><a name="7255" href="Algebra.html#1" class="Module"
+  >Algebra</a
+  ><a name="7262"
+  > </a
+  ><a name="7263" class="Keyword"
+  >using</a
+  ><a name="7268"
+  > </a
+  ><a name="7269" class="Symbol"
+  >(</a
+  ><a name="7270"
+  >Semigroup</a
+  ><a name="7279" class="Symbol"
+  >;</a
+  ><a name="7280"
+  > Monoid</a
+  ><a name="7287" class="Symbol"
+  >;</a
+  ><a name="7288"
+  > CommutativeMonoid</a
+  ><a name="7306" class="Symbol"
+  >)</a
+  ><a name="7307"
+  > </a
+  ><a name="7308" class="Comment"
+  >-- and more</a
+  ><a name="7319"
+  >
+</a
+  ><a name="7320" class="Keyword"
+  >import</a
+  ><a name="7326"
+  > </a
+  ><a name="7327" href="Algebra.Operations.html#1" class="Module"
+  >Algebra.Operations</a
+  ><a name="7345"
+  > </a
+  ><a name="7346" class="Comment"
+  >-- some defined operations</a
+  ><a name="7372"
+  >
+
+</a
+  ><a name="7374" class="Keyword"
+  >import</a
+  ><a name="7380"
+  > </a
+  ><a name="7381" href="Data.Nat.Properties.html#1" class="Module"
+  >Data.Nat.Properties</a
+  ><a name="7400"
+  > </a
+  ><a name="7401" class="Keyword"
+  >using</a
+  ><a name="7406"
+  > </a
+  ><a name="7407" class="Symbol"
+  >(</a
+  ><a name="7408"
+  >isCommutativeSemiring</a
+  ><a name="7429" class="Symbol"
+  >)</a
+  ><a name="7430"
+  > </a
+  ><a name="7431" class="Comment"
+  >-- this contains definitions like &#8469;+0-isMonoid</a
+  ></pre
+></p>
+<p>Notable differences</p>
+<ul>
+<li>The definitions are generalized from <code>_≡_</code> to an arbitrary equivalence relation.</li>
+<li>The definitions are universe polymorphic (see later).</li>
+</ul>
+<p>Example usage</p>
+<p><pre
+><a name="7668"
+  >
+</a
+  ><a name="7683" class="Keyword"
+  >module</a
+  ><a name="7689"
+  > </a
+  ><a name="7690" href="Application.Algebra.html#7690" class="Module"
+  >StdLibUsage</a
+  ><a name="7701"
+  > </a
+  ><a name="7702" class="Keyword"
+  >where</a
+  ><a name="7707"
+  >
+  </a
+  ><a name="7710" class="Keyword"
+  >open</a
+  ><a name="7714"
+  > </a
+  ><a name="7715" class="Keyword"
+  >import</a
+  ><a name="7721"
+  > </a
+  ><a name="7722" href="Algebra.Structures.html#1" class="Module"
+  >Algebra.Structures</a
+  ><a name="7740"
+  > </a
+  ><a name="7741" class="Symbol"
+  >as</a
+  ><a name="7743"
+  > </a
+  ><a name="7744" class="Module"
+  >A</a
+  ><a name="7745"
+  > </a
+  ><a name="7746" class="Keyword"
+  >using</a
+  ><a name="7751"
+  > </a
+  ><a name="7752" class="Symbol"
+  >(</a
+  ><a name="7753"
+  >IsCommutativeMonoid</a
+  ><a name="7772" class="Symbol"
+  >)</a
+  ><a name="7773"
+  >
+  </a
+  ><a name="7776" class="Keyword"
+  >open</a
+  ><a name="7780"
+  > </a
+  ><a name="7781" class="Keyword"
+  >import</a
+  ><a name="7787"
+  > </a
+  ><a name="7788" href="Data.Nat.Properties.html#1" class="Module"
+  >Data.Nat.Properties</a
+  ><a name="7807"
+  > </a
+  ><a name="7808" class="Keyword"
+  >using</a
+  ><a name="7813"
+  > </a
+  ><a name="7814" class="Symbol"
+  >(</a
+  ><a name="7815"
+  >isCommutativeSemiring</a
+  ><a name="7836" class="Symbol"
+  >)</a
+  ><a name="7837"
+  >
+
+  </a
+  ><a name="7841" class="Keyword"
+  >open</a
+  ><a name="7845"
+  > </a
+  ><a name="7846" href="Algebra.Structures.html#300" class="Module"
+  >A.</a
+  ><a name="7848" href="Algebra.Structures.html#6665" class="Module"
+  >IsCommutativeSemiring</a
+  ><a name="7869"
+  >
+  </a
+  ><a name="7872" class="Keyword"
+  >open</a
+  ><a name="7876"
+  > </a
+  ><a name="7877" href="Algebra.Structures.html#300" class="Module"
+  >A.</a
+  ><a name="7879" href="Algebra.Structures.html#1180" class="Module"
+  >IsCommutativeMonoid</a
+  ><a name="7898"
+  > </a
+  ><a name="7899" class="Symbol"
+  >(</a
+  ><a name="7900" href="Algebra.Structures.html#6827" class="Function"
+  >+-isCommutativeMonoid</a
+  ><a name="7921"
+  > </a
+  ><a name="7922" href="Data.Nat.Properties.html#3565" class="Function"
+  >isCommutativeSemiring</a
+  ><a name="7943" class="Symbol"
+  >)</a
+  ><a name="7944"
+  >
+
+  </a
+  ><a name="7948" href="Application.Algebra.html#7948" class="Function"
+  >ex</a
+  ><a name="7950"
+  > </a
+  ><a name="7951" class="Symbol"
+  >:</a
+  ><a name="7952"
+  > </a
+  ><a name="7953" class="Symbol"
+  >&#8704;</a
+  ><a name="7954"
+  > </a
+  ><a name="7955" href="Application.Algebra.html#7955" class="Bound"
+  >n</a
+  ><a name="7956"
+  > </a
+  ><a name="7957" class="Symbol"
+  >&#8594;</a
+  ><a name="7958"
+  > </a
+  ><a name="7959" class="Symbol"
+  >(</a
+  ><a name="7960" href="Application.Algebra.html#7955" class="Bound"
+  >n</a
+  ><a name="7961"
+  > </a
+  ><a name="7962" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="7963"
+  > </a
+  ><a name="7964" class="Number"
+  >1</a
+  ><a name="7965" class="Symbol"
+  >)</a
+  ><a name="7966"
+  > </a
+  ><a name="7967" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="7968"
+  > </a
+  ><a name="7969" class="Number"
+  >1</a
+  ><a name="7970"
+  > </a
+  ><a name="7971" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="7972"
+  > </a
+  ><a name="7973" href="Application.Algebra.html#7955" class="Bound"
+  >n</a
+  ><a name="7974"
+  > </a
+  ><a name="7975" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="7976"
+  > </a
+  ><a name="7977" class="Number"
+  >2</a
+  ><a name="7978"
+  >
+  </a
+  ><a name="7981" href="Application.Algebra.html#7948" class="Function"
+  >ex</a
+  ><a name="7983"
+  > </a
+  ><a name="7984" href="Application.Algebra.html#7984" class="Bound"
+  >n</a
+  ><a name="7985"
+  > </a
+  ><a name="7986" class="Symbol"
+  >=</a
+  ><a name="7987"
+  > </a
+  ><a name="7988" href="Algebra.Structures.html#811" class="Function"
+  >assoc</a
+  ><a name="7993"
+  > </a
+  ><a name="7994" href="Application.Algebra.html#7984" class="Bound"
+  >n</a
+  ><a name="7995"
+  > </a
+  ><a name="7996" class="Number"
+  >1</a
+  ><a name="7997"
+  > </a
+  ><a name="7998" class="Number"
+  >1</a
+  ></pre
+></p>
+</body>
+</html>

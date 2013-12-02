@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Constant Definitions</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Constant Definitions</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#import-list">Import List</a></li>
+<li><a href="#constant-definitions">Constant definitions</a></li>
+<li><a href="#normal-form">Normal form</a></li>
+</ul>
+</div>
+<h1 id="import-list"><a href="#import-list">Import List</a></h1>
+<p><pre
+><a name="48"
+  >
+</a
+  ><a name="63" class="Keyword"
+  >module</a
+  ><a name="69"
+  > </a
+  ><a name="70" href="Constants.html#1" class="Module"
+  >Constants</a
+  ><a name="79"
+  > </a
+  ><a name="80" class="Keyword"
+  >where</a
+  ><a name="85"
+  >
+
+</a
+  ><a name="87" class="Keyword"
+  >open</a
+  ><a name="91"
+  > </a
+  ><a name="92" class="Keyword"
+  >import</a
+  ><a name="98"
+  > </a
+  ><a name="99" href="Sets.Enumerated.html#1" class="Module"
+  >Sets.Enumerated</a
+  ><a name="114"
+  > </a
+  ><a name="115" class="Keyword"
+  >using</a
+  ><a name="120"
+  > </a
+  ><a name="121" class="Symbol"
+  >(</a
+  ><a name="122"
+  >Bool</a
+  ><a name="126" class="Symbol"
+  >;</a
+  ><a name="127"
+  > true</a
+  ><a name="132" class="Symbol"
+  >;</a
+  ><a name="133"
+  > false</a
+  ><a name="139" class="Symbol"
+  >)</a
+  ><a name="140"
+  >
+</a
+  ><a name="141" class="Keyword"
+  >open</a
+  ><a name="145"
+  > </a
+  ><a name="146" class="Keyword"
+  >import</a
+  ><a name="152"
+  > </a
+  ><a name="153" href="Sets.Recursive.html#1" class="Module"
+  >Sets.Recursive</a
+  ><a name="167"
+  > </a
+  ><a name="168" class="Keyword"
+  >using</a
+  ><a name="173"
+  > </a
+  ><a name="174" class="Symbol"
+  >(</a
+  ><a name="175"
+  >&#8469;</a
+  ><a name="176" class="Symbol"
+  >;</a
+  ><a name="177"
+  > zero</a
+  ><a name="182" class="Symbol"
+  >;</a
+  ><a name="183"
+  > suc</a
+  ><a name="187" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="constant-definitions"><a href="#constant-definitions">Constant definitions</a></h1>
+<p>Definition of <code>nine</code> with the constructors <code>suc</code> and <code>zero</code>:</p>
+<p><pre
+><a name="308"
+  >
+</a
+  ><a name="323" href="Constants.html#323" class="Function"
+  >nine</a
+  ><a name="327"
+  > </a
+  ><a name="328" class="Symbol"
+  >:</a
+  ><a name="329"
+  > </a
+  ><a name="330" href="Sets.Recursive.html#881" class="Datatype"
+  >&#8469;</a
+  ><a name="331"
+  >
+</a
+  ><a name="332" href="Constants.html#323" class="Function"
+  >nine</a
+  ><a name="336"
+  > </a
+  ><a name="337" class="Symbol"
+  >=</a
+  ><a name="338"
+  > </a
+  ><a name="339" href="Sets.Recursive.html#912" class="InductiveConstructor"
+  >suc</a
+  ><a name="342"
+  > </a
+  ><a name="343" class="Symbol"
+  >(</a
+  ><a name="344" href="Sets.Recursive.html#912" class="InductiveConstructor"
+  >suc</a
+  ><a name="347"
+  > </a
+  ><a name="348" class="Symbol"
+  >(</a
+  ><a name="349" href="Sets.Recursive.html#912" class="InductiveConstructor"
+  >suc</a
+  ><a name="352"
+  > </a
+  ><a name="353" class="Symbol"
+  >(</a
+  ><a name="354" href="Sets.Recursive.html#912" class="InductiveConstructor"
+  >suc</a
+  ><a name="357"
+  > </a
+  ><a name="358" class="Symbol"
+  >(</a
+  ><a name="359" href="Sets.Recursive.html#912" class="InductiveConstructor"
+  >suc</a
+  ><a name="362"
+  > </a
+  ><a name="363" class="Symbol"
+  >(</a
+  ><a name="364" href="Sets.Recursive.html#912" class="InductiveConstructor"
+  >suc</a
+  ><a name="367"
+  > </a
+  ><a name="368" class="Symbol"
+  >(</a
+  ><a name="369" href="Sets.Recursive.html#912" class="InductiveConstructor"
+  >suc</a
+  ><a name="372"
+  > </a
+  ><a name="373" class="Symbol"
+  >(</a
+  ><a name="374" href="Sets.Recursive.html#912" class="InductiveConstructor"
+  >suc</a
+  ><a name="377"
+  > </a
+  ><a name="378" class="Symbol"
+  >(</a
+  ><a name="379" href="Sets.Recursive.html#912" class="InductiveConstructor"
+  >suc</a
+  ><a name="382"
+  > </a
+  ><a name="383" href="Sets.Recursive.html#897" class="InductiveConstructor"
+  >zero</a
+  ><a name="387" class="Symbol"
+  >))))))))</a
+  ></pre
+></p>
+<p>Definition of <code>ten</code> with the help of <code>nine</code>:</p>
+<p><pre
+><a name="452"
+  >
+</a
+  ><a name="467" href="Constants.html#467" class="Function"
+  >ten</a
+  ><a name="470"
+  > </a
+  ><a name="471" class="Symbol"
+  >:</a
+  ><a name="472"
+  > </a
+  ><a name="473" href="Sets.Recursive.html#881" class="Datatype"
+  >&#8469;</a
+  ><a name="474"
+  >
+</a
+  ><a name="475" href="Constants.html#467" class="Function"
+  >ten</a
+  ><a name="478"
+  > </a
+  ><a name="479" class="Symbol"
+  >=</a
+  ><a name="480"
+  > </a
+  ><a name="481" href="Sets.Recursive.html#912" class="InductiveConstructor"
+  >suc</a
+  ><a name="484"
+  > </a
+  ><a name="485" href="Constants.html#323" class="Function"
+  >nine</a
+  ></pre
+></p>
+<p>The type signature is optional.</p>
+<h1 id="normal-form"><a href="#normal-form">Normal form</a></h1>
+<p><code>ten</code>, <code>suc nine</code> and <code>suc (suc (suc (suc (suc (suc (suc (suc (suc zero))))))))</code> equally represent the number 10, but only the last one is the so called <em>normal form</em>.</p>
+<p>One can ask for the normal form in the interactive environment by C-<code>c</code> C-<code>n</code>.</p>
+</body>
+</html>

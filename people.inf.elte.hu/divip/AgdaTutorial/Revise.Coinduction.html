@@ -1,0 +1,4810 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Coinduction Explained Constructively</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Coinduction Explained Constructively</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#import-list">Import List</a></li>
+<li><a href="#goal">Goal</a></li>
+<li><a href="#coinductive-data">Coinductive data</a></li>
+<li><a href="#main-functions">Main functions</a></li>
+<li><a href="#imaginary-definition">Imaginary definition</a></li>
+<li><a href="#example">Example</a></li>
+<li><a href="#information-ordering">Information ordering</a></li>
+<li><a href="#information-merging">Information merging</a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#corecursive-calls">Corecursive calls</a></li>
+<li><a href="#streams">Streams</a></li>
+<li><a href="#recursive-functions-on-streams">Recursive functions on streams</a></li>
+<li><a href="#corecursive-functions-on-streams">Corecursive functions on streams</a></li>
+<li><a href="#colists">Colists</a></li>
+<li><a href="#functions-on-colists">Functions on colists</a></li>
+<li><a href="#equality-on-streams">Equality on streams</a></li>
+<li><a href="#proofs-with-stream-equality">Proofs with stream equality</a></li>
+<li><a href="#other-relations-on-streams">Other relations on streams</a></li>
+<li><a href="#inductive-and-coinductive-sets">Inductive and coinductive sets</a></li>
+<li><a href="#inductive-and-coinductive-sets-2">Inductive and coinductive sets (2)</a></li>
+<li><a href="#sets-defined-with-coinduction">Sets defined with coinduction</a></li>
+<li><a href="#what-else">What Else?</a></li>
+</ul>
+</div>
+<p><pre
+><a name="39"
+  >
+</a
+  ><a name="54" class="Keyword"
+  >module</a
+  ><a name="60"
+  > </a
+  ><a name="61" href="Revise.Coinduction.html#1" class="Module"
+  >Revise.Coinduction</a
+  ><a name="79"
+  > </a
+  ><a name="80" class="Keyword"
+  >where</a
+  ></pre
+></p>
+<h1 id="import-list"><a href="#import-list">Import List</a></h1>
+<p><pre
+><a name="122"
+  >
+</a
+  ><a name="137" class="Keyword"
+  >open</a
+  ><a name="141"
+  > </a
+  ><a name="142" class="Keyword"
+  >import</a
+  ><a name="148"
+  > </a
+  ><a name="149" href="Data.Unit.html#1" class="Module"
+  >Data.Unit</a
+  ><a name="158"
+  > </a
+  ><a name="159" class="Keyword"
+  >using</a
+  ><a name="164"
+  > </a
+  ><a name="165" class="Symbol"
+  >(</a
+  ><a name="166"
+  >&#8868;</a
+  ><a name="167" class="Symbol"
+  >;</a
+  ><a name="168"
+  > tt</a
+  ><a name="171" class="Symbol"
+  >)</a
+  ><a name="172"
+  >
+</a
+  ><a name="173" class="Keyword"
+  >open</a
+  ><a name="177"
+  > </a
+  ><a name="178" class="Keyword"
+  >import</a
+  ><a name="184"
+  > </a
+  ><a name="185" href="Data.Sum.html#1" class="Module"
+  >Data.Sum</a
+  ><a name="193"
+  > </a
+  ><a name="194" class="Keyword"
+  >using</a
+  ><a name="199"
+  > </a
+  ><a name="200" class="Symbol"
+  >(</a
+  ><a name="201"
+  >_&#8846;_</a
+  ><a name="204" class="Symbol"
+  >;</a
+  ><a name="205"
+  > inj&#8321;</a
+  ><a name="210" class="Symbol"
+  >;</a
+  ><a name="211"
+  > inj&#8322;</a
+  ><a name="216" class="Symbol"
+  >)</a
+  ><a name="217"
+  >
+</a
+  ><a name="218" class="Keyword"
+  >open</a
+  ><a name="222"
+  > </a
+  ><a name="223" class="Keyword"
+  >import</a
+  ><a name="229"
+  > </a
+  ><a name="230" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="238"
+  > </a
+  ><a name="239" class="Keyword"
+  >using</a
+  ><a name="244"
+  > </a
+  ><a name="245" class="Symbol"
+  >(</a
+  ><a name="246"
+  >&#8469;</a
+  ><a name="247" class="Symbol"
+  >;</a
+  ><a name="248"
+  > zero</a
+  ><a name="253" class="Symbol"
+  >;</a
+  ><a name="254"
+  > suc</a
+  ><a name="258" class="Symbol"
+  >)</a
+  ><a name="259"
+  >
+</a
+  ><a name="260" class="Keyword"
+  >open</a
+  ><a name="264"
+  > </a
+  ><a name="265" class="Keyword"
+  >import</a
+  ><a name="271"
+  > </a
+  ><a name="272" href="Data.Vec.html#1" class="Module"
+  >Data.Vec</a
+  ><a name="280"
+  > </a
+  ><a name="281" class="Keyword"
+  >using</a
+  ><a name="286"
+  > </a
+  ><a name="287" class="Symbol"
+  >(</a
+  ><a name="288"
+  >Vec</a
+  ><a name="291" class="Symbol"
+  >;</a
+  ><a name="292"
+  > _&#8759;_</a
+  ><a name="296" class="Symbol"
+  >;</a
+  ><a name="297"
+  > []</a
+  ><a name="300" class="Symbol"
+  >)</a
+  ><a name="301"
+  >
+</a
+  ><a name="302" class="Keyword"
+  >open</a
+  ><a name="306"
+  > </a
+  ><a name="307" class="Keyword"
+  >import</a
+  ><a name="313"
+  > </a
+  ><a name="314" href="Relation.Binary.PropositionalEquality.html#1" class="Module"
+  >Relation.Binary.PropositionalEquality</a
+  ><a name="351"
+  > </a
+  ><a name="352" class="Keyword"
+  >using</a
+  ><a name="357"
+  > </a
+  ><a name="358" class="Symbol"
+  >(</a
+  ><a name="359"
+  >_&#8801;_</a
+  ><a name="362" class="Symbol"
+  >;</a
+  ><a name="363"
+  > refl</a
+  ><a name="368" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="goal"><a href="#goal">Goal</a></h1>
+<p>We would like to reperesent infinite data like streams.<br />Let's try:</p>
+<p><pre
+><a name="462"
+  >
+</a
+  ><a name="477" href="Revise.Coinduction.html#477" class="Function"
+  >Stream&#8320;</a
+  ><a name="484"
+  > </a
+  ><a name="485" class="Symbol"
+  >:</a
+  ><a name="486"
+  > </a
+  ><a name="487" class="PrimitiveType"
+  >Set</a
+  ><a name="490"
+  > </a
+  ><a name="491" class="Symbol"
+  >&#8594;</a
+  ><a name="492"
+  > </a
+  ><a name="493" class="PrimitiveType"
+  >Set</a
+  ><a name="496"
+  >
+</a
+  ><a name="497" href="Revise.Coinduction.html#477" class="Function"
+  >Stream&#8320;</a
+  ><a name="504"
+  > </a
+  ><a name="505" href="Revise.Coinduction.html#505" class="Bound"
+  >A</a
+  ><a name="506"
+  > </a
+  ><a name="507" class="Symbol"
+  >=</a
+  ><a name="508"
+  > </a
+  ><a name="509" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="510"
+  > </a
+  ><a name="511" class="Symbol"
+  >&#8594;</a
+  ><a name="512"
+  > </a
+  ><a name="513" href="Revise.Coinduction.html#505" class="Bound"
+  >A</a
+  ></pre
+></p>
+<p>OK, but</p>
+<ul>
+<li>Equality of streams should be stated elementwise.</li>
+<li>This representation may be inefficient.</li>
+<li>Lazy operations on streams are needed.</li>
+</ul>
+<h1 id="coinductive-data"><a href="#coinductive-data">Coinductive data</a></h1>
+<pre><code>data Stream (A : Set) : Set where
+  _∷_ : A → ∞ (Stream A) → Stream A</code></pre>
+<p>Coinductive data structures has the following properties:</p>
+<ul>
+<li>Coinductive data may be &quot;infinite&quot;.</li>
+<li>Lazy evaluation of functions can be expressed with coinductive arguments/results.</li>
+<li>Coinductive data have no normal form; Values are equal if they have the same behaviour (pattern matching gives the same result).</li>
+</ul>
+<h1 id="main-functions"><a href="#main-functions">Main functions</a></h1>
+<p>Three main functions to support coinduction:</p>
+<pre><code>∞  : (A : Set) → Set       -- laziness set constructor
+♯_ : {A : Set} → A → ∞ A   -- compiled as delay
+♭  : {A : Set} → ∞ A → A   -- compiled as force</code></pre>
+<p>These can be found in <code>Data.Coinduction</code>:</p>
+<p><pre
+><a name="1408"
+  >
+</a
+  ><a name="1423" class="Keyword"
+  >open</a
+  ><a name="1427"
+  > </a
+  ><a name="1428" class="Keyword"
+  >import</a
+  ><a name="1434"
+  > </a
+  ><a name="1435" href="Coinduction.html#1" class="Module"
+  >Coinduction</a
+  ><a name="1446"
+  > </a
+  ><a name="1447" class="Keyword"
+  >using</a
+  ><a name="1452"
+  > </a
+  ><a name="1453" class="Symbol"
+  >(</a
+  ><a name="1454"
+  >&#8734;</a
+  ><a name="1455" class="Symbol"
+  >;</a
+  ><a name="1456"
+  > &#9839;_</a
+  ><a name="1459" class="Symbol"
+  >;</a
+  ><a name="1460"
+  > &#9837;</a
+  ><a name="1462" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<ul>
+<li><code>♯_</code> is an operator, not a function, so <code>♯ f x</code> parses as <code>♯ (f x)</code>.</li>
+<li>Termination checking is special as we will see.</li>
+</ul>
+<h1 id="imaginary-definition"><a href="#imaginary-definition">Imaginary definition</a></h1>
+<p>One could imagine the main functions defined as follows:</p>
+<pre><code>infix 1000 ♯_
+
+data ∞ (A : Set) : Set where
+  ♯_ : A → ∞ A
+
+♭ : {A : Set} → ∞ A → A
+♭ (♯ x) = x</code></pre>
+<p>Differences</p>
+<ul>
+<li>No difference in parsing and type checking.</li>
+<li>Different termination checking rules.</li>
+<li>Pattern matching on the original <code>♯_</code> is not possible (we use <code>♭</code> instead).</li>
+<li><code>∞ A</code> has delayed (not yet computed) values, see later.</li>
+</ul>
+<h1 id="example"><a href="#example">Example</a></h1>
+<p>Definition of <code>ℕω</code>:</p>
+<p><pre
+><a name="2120"
+  >
+</a
+  ><a name="2135" class="Keyword"
+  >data</a
+  ><a name="2139"
+  > </a
+  ><a name="2140" href="Revise.Coinduction.html#2140" class="Datatype"
+  >&#8469;&#969;</a
+  ><a name="2142"
+  > </a
+  ><a name="2143" class="Symbol"
+  >:</a
+  ><a name="2144"
+  > </a
+  ><a name="2145" class="PrimitiveType"
+  >Set</a
+  ><a name="2148"
+  > </a
+  ><a name="2149" class="Keyword"
+  >where</a
+  ><a name="2154"
+  >
+  </a
+  ><a name="2157" href="Revise.Coinduction.html#2157" class="InductiveConstructor"
+  >zero</a
+  ><a name="2161"
+  > </a
+  ><a name="2162" class="Symbol"
+  >:</a
+  ><a name="2163"
+  >        </a
+  ><a name="2171" href="Revise.Coinduction.html#2140" class="Datatype"
+  >&#8469;&#969;</a
+  ><a name="2173"
+  >
+  </a
+  ><a name="2176" href="Revise.Coinduction.html#2176" class="InductiveConstructor"
+  >suc</a
+  ><a name="2179"
+  >  </a
+  ><a name="2181" class="Symbol"
+  >:</a
+  ><a name="2182"
+  > </a
+  ><a name="2183" href="Coinduction.html#414" class="Datatype"
+  >&#8734;</a
+  ><a name="2184"
+  > </a
+  ><a name="2185" href="Revise.Coinduction.html#2140" class="Datatype"
+  >&#8469;&#969;</a
+  ><a name="2187"
+  > </a
+  ><a name="2188" class="Symbol"
+  >&#8594;</a
+  ><a name="2189"
+  > </a
+  ><a name="2190" href="Revise.Coinduction.html#2140" class="Datatype"
+  >&#8469;&#969;</a
+  ></pre
+></p>
+<p>Some elements:</p>
+<pre><code>zero : ℕω
+suc (♯ zero) : ℕω
+suc (♯ suc (♯ zero)) : ℕω</code></pre>
+<p>If we assume a not yet computed value <code>v : ∞ ℕω</code>, we have also</p>
+<pre><code>suc v : ℕω
+suc (♯ suc v) : ℕω
+suc (♯ suc (♯ suc v)) : ℕω
+...</code></pre>
+<h1 id="information-ordering"><a href="#information-ordering">Information ordering</a></h1>
+<p><code>Having more information</code> relation (on open terms):</p>
+<ul>
+<li><code>suc v</code> ≺ <code>suc (♯ zero)</code>.</li>
+<li><code>suc v</code> ≺ <code>suc (♯ suc v)</code>.</li>
+<li><code>suc (♯ suc v)</code> ≺ <code>suc (♯ suc (♯ suc v))</code>.</li>
+<li>...</li>
+</ul>
+<p>Finite or infinite sequences of open terms with increasing information:</p>
+<p><code>a₁</code> ≺ <code>a₂</code> ≺ <code>a₃</code> ≺ ..., <code>aᵢ : A</code></p>
+<h1 id="information-merging"><a href="#information-merging">Information merging</a></h1>
+<p>If</p>
+<p><code>v : V</code> ⊢ <code>a₁ : A</code>,<br /><code>a₁</code> ≺ <code>a₂</code> ≺ <code>a₃</code> ≺ ...<br />and every occurence of <code>v</code> is &quot;refined&quot;,</p>
+<p>then</p>
+<p>Lim_<code>v</code>(<code>a₁</code> ≺ <code>a₂</code> ≺ <code>a₃</code> ≺ ...) <code>: A</code>.</p>
+<p><em>Example:</em></p>
+<p>Lim_<code>v</code>(<code>suc v</code> ≺ <code>suc (♯ suc v)</code> ≺ <code>suc (♯ suc (♯ suc v))</code> ≺ ...) <code>: ℕω</code></p>
+<p><em>Abbreviation:</em></p>
+<p><code>suc (♯ suc (♯ suc</code>...<code>))</code><br />= Lim_<code>v</code>(<code>suc v</code> ≺ <code>suc (♯ suc v)</code> ≺ <code>suc (♯ suc (♯ suc v))</code> ≺ ...)</p>
+<p>So</p>
+<p><code>ℕω</code> ≃ <code>ℕ ⊎ ⊤</code>.</p>
+<h1 id="exercises"><a href="#exercises">Exercises</a></h1>
+<p>What are the elements of the following set?</p>
+<p><pre
+><a name="3228"
+  >
+</a
+  ><a name="3243" class="Keyword"
+  >data</a
+  ><a name="3247"
+  > </a
+  ><a name="3248" href="Revise.Coinduction.html#3248" class="Datatype"
+  >&#8469;&#8315;</a
+  ><a name="3250"
+  > </a
+  ><a name="3251" class="Symbol"
+  >:</a
+  ><a name="3252"
+  > </a
+  ><a name="3253" class="PrimitiveType"
+  >Set</a
+  ><a name="3256"
+  > </a
+  ><a name="3257" class="Keyword"
+  >where</a
+  ><a name="3262"
+  >
+  </a
+  ><a name="3265" href="Revise.Coinduction.html#3265" class="InductiveConstructor"
+  >suc</a
+  ><a name="3268"
+  >  </a
+  ><a name="3270" class="Symbol"
+  >:</a
+  ><a name="3271"
+  > </a
+  ><a name="3272" href="Revise.Coinduction.html#3248" class="Datatype"
+  >&#8469;&#8315;</a
+  ><a name="3274"
+  > </a
+  ><a name="3275" class="Symbol"
+  >&#8594;</a
+  ><a name="3276"
+  > </a
+  ><a name="3277" href="Revise.Coinduction.html#3248" class="Datatype"
+  >&#8469;&#8315;</a
+  ></pre
+></p>
+<p>What are the elements of the following set?</p>
+<p><pre
+><a name="3335"
+  >
+</a
+  ><a name="3350" class="Keyword"
+  >data</a
+  ><a name="3354"
+  > </a
+  ><a name="3355" href="Revise.Coinduction.html#3355" class="Datatype"
+  >&#937;</a
+  ><a name="3356"
+  > </a
+  ><a name="3357" class="Symbol"
+  >:</a
+  ><a name="3358"
+  > </a
+  ><a name="3359" class="PrimitiveType"
+  >Set</a
+  ><a name="3362"
+  > </a
+  ><a name="3363" class="Keyword"
+  >where</a
+  ><a name="3368"
+  >
+  </a
+  ><a name="3371" href="Revise.Coinduction.html#3371" class="InductiveConstructor"
+  >suc</a
+  ><a name="3374"
+  >  </a
+  ><a name="3376" class="Symbol"
+  >:</a
+  ><a name="3377"
+  > </a
+  ><a name="3378" href="Coinduction.html#414" class="Datatype"
+  >&#8734;</a
+  ><a name="3379"
+  > </a
+  ><a name="3380" href="Revise.Coinduction.html#3355" class="Datatype"
+  >&#937;</a
+  ><a name="3381"
+  > </a
+  ><a name="3382" class="Symbol"
+  >&#8594;</a
+  ><a name="3383"
+  > </a
+  ><a name="3384" href="Revise.Coinduction.html#3355" class="Datatype"
+  >&#937;</a
+  ></pre
+></p>
+<h1 id="corecursive-calls"><a href="#corecursive-calls">Corecursive calls</a></h1>
+<p>Consider the following definition:</p>
+<p><pre
+><a name="3473"
+  >
+</a
+  ><a name="3488" href="Revise.Coinduction.html#3488" class="Function"
+  >&#969;</a
+  ><a name="3489"
+  > </a
+  ><a name="3490" class="Symbol"
+  >:</a
+  ><a name="3491"
+  > </a
+  ><a name="3492" href="Revise.Coinduction.html#2140" class="Datatype"
+  >&#8469;&#969;</a
+  ><a name="3494"
+  >
+</a
+  ><a name="3495" href="Revise.Coinduction.html#3488" class="Function"
+  >&#969;</a
+  ><a name="3496"
+  > </a
+  ><a name="3497" class="Symbol"
+  >=</a
+  ><a name="3498"
+  > </a
+  ><a name="3499" href="Revise.Coinduction.html#2176" class="InductiveConstructor"
+  >suc</a
+  ><a name="3502"
+  > </a
+  ><a name="3503" class="Symbol"
+  >(</a
+  ><a name="3504" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="3505"
+  > </a
+  ><a name="3506" href="Revise.Coinduction.html#3488" class="Function"
+  >&#969;</a
+  ><a name="3507" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p>&quot;Values of coinductive types can be constructed using corecursion, which does not need to terminate, but has to be productive. As an approximation to productivity the termination checker requires that corecursive definitions are guarded by coinductive constructors.&quot;</p>
+<p>So defintion of <code>ω</code> is valid!</p>
+<h1 id="streams"><a href="#streams">Streams</a></h1>
+<p>Streams are important corecursive sets.</p>
+<p><pre
+><a name="3877"
+  >
+</a
+  ><a name="3892" class="Keyword"
+  >data</a
+  ><a name="3896"
+  > </a
+  ><a name="3897" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="3903"
+  > </a
+  ><a name="3904" class="Symbol"
+  >(</a
+  ><a name="3905" href="Revise.Coinduction.html#3905" class="Bound"
+  >A</a
+  ><a name="3906"
+  > </a
+  ><a name="3907" class="Symbol"
+  >:</a
+  ><a name="3908"
+  > </a
+  ><a name="3909" class="PrimitiveType"
+  >Set</a
+  ><a name="3912" class="Symbol"
+  >)</a
+  ><a name="3913"
+  > </a
+  ><a name="3914" class="Symbol"
+  >:</a
+  ><a name="3915"
+  > </a
+  ><a name="3916" class="PrimitiveType"
+  >Set</a
+  ><a name="3919"
+  > </a
+  ><a name="3920" class="Keyword"
+  >where</a
+  ><a name="3925"
+  >
+  </a
+  ><a name="3928" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >_&#8759;_</a
+  ><a name="3931"
+  > </a
+  ><a name="3932" class="Symbol"
+  >:</a
+  ><a name="3933"
+  > </a
+  ><a name="3934" href="Revise.Coinduction.html#3905" class="Bound"
+  >A</a
+  ><a name="3935"
+  > </a
+  ><a name="3936" class="Symbol"
+  >&#8594;</a
+  ><a name="3937"
+  > </a
+  ><a name="3938" href="Coinduction.html#414" class="Datatype"
+  >&#8734;</a
+  ><a name="3939"
+  > </a
+  ><a name="3940" class="Symbol"
+  >(</a
+  ><a name="3941" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="3947"
+  > </a
+  ><a name="3948" href="Revise.Coinduction.html#3905" class="Bound"
+  >A</a
+  ><a name="3949" class="Symbol"
+  >)</a
+  ><a name="3950"
+  > </a
+  ><a name="3951" class="Symbol"
+  >&#8594;</a
+  ><a name="3952"
+  > </a
+  ><a name="3953" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="3959"
+  > </a
+  ><a name="3960" href="Revise.Coinduction.html#3905" class="Bound"
+  >A</a
+  ><a name="3961"
+  >
+
+</a
+  ><a name="3963" class="Keyword"
+  >infixr</a
+  ><a name="3969"
+  > </a
+  ><a name="3970" class="Number"
+  >5</a
+  ><a name="3971"
+  > _&#8759;_</a
+  ></pre
+></p>
+<p>Tabulation (assuming just two elements in <code>ℕ</code>):</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Set</th>
+<th align="left">1st,</th>
+<th align="left">2nd,</th>
+<th align="left">3rd,</th>
+<th align="left">...</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Stream ℕ ={</td>
+<td align="left"><code>0 ∷ v</code> ≺</td>
+<td align="left"><code>0 ∷ ♯ 0 ∷ v</code> ≺</td>
+<td align="left"><code>0 ∷ ♯ 0 ∷ ♯ 0 ∷ v</code> ≺</td>
+<td align="left">...</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>0 ∷ ♯ 0 ∷ ♯ 1 ∷ v</code> ≺</td>
+<td align="left">...</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">...</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>0 ∷ ♯ 1 ∷ v</code> ≺</td>
+<td align="left"><code>0 ∷ ♯ 1 ∷ ♯ 0 ∷ v</code> ≺</td>
+<td align="left">...</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>0 ∷ ♯ 1 ∷ ♯ 1 ∷ v</code> ≺</td>
+<td align="left">...</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">...</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"><code>1 ∷ v</code> ≺</td>
+<td align="left"><code>1 ∷ ♯ 0 ∷ v</code> ≺</td>
+<td align="left"><code>1 ∷ ♯ 0 ∷ ♯ 0 ∷ v</code> ≺</td>
+<td align="left">...</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>1 ∷ ♯ 0 ∷ ♯ 1 ∷ v</code> ≺</td>
+<td align="left">...</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">...</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>1 ∷ ♯ 1 ∷ v</code> ≺</td>
+<td align="left"><code>1 ∷ ♯ 1 ∷ ♯ 0 ∷ v</code> ≺</td>
+<td align="left">...</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>1 ∷ ♯ 1 ∷ ♯ 1 ∷ v</code> ≺</td>
+<td align="left">...</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">...</td>
+</tr>
+</tbody>
+</table>
+<p><code>Stream A</code> ≃ <code>ℕ → A</code>.</p>
+<p>Note that <code>0 ∷ ♯ 0 ∷ ♯ 1 ∷ v</code> parses as <code>0 ∷ ♯(0 ∷ ♯(1 ∷ v))</code>.</p>
+<h1 id="recursive-functions-on-streams"><a href="#recursive-functions-on-streams">Recursive functions on streams</a></h1>
+<p><pre
+><a name="5074"
+  >
+</a
+  ><a name="5089" href="Revise.Coinduction.html#5089" class="Function"
+  >head</a
+  ><a name="5093"
+  > </a
+  ><a name="5094" class="Symbol"
+  >:</a
+  ><a name="5095"
+  > </a
+  ><a name="5096" class="Symbol"
+  >{</a
+  ><a name="5097" href="Revise.Coinduction.html#5097" class="Bound"
+  >A</a
+  ><a name="5098"
+  > </a
+  ><a name="5099" class="Symbol"
+  >:</a
+  ><a name="5100"
+  > </a
+  ><a name="5101" class="PrimitiveType"
+  >Set</a
+  ><a name="5104" class="Symbol"
+  >}</a
+  ><a name="5105"
+  > </a
+  ><a name="5106" class="Symbol"
+  >&#8594;</a
+  ><a name="5107"
+  > </a
+  ><a name="5108" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="5114"
+  > </a
+  ><a name="5115" href="Revise.Coinduction.html#5097" class="Bound"
+  >A</a
+  ><a name="5116"
+  > </a
+  ><a name="5117" class="Symbol"
+  >&#8594;</a
+  ><a name="5118"
+  > </a
+  ><a name="5119" href="Revise.Coinduction.html#5097" class="Bound"
+  >A</a
+  ><a name="5120"
+  >
+</a
+  ><a name="5121" href="Revise.Coinduction.html#5089" class="Function"
+  >head</a
+  ><a name="5125"
+  > </a
+  ><a name="5126" class="Symbol"
+  >(</a
+  ><a name="5127" href="Revise.Coinduction.html#5127" class="Bound"
+  >x</a
+  ><a name="5128"
+  > </a
+  ><a name="5129" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="5130"
+  > </a
+  ><a name="5131" href="Revise.Coinduction.html#5131" class="Bound"
+  >xs</a
+  ><a name="5133" class="Symbol"
+  >)</a
+  ><a name="5134"
+  > </a
+  ><a name="5135" class="Symbol"
+  >=</a
+  ><a name="5136"
+  > </a
+  ><a name="5137" href="Revise.Coinduction.html#5127" class="Bound"
+  >x</a
+  ><a name="5138"
+  >
+
+</a
+  ><a name="5140" href="Revise.Coinduction.html#5140" class="Function"
+  >tail</a
+  ><a name="5144"
+  > </a
+  ><a name="5145" class="Symbol"
+  >:</a
+  ><a name="5146"
+  > </a
+  ><a name="5147" class="Symbol"
+  >{</a
+  ><a name="5148" href="Revise.Coinduction.html#5148" class="Bound"
+  >A</a
+  ><a name="5149"
+  > </a
+  ><a name="5150" class="Symbol"
+  >:</a
+  ><a name="5151"
+  > </a
+  ><a name="5152" class="PrimitiveType"
+  >Set</a
+  ><a name="5155" class="Symbol"
+  >}</a
+  ><a name="5156"
+  > </a
+  ><a name="5157" class="Symbol"
+  >&#8594;</a
+  ><a name="5158"
+  > </a
+  ><a name="5159" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="5165"
+  > </a
+  ><a name="5166" href="Revise.Coinduction.html#5148" class="Bound"
+  >A</a
+  ><a name="5167"
+  > </a
+  ><a name="5168" class="Symbol"
+  >&#8594;</a
+  ><a name="5169"
+  > </a
+  ><a name="5170" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="5176"
+  > </a
+  ><a name="5177" href="Revise.Coinduction.html#5148" class="Bound"
+  >A</a
+  ><a name="5178"
+  >
+</a
+  ><a name="5179" href="Revise.Coinduction.html#5140" class="Function"
+  >tail</a
+  ><a name="5183"
+  > </a
+  ><a name="5184" class="Symbol"
+  >(</a
+  ><a name="5185" href="Revise.Coinduction.html#5185" class="Bound"
+  >x</a
+  ><a name="5186"
+  > </a
+  ><a name="5187" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="5188"
+  > </a
+  ><a name="5189" href="Revise.Coinduction.html#5189" class="Bound"
+  >xs</a
+  ><a name="5191" class="Symbol"
+  >)</a
+  ><a name="5192"
+  > </a
+  ><a name="5193" class="Symbol"
+  >=</a
+  ><a name="5194"
+  > </a
+  ><a name="5195" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="5196"
+  > </a
+  ><a name="5197" href="Revise.Coinduction.html#5189" class="Bound"
+  >xs</a
+  ><a name="5199"
+  >
+
+</a
+  ><a name="5201" href="Revise.Coinduction.html#5201" class="Function"
+  >lookup</a
+  ><a name="5207"
+  > </a
+  ><a name="5208" class="Symbol"
+  >:</a
+  ><a name="5209"
+  > </a
+  ><a name="5210" class="Symbol"
+  >{</a
+  ><a name="5211" href="Revise.Coinduction.html#5211" class="Bound"
+  >A</a
+  ><a name="5212"
+  > </a
+  ><a name="5213" class="Symbol"
+  >:</a
+  ><a name="5214"
+  > </a
+  ><a name="5215" class="PrimitiveType"
+  >Set</a
+  ><a name="5218" class="Symbol"
+  >}</a
+  ><a name="5219"
+  > </a
+  ><a name="5220" class="Symbol"
+  >&#8594;</a
+  ><a name="5221"
+  > </a
+  ><a name="5222" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="5223"
+  > </a
+  ><a name="5224" class="Symbol"
+  >&#8594;</a
+  ><a name="5225"
+  > </a
+  ><a name="5226" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="5232"
+  > </a
+  ><a name="5233" href="Revise.Coinduction.html#5211" class="Bound"
+  >A</a
+  ><a name="5234"
+  > </a
+  ><a name="5235" class="Symbol"
+  >&#8594;</a
+  ><a name="5236"
+  > </a
+  ><a name="5237" href="Revise.Coinduction.html#5211" class="Bound"
+  >A</a
+  ><a name="5238"
+  >
+</a
+  ><a name="5239" href="Revise.Coinduction.html#5201" class="Function"
+  >lookup</a
+  ><a name="5245"
+  > </a
+  ><a name="5246" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="5250"
+  >    </a
+  ><a name="5254" class="Symbol"
+  >(</a
+  ><a name="5255" href="Revise.Coinduction.html#5255" class="Bound"
+  >x</a
+  ><a name="5256"
+  > </a
+  ><a name="5257" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="5258"
+  > </a
+  ><a name="5259" href="Revise.Coinduction.html#5259" class="Bound"
+  >xs</a
+  ><a name="5261" class="Symbol"
+  >)</a
+  ><a name="5262"
+  > </a
+  ><a name="5263" class="Symbol"
+  >=</a
+  ><a name="5264"
+  > </a
+  ><a name="5265" href="Revise.Coinduction.html#5255" class="Bound"
+  >x</a
+  ><a name="5266"
+  >
+</a
+  ><a name="5267" href="Revise.Coinduction.html#5201" class="Function"
+  >lookup</a
+  ><a name="5273"
+  > </a
+  ><a name="5274" class="Symbol"
+  >(</a
+  ><a name="5275" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="5278"
+  > </a
+  ><a name="5279" href="Revise.Coinduction.html#5279" class="Bound"
+  >n</a
+  ><a name="5280" class="Symbol"
+  >)</a
+  ><a name="5281"
+  > </a
+  ><a name="5282" class="Symbol"
+  >(</a
+  ><a name="5283" href="Revise.Coinduction.html#5283" class="Bound"
+  >x</a
+  ><a name="5284"
+  > </a
+  ><a name="5285" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="5286"
+  > </a
+  ><a name="5287" href="Revise.Coinduction.html#5287" class="Bound"
+  >xs</a
+  ><a name="5289" class="Symbol"
+  >)</a
+  ><a name="5290"
+  > </a
+  ><a name="5291" class="Symbol"
+  >=</a
+  ><a name="5292"
+  > </a
+  ><a name="5293" href="Revise.Coinduction.html#5201" class="Function"
+  >lookup</a
+  ><a name="5299"
+  > </a
+  ><a name="5300" href="Revise.Coinduction.html#5279" class="Bound"
+  >n</a
+  ><a name="5301"
+  > </a
+  ><a name="5302" class="Symbol"
+  >(</a
+  ><a name="5303" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="5304"
+  > </a
+  ><a name="5305" href="Revise.Coinduction.html#5287" class="Bound"
+  >xs</a
+  ><a name="5307" class="Symbol"
+  >)</a
+  ><a name="5308"
+  >
+
+</a
+  ><a name="5310" href="Revise.Coinduction.html#5310" class="Function"
+  >take</a
+  ><a name="5314"
+  > </a
+  ><a name="5315" class="Symbol"
+  >:</a
+  ><a name="5316"
+  > </a
+  ><a name="5317" class="Symbol"
+  >{</a
+  ><a name="5318" href="Revise.Coinduction.html#5318" class="Bound"
+  >A</a
+  ><a name="5319"
+  > </a
+  ><a name="5320" class="Symbol"
+  >:</a
+  ><a name="5321"
+  > </a
+  ><a name="5322" class="PrimitiveType"
+  >Set</a
+  ><a name="5325" class="Symbol"
+  >}</a
+  ><a name="5326"
+  > </a
+  ><a name="5327" class="Symbol"
+  >(</a
+  ><a name="5328" href="Revise.Coinduction.html#5328" class="Bound"
+  >n</a
+  ><a name="5329"
+  > </a
+  ><a name="5330" class="Symbol"
+  >:</a
+  ><a name="5331"
+  > </a
+  ><a name="5332" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="5333" class="Symbol"
+  >)</a
+  ><a name="5334"
+  > </a
+  ><a name="5335" class="Symbol"
+  >&#8594;</a
+  ><a name="5336"
+  > </a
+  ><a name="5337" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="5343"
+  > </a
+  ><a name="5344" href="Revise.Coinduction.html#5318" class="Bound"
+  >A</a
+  ><a name="5345"
+  > </a
+  ><a name="5346" class="Symbol"
+  >&#8594;</a
+  ><a name="5347"
+  > </a
+  ><a name="5348" href="Data.Vec.html#604" class="Datatype"
+  >Vec</a
+  ><a name="5351"
+  > </a
+  ><a name="5352" href="Revise.Coinduction.html#5318" class="Bound"
+  >A</a
+  ><a name="5353"
+  > </a
+  ><a name="5354" href="Revise.Coinduction.html#5328" class="Bound"
+  >n</a
+  ><a name="5355"
+  >
+</a
+  ><a name="5356" href="Revise.Coinduction.html#5310" class="Function"
+  >take</a
+  ><a name="5360"
+  > </a
+  ><a name="5361" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="5365"
+  >    </a
+  ><a name="5369" href="Revise.Coinduction.html#5369" class="Bound"
+  >xs</a
+  ><a name="5371"
+  >       </a
+  ><a name="5378" class="Symbol"
+  >=</a
+  ><a name="5379"
+  > </a
+  ><a name="5380" href="Data.Vec.html#644" class="InductiveConstructor"
+  >[]</a
+  ><a name="5382"
+  >
+</a
+  ><a name="5383" href="Revise.Coinduction.html#5310" class="Function"
+  >take</a
+  ><a name="5387"
+  > </a
+  ><a name="5388" class="Symbol"
+  >(</a
+  ><a name="5389" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="5392"
+  > </a
+  ><a name="5393" href="Revise.Coinduction.html#5393" class="Bound"
+  >n</a
+  ><a name="5394" class="Symbol"
+  >)</a
+  ><a name="5395"
+  > </a
+  ><a name="5396" class="Symbol"
+  >(</a
+  ><a name="5397" href="Revise.Coinduction.html#5397" class="Bound"
+  >x</a
+  ><a name="5398"
+  > </a
+  ><a name="5399" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="5400"
+  > </a
+  ><a name="5401" href="Revise.Coinduction.html#5401" class="Bound"
+  >xs</a
+  ><a name="5403" class="Symbol"
+  >)</a
+  ><a name="5404"
+  > </a
+  ><a name="5405" class="Symbol"
+  >=</a
+  ><a name="5406"
+  > </a
+  ><a name="5407" href="Revise.Coinduction.html#5397" class="Bound"
+  >x</a
+  ><a name="5408"
+  > </a
+  ><a name="5409" href="Data.Vec.html#663" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="5410"
+  > </a
+  ><a name="5411" href="Revise.Coinduction.html#5310" class="Function"
+  >take</a
+  ><a name="5415"
+  > </a
+  ><a name="5416" href="Revise.Coinduction.html#5393" class="Bound"
+  >n</a
+  ><a name="5417"
+  > </a
+  ><a name="5418" class="Symbol"
+  >(</a
+  ><a name="5419" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="5420"
+  > </a
+  ><a name="5421" href="Revise.Coinduction.html#5401" class="Bound"
+  >xs</a
+  ><a name="5423" class="Symbol"
+  >)</a
+  ><a name="5424"
+  >
+
+</a
+  ><a name="5426" href="Revise.Coinduction.html#5426" class="Function"
+  >drop</a
+  ><a name="5430"
+  > </a
+  ><a name="5431" class="Symbol"
+  >:</a
+  ><a name="5432"
+  > </a
+  ><a name="5433" class="Symbol"
+  >{</a
+  ><a name="5434" href="Revise.Coinduction.html#5434" class="Bound"
+  >A</a
+  ><a name="5435"
+  > </a
+  ><a name="5436" class="Symbol"
+  >:</a
+  ><a name="5437"
+  > </a
+  ><a name="5438" class="PrimitiveType"
+  >Set</a
+  ><a name="5441" class="Symbol"
+  >}</a
+  ><a name="5442"
+  > </a
+  ><a name="5443" class="Symbol"
+  >&#8594;</a
+  ><a name="5444"
+  > </a
+  ><a name="5445" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="5446"
+  > </a
+  ><a name="5447" class="Symbol"
+  >&#8594;</a
+  ><a name="5448"
+  > </a
+  ><a name="5449" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="5455"
+  > </a
+  ><a name="5456" href="Revise.Coinduction.html#5434" class="Bound"
+  >A</a
+  ><a name="5457"
+  > </a
+  ><a name="5458" class="Symbol"
+  >&#8594;</a
+  ><a name="5459"
+  > </a
+  ><a name="5460" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="5466"
+  > </a
+  ><a name="5467" href="Revise.Coinduction.html#5434" class="Bound"
+  >A</a
+  ><a name="5468"
+  >
+</a
+  ><a name="5469" href="Revise.Coinduction.html#5426" class="Function"
+  >drop</a
+  ><a name="5473"
+  > </a
+  ><a name="5474" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="5478"
+  >    </a
+  ><a name="5482" href="Revise.Coinduction.html#5482" class="Bound"
+  >xs</a
+  ><a name="5484"
+  >       </a
+  ><a name="5491" class="Symbol"
+  >=</a
+  ><a name="5492"
+  > </a
+  ><a name="5493" href="Revise.Coinduction.html#5482" class="Bound"
+  >xs</a
+  ><a name="5495"
+  >
+</a
+  ><a name="5496" href="Revise.Coinduction.html#5426" class="Function"
+  >drop</a
+  ><a name="5500"
+  > </a
+  ><a name="5501" class="Symbol"
+  >(</a
+  ><a name="5502" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="5505"
+  > </a
+  ><a name="5506" href="Revise.Coinduction.html#5506" class="Bound"
+  >n</a
+  ><a name="5507" class="Symbol"
+  >)</a
+  ><a name="5508"
+  > </a
+  ><a name="5509" class="Symbol"
+  >(</a
+  ><a name="5510" href="Revise.Coinduction.html#5510" class="Bound"
+  >x</a
+  ><a name="5511"
+  > </a
+  ><a name="5512" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="5513"
+  > </a
+  ><a name="5514" href="Revise.Coinduction.html#5514" class="Bound"
+  >xs</a
+  ><a name="5516" class="Symbol"
+  >)</a
+  ><a name="5517"
+  > </a
+  ><a name="5518" class="Symbol"
+  >=</a
+  ><a name="5519"
+  > </a
+  ><a name="5520" href="Revise.Coinduction.html#5426" class="Function"
+  >drop</a
+  ><a name="5524"
+  > </a
+  ><a name="5525" href="Revise.Coinduction.html#5506" class="Bound"
+  >n</a
+  ><a name="5526"
+  > </a
+  ><a name="5527" class="Symbol"
+  >(</a
+  ><a name="5528" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="5529"
+  > </a
+  ><a name="5530" href="Revise.Coinduction.html#5514" class="Bound"
+  >xs</a
+  ><a name="5532" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="corecursive-functions-on-streams"><a href="#corecursive-functions-on-streams">Corecursive functions on streams</a></h1>
+<p><pre
+><a name="5612"
+  >
+</a
+  ><a name="5627" href="Revise.Coinduction.html#5627" class="Function"
+  >repeat</a
+  ><a name="5633"
+  > </a
+  ><a name="5634" class="Symbol"
+  >:</a
+  ><a name="5635"
+  > </a
+  ><a name="5636" class="Symbol"
+  >{</a
+  ><a name="5637" href="Revise.Coinduction.html#5637" class="Bound"
+  >A</a
+  ><a name="5638"
+  > </a
+  ><a name="5639" class="Symbol"
+  >:</a
+  ><a name="5640"
+  > </a
+  ><a name="5641" class="PrimitiveType"
+  >Set</a
+  ><a name="5644" class="Symbol"
+  >}</a
+  ><a name="5645"
+  > </a
+  ><a name="5646" class="Symbol"
+  >&#8594;</a
+  ><a name="5647"
+  > </a
+  ><a name="5648" href="Revise.Coinduction.html#5637" class="Bound"
+  >A</a
+  ><a name="5649"
+  > </a
+  ><a name="5650" class="Symbol"
+  >&#8594;</a
+  ><a name="5651"
+  > </a
+  ><a name="5652" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="5658"
+  > </a
+  ><a name="5659" href="Revise.Coinduction.html#5637" class="Bound"
+  >A</a
+  ><a name="5660"
+  >
+</a
+  ><a name="5661" href="Revise.Coinduction.html#5627" class="Function"
+  >repeat</a
+  ><a name="5667"
+  > </a
+  ><a name="5668" href="Revise.Coinduction.html#5668" class="Bound"
+  >x</a
+  ><a name="5669"
+  > </a
+  ><a name="5670" class="Symbol"
+  >=</a
+  ><a name="5671"
+  > </a
+  ><a name="5672" href="Revise.Coinduction.html#5668" class="Bound"
+  >x</a
+  ><a name="5673"
+  > </a
+  ><a name="5674" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="5675"
+  > </a
+  ><a name="5676" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="5677"
+  > </a
+  ><a name="5678" href="Revise.Coinduction.html#5627" class="Function"
+  >repeat</a
+  ><a name="5684"
+  > </a
+  ><a name="5685" href="Revise.Coinduction.html#5668" class="Bound"
+  >x</a
+  ><a name="5686"
+  >
+
+</a
+  ><a name="5688" href="Revise.Coinduction.html#5688" class="Function"
+  >iterate</a
+  ><a name="5695"
+  > </a
+  ><a name="5696" class="Symbol"
+  >:</a
+  ><a name="5697"
+  > </a
+  ><a name="5698" class="Symbol"
+  >{</a
+  ><a name="5699" href="Revise.Coinduction.html#5699" class="Bound"
+  >A</a
+  ><a name="5700"
+  > </a
+  ><a name="5701" class="Symbol"
+  >:</a
+  ><a name="5702"
+  > </a
+  ><a name="5703" class="PrimitiveType"
+  >Set</a
+  ><a name="5706" class="Symbol"
+  >}</a
+  ><a name="5707"
+  > </a
+  ><a name="5708" class="Symbol"
+  >&#8594;</a
+  ><a name="5709"
+  > </a
+  ><a name="5710" class="Symbol"
+  >(</a
+  ><a name="5711" href="Revise.Coinduction.html#5699" class="Bound"
+  >A</a
+  ><a name="5712"
+  > </a
+  ><a name="5713" class="Symbol"
+  >&#8594;</a
+  ><a name="5714"
+  > </a
+  ><a name="5715" href="Revise.Coinduction.html#5699" class="Bound"
+  >A</a
+  ><a name="5716" class="Symbol"
+  >)</a
+  ><a name="5717"
+  > </a
+  ><a name="5718" class="Symbol"
+  >&#8594;</a
+  ><a name="5719"
+  > </a
+  ><a name="5720" href="Revise.Coinduction.html#5699" class="Bound"
+  >A</a
+  ><a name="5721"
+  > </a
+  ><a name="5722" class="Symbol"
+  >&#8594;</a
+  ><a name="5723"
+  > </a
+  ><a name="5724" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="5730"
+  > </a
+  ><a name="5731" href="Revise.Coinduction.html#5699" class="Bound"
+  >A</a
+  ><a name="5732"
+  >
+</a
+  ><a name="5733" href="Revise.Coinduction.html#5688" class="Function"
+  >iterate</a
+  ><a name="5740"
+  > </a
+  ><a name="5741" href="Revise.Coinduction.html#5741" class="Bound"
+  >f</a
+  ><a name="5742"
+  > </a
+  ><a name="5743" href="Revise.Coinduction.html#5743" class="Bound"
+  >x</a
+  ><a name="5744"
+  > </a
+  ><a name="5745" class="Symbol"
+  >=</a
+  ><a name="5746"
+  > </a
+  ><a name="5747" href="Revise.Coinduction.html#5743" class="Bound"
+  >x</a
+  ><a name="5748"
+  > </a
+  ><a name="5749" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="5750"
+  > </a
+  ><a name="5751" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="5752"
+  > </a
+  ><a name="5753" href="Revise.Coinduction.html#5688" class="Function"
+  >iterate</a
+  ><a name="5760"
+  > </a
+  ><a name="5761" href="Revise.Coinduction.html#5741" class="Bound"
+  >f</a
+  ><a name="5762"
+  > </a
+  ><a name="5763" class="Symbol"
+  >(</a
+  ><a name="5764" href="Revise.Coinduction.html#5741" class="Bound"
+  >f</a
+  ><a name="5765"
+  > </a
+  ><a name="5766" href="Revise.Coinduction.html#5743" class="Bound"
+  >x</a
+  ><a name="5767" class="Symbol"
+  >)</a
+  ><a name="5768"
+  >
+
+</a
+  ><a name="5770" href="Revise.Coinduction.html#5770" class="Function"
+  >map</a
+  ><a name="5773"
+  > </a
+  ><a name="5774" class="Symbol"
+  >:</a
+  ><a name="5775"
+  > </a
+  ><a name="5776" class="Symbol"
+  >{</a
+  ><a name="5777" href="Revise.Coinduction.html#5777" class="Bound"
+  >A</a
+  ><a name="5778"
+  > </a
+  ><a name="5779" href="Revise.Coinduction.html#5779" class="Bound"
+  >B</a
+  ><a name="5780"
+  > </a
+  ><a name="5781" class="Symbol"
+  >:</a
+  ><a name="5782"
+  > </a
+  ><a name="5783" class="PrimitiveType"
+  >Set</a
+  ><a name="5786" class="Symbol"
+  >}</a
+  ><a name="5787"
+  > </a
+  ><a name="5788" class="Symbol"
+  >&#8594;</a
+  ><a name="5789"
+  > </a
+  ><a name="5790" class="Symbol"
+  >(</a
+  ><a name="5791" href="Revise.Coinduction.html#5777" class="Bound"
+  >A</a
+  ><a name="5792"
+  > </a
+  ><a name="5793" class="Symbol"
+  >&#8594;</a
+  ><a name="5794"
+  > </a
+  ><a name="5795" href="Revise.Coinduction.html#5779" class="Bound"
+  >B</a
+  ><a name="5796" class="Symbol"
+  >)</a
+  ><a name="5797"
+  > </a
+  ><a name="5798" class="Symbol"
+  >&#8594;</a
+  ><a name="5799"
+  > </a
+  ><a name="5800" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="5806"
+  > </a
+  ><a name="5807" href="Revise.Coinduction.html#5777" class="Bound"
+  >A</a
+  ><a name="5808"
+  > </a
+  ><a name="5809" class="Symbol"
+  >&#8594;</a
+  ><a name="5810"
+  > </a
+  ><a name="5811" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="5817"
+  > </a
+  ><a name="5818" href="Revise.Coinduction.html#5779" class="Bound"
+  >B</a
+  ><a name="5819"
+  >
+</a
+  ><a name="5820" href="Revise.Coinduction.html#5770" class="Function"
+  >map</a
+  ><a name="5823"
+  > </a
+  ><a name="5824" href="Revise.Coinduction.html#5824" class="Bound"
+  >f</a
+  ><a name="5825"
+  > </a
+  ><a name="5826" class="Symbol"
+  >(</a
+  ><a name="5827" href="Revise.Coinduction.html#5827" class="Bound"
+  >x</a
+  ><a name="5828"
+  > </a
+  ><a name="5829" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="5830"
+  > </a
+  ><a name="5831" href="Revise.Coinduction.html#5831" class="Bound"
+  >xs</a
+  ><a name="5833" class="Symbol"
+  >)</a
+  ><a name="5834"
+  > </a
+  ><a name="5835" class="Symbol"
+  >=</a
+  ><a name="5836"
+  > </a
+  ><a name="5837" href="Revise.Coinduction.html#5824" class="Bound"
+  >f</a
+  ><a name="5838"
+  > </a
+  ><a name="5839" href="Revise.Coinduction.html#5827" class="Bound"
+  >x</a
+  ><a name="5840"
+  > </a
+  ><a name="5841" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="5842"
+  > </a
+  ><a name="5843" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="5844"
+  > </a
+  ><a name="5845" href="Revise.Coinduction.html#5770" class="Function"
+  >map</a
+  ><a name="5848"
+  > </a
+  ><a name="5849" href="Revise.Coinduction.html#5824" class="Bound"
+  >f</a
+  ><a name="5850"
+  > </a
+  ><a name="5851" class="Symbol"
+  >(</a
+  ><a name="5852" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="5853"
+  > </a
+  ><a name="5854" href="Revise.Coinduction.html#5831" class="Bound"
+  >xs</a
+  ><a name="5856" class="Symbol"
+  >)</a
+  ><a name="5857"
+  >
+
+</a
+  ><a name="5859" href="Revise.Coinduction.html#5859" class="Function"
+  >zipWith</a
+  ><a name="5866"
+  > </a
+  ><a name="5867" class="Symbol"
+  >:</a
+  ><a name="5868"
+  > </a
+  ><a name="5869" class="Symbol"
+  >{</a
+  ><a name="5870" href="Revise.Coinduction.html#5870" class="Bound"
+  >A</a
+  ><a name="5871"
+  > </a
+  ><a name="5872" href="Revise.Coinduction.html#5872" class="Bound"
+  >B</a
+  ><a name="5873"
+  > </a
+  ><a name="5874" href="Revise.Coinduction.html#5874" class="Bound"
+  >C</a
+  ><a name="5875"
+  > </a
+  ><a name="5876" class="Symbol"
+  >:</a
+  ><a name="5877"
+  > </a
+  ><a name="5878" class="PrimitiveType"
+  >Set</a
+  ><a name="5881" class="Symbol"
+  >}</a
+  ><a name="5882"
+  > </a
+  ><a name="5883" class="Symbol"
+  >&#8594;</a
+  ><a name="5884"
+  > </a
+  ><a name="5885" class="Symbol"
+  >(</a
+  ><a name="5886" href="Revise.Coinduction.html#5870" class="Bound"
+  >A</a
+  ><a name="5887"
+  > </a
+  ><a name="5888" class="Symbol"
+  >&#8594;</a
+  ><a name="5889"
+  > </a
+  ><a name="5890" href="Revise.Coinduction.html#5872" class="Bound"
+  >B</a
+  ><a name="5891"
+  > </a
+  ><a name="5892" class="Symbol"
+  >&#8594;</a
+  ><a name="5893"
+  > </a
+  ><a name="5894" href="Revise.Coinduction.html#5874" class="Bound"
+  >C</a
+  ><a name="5895" class="Symbol"
+  >)</a
+  ><a name="5896"
+  > </a
+  ><a name="5897" class="Symbol"
+  >&#8594;</a
+  ><a name="5898"
+  > </a
+  ><a name="5899" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="5905"
+  > </a
+  ><a name="5906" href="Revise.Coinduction.html#5870" class="Bound"
+  >A</a
+  ><a name="5907"
+  > </a
+  ><a name="5908" class="Symbol"
+  >&#8594;</a
+  ><a name="5909"
+  > </a
+  ><a name="5910" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="5916"
+  > </a
+  ><a name="5917" href="Revise.Coinduction.html#5872" class="Bound"
+  >B</a
+  ><a name="5918"
+  > </a
+  ><a name="5919" class="Symbol"
+  >&#8594;</a
+  ><a name="5920"
+  > </a
+  ><a name="5921" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="5927"
+  > </a
+  ><a name="5928" href="Revise.Coinduction.html#5874" class="Bound"
+  >C</a
+  ><a name="5929"
+  >
+</a
+  ><a name="5930" href="Revise.Coinduction.html#5859" class="Function"
+  >zipWith</a
+  ><a name="5937"
+  > </a
+  ><a name="5938" href="Revise.Coinduction.html#5938" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="5941"
+  > </a
+  ><a name="5942" class="Symbol"
+  >(</a
+  ><a name="5943" href="Revise.Coinduction.html#5943" class="Bound"
+  >x</a
+  ><a name="5944"
+  > </a
+  ><a name="5945" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="5946"
+  > </a
+  ><a name="5947" href="Revise.Coinduction.html#5947" class="Bound"
+  >xs</a
+  ><a name="5949" class="Symbol"
+  >)</a
+  ><a name="5950"
+  > </a
+  ><a name="5951" class="Symbol"
+  >(</a
+  ><a name="5952" href="Revise.Coinduction.html#5952" class="Bound"
+  >y</a
+  ><a name="5953"
+  > </a
+  ><a name="5954" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="5955"
+  > </a
+  ><a name="5956" href="Revise.Coinduction.html#5956" class="Bound"
+  >ys</a
+  ><a name="5958" class="Symbol"
+  >)</a
+  ><a name="5959"
+  > </a
+  ><a name="5960" class="Symbol"
+  >=</a
+  ><a name="5961"
+  > </a
+  ><a name="5962" class="Symbol"
+  >(</a
+  ><a name="5963" href="Revise.Coinduction.html#5943" class="Bound"
+  >x</a
+  ><a name="5964"
+  > </a
+  ><a name="5965" href="Revise.Coinduction.html#5938" class="Bound Operator"
+  >&#8729;</a
+  ><a name="5966"
+  > </a
+  ><a name="5967" href="Revise.Coinduction.html#5952" class="Bound"
+  >y</a
+  ><a name="5968" class="Symbol"
+  >)</a
+  ><a name="5969"
+  > </a
+  ><a name="5970" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="5971"
+  > </a
+  ><a name="5972" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="5973"
+  > </a
+  ><a name="5974" href="Revise.Coinduction.html#5859" class="Function"
+  >zipWith</a
+  ><a name="5981"
+  > </a
+  ><a name="5982" href="Revise.Coinduction.html#5938" class="Bound Operator"
+  >_&#8729;_</a
+  ><a name="5985"
+  > </a
+  ><a name="5986" class="Symbol"
+  >(</a
+  ><a name="5987" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="5988"
+  > </a
+  ><a name="5989" href="Revise.Coinduction.html#5947" class="Bound"
+  >xs</a
+  ><a name="5991" class="Symbol"
+  >)</a
+  ><a name="5992"
+  > </a
+  ><a name="5993" class="Symbol"
+  >(</a
+  ><a name="5994" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="5995"
+  > </a
+  ><a name="5996" href="Revise.Coinduction.html#5956" class="Bound"
+  >ys</a
+  ><a name="5998" class="Symbol"
+  >)</a
+  ><a name="5999"
+  >
+
+</a
+  ><a name="6001" class="Comment"
+  >-- interleaving</a
+  ><a name="6016"
+  >
+</a
+  ><a name="6017" href="Revise.Coinduction.html#6017" class="Function Operator"
+  >_&#8910;_</a
+  ><a name="6020"
+  > </a
+  ><a name="6021" class="Symbol"
+  >:</a
+  ><a name="6022"
+  > </a
+  ><a name="6023" class="Symbol"
+  >{</a
+  ><a name="6024" href="Revise.Coinduction.html#6024" class="Bound"
+  >A</a
+  ><a name="6025"
+  > </a
+  ><a name="6026" class="Symbol"
+  >:</a
+  ><a name="6027"
+  > </a
+  ><a name="6028" class="PrimitiveType"
+  >Set</a
+  ><a name="6031" class="Symbol"
+  >}</a
+  ><a name="6032"
+  > </a
+  ><a name="6033" class="Symbol"
+  >&#8594;</a
+  ><a name="6034"
+  > </a
+  ><a name="6035" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="6041"
+  > </a
+  ><a name="6042" href="Revise.Coinduction.html#6024" class="Bound"
+  >A</a
+  ><a name="6043"
+  > </a
+  ><a name="6044" class="Symbol"
+  >&#8594;</a
+  ><a name="6045"
+  > </a
+  ><a name="6046" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="6052"
+  > </a
+  ><a name="6053" href="Revise.Coinduction.html#6024" class="Bound"
+  >A</a
+  ><a name="6054"
+  > </a
+  ><a name="6055" class="Symbol"
+  >&#8594;</a
+  ><a name="6056"
+  > </a
+  ><a name="6057" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="6063"
+  > </a
+  ><a name="6064" href="Revise.Coinduction.html#6024" class="Bound"
+  >A</a
+  ><a name="6065"
+  >
+</a
+  ><a name="6066" class="Symbol"
+  >(</a
+  ><a name="6067" href="Revise.Coinduction.html#6067" class="Bound"
+  >x</a
+  ><a name="6068"
+  > </a
+  ><a name="6069" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="6070"
+  > </a
+  ><a name="6071" href="Revise.Coinduction.html#6071" class="Bound"
+  >xs</a
+  ><a name="6073" class="Symbol"
+  >)</a
+  ><a name="6074"
+  > </a
+  ><a name="6075" href="Revise.Coinduction.html#6017" class="Function Operator"
+  >&#8910;</a
+  ><a name="6076"
+  > </a
+  ><a name="6077" href="Revise.Coinduction.html#6077" class="Bound"
+  >ys</a
+  ><a name="6079"
+  > </a
+  ><a name="6080" class="Symbol"
+  >=</a
+  ><a name="6081"
+  > </a
+  ><a name="6082" href="Revise.Coinduction.html#6067" class="Bound"
+  >x</a
+  ><a name="6083"
+  > </a
+  ><a name="6084" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="6085"
+  > </a
+  ><a name="6086" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="6087"
+  > </a
+  ><a name="6088" class="Symbol"
+  >(</a
+  ><a name="6089" href="Revise.Coinduction.html#6077" class="Bound"
+  >ys</a
+  ><a name="6091"
+  > </a
+  ><a name="6092" href="Revise.Coinduction.html#6017" class="Function Operator"
+  >&#8910;</a
+  ><a name="6093"
+  > </a
+  ><a name="6094" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="6095"
+  > </a
+  ><a name="6096" href="Revise.Coinduction.html#6071" class="Bound"
+  >xs</a
+  ><a name="6098" class="Symbol"
+  >)</a
+  ><a name="6099"
+  >
+
+</a
+  ><a name="6101" class="Keyword"
+  >infixr</a
+  ><a name="6107"
+  > </a
+  ><a name="6108" class="Number"
+  >5</a
+  ><a name="6109"
+  > _&#8910;_  </a
+  ></pre
+></p>
+<h1 id="colists"><a href="#colists">Colists</a></h1>
+<p>Definition:</p>
+<p><pre
+><a name="6157"
+  >
+</a
+  ><a name="6172" class="Keyword"
+  >data</a
+  ><a name="6176"
+  > </a
+  ><a name="6177" href="Revise.Coinduction.html#6177" class="Datatype"
+  >Colist</a
+  ><a name="6183"
+  > </a
+  ><a name="6184" class="Symbol"
+  >(</a
+  ><a name="6185" href="Revise.Coinduction.html#6185" class="Bound"
+  >A</a
+  ><a name="6186"
+  > </a
+  ><a name="6187" class="Symbol"
+  >:</a
+  ><a name="6188"
+  > </a
+  ><a name="6189" class="PrimitiveType"
+  >Set</a
+  ><a name="6192" class="Symbol"
+  >)</a
+  ><a name="6193"
+  > </a
+  ><a name="6194" class="Symbol"
+  >:</a
+  ><a name="6195"
+  > </a
+  ><a name="6196" class="PrimitiveType"
+  >Set</a
+  ><a name="6199"
+  > </a
+  ><a name="6200" class="Keyword"
+  >where</a
+  ><a name="6205"
+  >
+  </a
+  ><a name="6208" href="Revise.Coinduction.html#6208" class="InductiveConstructor"
+  >[]</a
+  ><a name="6210"
+  >  </a
+  ><a name="6212" class="Symbol"
+  >:</a
+  ><a name="6213"
+  >                    </a
+  ><a name="6233" href="Revise.Coinduction.html#6177" class="Datatype"
+  >Colist</a
+  ><a name="6239"
+  > </a
+  ><a name="6240" href="Revise.Coinduction.html#6185" class="Bound"
+  >A</a
+  ><a name="6241"
+  >
+  </a
+  ><a name="6244" href="Revise.Coinduction.html#6244" class="InductiveConstructor Operator"
+  >_&#8759;_</a
+  ><a name="6247"
+  > </a
+  ><a name="6248" class="Symbol"
+  >:</a
+  ><a name="6249"
+  > </a
+  ><a name="6250" href="Revise.Coinduction.html#6185" class="Bound"
+  >A</a
+  ><a name="6251"
+  > </a
+  ><a name="6252" class="Symbol"
+  >&#8594;</a
+  ><a name="6253"
+  > </a
+  ><a name="6254" href="Coinduction.html#414" class="Datatype"
+  >&#8734;</a
+  ><a name="6255"
+  > </a
+  ><a name="6256" class="Symbol"
+  >(</a
+  ><a name="6257" href="Revise.Coinduction.html#6177" class="Datatype"
+  >Colist</a
+  ><a name="6263"
+  > </a
+  ><a name="6264" href="Revise.Coinduction.html#6185" class="Bound"
+  >A</a
+  ><a name="6265" class="Symbol"
+  >)</a
+  ><a name="6266"
+  > </a
+  ><a name="6267" class="Symbol"
+  >&#8594;</a
+  ><a name="6268"
+  > </a
+  ><a name="6269" href="Revise.Coinduction.html#6177" class="Datatype"
+  >Colist</a
+  ><a name="6275"
+  > </a
+  ><a name="6276" href="Revise.Coinduction.html#6185" class="Bound"
+  >A</a
+  ></pre
+></p>
+<p>Elements:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Set</th>
+<th align="left">1st,</th>
+<th align="left">2nd,</th>
+<th align="left">3rd,</th>
+<th align="left">...</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Colist ℕ ={</td>
+<td align="left"><code>[]</code>;</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"><code>0 ∷ v</code> ≺</td>
+<td align="left"><code>0 ∷ []</code>;</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>0 ∷ ♯ 0 ∷ v</code> ≺</td>
+<td align="left"><code>0 ∷ ♯ 0 ∷ []</code>;</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>0 ∷ ♯ 0 ∷ ♯ 0 ∷ v</code> ≺</td>
+<td align="left">...</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>0 ∷ ♯ 0 ∷ ♯ 1 ∷ v</code> ≺</td>
+<td align="left">...</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">...</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>0 ∷ ♯ 1 ∷ v</code> ≺</td>
+<td align="left"><code>0 ∷ ♯ 1 ∷ []</code>;</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>0 ∷ ♯ 1 ∷ ♯ 0 ∷ v</code> ≺</td>
+<td align="left">...</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>0 ∷ ♯ 1 ∷ ♯ 1 ∷ v</code> ≺</td>
+<td align="left">...</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">...</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">...</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p><code>Colist A</code> ≃ <code>List A ⊎ Stream A</code>.</p>
+<h1 id="functions-on-colists"><a href="#functions-on-colists">Functions on colists</a></h1>
+<p><pre
+><a name="7066"
+  >
+</a
+  ><a name="7081" href="Revise.Coinduction.html#7081" class="Function"
+  >toColist</a
+  ><a name="7089"
+  > </a
+  ><a name="7090" class="Symbol"
+  >:</a
+  ><a name="7091"
+  > </a
+  ><a name="7092" class="Symbol"
+  >{</a
+  ><a name="7093" href="Revise.Coinduction.html#7093" class="Bound"
+  >A</a
+  ><a name="7094"
+  > </a
+  ><a name="7095" class="Symbol"
+  >:</a
+  ><a name="7096"
+  > </a
+  ><a name="7097" class="PrimitiveType"
+  >Set</a
+  ><a name="7100" class="Symbol"
+  >}</a
+  ><a name="7101"
+  > </a
+  ><a name="7102" class="Symbol"
+  >&#8594;</a
+  ><a name="7103"
+  > </a
+  ><a name="7104" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="7110"
+  > </a
+  ><a name="7111" href="Revise.Coinduction.html#7093" class="Bound"
+  >A</a
+  ><a name="7112"
+  > </a
+  ><a name="7113" class="Symbol"
+  >&#8594;</a
+  ><a name="7114"
+  > </a
+  ><a name="7115" href="Revise.Coinduction.html#6177" class="Datatype"
+  >Colist</a
+  ><a name="7121"
+  > </a
+  ><a name="7122" href="Revise.Coinduction.html#7093" class="Bound"
+  >A</a
+  ><a name="7123"
+  >
+</a
+  ><a name="7124" href="Revise.Coinduction.html#7081" class="Function"
+  >toColist</a
+  ><a name="7132"
+  > </a
+  ><a name="7133" class="Symbol"
+  >(</a
+  ><a name="7134" href="Revise.Coinduction.html#7134" class="Bound"
+  >x</a
+  ><a name="7135"
+  > </a
+  ><a name="7136" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="7137"
+  > </a
+  ><a name="7138" href="Revise.Coinduction.html#7138" class="Bound"
+  >xs</a
+  ><a name="7140" class="Symbol"
+  >)</a
+  ><a name="7141"
+  > </a
+  ><a name="7142" class="Symbol"
+  >=</a
+  ><a name="7143"
+  > </a
+  ><a name="7144" href="Revise.Coinduction.html#7134" class="Bound"
+  >x</a
+  ><a name="7145"
+  > </a
+  ><a name="7146" href="Revise.Coinduction.html#6244" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="7147"
+  > </a
+  ><a name="7148" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="7149"
+  > </a
+  ><a name="7150" href="Revise.Coinduction.html#7081" class="Function"
+  >toColist</a
+  ><a name="7158"
+  > </a
+  ><a name="7159" class="Symbol"
+  >(</a
+  ><a name="7160" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="7161"
+  > </a
+  ><a name="7162" href="Revise.Coinduction.html#7138" class="Bound"
+  >xs</a
+  ><a name="7164" class="Symbol"
+  >)</a
+  ><a name="7165"
+  >
+
+</a
+  ><a name="7167" href="Revise.Coinduction.html#7167" class="Function Operator"
+  >_++_</a
+  ><a name="7171"
+  > </a
+  ><a name="7172" class="Symbol"
+  >:</a
+  ><a name="7173"
+  > </a
+  ><a name="7174" class="Symbol"
+  >{</a
+  ><a name="7175" href="Revise.Coinduction.html#7175" class="Bound"
+  >A</a
+  ><a name="7176"
+  > </a
+  ><a name="7177" class="Symbol"
+  >:</a
+  ><a name="7178"
+  > </a
+  ><a name="7179" class="PrimitiveType"
+  >Set</a
+  ><a name="7182" class="Symbol"
+  >}</a
+  ><a name="7183"
+  > </a
+  ><a name="7184" class="Symbol"
+  >&#8594;</a
+  ><a name="7185"
+  > </a
+  ><a name="7186" href="Revise.Coinduction.html#6177" class="Datatype"
+  >Colist</a
+  ><a name="7192"
+  > </a
+  ><a name="7193" href="Revise.Coinduction.html#7175" class="Bound"
+  >A</a
+  ><a name="7194"
+  > </a
+  ><a name="7195" class="Symbol"
+  >&#8594;</a
+  ><a name="7196"
+  > </a
+  ><a name="7197" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="7203"
+  > </a
+  ><a name="7204" href="Revise.Coinduction.html#7175" class="Bound"
+  >A</a
+  ><a name="7205"
+  > </a
+  ><a name="7206" class="Symbol"
+  >&#8594;</a
+  ><a name="7207"
+  > </a
+  ><a name="7208" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="7214"
+  > </a
+  ><a name="7215" href="Revise.Coinduction.html#7175" class="Bound"
+  >A</a
+  ><a name="7216"
+  >
+</a
+  ><a name="7217" href="Revise.Coinduction.html#6208" class="InductiveConstructor"
+  >[]</a
+  ><a name="7219"
+  >       </a
+  ><a name="7226" href="Revise.Coinduction.html#7167" class="Function Operator"
+  >++</a
+  ><a name="7228"
+  > </a
+  ><a name="7229" href="Revise.Coinduction.html#7229" class="Bound"
+  >ys</a
+  ><a name="7231"
+  > </a
+  ><a name="7232" class="Symbol"
+  >=</a
+  ><a name="7233"
+  > </a
+  ><a name="7234" href="Revise.Coinduction.html#7229" class="Bound"
+  >ys</a
+  ><a name="7236"
+  >
+</a
+  ><a name="7237" class="Symbol"
+  >(</a
+  ><a name="7238" href="Revise.Coinduction.html#7238" class="Bound"
+  >x</a
+  ><a name="7239"
+  > </a
+  ><a name="7240" href="Revise.Coinduction.html#6244" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="7241"
+  > </a
+  ><a name="7242" href="Revise.Coinduction.html#7242" class="Bound"
+  >xs</a
+  ><a name="7244" class="Symbol"
+  >)</a
+  ><a name="7245"
+  > </a
+  ><a name="7246" href="Revise.Coinduction.html#7167" class="Function Operator"
+  >++</a
+  ><a name="7248"
+  > </a
+  ><a name="7249" href="Revise.Coinduction.html#7249" class="Bound"
+  >ys</a
+  ><a name="7251"
+  > </a
+  ><a name="7252" class="Symbol"
+  >=</a
+  ><a name="7253"
+  > </a
+  ><a name="7254" href="Revise.Coinduction.html#7238" class="Bound"
+  >x</a
+  ><a name="7255"
+  > </a
+  ><a name="7256" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="7257"
+  > </a
+  ><a name="7258" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="7259"
+  > </a
+  ><a name="7260" class="Symbol"
+  >(</a
+  ><a name="7261" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="7262"
+  > </a
+  ><a name="7263" href="Revise.Coinduction.html#7242" class="Bound"
+  >xs</a
+  ><a name="7265"
+  > </a
+  ><a name="7266" href="Revise.Coinduction.html#7167" class="Function Operator"
+  >++</a
+  ><a name="7268"
+  > </a
+  ><a name="7269" href="Revise.Coinduction.html#7249" class="Bound"
+  >ys</a
+  ><a name="7271" class="Symbol"
+  >)</a
+  ><a name="7272"
+  >
+
+</a
+  ><a name="7274" class="Keyword"
+  >infixr</a
+  ><a name="7280"
+  > </a
+  ><a name="7281" class="Number"
+  >5</a
+  ><a name="7282"
+  > _++_</a
+  ></pre
+></p>
+<h1 id="equality-on-streams"><a href="#equality-on-streams">Equality on streams</a></h1>
+<p>The set for stream equality is corecursive itself:</p>
+<p><pre
+><a name="7392"
+  >
+</a
+  ><a name="7407" class="Keyword"
+  >data</a
+  ><a name="7411"
+  > </a
+  ><a name="7412" href="Revise.Coinduction.html#7412" class="Datatype Operator"
+  >_&#8776;_</a
+  ><a name="7415"
+  > </a
+  ><a name="7416" class="Symbol"
+  >{</a
+  ><a name="7417" href="Revise.Coinduction.html#7417" class="Bound"
+  >A</a
+  ><a name="7418"
+  > </a
+  ><a name="7419" class="Symbol"
+  >:</a
+  ><a name="7420"
+  > </a
+  ><a name="7421" class="PrimitiveType"
+  >Set</a
+  ><a name="7424" class="Symbol"
+  >}</a
+  ><a name="7425"
+  > </a
+  ><a name="7426" class="Symbol"
+  >:</a
+  ><a name="7427"
+  > </a
+  ><a name="7428" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="7434"
+  > </a
+  ><a name="7435" href="Revise.Coinduction.html#7417" class="Bound"
+  >A</a
+  ><a name="7436"
+  > </a
+  ><a name="7437" class="Symbol"
+  >&#8594;</a
+  ><a name="7438"
+  > </a
+  ><a name="7439" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="7445"
+  > </a
+  ><a name="7446" href="Revise.Coinduction.html#7417" class="Bound"
+  >A</a
+  ><a name="7447"
+  > </a
+  ><a name="7448" class="Symbol"
+  >&#8594;</a
+  ><a name="7449"
+  > </a
+  ><a name="7450" class="PrimitiveType"
+  >Set</a
+  ><a name="7453"
+  > </a
+  ><a name="7454" class="Keyword"
+  >where</a
+  ><a name="7459"
+  >
+  </a
+  ><a name="7462" href="Revise.Coinduction.html#7462" class="InductiveConstructor Operator"
+  >_&#8759;_</a
+  ><a name="7465"
+  > </a
+  ><a name="7466" class="Symbol"
+  >:</a
+  ><a name="7467"
+  > </a
+  ><a name="7468" class="Symbol"
+  >(</a
+  ><a name="7469" href="Revise.Coinduction.html#7469" class="Bound"
+  >x</a
+  ><a name="7470"
+  > </a
+  ><a name="7471" class="Symbol"
+  >:</a
+  ><a name="7472"
+  > </a
+  ><a name="7473" href="Revise.Coinduction.html#7417" class="Bound"
+  >A</a
+  ><a name="7474" class="Symbol"
+  >)</a
+  ><a name="7475"
+  > </a
+  ><a name="7476" class="Symbol"
+  >{</a
+  ><a name="7477" href="Revise.Coinduction.html#7477" class="Bound"
+  >xs</a
+  ><a name="7479"
+  > </a
+  ><a name="7480" href="Revise.Coinduction.html#7480" class="Bound"
+  >ys</a
+  ><a name="7482"
+  > </a
+  ><a name="7483" class="Symbol"
+  >:</a
+  ><a name="7484"
+  > </a
+  ><a name="7485" href="Coinduction.html#414" class="Datatype"
+  >&#8734;</a
+  ><a name="7486"
+  > </a
+  ><a name="7487" class="Symbol"
+  >(</a
+  ><a name="7488" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="7494"
+  > </a
+  ><a name="7495" href="Revise.Coinduction.html#7417" class="Bound"
+  >A</a
+  ><a name="7496" class="Symbol"
+  >)}</a
+  ><a name="7498"
+  > </a
+  ><a name="7499" class="Symbol"
+  >&#8594;</a
+  ><a name="7500"
+  > 
+        </a
+  ><a name="7510" href="Coinduction.html#414" class="Datatype"
+  >&#8734;</a
+  ><a name="7511"
+  > </a
+  ><a name="7512" class="Symbol"
+  >(</a
+  ><a name="7513" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="7514"
+  > </a
+  ><a name="7515" href="Revise.Coinduction.html#7477" class="Bound"
+  >xs</a
+  ><a name="7517"
+  > </a
+  ><a name="7518" href="Revise.Coinduction.html#7412" class="Datatype Operator"
+  >&#8776;</a
+  ><a name="7519"
+  > </a
+  ><a name="7520" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="7521"
+  > </a
+  ><a name="7522" href="Revise.Coinduction.html#7480" class="Bound"
+  >ys</a
+  ><a name="7524" class="Symbol"
+  >)</a
+  ><a name="7525"
+  > </a
+  ><a name="7526" class="Symbol"
+  >&#8594;</a
+  ><a name="7527"
+  > </a
+  ><a name="7528" href="Revise.Coinduction.html#7469" class="Bound"
+  >x</a
+  ><a name="7529"
+  > </a
+  ><a name="7530" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="7531"
+  > </a
+  ><a name="7532" href="Revise.Coinduction.html#7477" class="Bound"
+  >xs</a
+  ><a name="7534"
+  > </a
+  ><a name="7535" href="Revise.Coinduction.html#7412" class="Datatype Operator"
+  >&#8776;</a
+  ><a name="7536"
+  > </a
+  ><a name="7537" href="Revise.Coinduction.html#7469" class="Bound"
+  >x</a
+  ><a name="7538"
+  > </a
+  ><a name="7539" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="7540"
+  > </a
+  ><a name="7541" href="Revise.Coinduction.html#7480" class="Bound"
+  >ys</a
+  ><a name="7543"
+  >
+
+</a
+  ><a name="7545" class="Keyword"
+  >infix</a
+  ><a name="7550"
+  > </a
+  ><a name="7551" class="Number"
+  >4</a
+  ><a name="7552"
+  > _&#8776;_</a
+  ></pre
+></p>
+<p><em>Examples:</em></p>
+<p>Let <code>s : Stream ℕ</code> be fixed.</p>
+<p><code>0 ∷ s ≈ 1 ∷ s</code> = {}.</p>
+<p>Let <code>v : ∞ (0 ∷ s  ≈  1 ∷ s)</code>.</p>
+<p><code>1 ∷ ♯ 0 ∷ s ≈ 1 ∷ ♯ 1 ∷ s</code> = { <code>1 ∷ v</code> }, after erasing <code>v</code> it is {}.</p>
+<p>Let <code>x = repeat 0</code> and <code>v : ∞ (x ≈ x)</code>.</p>
+<p><code>x ≈ x</code> = { <code>0 ∷ v</code> ≺ <code>0 ∷ ♯ 0 ∷ v</code> ≺ <code>0 ∷ ♯ 0 ∷ ♯ 0 ∷ v</code> ≺ ... }</p>
+<p><code>x ≈ x</code> ≃ <code>⊤</code>.</p>
+<h1 id="proofs-with-stream-equality"><a href="#proofs-with-stream-equality">Proofs with stream equality</a></h1>
+<p><pre
+><a name="7926"
+  >
+</a
+  ><a name="7941" href="Revise.Coinduction.html#7941" class="Function"
+  >&#8776;-refl</a
+  ><a name="7947"
+  > </a
+  ><a name="7948" class="Symbol"
+  >:</a
+  ><a name="7949"
+  > </a
+  ><a name="7950" class="Symbol"
+  >{</a
+  ><a name="7951" href="Revise.Coinduction.html#7951" class="Bound"
+  >A</a
+  ><a name="7952"
+  > </a
+  ><a name="7953" class="Symbol"
+  >:</a
+  ><a name="7954"
+  > </a
+  ><a name="7955" class="PrimitiveType"
+  >Set</a
+  ><a name="7958" class="Symbol"
+  >}</a
+  ><a name="7959"
+  > </a
+  ><a name="7960" class="Symbol"
+  >{</a
+  ><a name="7961" href="Revise.Coinduction.html#7961" class="Bound"
+  >xs</a
+  ><a name="7963"
+  > </a
+  ><a name="7964" class="Symbol"
+  >:</a
+  ><a name="7965"
+  > </a
+  ><a name="7966" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="7972"
+  > </a
+  ><a name="7973" href="Revise.Coinduction.html#7951" class="Bound"
+  >A</a
+  ><a name="7974" class="Symbol"
+  >}</a
+  ><a name="7975"
+  > </a
+  ><a name="7976" class="Symbol"
+  >&#8594;</a
+  ><a name="7977"
+  > </a
+  ><a name="7978" href="Revise.Coinduction.html#7961" class="Bound"
+  >xs</a
+  ><a name="7980"
+  > </a
+  ><a name="7981" href="Revise.Coinduction.html#7412" class="Datatype Operator"
+  >&#8776;</a
+  ><a name="7982"
+  > </a
+  ><a name="7983" href="Revise.Coinduction.html#7961" class="Bound"
+  >xs</a
+  ><a name="7985"
+  >
+</a
+  ><a name="7986" href="Revise.Coinduction.html#7941" class="Function"
+  >&#8776;-refl</a
+  ><a name="7992"
+  > </a
+  ><a name="7993" class="Symbol"
+  >{</a
+  ><a name="7994" href="Revise.Coinduction.html#7994" class="Bound"
+  >A</a
+  ><a name="7995" class="Symbol"
+  >}</a
+  ><a name="7996"
+  > </a
+  ><a name="7997" class="Symbol"
+  >{</a
+  ><a name="7998" href="Revise.Coinduction.html#7998" class="Bound"
+  >x</a
+  ><a name="7999"
+  > </a
+  ><a name="8000" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="8001"
+  > </a
+  ><a name="8002" class="Symbol"
+  >_}</a
+  ><a name="8004"
+  > </a
+  ><a name="8005" class="Symbol"
+  >=</a
+  ><a name="8006"
+  > </a
+  ><a name="8007" href="Revise.Coinduction.html#7998" class="Bound"
+  >x</a
+  ><a name="8008"
+  > </a
+  ><a name="8009" href="Revise.Coinduction.html#7462" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="8010"
+  > </a
+  ><a name="8011" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="8012"
+  > </a
+  ><a name="8013" href="Revise.Coinduction.html#7941" class="Function"
+  >&#8776;-refl</a
+  ><a name="8019"
+  >
+
+</a
+  ><a name="8021" href="Revise.Coinduction.html#8021" class="Function"
+  >&#8776;-sym</a
+  ><a name="8026"
+  > </a
+  ><a name="8027" class="Symbol"
+  >:</a
+  ><a name="8028"
+  > </a
+  ><a name="8029" class="Symbol"
+  >{</a
+  ><a name="8030" href="Revise.Coinduction.html#8030" class="Bound"
+  >A</a
+  ><a name="8031"
+  > </a
+  ><a name="8032" class="Symbol"
+  >:</a
+  ><a name="8033"
+  > </a
+  ><a name="8034" class="PrimitiveType"
+  >Set</a
+  ><a name="8037" class="Symbol"
+  >}</a
+  ><a name="8038"
+  > </a
+  ><a name="8039" class="Symbol"
+  >{</a
+  ><a name="8040" href="Revise.Coinduction.html#8040" class="Bound"
+  >xs</a
+  ><a name="8042"
+  > </a
+  ><a name="8043" href="Revise.Coinduction.html#8043" class="Bound"
+  >ys</a
+  ><a name="8045"
+  > </a
+  ><a name="8046" class="Symbol"
+  >:</a
+  ><a name="8047"
+  > </a
+  ><a name="8048" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="8054"
+  > </a
+  ><a name="8055" href="Revise.Coinduction.html#8030" class="Bound"
+  >A</a
+  ><a name="8056" class="Symbol"
+  >}</a
+  ><a name="8057"
+  > </a
+  ><a name="8058" class="Symbol"
+  >&#8594;</a
+  ><a name="8059"
+  > </a
+  ><a name="8060" href="Revise.Coinduction.html#8040" class="Bound"
+  >xs</a
+  ><a name="8062"
+  > </a
+  ><a name="8063" href="Revise.Coinduction.html#7412" class="Datatype Operator"
+  >&#8776;</a
+  ><a name="8064"
+  > </a
+  ><a name="8065" href="Revise.Coinduction.html#8043" class="Bound"
+  >ys</a
+  ><a name="8067"
+  > </a
+  ><a name="8068" class="Symbol"
+  >&#8594;</a
+  ><a name="8069"
+  > </a
+  ><a name="8070" href="Revise.Coinduction.html#8043" class="Bound"
+  >ys</a
+  ><a name="8072"
+  > </a
+  ><a name="8073" href="Revise.Coinduction.html#7412" class="Datatype Operator"
+  >&#8776;</a
+  ><a name="8074"
+  > </a
+  ><a name="8075" href="Revise.Coinduction.html#8040" class="Bound"
+  >xs</a
+  ><a name="8077"
+  >
+</a
+  ><a name="8078" href="Revise.Coinduction.html#8021" class="Function"
+  >&#8776;-sym</a
+  ><a name="8083"
+  > </a
+  ><a name="8084" class="Symbol"
+  >(</a
+  ><a name="8085" href="Revise.Coinduction.html#8085" class="Bound"
+  >x</a
+  ><a name="8086"
+  > </a
+  ><a name="8087" href="Revise.Coinduction.html#7462" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="8088"
+  > </a
+  ><a name="8089" href="Revise.Coinduction.html#8089" class="Bound"
+  >xs&#8776;</a
+  ><a name="8092" class="Symbol"
+  >)</a
+  ><a name="8093"
+  > </a
+  ><a name="8094" class="Symbol"
+  >=</a
+  ><a name="8095"
+  > </a
+  ><a name="8096" href="Revise.Coinduction.html#8085" class="Bound"
+  >x</a
+  ><a name="8097"
+  > </a
+  ><a name="8098" href="Revise.Coinduction.html#7462" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="8099"
+  > </a
+  ><a name="8100" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="8101"
+  > </a
+  ><a name="8102" href="Revise.Coinduction.html#8021" class="Function"
+  >&#8776;-sym</a
+  ><a name="8107"
+  > </a
+  ><a name="8108" class="Symbol"
+  >(</a
+  ><a name="8109" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="8110"
+  > </a
+  ><a name="8111" href="Revise.Coinduction.html#8089" class="Bound"
+  >xs&#8776;</a
+  ><a name="8114" class="Symbol"
+  >)</a
+  ><a name="8115"
+  >
+
+</a
+  ><a name="8117" href="Revise.Coinduction.html#8117" class="Function"
+  >&#8776;-trans</a
+  ><a name="8124"
+  > </a
+  ><a name="8125" class="Symbol"
+  >:</a
+  ><a name="8126"
+  > </a
+  ><a name="8127" class="Symbol"
+  >{</a
+  ><a name="8128" href="Revise.Coinduction.html#8128" class="Bound"
+  >A</a
+  ><a name="8129"
+  > </a
+  ><a name="8130" class="Symbol"
+  >:</a
+  ><a name="8131"
+  > </a
+  ><a name="8132" class="PrimitiveType"
+  >Set</a
+  ><a name="8135" class="Symbol"
+  >}</a
+  ><a name="8136"
+  > </a
+  ><a name="8137" class="Symbol"
+  >{</a
+  ><a name="8138" href="Revise.Coinduction.html#8138" class="Bound"
+  >xs</a
+  ><a name="8140"
+  > </a
+  ><a name="8141" href="Revise.Coinduction.html#8141" class="Bound"
+  >ys</a
+  ><a name="8143"
+  > </a
+  ><a name="8144" href="Revise.Coinduction.html#8144" class="Bound"
+  >zs</a
+  ><a name="8146"
+  > </a
+  ><a name="8147" class="Symbol"
+  >:</a
+  ><a name="8148"
+  > </a
+  ><a name="8149" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="8155"
+  > </a
+  ><a name="8156" href="Revise.Coinduction.html#8128" class="Bound"
+  >A</a
+  ><a name="8157" class="Symbol"
+  >}</a
+  ><a name="8158"
+  > </a
+  ><a name="8159" class="Symbol"
+  >&#8594;</a
+  ><a name="8160"
+  > </a
+  ><a name="8161" href="Revise.Coinduction.html#8138" class="Bound"
+  >xs</a
+  ><a name="8163"
+  > </a
+  ><a name="8164" href="Revise.Coinduction.html#7412" class="Datatype Operator"
+  >&#8776;</a
+  ><a name="8165"
+  > </a
+  ><a name="8166" href="Revise.Coinduction.html#8141" class="Bound"
+  >ys</a
+  ><a name="8168"
+  > </a
+  ><a name="8169" class="Symbol"
+  >&#8594;</a
+  ><a name="8170"
+  > </a
+  ><a name="8171" href="Revise.Coinduction.html#8141" class="Bound"
+  >ys</a
+  ><a name="8173"
+  > </a
+  ><a name="8174" href="Revise.Coinduction.html#7412" class="Datatype Operator"
+  >&#8776;</a
+  ><a name="8175"
+  > </a
+  ><a name="8176" href="Revise.Coinduction.html#8144" class="Bound"
+  >zs</a
+  ><a name="8178"
+  > </a
+  ><a name="8179" class="Symbol"
+  >&#8594;</a
+  ><a name="8180"
+  > </a
+  ><a name="8181" href="Revise.Coinduction.html#8138" class="Bound"
+  >xs</a
+  ><a name="8183"
+  > </a
+  ><a name="8184" href="Revise.Coinduction.html#7412" class="Datatype Operator"
+  >&#8776;</a
+  ><a name="8185"
+  > </a
+  ><a name="8186" href="Revise.Coinduction.html#8144" class="Bound"
+  >zs</a
+  ><a name="8188"
+  >
+</a
+  ><a name="8189" href="Revise.Coinduction.html#8117" class="Function"
+  >&#8776;-trans</a
+  ><a name="8196"
+  > </a
+  ><a name="8197" class="Symbol"
+  >(</a
+  ><a name="8198" href="Revise.Coinduction.html#8198" class="Bound"
+  >x</a
+  ><a name="8199"
+  > </a
+  ><a name="8200" href="Revise.Coinduction.html#7462" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="8201"
+  > </a
+  ><a name="8202" href="Revise.Coinduction.html#8202" class="Bound"
+  >xs&#8776;</a
+  ><a name="8205" class="Symbol"
+  >)</a
+  ><a name="8206"
+  > </a
+  ><a name="8207" class="Symbol"
+  >(</a
+  ><a name="8208" class="DottedPattern Symbol"
+  >.</a
+  ><a name="8209" href="Revise.Coinduction.html#8198" class="DottedPattern Bound"
+  >x</a
+  ><a name="8210"
+  > </a
+  ><a name="8211" href="Revise.Coinduction.html#7462" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="8212"
+  > </a
+  ><a name="8213" href="Revise.Coinduction.html#8213" class="Bound"
+  >ys&#8776;</a
+  ><a name="8216" class="Symbol"
+  >)</a
+  ><a name="8217"
+  > </a
+  ><a name="8218" class="Symbol"
+  >=</a
+  ><a name="8219"
+  > </a
+  ><a name="8220" href="Revise.Coinduction.html#8198" class="Bound"
+  >x</a
+  ><a name="8221"
+  > </a
+  ><a name="8222" href="Revise.Coinduction.html#7462" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="8223"
+  > </a
+  ><a name="8224" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="8225"
+  > </a
+  ><a name="8226" href="Revise.Coinduction.html#8117" class="Function"
+  >&#8776;-trans</a
+  ><a name="8233"
+  > </a
+  ><a name="8234" class="Symbol"
+  >(</a
+  ><a name="8235" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="8236"
+  > </a
+  ><a name="8237" href="Revise.Coinduction.html#8202" class="Bound"
+  >xs&#8776;</a
+  ><a name="8240" class="Symbol"
+  >)</a
+  ><a name="8241"
+  > </a
+  ><a name="8242" class="Symbol"
+  >(</a
+  ><a name="8243" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="8244"
+  > </a
+  ><a name="8245" href="Revise.Coinduction.html#8213" class="Bound"
+  >ys&#8776;</a
+  ><a name="8248" class="Symbol"
+  >)</a
+  ><a name="8249"
+  >
+
+</a
+  ><a name="8251" href="Revise.Coinduction.html#8251" class="Function"
+  >map-cong</a
+  ><a name="8259"
+  > </a
+  ><a name="8260" class="Symbol"
+  >:</a
+  ><a name="8261"
+  > </a
+  ><a name="8262" class="Symbol"
+  >{</a
+  ><a name="8263" href="Revise.Coinduction.html#8263" class="Bound"
+  >A</a
+  ><a name="8264"
+  > </a
+  ><a name="8265" href="Revise.Coinduction.html#8265" class="Bound"
+  >B</a
+  ><a name="8266"
+  > </a
+  ><a name="8267" class="Symbol"
+  >:</a
+  ><a name="8268"
+  > </a
+  ><a name="8269" class="PrimitiveType"
+  >Set</a
+  ><a name="8272" class="Symbol"
+  >}</a
+  ><a name="8273"
+  > </a
+  ><a name="8274" class="Symbol"
+  >(</a
+  ><a name="8275" href="Revise.Coinduction.html#8275" class="Bound"
+  >f</a
+  ><a name="8276"
+  > </a
+  ><a name="8277" class="Symbol"
+  >:</a
+  ><a name="8278"
+  > </a
+  ><a name="8279" href="Revise.Coinduction.html#8263" class="Bound"
+  >A</a
+  ><a name="8280"
+  > </a
+  ><a name="8281" class="Symbol"
+  >&#8594;</a
+  ><a name="8282"
+  > </a
+  ><a name="8283" href="Revise.Coinduction.html#8265" class="Bound"
+  >B</a
+  ><a name="8284" class="Symbol"
+  >)</a
+  ><a name="8285"
+  > </a
+  ><a name="8286" class="Symbol"
+  >{</a
+  ><a name="8287" href="Revise.Coinduction.html#8287" class="Bound"
+  >xs</a
+  ><a name="8289"
+  > </a
+  ><a name="8290" href="Revise.Coinduction.html#8290" class="Bound"
+  >ys</a
+  ><a name="8292"
+  > </a
+  ><a name="8293" class="Symbol"
+  >:</a
+  ><a name="8294"
+  > </a
+  ><a name="8295" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="8301"
+  > </a
+  ><a name="8302" href="Revise.Coinduction.html#8263" class="Bound"
+  >A</a
+  ><a name="8303" class="Symbol"
+  >}</a
+  ><a name="8304"
+  > </a
+  ><a name="8305" class="Symbol"
+  >&#8594;</a
+  ><a name="8306"
+  >
+           </a
+  ><a name="8318" href="Revise.Coinduction.html#8287" class="Bound"
+  >xs</a
+  ><a name="8320"
+  > </a
+  ><a name="8321" href="Revise.Coinduction.html#7412" class="Datatype Operator"
+  >&#8776;</a
+  ><a name="8322"
+  > </a
+  ><a name="8323" href="Revise.Coinduction.html#8290" class="Bound"
+  >ys</a
+  ><a name="8325"
+  > </a
+  ><a name="8326" class="Symbol"
+  >&#8594;</a
+  ><a name="8327"
+  > </a
+  ><a name="8328" href="Revise.Coinduction.html#5770" class="Function"
+  >map</a
+  ><a name="8331"
+  > </a
+  ><a name="8332" href="Revise.Coinduction.html#8275" class="Bound"
+  >f</a
+  ><a name="8333"
+  > </a
+  ><a name="8334" href="Revise.Coinduction.html#8287" class="Bound"
+  >xs</a
+  ><a name="8336"
+  > </a
+  ><a name="8337" href="Revise.Coinduction.html#7412" class="Datatype Operator"
+  >&#8776;</a
+  ><a name="8338"
+  > </a
+  ><a name="8339" href="Revise.Coinduction.html#5770" class="Function"
+  >map</a
+  ><a name="8342"
+  > </a
+  ><a name="8343" href="Revise.Coinduction.html#8275" class="Bound"
+  >f</a
+  ><a name="8344"
+  > </a
+  ><a name="8345" href="Revise.Coinduction.html#8290" class="Bound"
+  >ys</a
+  ><a name="8347"
+  >
+</a
+  ><a name="8348" href="Revise.Coinduction.html#8251" class="Function"
+  >map-cong</a
+  ><a name="8356"
+  > </a
+  ><a name="8357" href="Revise.Coinduction.html#8357" class="Bound"
+  >f</a
+  ><a name="8358"
+  > </a
+  ><a name="8359" class="Symbol"
+  >(</a
+  ><a name="8360" href="Revise.Coinduction.html#8360" class="Bound"
+  >x</a
+  ><a name="8361"
+  > </a
+  ><a name="8362" href="Revise.Coinduction.html#7462" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="8363"
+  > </a
+  ><a name="8364" href="Revise.Coinduction.html#8364" class="Bound"
+  >xs&#8776;</a
+  ><a name="8367" class="Symbol"
+  >)</a
+  ><a name="8368"
+  > </a
+  ><a name="8369" class="Symbol"
+  >=</a
+  ><a name="8370"
+  > </a
+  ><a name="8371" href="Revise.Coinduction.html#8357" class="Bound"
+  >f</a
+  ><a name="8372"
+  > </a
+  ><a name="8373" href="Revise.Coinduction.html#8360" class="Bound"
+  >x</a
+  ><a name="8374"
+  > </a
+  ><a name="8375" href="Revise.Coinduction.html#7462" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="8376"
+  > </a
+  ><a name="8377" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="8378"
+  > </a
+  ><a name="8379" href="Revise.Coinduction.html#8251" class="Function"
+  >map-cong</a
+  ><a name="8387"
+  > </a
+  ><a name="8388" href="Revise.Coinduction.html#8357" class="Bound"
+  >f</a
+  ><a name="8389"
+  > </a
+  ><a name="8390" class="Symbol"
+  >(</a
+  ><a name="8391" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="8392"
+  > </a
+  ><a name="8393" href="Revise.Coinduction.html#8364" class="Bound"
+  >xs&#8776;</a
+  ><a name="8396" class="Symbol"
+  >)</a
+  ><a name="8397"
+  >
+
+</a
+  ><a name="8399" href="Revise.Coinduction.html#8399" class="Function"
+  >elem-&#8801;</a
+  ><a name="8405"
+  > </a
+  ><a name="8406" class="Symbol"
+  >:</a
+  ><a name="8407"
+  > </a
+  ><a name="8408" class="Symbol"
+  >{</a
+  ><a name="8409" href="Revise.Coinduction.html#8409" class="Bound"
+  >A</a
+  ><a name="8410"
+  > </a
+  ><a name="8411" class="Symbol"
+  >:</a
+  ><a name="8412"
+  > </a
+  ><a name="8413" class="PrimitiveType"
+  >Set</a
+  ><a name="8416" class="Symbol"
+  >}</a
+  ><a name="8417"
+  > </a
+  ><a name="8418" class="Symbol"
+  >{</a
+  ><a name="8419" href="Revise.Coinduction.html#8419" class="Bound"
+  >xs</a
+  ><a name="8421"
+  > </a
+  ><a name="8422" href="Revise.Coinduction.html#8422" class="Bound"
+  >ys</a
+  ><a name="8424"
+  > </a
+  ><a name="8425" class="Symbol"
+  >:</a
+  ><a name="8426"
+  > </a
+  ><a name="8427" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="8433"
+  > </a
+  ><a name="8434" href="Revise.Coinduction.html#8409" class="Bound"
+  >A</a
+  ><a name="8435" class="Symbol"
+  >}</a
+  ><a name="8436"
+  > </a
+  ><a name="8437" class="Symbol"
+  >&#8594;</a
+  ><a name="8438"
+  > 
+         </a
+  ><a name="8449" href="Revise.Coinduction.html#8419" class="Bound"
+  >xs</a
+  ><a name="8451"
+  > </a
+  ><a name="8452" href="Revise.Coinduction.html#7412" class="Datatype Operator"
+  >&#8776;</a
+  ><a name="8453"
+  > </a
+  ><a name="8454" href="Revise.Coinduction.html#8422" class="Bound"
+  >ys</a
+  ><a name="8456"
+  > </a
+  ><a name="8457" class="Symbol"
+  >&#8594;</a
+  ><a name="8458"
+  > </a
+  ><a name="8459" class="Symbol"
+  >(</a
+  ><a name="8460" href="Revise.Coinduction.html#8460" class="Bound"
+  >n</a
+  ><a name="8461"
+  > </a
+  ><a name="8462" class="Symbol"
+  >:</a
+  ><a name="8463"
+  > </a
+  ><a name="8464" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="8465" class="Symbol"
+  >)</a
+  ><a name="8466"
+  > </a
+  ><a name="8467" class="Symbol"
+  >&#8594;</a
+  ><a name="8468"
+  > </a
+  ><a name="8469" href="Revise.Coinduction.html#5201" class="Function"
+  >lookup</a
+  ><a name="8475"
+  > </a
+  ><a name="8476" href="Revise.Coinduction.html#8460" class="Bound"
+  >n</a
+  ><a name="8477"
+  > </a
+  ><a name="8478" href="Revise.Coinduction.html#8419" class="Bound"
+  >xs</a
+  ><a name="8480"
+  > </a
+  ><a name="8481" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="8482"
+  > </a
+  ><a name="8483" href="Revise.Coinduction.html#5201" class="Function"
+  >lookup</a
+  ><a name="8489"
+  > </a
+  ><a name="8490" href="Revise.Coinduction.html#8460" class="Bound"
+  >n</a
+  ><a name="8491"
+  > </a
+  ><a name="8492" href="Revise.Coinduction.html#8422" class="Bound"
+  >ys</a
+  ><a name="8494"
+  >
+</a
+  ><a name="8495" href="Revise.Coinduction.html#8399" class="Function"
+  >elem-&#8801;</a
+  ><a name="8501"
+  > </a
+  ><a name="8502" class="Symbol"
+  >(</a
+  ><a name="8503" href="Revise.Coinduction.html#8503" class="Bound"
+  >x</a
+  ><a name="8504"
+  > </a
+  ><a name="8505" href="Revise.Coinduction.html#7462" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="8506"
+  > </a
+  ><a name="8507" href="Revise.Coinduction.html#8507" class="Bound"
+  >xs</a
+  ><a name="8509" class="Symbol"
+  >)</a
+  ><a name="8510"
+  >  </a
+  ><a name="8512" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="8516"
+  >   </a
+  ><a name="8519" class="Symbol"
+  >=</a
+  ><a name="8520"
+  > </a
+  ><a name="8521" href="Relation.Binary.Core.html#4653" class="InductiveConstructor"
+  >refl</a
+  ><a name="8525"
+  >
+</a
+  ><a name="8526" href="Revise.Coinduction.html#8399" class="Function"
+  >elem-&#8801;</a
+  ><a name="8532"
+  > </a
+  ><a name="8533" class="Symbol"
+  >(</a
+  ><a name="8534" href="Revise.Coinduction.html#8534" class="Bound"
+  >x</a
+  ><a name="8535"
+  > </a
+  ><a name="8536" href="Revise.Coinduction.html#7462" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="8537"
+  > </a
+  ><a name="8538" href="Revise.Coinduction.html#8538" class="Bound"
+  >xs</a
+  ><a name="8540" class="Symbol"
+  >)</a
+  ><a name="8541"
+  > </a
+  ><a name="8542" class="Symbol"
+  >(</a
+  ><a name="8543" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="8546"
+  > </a
+  ><a name="8547" href="Revise.Coinduction.html#8547" class="Bound"
+  >n</a
+  ><a name="8548" class="Symbol"
+  >)</a
+  ><a name="8549"
+  > </a
+  ><a name="8550" class="Symbol"
+  >=</a
+  ><a name="8551"
+  > </a
+  ><a name="8552" href="Revise.Coinduction.html#8399" class="Function"
+  >elem-&#8801;</a
+  ><a name="8558"
+  > </a
+  ><a name="8559" class="Symbol"
+  >(</a
+  ><a name="8560" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="8561"
+  > </a
+  ><a name="8562" href="Revise.Coinduction.html#8538" class="Bound"
+  >xs</a
+  ><a name="8564" class="Symbol"
+  >)</a
+  ><a name="8565"
+  > </a
+  ><a name="8566" href="Revise.Coinduction.html#8547" class="Bound"
+  >n</a
+  ></pre
+></p>
+<hr />
+<p>It this possible?</p>
+<pre><code>func-≡ : {A : Set} (f : Stream A → ℕ) (xs ys : Stream A) → 
+     xs ≈ ys → f xs ≡ f ys
+func-≡ f xs ys e = {!!}</code></pre>
+<h1 id="other-relations-on-streams"><a href="#other-relations-on-streams">Other relations on streams</a></h1>
+<p>Element relation:</p>
+<p><pre
+><a name="8815"
+  >
+</a
+  ><a name="8830" class="Keyword"
+  >data</a
+  ><a name="8834"
+  > </a
+  ><a name="8835" href="Revise.Coinduction.html#8835" class="Datatype Operator"
+  >_&#8712;_</a
+  ><a name="8838"
+  > </a
+  ><a name="8839" class="Symbol"
+  >{</a
+  ><a name="8840" href="Revise.Coinduction.html#8840" class="Bound"
+  >A</a
+  ><a name="8841"
+  > </a
+  ><a name="8842" class="Symbol"
+  >:</a
+  ><a name="8843"
+  > </a
+  ><a name="8844" class="PrimitiveType"
+  >Set</a
+  ><a name="8847" class="Symbol"
+  >}</a
+  ><a name="8848"
+  > </a
+  ><a name="8849" class="Symbol"
+  >:</a
+  ><a name="8850"
+  > </a
+  ><a name="8851" href="Revise.Coinduction.html#8840" class="Bound"
+  >A</a
+  ><a name="8852"
+  > </a
+  ><a name="8853" class="Symbol"
+  >&#8594;</a
+  ><a name="8854"
+  > </a
+  ><a name="8855" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="8861"
+  > </a
+  ><a name="8862" href="Revise.Coinduction.html#8840" class="Bound"
+  >A</a
+  ><a name="8863"
+  > </a
+  ><a name="8864" class="Symbol"
+  >&#8594;</a
+  ><a name="8865"
+  > </a
+  ><a name="8866" class="PrimitiveType"
+  >Set</a
+  ><a name="8869"
+  > </a
+  ><a name="8870" class="Keyword"
+  >where</a
+  ><a name="8875"
+  >
+  </a
+  ><a name="8878" href="Revise.Coinduction.html#8878" class="InductiveConstructor"
+  >here</a
+  ><a name="8882"
+  >  </a
+  ><a name="8884" class="Symbol"
+  >:</a
+  ><a name="8885"
+  > </a
+  ><a name="8886" class="Symbol"
+  >{</a
+  ><a name="8887" href="Revise.Coinduction.html#8887" class="Bound"
+  >x</a
+  ><a name="8888"
+  > </a
+  ><a name="8889" class="Symbol"
+  >:</a
+  ><a name="8890"
+  > </a
+  ><a name="8891" href="Revise.Coinduction.html#8840" class="Bound"
+  >A</a
+  ><a name="8892" class="Symbol"
+  >}</a
+  ><a name="8893"
+  >   </a
+  ><a name="8896" class="Symbol"
+  >{</a
+  ><a name="8897" href="Revise.Coinduction.html#8897" class="Bound"
+  >xs</a
+  ><a name="8899"
+  > </a
+  ><a name="8900" class="Symbol"
+  >:</a
+  ><a name="8901"
+  > </a
+  ><a name="8902" href="Coinduction.html#414" class="Datatype"
+  >&#8734;</a
+  ><a name="8903"
+  > </a
+  ><a name="8904" class="Symbol"
+  >(</a
+  ><a name="8905" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="8911"
+  > </a
+  ><a name="8912" href="Revise.Coinduction.html#8840" class="Bound"
+  >A</a
+  ><a name="8913" class="Symbol"
+  >)}</a
+  ><a name="8915"
+  >              </a
+  ><a name="8929" class="Symbol"
+  >&#8594;</a
+  ><a name="8930"
+  > </a
+  ><a name="8931" href="Revise.Coinduction.html#8887" class="Bound"
+  >x</a
+  ><a name="8932"
+  > </a
+  ><a name="8933" href="Revise.Coinduction.html#8835" class="Datatype Operator"
+  >&#8712;</a
+  ><a name="8934"
+  > </a
+  ><a name="8935" href="Revise.Coinduction.html#8887" class="Bound"
+  >x</a
+  ><a name="8936"
+  > </a
+  ><a name="8937" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="8938"
+  > </a
+  ><a name="8939" href="Revise.Coinduction.html#8897" class="Bound"
+  >xs</a
+  ><a name="8941"
+  >
+  </a
+  ><a name="8944" href="Revise.Coinduction.html#8944" class="InductiveConstructor"
+  >there</a
+  ><a name="8949"
+  > </a
+  ><a name="8950" class="Symbol"
+  >:</a
+  ><a name="8951"
+  > </a
+  ><a name="8952" class="Symbol"
+  >{</a
+  ><a name="8953" href="Revise.Coinduction.html#8953" class="Bound"
+  >x</a
+  ><a name="8954"
+  > </a
+  ><a name="8955" href="Revise.Coinduction.html#8955" class="Bound"
+  >y</a
+  ><a name="8956"
+  > </a
+  ><a name="8957" class="Symbol"
+  >:</a
+  ><a name="8958"
+  > </a
+  ><a name="8959" href="Revise.Coinduction.html#8840" class="Bound"
+  >A</a
+  ><a name="8960" class="Symbol"
+  >}</a
+  ><a name="8961"
+  > </a
+  ><a name="8962" class="Symbol"
+  >{</a
+  ><a name="8963" href="Revise.Coinduction.html#8963" class="Bound"
+  >xs</a
+  ><a name="8965"
+  > </a
+  ><a name="8966" class="Symbol"
+  >:</a
+  ><a name="8967"
+  > </a
+  ><a name="8968" href="Coinduction.html#414" class="Datatype"
+  >&#8734;</a
+  ><a name="8969"
+  > </a
+  ><a name="8970" class="Symbol"
+  >(</a
+  ><a name="8971" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="8977"
+  > </a
+  ><a name="8978" href="Revise.Coinduction.html#8840" class="Bound"
+  >A</a
+  ><a name="8979" class="Symbol"
+  >)}</a
+  ><a name="8981"
+  > </a
+  ><a name="8982" class="Symbol"
+  >&#8594;</a
+  ><a name="8983"
+  > </a
+  ><a name="8984" class="Symbol"
+  >(</a
+  ><a name="8985" href="Revise.Coinduction.html#8953" class="Bound"
+  >x</a
+  ><a name="8986"
+  > </a
+  ><a name="8987" href="Revise.Coinduction.html#8835" class="Datatype Operator"
+  >&#8712;</a
+  ><a name="8988"
+  > </a
+  ><a name="8989" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="8990"
+  > </a
+  ><a name="8991" href="Revise.Coinduction.html#8963" class="Bound"
+  >xs</a
+  ><a name="8993" class="Symbol"
+  >)</a
+  ><a name="8994"
+  > </a
+  ><a name="8995" class="Symbol"
+  >&#8594;</a
+  ><a name="8996"
+  > </a
+  ><a name="8997" href="Revise.Coinduction.html#8953" class="Bound"
+  >x</a
+  ><a name="8998"
+  > </a
+  ><a name="8999" href="Revise.Coinduction.html#8835" class="Datatype Operator"
+  >&#8712;</a
+  ><a name="9000"
+  > </a
+  ><a name="9001" href="Revise.Coinduction.html#8955" class="Bound"
+  >y</a
+  ><a name="9002"
+  > </a
+  ><a name="9003" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="9004"
+  > </a
+  ><a name="9005" href="Revise.Coinduction.html#8963" class="Bound"
+  >xs</a
+  ><a name="9007"
+  >
+
+</a
+  ><a name="9009" class="Keyword"
+  >infix</a
+  ><a name="9014"
+  > </a
+  ><a name="9015" class="Number"
+  >4</a
+  ><a name="9016"
+  > _&#8712;_</a
+  ></pre
+></p>
+<p>Prefix-of relation:</p>
+<p><pre
+><a name="9052"
+  >
+</a
+  ><a name="9067" class="Keyword"
+  >data</a
+  ><a name="9071"
+  > </a
+  ><a name="9072" href="Revise.Coinduction.html#9072" class="Datatype Operator"
+  >_&#8849;_</a
+  ><a name="9075"
+  > </a
+  ><a name="9076" class="Symbol"
+  >{</a
+  ><a name="9077" href="Revise.Coinduction.html#9077" class="Bound"
+  >A</a
+  ><a name="9078"
+  > </a
+  ><a name="9079" class="Symbol"
+  >:</a
+  ><a name="9080"
+  > </a
+  ><a name="9081" class="PrimitiveType"
+  >Set</a
+  ><a name="9084" class="Symbol"
+  >}</a
+  ><a name="9085"
+  > </a
+  ><a name="9086" class="Symbol"
+  >:</a
+  ><a name="9087"
+  > </a
+  ><a name="9088" href="Revise.Coinduction.html#6177" class="Datatype"
+  >Colist</a
+  ><a name="9094"
+  > </a
+  ><a name="9095" href="Revise.Coinduction.html#9077" class="Bound"
+  >A</a
+  ><a name="9096"
+  > </a
+  ><a name="9097" class="Symbol"
+  >&#8594;</a
+  ><a name="9098"
+  > </a
+  ><a name="9099" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="9105"
+  > </a
+  ><a name="9106" href="Revise.Coinduction.html#9077" class="Bound"
+  >A</a
+  ><a name="9107"
+  > </a
+  ><a name="9108" class="Symbol"
+  >&#8594;</a
+  ><a name="9109"
+  > </a
+  ><a name="9110" class="PrimitiveType"
+  >Set</a
+  ><a name="9113"
+  > </a
+  ><a name="9114" class="Keyword"
+  >where</a
+  ><a name="9119"
+  >
+  </a
+  ><a name="9122" href="Revise.Coinduction.html#9122" class="InductiveConstructor"
+  >[]</a
+  ><a name="9124"
+  >  </a
+  ><a name="9126" class="Symbol"
+  >:</a
+  ><a name="9127"
+  > </a
+  ><a name="9128" class="Symbol"
+  >{</a
+  ><a name="9129" href="Revise.Coinduction.html#9129" class="Bound"
+  >ys</a
+  ><a name="9131"
+  > </a
+  ><a name="9132" class="Symbol"
+  >:</a
+  ><a name="9133"
+  > </a
+  ><a name="9134" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="9140"
+  > </a
+  ><a name="9141" href="Revise.Coinduction.html#9077" class="Bound"
+  >A</a
+  ><a name="9142" class="Symbol"
+  >}</a
+  ><a name="9143"
+  >                </a
+  ><a name="9159" class="Symbol"
+  >&#8594;</a
+  ><a name="9160"
+  > </a
+  ><a name="9161" href="Revise.Coinduction.html#6208" class="InductiveConstructor"
+  >[]</a
+  ><a name="9163"
+  > </a
+  ><a name="9164" href="Revise.Coinduction.html#9072" class="Datatype Operator"
+  >&#8849;</a
+  ><a name="9165"
+  > </a
+  ><a name="9166" href="Revise.Coinduction.html#9129" class="Bound"
+  >ys</a
+  ><a name="9168"
+  >
+  </a
+  ><a name="9171" href="Revise.Coinduction.html#9171" class="InductiveConstructor Operator"
+  >_&#8759;_</a
+  ><a name="9174"
+  > </a
+  ><a name="9175" class="Symbol"
+  >:</a
+  ><a name="9176"
+  > </a
+  ><a name="9177" class="Symbol"
+  >{</a
+  ><a name="9178" href="Revise.Coinduction.html#9178" class="Bound"
+  >x</a
+  ><a name="9179"
+  > </a
+  ><a name="9180" class="Symbol"
+  >:</a
+  ><a name="9181"
+  > </a
+  ><a name="9182" href="Revise.Coinduction.html#9077" class="Bound"
+  >A</a
+  ><a name="9183" class="Symbol"
+  >}</a
+  ><a name="9184"
+  > </a
+  ><a name="9185" class="Symbol"
+  >{</a
+  ><a name="9186" href="Revise.Coinduction.html#9186" class="Bound"
+  >xs</a
+  ><a name="9188"
+  > </a
+  ><a name="9189" class="Symbol"
+  >:</a
+  ><a name="9190"
+  > </a
+  ><a name="9191" href="Coinduction.html#414" class="Datatype"
+  >&#8734;</a
+  ><a name="9192"
+  > </a
+  ><a name="9193" class="Symbol"
+  >(</a
+  ><a name="9194" href="Revise.Coinduction.html#6177" class="Datatype"
+  >Colist</a
+  ><a name="9200"
+  > </a
+  ><a name="9201" href="Revise.Coinduction.html#9077" class="Bound"
+  >A</a
+  ><a name="9202" class="Symbol"
+  >)}</a
+  ><a name="9204"
+  > </a
+  ><a name="9205" class="Symbol"
+  >{</a
+  ><a name="9206" href="Revise.Coinduction.html#9206" class="Bound"
+  >ys</a
+  ><a name="9208"
+  > </a
+  ><a name="9209" class="Symbol"
+  >:</a
+  ><a name="9210"
+  > </a
+  ><a name="9211" href="Coinduction.html#414" class="Datatype"
+  >&#8734;</a
+  ><a name="9212"
+  > </a
+  ><a name="9213" class="Symbol"
+  >(</a
+  ><a name="9214" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="9220"
+  > </a
+  ><a name="9221" href="Revise.Coinduction.html#9077" class="Bound"
+  >A</a
+  ><a name="9222" class="Symbol"
+  >)}</a
+  ><a name="9224"
+  > </a
+  ><a name="9225" class="Symbol"
+  >&#8594;</a
+  ><a name="9226"
+  > 
+        </a
+  ><a name="9236" href="Coinduction.html#414" class="Datatype"
+  >&#8734;</a
+  ><a name="9237"
+  > </a
+  ><a name="9238" class="Symbol"
+  >(</a
+  ><a name="9239" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="9240"
+  > </a
+  ><a name="9241" href="Revise.Coinduction.html#9186" class="Bound"
+  >xs</a
+  ><a name="9243"
+  > </a
+  ><a name="9244" href="Revise.Coinduction.html#9072" class="Datatype Operator"
+  >&#8849;</a
+  ><a name="9245"
+  > </a
+  ><a name="9246" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="9247"
+  > </a
+  ><a name="9248" href="Revise.Coinduction.html#9206" class="Bound"
+  >ys</a
+  ><a name="9250" class="Symbol"
+  >)</a
+  ><a name="9251"
+  > </a
+  ><a name="9252" class="Symbol"
+  >&#8594;</a
+  ><a name="9253"
+  > </a
+  ><a name="9254" href="Revise.Coinduction.html#9178" class="Bound"
+  >x</a
+  ><a name="9255"
+  > </a
+  ><a name="9256" href="Revise.Coinduction.html#6244" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="9257"
+  > </a
+  ><a name="9258" href="Revise.Coinduction.html#9186" class="Bound"
+  >xs</a
+  ><a name="9260"
+  > </a
+  ><a name="9261" href="Revise.Coinduction.html#9072" class="Datatype Operator"
+  >&#8849;</a
+  ><a name="9262"
+  > </a
+  ><a name="9263" href="Revise.Coinduction.html#9178" class="Bound"
+  >x</a
+  ><a name="9264"
+  > </a
+  ><a name="9265" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="9266"
+  > </a
+  ><a name="9267" href="Revise.Coinduction.html#9206" class="Bound"
+  >ys</a
+  ><a name="9269"
+  >
+
+</a
+  ><a name="9271" class="Keyword"
+  >infix</a
+  ><a name="9276"
+  > </a
+  ><a name="9277" class="Number"
+  >4</a
+  ><a name="9278"
+  > _&#8849;_</a
+  ></pre
+></p>
+<h1 id="inductive-and-coinductive-sets"><a href="#inductive-and-coinductive-sets">Inductive and coinductive sets</a></h1>
+<p>Set of stream processors:</p>
+<p><pre
+><a name="9384"
+  >
+</a
+  ><a name="9399" class="Keyword"
+  >data</a
+  ><a name="9403"
+  > </a
+  ><a name="9404" href="Revise.Coinduction.html#9404" class="Datatype"
+  >SP</a
+  ><a name="9406"
+  > </a
+  ><a name="9407" class="Symbol"
+  >(</a
+  ><a name="9408" href="Revise.Coinduction.html#9408" class="Bound"
+  >A</a
+  ><a name="9409"
+  > </a
+  ><a name="9410" href="Revise.Coinduction.html#9410" class="Bound"
+  >B</a
+  ><a name="9411"
+  > </a
+  ><a name="9412" class="Symbol"
+  >:</a
+  ><a name="9413"
+  > </a
+  ><a name="9414" class="PrimitiveType"
+  >Set</a
+  ><a name="9417" class="Symbol"
+  >)</a
+  ><a name="9418"
+  > </a
+  ><a name="9419" class="Symbol"
+  >:</a
+  ><a name="9420"
+  > </a
+  ><a name="9421" class="PrimitiveType"
+  >Set</a
+  ><a name="9424"
+  > </a
+  ><a name="9425" class="Keyword"
+  >where</a
+  ><a name="9430"
+  >
+    </a
+  ><a name="9435" href="Revise.Coinduction.html#9435" class="InductiveConstructor"
+  >get</a
+  ><a name="9438"
+  > </a
+  ><a name="9439" class="Symbol"
+  >:</a
+  ><a name="9440"
+  > </a
+  ><a name="9441" class="Symbol"
+  >(</a
+  ><a name="9442" href="Revise.Coinduction.html#9408" class="Bound"
+  >A</a
+  ><a name="9443"
+  > </a
+  ><a name="9444" class="Symbol"
+  >&#8594;</a
+  ><a name="9445"
+  > </a
+  ><a name="9446" href="Revise.Coinduction.html#9404" class="Datatype"
+  >SP</a
+  ><a name="9448"
+  > </a
+  ><a name="9449" href="Revise.Coinduction.html#9408" class="Bound"
+  >A</a
+  ><a name="9450"
+  > </a
+  ><a name="9451" href="Revise.Coinduction.html#9410" class="Bound"
+  >B</a
+  ><a name="9452" class="Symbol"
+  >)</a
+  ><a name="9453"
+  >   </a
+  ><a name="9456" class="Symbol"
+  >&#8594;</a
+  ><a name="9457"
+  > </a
+  ><a name="9458" href="Revise.Coinduction.html#9404" class="Datatype"
+  >SP</a
+  ><a name="9460"
+  > </a
+  ><a name="9461" href="Revise.Coinduction.html#9408" class="Bound"
+  >A</a
+  ><a name="9462"
+  > </a
+  ><a name="9463" href="Revise.Coinduction.html#9410" class="Bound"
+  >B</a
+  ><a name="9464"
+  >
+    </a
+  ><a name="9469" href="Revise.Coinduction.html#9469" class="InductiveConstructor"
+  >put</a
+  ><a name="9472"
+  > </a
+  ><a name="9473" class="Symbol"
+  >:</a
+  ><a name="9474"
+  > </a
+  ><a name="9475" href="Revise.Coinduction.html#9410" class="Bound"
+  >B</a
+  ><a name="9476"
+  > </a
+  ><a name="9477" class="Symbol"
+  >&#8594;</a
+  ><a name="9478"
+  > </a
+  ><a name="9479" href="Coinduction.html#414" class="Datatype"
+  >&#8734;</a
+  ><a name="9480"
+  > </a
+  ><a name="9481" class="Symbol"
+  >(</a
+  ><a name="9482" href="Revise.Coinduction.html#9404" class="Datatype"
+  >SP</a
+  ><a name="9484"
+  > </a
+  ><a name="9485" href="Revise.Coinduction.html#9408" class="Bound"
+  >A</a
+  ><a name="9486"
+  > </a
+  ><a name="9487" href="Revise.Coinduction.html#9410" class="Bound"
+  >B</a
+  ><a name="9488" class="Symbol"
+  >)</a
+  ><a name="9489"
+  > </a
+  ><a name="9490" class="Symbol"
+  >&#8594;</a
+  ><a name="9491"
+  > </a
+  ><a name="9492" href="Revise.Coinduction.html#9404" class="Datatype"
+  >SP</a
+  ><a name="9494"
+  > </a
+  ><a name="9495" href="Revise.Coinduction.html#9408" class="Bound"
+  >A</a
+  ><a name="9496"
+  > </a
+  ><a name="9497" href="Revise.Coinduction.html#9410" class="Bound"
+  >B</a
+  ></pre
+></p>
+<p>Meaning: we can produce infinite many elements (<code>put</code>), but can consume <em>only finite</em> elements (<code>get</code>) before production.</p>
+<p><em>Examples:</em></p>
+<p>Let <code>v : SP ⊤ ℕ</code>.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Set</th>
+<th align="left">1st,</th>
+<th align="left">2nd,</th>
+<th align="left">3rd,</th>
+<th align="left">...</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">SP ⊤ ℕ = {</td>
+<td align="left"><code>put 3 v</code> ≺</td>
+<td align="left"><code>put 3 (♯ put 4 v)</code> ≺</td>
+<td align="left"><code>put 3 (♯ put 4 (♯ put 9 v)</code> ≺</td>
+<td align="left">...</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"><code>put 4 v</code> ≺</td>
+<td align="left">...</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>get (λ tt → put 3 v)</code> ≺</td>
+<td align="left"><code>get (λ tt → put 3 (♯ put 4 v))</code> ≺</td>
+<td align="left">...</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>get (λ tt → put 4 v)</code> ≺</td>
+<td align="left">...</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>get (λ tt → get (λ tt → put 3 v)</code> ≺</td>
+<td align="left">...</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">...</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<h1 id="inductive-and-coinductive-sets-2"><a href="#inductive-and-coinductive-sets-2">Inductive and coinductive sets (2)</a></h1>
+<p>Application of a stream processor:</p>
+<p><pre
+><a name="10309"
+  >
+</a
+  ><a name="10324" href="Revise.Coinduction.html#10324" class="Function"
+  >eat</a
+  ><a name="10327"
+  > </a
+  ><a name="10328" class="Symbol"
+  >:</a
+  ><a name="10329"
+  > </a
+  ><a name="10330" class="Symbol"
+  >{</a
+  ><a name="10331" href="Revise.Coinduction.html#10331" class="Bound"
+  >A</a
+  ><a name="10332"
+  > </a
+  ><a name="10333" href="Revise.Coinduction.html#10333" class="Bound"
+  >B</a
+  ><a name="10334"
+  > </a
+  ><a name="10335" class="Symbol"
+  >:</a
+  ><a name="10336"
+  > </a
+  ><a name="10337" class="PrimitiveType"
+  >Set</a
+  ><a name="10340" class="Symbol"
+  >}</a
+  ><a name="10341"
+  > </a
+  ><a name="10342" class="Symbol"
+  >&#8594;</a
+  ><a name="10343"
+  > </a
+  ><a name="10344" href="Revise.Coinduction.html#9404" class="Datatype"
+  >SP</a
+  ><a name="10346"
+  > </a
+  ><a name="10347" href="Revise.Coinduction.html#10331" class="Bound"
+  >A</a
+  ><a name="10348"
+  > </a
+  ><a name="10349" href="Revise.Coinduction.html#10333" class="Bound"
+  >B</a
+  ><a name="10350"
+  > </a
+  ><a name="10351" class="Symbol"
+  >&#8594;</a
+  ><a name="10352"
+  > </a
+  ><a name="10353" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="10359"
+  > </a
+  ><a name="10360" href="Revise.Coinduction.html#10331" class="Bound"
+  >A</a
+  ><a name="10361"
+  > </a
+  ><a name="10362" class="Symbol"
+  >&#8594;</a
+  ><a name="10363"
+  > </a
+  ><a name="10364" href="Revise.Coinduction.html#3897" class="Datatype"
+  >Stream</a
+  ><a name="10370"
+  > </a
+  ><a name="10371" href="Revise.Coinduction.html#10333" class="Bound"
+  >B</a
+  ><a name="10372"
+  >
+</a
+  ><a name="10373" href="Revise.Coinduction.html#10324" class="Function"
+  >eat</a
+  ><a name="10376"
+  > </a
+  ><a name="10377" class="Symbol"
+  >(</a
+  ><a name="10378" href="Revise.Coinduction.html#9435" class="InductiveConstructor"
+  >get</a
+  ><a name="10381"
+  > </a
+  ><a name="10382" href="Revise.Coinduction.html#10382" class="Bound"
+  >f</a
+  ><a name="10383" class="Symbol"
+  >)</a
+  ><a name="10384"
+  >    </a
+  ><a name="10388" class="Symbol"
+  >(</a
+  ><a name="10389" href="Revise.Coinduction.html#10389" class="Bound"
+  >a</a
+  ><a name="10390"
+  > </a
+  ><a name="10391" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="10392"
+  > </a
+  ><a name="10393" href="Revise.Coinduction.html#10393" class="Bound"
+  >as</a
+  ><a name="10395" class="Symbol"
+  >)</a
+  ><a name="10396"
+  > </a
+  ><a name="10397" class="Symbol"
+  >=</a
+  ><a name="10398"
+  > </a
+  ><a name="10399" href="Revise.Coinduction.html#10324" class="Function"
+  >eat</a
+  ><a name="10402"
+  > </a
+  ><a name="10403" class="Symbol"
+  >(</a
+  ><a name="10404" href="Revise.Coinduction.html#10382" class="Bound"
+  >f</a
+  ><a name="10405"
+  > </a
+  ><a name="10406" href="Revise.Coinduction.html#10389" class="Bound"
+  >a</a
+  ><a name="10407" class="Symbol"
+  >)</a
+  ><a name="10408"
+  > </a
+  ><a name="10409" class="Symbol"
+  >(</a
+  ><a name="10410" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="10411"
+  > </a
+  ><a name="10412" href="Revise.Coinduction.html#10393" class="Bound"
+  >as</a
+  ><a name="10414" class="Symbol"
+  >)</a
+  ><a name="10415"
+  >
+</a
+  ><a name="10416" href="Revise.Coinduction.html#10324" class="Function"
+  >eat</a
+  ><a name="10419"
+  > </a
+  ><a name="10420" class="Symbol"
+  >(</a
+  ><a name="10421" href="Revise.Coinduction.html#9469" class="InductiveConstructor"
+  >put</a
+  ><a name="10424"
+  > </a
+  ><a name="10425" href="Revise.Coinduction.html#10425" class="Bound"
+  >b</a
+  ><a name="10426"
+  > </a
+  ><a name="10427" href="Revise.Coinduction.html#10427" class="Bound"
+  >sp</a
+  ><a name="10429" class="Symbol"
+  >)</a
+  ><a name="10430"
+  > </a
+  ><a name="10431" href="Revise.Coinduction.html#10431" class="Bound"
+  >as</a
+  ><a name="10433"
+  >       </a
+  ><a name="10440" class="Symbol"
+  >=</a
+  ><a name="10441"
+  > </a
+  ><a name="10442" href="Revise.Coinduction.html#10425" class="Bound"
+  >b</a
+  ><a name="10443"
+  > </a
+  ><a name="10444" href="Revise.Coinduction.html#3928" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="10445"
+  > </a
+  ><a name="10446" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="10447"
+  > </a
+  ><a name="10448" href="Revise.Coinduction.html#10324" class="Function"
+  >eat</a
+  ><a name="10451"
+  > </a
+  ><a name="10452" class="Symbol"
+  >(</a
+  ><a name="10453" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="10454"
+  > </a
+  ><a name="10455" href="Revise.Coinduction.html#10427" class="Bound"
+  >sp</a
+  ><a name="10457" class="Symbol"
+  >)</a
+  ><a name="10458"
+  > </a
+  ><a name="10459" href="Revise.Coinduction.html#10431" class="Bound"
+  >as</a
+  ></pre
+></p>
+<p>Composition of stream processors:</p>
+<p><pre
+><a name="10507"
+  >
+</a
+  ><a name="10522" href="Revise.Coinduction.html#10522" class="Function Operator"
+  >_&#8728;_</a
+  ><a name="10525"
+  > </a
+  ><a name="10526" class="Symbol"
+  >:</a
+  ><a name="10527"
+  > </a
+  ><a name="10528" class="Symbol"
+  >{</a
+  ><a name="10529" href="Revise.Coinduction.html#10529" class="Bound"
+  >A</a
+  ><a name="10530"
+  > </a
+  ><a name="10531" href="Revise.Coinduction.html#10531" class="Bound"
+  >B</a
+  ><a name="10532"
+  > </a
+  ><a name="10533" href="Revise.Coinduction.html#10533" class="Bound"
+  >C</a
+  ><a name="10534"
+  > </a
+  ><a name="10535" class="Symbol"
+  >:</a
+  ><a name="10536"
+  > </a
+  ><a name="10537" class="PrimitiveType"
+  >Set</a
+  ><a name="10540" class="Symbol"
+  >}</a
+  ><a name="10541"
+  > </a
+  ><a name="10542" class="Symbol"
+  >&#8594;</a
+  ><a name="10543"
+  > </a
+  ><a name="10544" href="Revise.Coinduction.html#9404" class="Datatype"
+  >SP</a
+  ><a name="10546"
+  > </a
+  ><a name="10547" href="Revise.Coinduction.html#10531" class="Bound"
+  >B</a
+  ><a name="10548"
+  > </a
+  ><a name="10549" href="Revise.Coinduction.html#10533" class="Bound"
+  >C</a
+  ><a name="10550"
+  > </a
+  ><a name="10551" class="Symbol"
+  >&#8594;</a
+  ><a name="10552"
+  > </a
+  ><a name="10553" href="Revise.Coinduction.html#9404" class="Datatype"
+  >SP</a
+  ><a name="10555"
+  > </a
+  ><a name="10556" href="Revise.Coinduction.html#10529" class="Bound"
+  >A</a
+  ><a name="10557"
+  > </a
+  ><a name="10558" href="Revise.Coinduction.html#10531" class="Bound"
+  >B</a
+  ><a name="10559"
+  > </a
+  ><a name="10560" class="Symbol"
+  >&#8594;</a
+  ><a name="10561"
+  > </a
+  ><a name="10562" href="Revise.Coinduction.html#9404" class="Datatype"
+  >SP</a
+  ><a name="10564"
+  > </a
+  ><a name="10565" href="Revise.Coinduction.html#10529" class="Bound"
+  >A</a
+  ><a name="10566"
+  > </a
+  ><a name="10567" href="Revise.Coinduction.html#10533" class="Bound"
+  >C</a
+  ><a name="10568"
+  >
+</a
+  ><a name="10569" href="Revise.Coinduction.html#9435" class="InductiveConstructor"
+  >get</a
+  ><a name="10572"
+  > </a
+  ><a name="10573" href="Revise.Coinduction.html#10573" class="Bound"
+  >f&#8321;</a
+  ><a name="10575"
+  >    </a
+  ><a name="10579" href="Revise.Coinduction.html#10522" class="Function Operator"
+  >&#8728;</a
+  ><a name="10580"
+  > </a
+  ><a name="10581" href="Revise.Coinduction.html#9469" class="InductiveConstructor"
+  >put</a
+  ><a name="10584"
+  > </a
+  ><a name="10585" href="Revise.Coinduction.html#10585" class="Bound"
+  >x</a
+  ><a name="10586"
+  > </a
+  ><a name="10587" href="Revise.Coinduction.html#10587" class="Bound"
+  >sp&#8322;</a
+  ><a name="10590"
+  > </a
+  ><a name="10591" class="Symbol"
+  >=</a
+  ><a name="10592"
+  > </a
+  ><a name="10593" href="Revise.Coinduction.html#10573" class="Bound"
+  >f&#8321;</a
+  ><a name="10595"
+  > </a
+  ><a name="10596" href="Revise.Coinduction.html#10585" class="Bound"
+  >x</a
+  ><a name="10597"
+  > </a
+  ><a name="10598" href="Revise.Coinduction.html#10522" class="Function Operator"
+  >&#8728;</a
+  ><a name="10599"
+  > </a
+  ><a name="10600" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="10601"
+  > </a
+  ><a name="10602" href="Revise.Coinduction.html#10587" class="Bound"
+  >sp&#8322;</a
+  ><a name="10605"
+  >
+</a
+  ><a name="10606" href="Revise.Coinduction.html#9469" class="InductiveConstructor"
+  >put</a
+  ><a name="10609"
+  > </a
+  ><a name="10610" href="Revise.Coinduction.html#10610" class="Bound"
+  >x</a
+  ><a name="10611"
+  > </a
+  ><a name="10612" href="Revise.Coinduction.html#10612" class="Bound"
+  >sp&#8321;</a
+  ><a name="10615"
+  > </a
+  ><a name="10616" href="Revise.Coinduction.html#10522" class="Function Operator"
+  >&#8728;</a
+  ><a name="10617"
+  > </a
+  ><a name="10618" href="Revise.Coinduction.html#10618" class="Bound"
+  >sp&#8322;</a
+  ><a name="10621"
+  >       </a
+  ><a name="10628" class="Symbol"
+  >=</a
+  ><a name="10629"
+  > </a
+  ><a name="10630" href="Revise.Coinduction.html#9469" class="InductiveConstructor"
+  >put</a
+  ><a name="10633"
+  > </a
+  ><a name="10634" href="Revise.Coinduction.html#10610" class="Bound"
+  >x</a
+  ><a name="10635"
+  > </a
+  ><a name="10636" class="Symbol"
+  >(</a
+  ><a name="10637" href="Coinduction.html#447" class="CoinductiveConstructor Operator"
+  >&#9839;</a
+  ><a name="10638"
+  > </a
+  ><a name="10639" class="Symbol"
+  >(</a
+  ><a name="10640" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="10641"
+  > </a
+  ><a name="10642" href="Revise.Coinduction.html#10612" class="Bound"
+  >sp&#8321;</a
+  ><a name="10645"
+  > </a
+  ><a name="10646" href="Revise.Coinduction.html#10522" class="Function Operator"
+  >&#8728;</a
+  ><a name="10647"
+  > </a
+  ><a name="10648" href="Revise.Coinduction.html#10618" class="Bound"
+  >sp&#8322;</a
+  ><a name="10651" class="Symbol"
+  >))</a
+  ><a name="10653"
+  >
+</a
+  ><a name="10654" href="Revise.Coinduction.html#10654" class="Bound"
+  >sp&#8321;</a
+  ><a name="10657"
+  >       </a
+  ><a name="10664" href="Revise.Coinduction.html#10522" class="Function Operator"
+  >&#8728;</a
+  ><a name="10665"
+  > </a
+  ><a name="10666" href="Revise.Coinduction.html#9435" class="InductiveConstructor"
+  >get</a
+  ><a name="10669"
+  > </a
+  ><a name="10670" href="Revise.Coinduction.html#10670" class="Bound"
+  >f&#8322;</a
+  ><a name="10672"
+  >    </a
+  ><a name="10676" class="Symbol"
+  >=</a
+  ><a name="10677"
+  > </a
+  ><a name="10678" href="Revise.Coinduction.html#9435" class="InductiveConstructor"
+  >get</a
+  ><a name="10681"
+  > </a
+  ><a name="10682" class="Symbol"
+  >(&#955;</a
+  ><a name="10684"
+  > </a
+  ><a name="10685" href="Revise.Coinduction.html#10685" class="Bound"
+  >x</a
+  ><a name="10686"
+  > </a
+  ><a name="10687" class="Symbol"
+  >&#8594;</a
+  ><a name="10688"
+  > </a
+  ><a name="10689" href="Revise.Coinduction.html#10654" class="Bound"
+  >sp&#8321;</a
+  ><a name="10692"
+  > </a
+  ><a name="10693" href="Revise.Coinduction.html#10522" class="Function Operator"
+  >&#8728;</a
+  ><a name="10694"
+  > </a
+  ><a name="10695" href="Revise.Coinduction.html#10670" class="Bound"
+  >f&#8322;</a
+  ><a name="10697"
+  > </a
+  ><a name="10698" href="Revise.Coinduction.html#10685" class="Bound"
+  >x</a
+  ><a name="10699" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p><em>Exercise:</em> Find the recursive and corecursive calls!</p>
+<h1 id="sets-defined-with-coinduction"><a href="#sets-defined-with-coinduction">Sets defined with coinduction</a></h1>
+<p>Definition of <code>Rec</code>:</p>
+<p><pre
+><a name="10850"
+  >
+</a
+  ><a name="10865" class="Keyword"
+  >data</a
+  ><a name="10869"
+  > </a
+  ><a name="10870" href="Revise.Coinduction.html#10870" class="Datatype"
+  >Rec</a
+  ><a name="10873"
+  > </a
+  ><a name="10874" class="Symbol"
+  >(</a
+  ><a name="10875" href="Revise.Coinduction.html#10875" class="Bound"
+  >A</a
+  ><a name="10876"
+  > </a
+  ><a name="10877" class="Symbol"
+  >:</a
+  ><a name="10878"
+  > </a
+  ><a name="10879" href="Coinduction.html#414" class="Datatype"
+  >&#8734;</a
+  ><a name="10880"
+  > </a
+  ><a name="10881" class="PrimitiveType"
+  >Set</a
+  ><a name="10884" class="Symbol"
+  >)</a
+  ><a name="10885"
+  > </a
+  ><a name="10886" class="Symbol"
+  >:</a
+  ><a name="10887"
+  > </a
+  ><a name="10888" class="PrimitiveType"
+  >Set</a
+  ><a name="10891"
+  > </a
+  ><a name="10892" class="Keyword"
+  >where</a
+  ><a name="10897"
+  >
+  </a
+  ><a name="10900" href="Revise.Coinduction.html#10900" class="InductiveConstructor"
+  >fold</a
+  ><a name="10904"
+  > </a
+  ><a name="10905" class="Symbol"
+  >:</a
+  ><a name="10906"
+  > </a
+  ><a name="10907" href="Coinduction.html#482" class="Function"
+  >&#9837;</a
+  ><a name="10908"
+  > </a
+  ><a name="10909" href="Revise.Coinduction.html#10875" class="Bound"
+  >A</a
+  ><a name="10910"
+  > </a
+  ><a name="10911" class="Symbol"
+  >&#8594;</a
+  ><a name="10912"
+  > </a
+  ><a name="10913" href="Revise.Coinduction.html#10870" class="Datatype"
+  >Rec</a
+  ><a name="10916"
+  > </a
+  ><a name="10917" href="Revise.Coinduction.html#10875" class="Bound"
+  >A</a
+  ></pre
+></p>
+<p><code>Rec (♯ B)</code> ≃ <code>B</code>, but <code>Rec</code> is useful to cheat termination checking:</p>
+<pre><code>ℕ′ : Set
+ℕ′ = ⊤ ⊎ Rec (♯ ℕ′)</code></pre>
+<p><code>ℕ′</code> ≃ <code>ℕ</code>.</p>
+<hr />
+<p>This is still experimental in Agda. It can be enabled with <code>--guardedness-preserving-type-constructors</code>.</p>
+<h1 id="what-else"><a href="#what-else">What Else?</a></h1>
+<p>You can find <a href="http://www.cse.chalmers.se/~nad/listings/codata/README.html">lots of examples</a> on Nils Anders Danielssons home page.</p>
+</body>
+</html>

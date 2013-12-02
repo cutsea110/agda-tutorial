@@ -1,0 +1,508 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Recursive Sets</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Recursive Sets</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#import-list">Import List</a></li>
+<li><a href="#peano-representation">Peano representation</a></li>
+<li><a href="#definition-of-ℕ">Definition of <code>ℕ</code></a></li>
+<li><a href="#type-checking-of-expressions">Type-checking of expressions</a></li>
+<li><a href="#binary-representation-of-ℕ">Binary representation of <code>ℕ</code></a></li>
+<li><a href="#rationale-behind-different-representations">Rationale behind different representations</a></li>
+<li><a href="#exercise">Exercise</a></li>
+<li><a href="#binary-trees">Binary trees</a></li>
+<li><a href="#exercises">Exercises</a></li>
+</ul>
+</div>
+<h1 id="import-list"><a href="#import-list">Import List</a></h1>
+<p><pre
+><a name="42"
+  >
+</a
+  ><a name="57" class="Keyword"
+  >module</a
+  ><a name="63"
+  > </a
+  ><a name="64" href="Sets.Recursive.html#1" class="Module"
+  >Sets.Recursive</a
+  ><a name="78"
+  > </a
+  ><a name="79" class="Keyword"
+  >where</a
+  ><a name="84"
+  >
+
+</a
+  ><a name="86" class="Keyword"
+  >open</a
+  ><a name="90"
+  > </a
+  ><a name="91" class="Keyword"
+  >import</a
+  ><a name="97"
+  > </a
+  ><a name="98" href="Sets.Enumerated.html#1" class="Module"
+  >Sets.Enumerated</a
+  ><a name="113"
+  > </a
+  ><a name="114" class="Keyword"
+  >using</a
+  ><a name="119"
+  > </a
+  ><a name="120" class="Symbol"
+  >(</a
+  ><a name="121"
+  >Bool</a
+  ><a name="125" class="Symbol"
+  >;</a
+  ><a name="126"
+  > true</a
+  ><a name="131" class="Symbol"
+  >;</a
+  ><a name="132"
+  > false</a
+  ><a name="138" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p>The effect of this <code>open import</code> declaration is the same as if we copied the definition of <code>Bool</code> type here. Note that we enumerated the constructors of <code>Bool</code> too.</p>
+<p>More about import declarations come later.</p>
+<h1 id="peano-representation"><a href="#peano-representation">Peano representation</a></h1>
+<p>We are looking for a representation natural numbers. The simplest choice is the <em>Peano representation</em> which corresponds to the unary numeral system:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="left">interpretation in decimal form</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>zero</code></td>
+<td align="left">0</td>
+</tr>
+<tr class="even">
+<td align="left"><code>suc zero</code></td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>suc (suc zero)</code></td>
+<td align="left">2</td>
+</tr>
+<tr class="even">
+<td align="left"><code>suc (suc (suc zero))</code></td>
+<td align="left">3</td>
+</tr>
+<tr class="odd">
+<td align="left">...</td>
+<td align="left">...</td>
+</tr>
+</tbody>
+</table>
+<h1 id="definition-of-ℕ"><a href="#definition-of-ℕ">Definition of <code>ℕ</code></a></h1>
+<p>In Agda the definition</p>
+<p><pre
+><a name="861"
+  >
+</a
+  ><a name="876" class="Keyword"
+  >data</a
+  ><a name="880"
+  > </a
+  ><a name="881" href="Sets.Recursive.html#881" class="Datatype"
+  >&#8469;</a
+  ><a name="882"
+  > </a
+  ><a name="883" class="Symbol"
+  >:</a
+  ><a name="884"
+  > </a
+  ><a name="885" class="PrimitiveType"
+  >Set</a
+  ><a name="888"
+  > </a
+  ><a name="889" class="Keyword"
+  >where</a
+  ><a name="894"
+  >
+  </a
+  ><a name="897" href="Sets.Recursive.html#897" class="InductiveConstructor"
+  >zero</a
+  ><a name="901"
+  > </a
+  ><a name="902" class="Symbol"
+  >:</a
+  ><a name="903"
+  >     </a
+  ><a name="908" href="Sets.Recursive.html#881" class="Datatype"
+  >&#8469;</a
+  ><a name="909"
+  >
+  </a
+  ><a name="912" href="Sets.Recursive.html#912" class="InductiveConstructor"
+  >suc</a
+  ><a name="915"
+  >  </a
+  ><a name="917" class="Symbol"
+  >:</a
+  ><a name="918"
+  > </a
+  ><a name="919" href="Sets.Recursive.html#881" class="Datatype"
+  >&#8469;</a
+  ><a name="920"
+  > </a
+  ><a name="921" class="Symbol"
+  >&#8594;</a
+  ><a name="922"
+  > </a
+  ><a name="923" href="Sets.Recursive.html#881" class="Datatype"
+  >&#8469;</a
+  ></pre
+></p>
+<p>yields the infinite set of judgements</p>
+<pre><code>ℕ : Set
+zero : ℕ
+suc zero : ℕ
+suc (suc zero) : ℕ
+suc (suc (suc zero)) : ℕ
+...</code></pre>
+<!--
+| *Interpretation:* `ℕ` ∈ `Set`, `ℕ` = { `zero` ~ 0, `suc zero` ~ 1, `suc (suc zero)` ~ 2, ... }
+-->
+
+
+<h1 id="type-checking-of-expressions"><a href="#type-checking-of-expressions">Type-checking of expressions</a></h1>
+<p>With the Emacs command C-<code>c</code> C-<code>d</code> one can get Agda to type-check a given expression (<code>d</code> stands for 'deduce').</p>
+<p>Example: Hit C-<code>c</code> C-<code>d</code> and enter <code>suc (suc zero)</code>.</p>
+<p>Exercise: Try to type-check the following expressions:</p>
+<ul>
+<li><code>suc zero</code></li>
+<li><code>suc (zero)</code></li>
+<li><code>(suc) zero</code></li>
+<li><code>zero suc</code></li>
+<li><code>(suc suc) zero</code></li>
+<li><code>suc</code></li>
+</ul>
+<h1 id="binary-representation-of-ℕ"><a href="#binary-representation-of-ℕ">Binary representation of <code>ℕ</code></a></h1>
+<p><pre
+><a name="1618"
+  >
+</a
+  ><a name="1633" class="Keyword"
+  >data</a
+  ><a name="1637"
+  > </a
+  ><a name="1638" href="Sets.Recursive.html#1638" class="Datatype"
+  >&#8469;&#8314;</a
+  ><a name="1640"
+  > </a
+  ><a name="1641" class="Symbol"
+  >:</a
+  ><a name="1642"
+  > </a
+  ><a name="1643" class="PrimitiveType"
+  >Set</a
+  ><a name="1646"
+  > </a
+  ><a name="1647" class="Keyword"
+  >where</a
+  ><a name="1652"
+  >
+  </a
+  ><a name="1655" href="Sets.Recursive.html#1655" class="InductiveConstructor"
+  >one</a
+  ><a name="1658"
+  >      </a
+  ><a name="1664" class="Symbol"
+  >:</a
+  ><a name="1665"
+  >      </a
+  ><a name="1671" href="Sets.Recursive.html#1638" class="Datatype"
+  >&#8469;&#8314;</a
+  ><a name="1673"
+  >
+  </a
+  ><a name="1676" href="Sets.Recursive.html#1676" class="InductiveConstructor"
+  >double</a
+  ><a name="1682"
+  >   </a
+  ><a name="1685" class="Symbol"
+  >:</a
+  ><a name="1686"
+  > </a
+  ><a name="1687" href="Sets.Recursive.html#1638" class="Datatype"
+  >&#8469;&#8314;</a
+  ><a name="1689"
+  > </a
+  ><a name="1690" class="Symbol"
+  >&#8594;</a
+  ><a name="1691"
+  > </a
+  ><a name="1692" href="Sets.Recursive.html#1638" class="Datatype"
+  >&#8469;&#8314;</a
+  ><a name="1694"
+  >
+  </a
+  ><a name="1697" href="Sets.Recursive.html#1697" class="InductiveConstructor"
+  >double+1</a
+  ><a name="1705"
+  > </a
+  ><a name="1706" class="Symbol"
+  >:</a
+  ><a name="1707"
+  > </a
+  ><a name="1708" href="Sets.Recursive.html#1638" class="Datatype"
+  >&#8469;&#8314;</a
+  ><a name="1710"
+  > </a
+  ><a name="1711" class="Symbol"
+  >&#8594;</a
+  ><a name="1712"
+  > </a
+  ><a name="1713" href="Sets.Recursive.html#1638" class="Datatype"
+  >&#8469;&#8314;</a
+  ></pre
+></p>
+<p>yields (without ordering)</p>
+<pre><code>ℕ⁺ : Set
+one : ℕ⁺
+double one : ℕ⁺
+double+1 one : ℕ⁺
+double (double one) : ℕ⁺
+double+1 (double one) : ℕ⁺
+double (double+1 one) : ℕ⁺
+double+1 (double+1 one) : ℕ⁺
+double (double (double one)) : ℕ⁺
+...</code></pre>
+<p>And</p>
+<p><pre
+><a name="1994"
+  >
+</a
+  ><a name="2009" class="Keyword"
+  >data</a
+  ><a name="2013"
+  > </a
+  ><a name="2014" href="Sets.Recursive.html#2014" class="Datatype"
+  >&#8469;&#8322;</a
+  ><a name="2016"
+  > </a
+  ><a name="2017" class="Symbol"
+  >:</a
+  ><a name="2018"
+  > </a
+  ><a name="2019" class="PrimitiveType"
+  >Set</a
+  ><a name="2022"
+  > </a
+  ><a name="2023" class="Keyword"
+  >where</a
+  ><a name="2028"
+  >
+  </a
+  ><a name="2031" href="Sets.Recursive.html#2031" class="InductiveConstructor"
+  >zero</a
+  ><a name="2035"
+  > </a
+  ><a name="2036" class="Symbol"
+  >:</a
+  ><a name="2037"
+  >      </a
+  ><a name="2043" href="Sets.Recursive.html#2014" class="Datatype"
+  >&#8469;&#8322;</a
+  ><a name="2045"
+  >
+  </a
+  ><a name="2048" href="Sets.Recursive.html#2048" class="InductiveConstructor"
+  >id</a
+  ><a name="2050"
+  >   </a
+  ><a name="2053" class="Symbol"
+  >:</a
+  ><a name="2054"
+  > </a
+  ><a name="2055" href="Sets.Recursive.html#1638" class="Datatype"
+  >&#8469;&#8314;</a
+  ><a name="2057"
+  > </a
+  ><a name="2058" class="Symbol"
+  >&#8594;</a
+  ><a name="2059"
+  > </a
+  ><a name="2060" href="Sets.Recursive.html#2014" class="Datatype"
+  >&#8469;&#8322;</a
+  ></pre
+></p>
+<p>yields</p>
+<pre><code>ℕ₂ : Set
+zero : ℕ₂
+id one : ℕ₂
+id (double one) : ℕ₂
+id (double+1 one) : ℕ₂
+id (double (double one)) : ℕ₂
+id (double+1 (double one)) : ℕ₂
+...</code></pre>
+<!--
+| *Interpretation:*
+| 
+|  - `ℕ⁺` ∈ `Set`, `ℕ⁺` = { `one` ~ 1, `double one` ~ 2, `double+1 one` ~ 3, `double (double one)` ~ 4, `double (double+1 one)` ~ 5, ...}
+|  - `ℕ₂` ∈ `Set`, `ℕ₂` = { `zero` ~ 0, `id one` ~ 1, `id (double one)` ~ 2, ...}
+-->
+
+
+<p>Soon we will prove in Agda that <code>ℕ</code> and <code>ℕ₂</code> are isomorphic with the following relation:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><strong>ℕ</strong></th>
+<th align="left"><strong>ℕ₂</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>zero</code></td>
+<td align="left"><code>zero</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>suc zero</code></td>
+<td align="left"><code>id one</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>suc (suc zero)</code></td>
+<td align="left"><code>id (double one)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>suc (suc (suc zero))</code></td>
+<td align="left"><code>id (double+1 one)</code></td>
+</tr>
+<tr class="odd">
+<td align="left">...</td>
+<td align="left">...</td>
+</tr>
+</tbody>
+</table>
+<p><em>Exercise:</em> How 9 is represented in <code>ℕ₂</code>? Type-check the expression!</p>
+<p><em>Question</em>: why didn't we use one <code>data</code> definition with 4 constructors <code>zero</code>, <code>one</code>, <code>double</code>, <code>double+1</code>?</p>
+<h1 id="rationale-behind-different-representations"><a href="#rationale-behind-different-representations">Rationale behind different representations</a></h1>
+<p>Each representation has its merit.</p>
+<p><em>Exercise:</em> Guess which representation (<code>ℕ</code> or <code>ℕ₂</code>) is better for the following tasks!</p>
+<ul>
+<li>Computing <code>n * 2</code>.</li>
+<li>Computing <code>⌊n / 2⌋</code>.</li>
+<li>Deciding whether the number is odd.</li>
+<li>Computing <code>n + m</code>.</li>
+<li>Computing <code>n * m</code>.</li>
+<li>Proving that <code>n + m</code> = <code>m + n</code> for all <code>m</code> and <code>n</code>.</li>
+<li>Storing the number.</li>
+</ul>
+<hr />
+<p>A good strategy is to choose the right representation for each task and convert values between different representations.</p>
+<h1 id="exercise"><a href="#exercise">Exercise</a></h1>
+<ul>
+<li>Define <code>ℤ</code>!</li>
+</ul>
+<p>(Several solutions are possible.)</p>
+<h1 id="binary-trees"><a href="#binary-trees">Binary trees</a></h1>
+<p><pre
+><a name="3706"
+  >
+</a
+  ><a name="3721" class="Keyword"
+  >data</a
+  ><a name="3725"
+  > </a
+  ><a name="3726" href="Sets.Recursive.html#3726" class="Datatype"
+  >BinTree</a
+  ><a name="3733"
+  > </a
+  ><a name="3734" class="Symbol"
+  >:</a
+  ><a name="3735"
+  > </a
+  ><a name="3736" class="PrimitiveType"
+  >Set</a
+  ><a name="3739"
+  > </a
+  ><a name="3740" class="Keyword"
+  >where</a
+  ><a name="3745"
+  >
+  </a
+  ><a name="3748" href="Sets.Recursive.html#3748" class="InductiveConstructor"
+  >leaf</a
+  ><a name="3752"
+  > </a
+  ><a name="3753" class="Symbol"
+  >:</a
+  ><a name="3754"
+  > </a
+  ><a name="3755" href="Sets.Recursive.html#3726" class="Datatype"
+  >BinTree</a
+  ><a name="3762"
+  >
+  </a
+  ><a name="3765" href="Sets.Recursive.html#3765" class="InductiveConstructor"
+  >node</a
+  ><a name="3769"
+  > </a
+  ><a name="3770" class="Symbol"
+  >:</a
+  ><a name="3771"
+  > </a
+  ><a name="3772" href="Sets.Recursive.html#3726" class="Datatype"
+  >BinTree</a
+  ><a name="3779"
+  > </a
+  ><a name="3780" class="Symbol"
+  >&#8594;</a
+  ><a name="3781"
+  > </a
+  ><a name="3782" href="Sets.Recursive.html#3726" class="Datatype"
+  >BinTree</a
+  ><a name="3789"
+  > </a
+  ><a name="3790" class="Symbol"
+  >&#8594;</a
+  ><a name="3791"
+  > </a
+  ><a name="3792" href="Sets.Recursive.html#3726" class="Datatype"
+  >BinTree</a
+  ></pre
+></p>
+<p>yields</p>
+<pre><code>BinTree : Set
+leaf : BinTree
+node leaf leaf : BinTree
+node (node leaf leaf) leaf : BinTree
+node leaf (node leaf leaf) : BinTree
+node (node leaf leaf) (node leaf leaf) : BinTree
+...</code></pre>
+<p><code>BinTree</code> elements are good for representing binary trees (just the shapes without data).</p>
+<p><em>Exercise:</em> define binary trees according to the following shapes!</p>
+<div class="figure">
+<img src="dot/Binary_tree_shapes.gif" alt="Binary tree shapes" /><p class="caption">Binary tree shapes</p>
+</div>
+<h1 id="exercises"><a href="#exercises">Exercises</a></h1>
+<ul>
+<li>Define binary trees
+<ul>
+<li>with natural number data attached to the leafs</li>
+<li>with natural number data attached to the nodes</li>
+<li>with Booleans in the nodes and natural numbers in the leafs</li>
+</ul></li>
+<li>Define the lists (finite sequences) of natural numbers.</li>
+<li>Define the non-empty lists of natural numbers.</li>
+</ul>
+</body>
+</html>

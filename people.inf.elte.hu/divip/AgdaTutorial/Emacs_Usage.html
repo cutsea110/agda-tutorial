@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Péter Diviánszky, Ambrus Kaposi and Gábor Páli" />
+  <title>Emacs Usage</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Emacs Usage</h1>
+<h2 class="author">Péter Diviánszky, Ambrus Kaposi and Gábor Páli</h2>
+<h3 class="date">2012.</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#emacs-commands">Emacs commands</a></li>
+<li><a href="#emacs-agda-mode-commands">Emacs Agda-mode commands</a><ul>
+<li><a href="#commands-inside-a-hole">Commands inside a hole</a></li>
+</ul></li>
+<li><a href="#emacs-agda-mode-unicode-symbols">Emacs Agda-mode unicode symbols</a></li>
+</ul>
+</div>
+<h1 id="emacs-commands"><a href="#emacs-commands">Emacs commands</a></h1>
+<p>An Emacs window is called a frame and inside a frame we can open multiple buffers, each file opens in a new buffer. Frames can be managed from the <code>File</code> menu while buffers from the <code>Buffers</code> menu. Each buffer has an associated mode which is shown on the info line at the bottom of the buffer in parentheses.</p>
+<p><code>C</code> stands for Ctrl, <code>M</code> for Meta (or Alt)</p>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left">M-<code>x</code></td>
+<td align="left">execute any Emacs command after typing command name &lt;return&gt; (tab completion available)</td>
+</tr>
+<tr class="even">
+<td align="left">C-<code>x</code> C-<code>f</code></td>
+<td align="left">find file (open, new)</td>
+</tr>
+<tr class="odd">
+<td align="left">C-<code>x</code> C-<code>s</code></td>
+<td align="left">save</td>
+</tr>
+<tr class="even">
+<td align="left">C-<code>x</code> C-<code>c</code></td>
+<td align="left">exit Emacs</td>
+</tr>
+<tr class="odd">
+<td align="left">C-<code>x</code> <code>1</code></td>
+<td align="left">maximize buffer</td>
+</tr>
+<tr class="even">
+<td align="left">C-<code>_</code></td>
+<td align="left">undo</td>
+</tr>
+<tr class="odd">
+<td align="left">C-<code>g</code></td>
+<td align="left">cancel</td>
+</tr>
+<tr class="even">
+<td align="left">C-<code>w</code></td>
+<td align="left">cut</td>
+</tr>
+<tr class="odd">
+<td align="left">C-<code>y</code></td>
+<td align="left">yank (paste)</td>
+</tr>
+<tr class="even">
+<td align="left">C-<code>u</code> C-<code>x</code> <code>=</code></td>
+<td align="left">name of symbol under cursor (available also from the Agda drop-down menu)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>Some other useful commands:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left">C-<code>k</code></td>
+<td align="left">kill line (cut whole line)</td>
+</tr>
+<tr class="even">
+<td align="left">M-<code>d</code></td>
+<td align="left">cut word</td>
+</tr>
+<tr class="odd">
+<td align="left">C-<code>s</code></td>
+<td align="left">forward search</td>
+</tr>
+<tr class="even">
+<td align="left">C-<code>r</code></td>
+<td align="left">backward search</td>
+</tr>
+<tr class="odd">
+<td align="left">C-<code>s</code> C-<code>w</code> C-<code>s</code></td>
+<td align="left">search for word under cursor</td>
+</tr>
+<tr class="even">
+<td align="left">C-<code>x</code> Left</td>
+<td align="left">switch to previous buffer</td>
+</tr>
+<tr class="odd">
+<td align="left">C-<code>x</code> Right</td>
+<td align="left">switch to next buffer</td>
+</tr>
+<tr class="even">
+<td align="left">C-<code>x</code> C-<code>w</code></td>
+<td align="left">save as</td>
+</tr>
+</tbody>
+</table>
+<h1 id="emacs-agda-mode-commands"><a href="#emacs-agda-mode-commands">Emacs Agda-mode commands</a></h1>
+<p>This section is only for reference.</p>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left">C-<code>c</code> C-<code>l</code></td>
+<td align="left">load (type checking)</td>
+</tr>
+<tr class="even">
+<td align="left">C-<code>c</code> C-<code>f</code></td>
+<td align="left">forward (jump to next hole)</td>
+</tr>
+<tr class="odd">
+<td align="left">C-<code>c</code> C-<code>b</code></td>
+<td align="left">backward (jump to previous hole)</td>
+</tr>
+<tr class="even">
+<td align="left">C-<code>c</code> C-<code>d</code></td>
+<td align="left">deduce (type of expression)</td>
+</tr>
+<tr class="odd">
+<td align="left">C-<code>c</code> C-<code>n</code></td>
+<td align="left">normalize (evaluate expression)</td>
+</tr>
+<tr class="even">
+<td align="left">M-<code>.</code></td>
+<td align="left">jump to definition</td>
+</tr>
+<tr class="odd">
+<td align="left">M-<code>*</code></td>
+<td align="left">jump back</td>
+</tr>
+</tbody>
+</table>
+<p>See also the <code>Agda</code> menu on the menu bar</p>
+<h2 id="commands-inside-a-hole"><a href="#commands-inside-a-hole">Commands inside a hole</a></h2>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left">C-<code>c</code> C-<code>,</code></td>
+<td align="left">information about the hole</td>
+</tr>
+<tr class="even">
+<td align="left">C-<code>c</code> C-<code>d</code></td>
+<td align="left">deduce (type of contents of hole)</td>
+</tr>
+<tr class="odd">
+<td align="left">C-<code>c</code> C-Space</td>
+<td align="left">give (checks whether the term in the hole has the right type and if it has, replaces the hole with the term)</td>
+</tr>
+<tr class="even">
+<td align="left">C-<code>c</code> C-<code>c</code></td>
+<td align="left">case split (pattern match on variables)</td>
+</tr>
+<tr class="odd">
+<td align="left">C-<code>c</code> C-<code>r</code></td>
+<td align="left">refine (one step further)</td>
+</tr>
+<tr class="even">
+<td align="left">C-<code>c</code> C-<code>a</code></td>
+<td align="left">auto (try to find a solution)</td>
+</tr>
+</tbody>
+</table>
+<p>See also the context-sensitive menu when right-clicking inside a hole</p>
+<h1 id="emacs-agda-mode-unicode-symbols"><a href="#emacs-agda-mode-unicode-symbols">Emacs Agda-mode unicode symbols</a></h1>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left"><code>\-&gt;</code></td>
+<td align="left"><code>→</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>\bn</code>, <code>\bz</code>, <code>\bq</code></td>
+<td align="left"><code>ℕ</code>, <code>ℤ</code>, <code>ℚ</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>\Gl</code></td>
+<td align="left"><code>λ</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>\top</code>, <code>\bot</code></td>
+<td align="left"><code>⊤</code>, <code>⊥</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>\o</code></td>
+<td align="left"><code>∘</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>\_0</code>, <code>\_1</code>, <code>\_2</code></td>
+<td align="left"><code>₀</code>, <code>₁</code>, <code>₂</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>\u+</code></td>
+<td align="left"><code>⊎</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>\x</code></td>
+<td align="left"><code>×</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>\or</code>, <code>\and</code></td>
+<td align="left"><code>∨</code>, <code>∧</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>\lub</code>, <code>\glb</code></td>
+<td align="left"><code>⊔</code>, <code>⊓</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>\::</code></td>
+<td align="left"><code>∷</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>\&lt;=</code>, <code>\==</code></td>
+<td align="left"><code>≤</code>, <code>≡</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>\lfloor</code>, <code>\rfloor</code></td>
+<td align="left"><code>⌊</code>, <code>⌋</code></td>
+</tr>
+</tbody>
+</table>
+<!--
+| Typing exercises
+| ----------------
+-->
+
+
+
+
+
+
+</body>
+</html>

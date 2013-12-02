@@ -1,0 +1,1061 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Views</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Views</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#definition">Definition</a></li>
+<li><a href="#example">Example</a></li>
+<li><a href="#exercise">Exercise</a></li>
+<li><a href="#individual-constructors">Individual constructors</a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#usage-of-views">Usage of views</a></li>
+<li><a href="#exercises-1">Exercises</a></li>
+</ul>
+</div>
+<p><pre
+><a name="8"
+  >
+</a
+  ><a name="23" class="Keyword"
+  >module</a
+  ><a name="29"
+  > </a
+  ><a name="30" href="Functions.Views.html#1" class="Module"
+  >Functions.Views</a
+  ><a name="45"
+  > </a
+  ><a name="46" class="Keyword"
+  >where</a
+  ><a name="51"
+  >
+
+</a
+  ><a name="53" class="Keyword"
+  >open</a
+  ><a name="57"
+  > </a
+  ><a name="58" class="Keyword"
+  >import</a
+  ><a name="64"
+  > </a
+  ><a name="65" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="73"
+  > </a
+  ><a name="74" class="Keyword"
+  >using</a
+  ><a name="79"
+  > </a
+  ><a name="80" class="Symbol"
+  >(</a
+  ><a name="81"
+  >&#8469;</a
+  ><a name="82" class="Symbol"
+  >;</a
+  ><a name="83"
+  > zero</a
+  ><a name="88" class="Symbol"
+  >;</a
+  ><a name="89"
+  > suc</a
+  ><a name="93" class="Symbol"
+  >;</a
+  ><a name="94"
+  > _&lt;_</a
+  ><a name="98" class="Symbol"
+  >;</a
+  ><a name="99"
+  > _&gt;_</a
+  ><a name="103" class="Symbol"
+  >;</a
+  ><a name="104"
+  > s&#8804;s</a
+  ><a name="108" class="Symbol"
+  >;</a
+  ><a name="109"
+  > z&#8804;n</a
+  ><a name="113" class="Symbol"
+  >;</a
+  ><a name="114"
+  > _+_</a
+  ><a name="118" class="Symbol"
+  >;</a
+  ><a name="119"
+  > _*_</a
+  ><a name="123" class="Symbol"
+  >)</a
+  ><a name="124"
+  >
+</a
+  ><a name="125" class="Keyword"
+  >open</a
+  ><a name="129"
+  > </a
+  ><a name="130" class="Keyword"
+  >import</a
+  ><a name="136"
+  > </a
+  ><a name="137" href="Data.Sum.html#1" class="Module"
+  >Data.Sum</a
+  ><a name="145"
+  > </a
+  ><a name="146" class="Keyword"
+  >using</a
+  ><a name="151"
+  > </a
+  ><a name="152" class="Symbol"
+  >(</a
+  ><a name="153"
+  >_&#8846;_</a
+  ><a name="156" class="Symbol"
+  >;</a
+  ><a name="157"
+  > inj&#8321;</a
+  ><a name="162" class="Symbol"
+  >;</a
+  ><a name="163"
+  > inj&#8322;</a
+  ><a name="168" class="Symbol"
+  >)</a
+  ><a name="169"
+  >
+</a
+  ><a name="170" class="Keyword"
+  >open</a
+  ><a name="174"
+  > </a
+  ><a name="175" class="Keyword"
+  >import</a
+  ><a name="181"
+  > </a
+  ><a name="182" href="Relation.Binary.PropositionalEquality.html#1" class="Module"
+  >Relation.Binary.PropositionalEquality</a
+  ><a name="219"
+  > </a
+  ><a name="220" class="Keyword"
+  >using</a
+  ><a name="225"
+  > </a
+  ><a name="226" class="Symbol"
+  >(</a
+  ><a name="227"
+  >_&#8801;_</a
+  ><a name="230" class="Symbol"
+  >;</a
+  ><a name="231"
+  > refl</a
+  ><a name="236" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="definition"><a href="#definition">Definition</a></h1>
+<p>Let <code>A</code> be a type.<br />Let <code>P : A → Set</code> a disjunction (parameterized on <code>A</code>).</p>
+<p>A <em>view on <code>A</code></em> is a function with type <code>(a : A) → P a</code>.</p>
+<h1 id="example"><a href="#example">Example</a></h1>
+<p>Assume the following definitions.</p>
+<p><pre
+><a name="461"
+  >
+</a
+  ><a name="476" class="Keyword"
+  >data</a
+  ><a name="480"
+  > </a
+  ><a name="481" href="Functions.Views.html#481" class="Datatype"
+  >Even</a
+  ><a name="485"
+  > </a
+  ><a name="486" class="Symbol"
+  >:</a
+  ><a name="487"
+  > </a
+  ><a name="488" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="489"
+  > </a
+  ><a name="490" class="Symbol"
+  >&#8594;</a
+  ><a name="491"
+  > </a
+  ><a name="492" class="PrimitiveType"
+  >Set</a
+  ><a name="495"
+  >
+</a
+  ><a name="496" class="Keyword"
+  >data</a
+  ><a name="500"
+  > </a
+  ><a name="501" href="Functions.Views.html#501" class="Datatype"
+  >Odd</a
+  ><a name="504"
+  >  </a
+  ><a name="506" class="Symbol"
+  >:</a
+  ><a name="507"
+  > </a
+  ><a name="508" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="509"
+  > </a
+  ><a name="510" class="Symbol"
+  >&#8594;</a
+  ><a name="511"
+  > </a
+  ><a name="512" class="PrimitiveType"
+  >Set</a
+  ><a name="515"
+  >
+
+</a
+  ><a name="517" class="Keyword"
+  >data</a
+  ><a name="521"
+  > </a
+  ><a name="522" href="Functions.Views.html#481" class="Datatype"
+  >Even</a
+  ><a name="526"
+  > </a
+  ><a name="527" class="Keyword"
+  >where</a
+  ><a name="532"
+  >
+  </a
+  ><a name="535" href="Functions.Views.html#535" class="InductiveConstructor"
+  >zero</a
+  ><a name="539"
+  > </a
+  ><a name="540" class="Symbol"
+  >:</a
+  ><a name="541"
+  > </a
+  ><a name="542" href="Functions.Views.html#481" class="Datatype"
+  >Even</a
+  ><a name="546"
+  > </a
+  ><a name="547" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="551"
+  >
+  </a
+  ><a name="554" href="Functions.Views.html#554" class="InductiveConstructor"
+  >odd</a
+  ><a name="557"
+  >  </a
+  ><a name="559" class="Symbol"
+  >:</a
+  ><a name="560"
+  > </a
+  ><a name="561" class="Symbol"
+  >&#8704;</a
+  ><a name="562"
+  > </a
+  ><a name="563" class="Symbol"
+  >{</a
+  ><a name="564" href="Functions.Views.html#564" class="Bound"
+  >n</a
+  ><a name="565" class="Symbol"
+  >}</a
+  ><a name="566"
+  > </a
+  ><a name="567" class="Symbol"
+  >&#8594;</a
+  ><a name="568"
+  > </a
+  ><a name="569" href="Functions.Views.html#501" class="Datatype"
+  >Odd</a
+  ><a name="572"
+  > </a
+  ><a name="573" href="Functions.Views.html#564" class="Bound"
+  >n</a
+  ><a name="574"
+  > </a
+  ><a name="575" class="Symbol"
+  >&#8594;</a
+  ><a name="576"
+  > </a
+  ><a name="577" href="Functions.Views.html#481" class="Datatype"
+  >Even</a
+  ><a name="581"
+  > </a
+  ><a name="582" class="Symbol"
+  >(</a
+  ><a name="583" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="586"
+  > </a
+  ><a name="587" href="Functions.Views.html#564" class="Bound"
+  >n</a
+  ><a name="588" class="Symbol"
+  >)</a
+  ><a name="589"
+  >
+
+</a
+  ><a name="591" class="Keyword"
+  >data</a
+  ><a name="595"
+  > </a
+  ><a name="596" href="Functions.Views.html#501" class="Datatype"
+  >Odd</a
+  ><a name="599"
+  > </a
+  ><a name="600" class="Keyword"
+  >where</a
+  ><a name="605"
+  >
+  </a
+  ><a name="608" href="Functions.Views.html#608" class="InductiveConstructor"
+  >even</a
+  ><a name="612"
+  > </a
+  ><a name="613" class="Symbol"
+  >:</a
+  ><a name="614"
+  > </a
+  ><a name="615" class="Symbol"
+  >&#8704;</a
+  ><a name="616"
+  > </a
+  ><a name="617" class="Symbol"
+  >{</a
+  ><a name="618" href="Functions.Views.html#618" class="Bound"
+  >n</a
+  ><a name="619" class="Symbol"
+  >}</a
+  ><a name="620"
+  > </a
+  ><a name="621" class="Symbol"
+  >&#8594;</a
+  ><a name="622"
+  > </a
+  ><a name="623" href="Functions.Views.html#481" class="Datatype"
+  >Even</a
+  ><a name="627"
+  > </a
+  ><a name="628" href="Functions.Views.html#618" class="Bound"
+  >n</a
+  ><a name="629"
+  > </a
+  ><a name="630" class="Symbol"
+  >&#8594;</a
+  ><a name="631"
+  > </a
+  ><a name="632" href="Functions.Views.html#501" class="Datatype"
+  >Odd</a
+  ><a name="635"
+  > </a
+  ><a name="636" class="Symbol"
+  >(</a
+  ><a name="637" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="640"
+  > </a
+  ><a name="641" href="Functions.Views.html#618" class="Bound"
+  >n</a
+  ><a name="642" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p>The parity view:</p>
+<p><pre
+><a name="672"
+  >
+</a
+  ><a name="687" href="Functions.Views.html#687" class="Function"
+  >parity</a
+  ><a name="693"
+  > </a
+  ><a name="694" class="Symbol"
+  >:</a
+  ><a name="695"
+  > </a
+  ><a name="696" class="Symbol"
+  >&#8704;</a
+  ><a name="697"
+  > </a
+  ><a name="698" href="Functions.Views.html#698" class="Bound"
+  >n</a
+  ><a name="699"
+  > </a
+  ><a name="700" class="Symbol"
+  >&#8594;</a
+  ><a name="701"
+  > </a
+  ><a name="702" href="Functions.Views.html#481" class="Datatype"
+  >Even</a
+  ><a name="706"
+  > </a
+  ><a name="707" href="Functions.Views.html#698" class="Bound"
+  >n</a
+  ><a name="708"
+  > </a
+  ><a name="709" href="Data.Sum.html#404" class="Datatype Operator"
+  >&#8846;</a
+  ><a name="710"
+  > </a
+  ><a name="711" href="Functions.Views.html#501" class="Datatype"
+  >Odd</a
+  ><a name="714"
+  > </a
+  ><a name="715" href="Functions.Views.html#698" class="Bound"
+  >n</a
+  ><a name="716"
+  >
+</a
+  ><a name="717" href="Functions.Views.html#687" class="Function"
+  >parity</a
+  ><a name="723"
+  > </a
+  ><a name="724" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="728"
+  > </a
+  ><a name="729" class="Symbol"
+  >=</a
+  ><a name="730"
+  > </a
+  ><a name="731" href="Data.Sum.html#460" class="InductiveConstructor"
+  >inj&#8321;</a
+  ><a name="735"
+  > </a
+  ><a name="736" href="Functions.Views.html#535" class="InductiveConstructor"
+  >zero</a
+  ><a name="740"
+  >
+</a
+  ><a name="741" href="Functions.Views.html#687" class="Function"
+  >parity</a
+  ><a name="747"
+  > </a
+  ><a name="748" class="Symbol"
+  >(</a
+  ><a name="749" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="752"
+  > </a
+  ><a name="753" href="Functions.Views.html#753" class="Bound"
+  >n</a
+  ><a name="754" class="Symbol"
+  >)</a
+  ><a name="755"
+  > </a
+  ><a name="756" class="Keyword"
+  >with</a
+  ><a name="760"
+  > </a
+  ><a name="761" href="Functions.Views.html#687" class="Function"
+  >parity</a
+  ><a name="767"
+  > </a
+  ><a name="768" href="Functions.Views.html#753" class="Bound"
+  >n</a
+  ><a name="769"
+  >
+</a
+  ><a name="770" href="Functions.Views.html#687" class="Function"
+  >parity</a
+  ><a name="776"
+  > </a
+  ><a name="777" class="Symbol"
+  >(</a
+  ><a name="778" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="781"
+  > </a
+  ><a name="782" href="Functions.Views.html#782" class="Bound"
+  >n</a
+  ><a name="783" class="Symbol"
+  >)</a
+  ><a name="784"
+  > </a
+  ><a name="785" class="Symbol"
+  >|</a
+  ><a name="786"
+  > </a
+  ><a name="787" href="Data.Sum.html#460" class="InductiveConstructor"
+  >inj&#8321;</a
+  ><a name="791"
+  > </a
+  ><a name="792" href="Functions.Views.html#792" class="Bound"
+  >x</a
+  ><a name="793"
+  > </a
+  ><a name="794" class="Symbol"
+  >=</a
+  ><a name="795"
+  > </a
+  ><a name="796" href="Data.Sum.html#485" class="InductiveConstructor"
+  >inj&#8322;</a
+  ><a name="800"
+  > </a
+  ><a name="801" class="Symbol"
+  >(</a
+  ><a name="802" href="Functions.Views.html#608" class="InductiveConstructor"
+  >even</a
+  ><a name="806"
+  > </a
+  ><a name="807" href="Functions.Views.html#792" class="Bound"
+  >x</a
+  ><a name="808" class="Symbol"
+  >)</a
+  ><a name="809"
+  >
+</a
+  ><a name="810" href="Functions.Views.html#687" class="Function"
+  >parity</a
+  ><a name="816"
+  > </a
+  ><a name="817" class="Symbol"
+  >(</a
+  ><a name="818" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="821"
+  > </a
+  ><a name="822" href="Functions.Views.html#822" class="Bound"
+  >n</a
+  ><a name="823" class="Symbol"
+  >)</a
+  ><a name="824"
+  > </a
+  ><a name="825" class="Symbol"
+  >|</a
+  ><a name="826"
+  > </a
+  ><a name="827" href="Data.Sum.html#485" class="InductiveConstructor"
+  >inj&#8322;</a
+  ><a name="831"
+  > </a
+  ><a name="832" href="Functions.Views.html#832" class="Bound"
+  >y</a
+  ><a name="833"
+  > </a
+  ><a name="834" class="Symbol"
+  >=</a
+  ><a name="835"
+  > </a
+  ><a name="836" href="Data.Sum.html#460" class="InductiveConstructor"
+  >inj&#8321;</a
+  ><a name="840"
+  > </a
+  ><a name="841" class="Symbol"
+  >(</a
+  ><a name="842" href="Functions.Views.html#554" class="InductiveConstructor"
+  >odd</a
+  ><a name="845"
+  > </a
+  ><a name="846" href="Functions.Views.html#832" class="Bound"
+  >y</a
+  ><a name="847" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="exercise"><a href="#exercise">Exercise</a></h1>
+<p>The ordering view is a view on <code>ℕ × ℕ</code> (in curried form):</p>
+<p><pre
+><a name="937"
+  >
+</a
+  ><a name="952" href="Functions.Views.html#952" class="Function"
+  >ordering</a
+  ><a name="960"
+  > </a
+  ><a name="961" class="Symbol"
+  >:</a
+  ><a name="962"
+  > </a
+  ><a name="963" class="Symbol"
+  >&#8704;</a
+  ><a name="964"
+  > </a
+  ><a name="965" href="Functions.Views.html#965" class="Bound"
+  >n</a
+  ><a name="966"
+  > </a
+  ><a name="967" href="Functions.Views.html#967" class="Bound"
+  >m</a
+  ><a name="968"
+  > </a
+  ><a name="969" class="Symbol"
+  >&#8594;</a
+  ><a name="970"
+  >  </a
+  ><a name="972" href="Functions.Views.html#965" class="Bound"
+  >n</a
+  ><a name="973"
+  > </a
+  ><a name="974" href="Data.Nat.html#997" class="Function Operator"
+  >&lt;</a
+  ><a name="975"
+  > </a
+  ><a name="976" href="Functions.Views.html#967" class="Bound"
+  >m</a
+  ><a name="977"
+  >  </a
+  ><a name="979" href="Data.Sum.html#404" class="Datatype Operator"
+  >&#8846;</a
+  ><a name="980"
+  >  </a
+  ><a name="982" href="Functions.Views.html#965" class="Bound"
+  >n</a
+  ><a name="983"
+  > </a
+  ><a name="984" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="985"
+  > </a
+  ><a name="986" href="Functions.Views.html#967" class="Bound"
+  >m</a
+  ><a name="987"
+  >  </a
+  ><a name="989" href="Data.Sum.html#404" class="Datatype Operator"
+  >&#8846;</a
+  ><a name="990"
+  >  </a
+  ><a name="992" href="Functions.Views.html#965" class="Bound"
+  >n</a
+  ><a name="993"
+  > </a
+  ><a name="994" href="Data.Nat.html#1077" class="Function Operator"
+  >&gt;</a
+  ><a name="995"
+  > </a
+  ><a name="996" href="Functions.Views.html#967" class="Bound"
+  >m</a
+  ></pre
+></p>
+<p>Define the ordering view!</p>
+<h1 id="individual-constructors"><a href="#individual-constructors">Individual constructors</a></h1>
+<p>The disjunction of the view can be replaced by an individual data type:</p>
+<p><code>Even n ⊎ Odd n</code> ~ <code>Parity n</code> where</p>
+<p><pre
+><a name="1589"
+  >
+</a
+  ><a name="1604" class="Keyword"
+  >data</a
+  ><a name="1608"
+  > </a
+  ><a name="1609" href="Functions.Views.html#1609" class="Datatype"
+  >Parity</a
+  ><a name="1615"
+  > </a
+  ><a name="1616" class="Symbol"
+  >:</a
+  ><a name="1617"
+  > </a
+  ><a name="1618" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1619"
+  > </a
+  ><a name="1620" class="Symbol"
+  >&#8594;</a
+  ><a name="1621"
+  > </a
+  ><a name="1622" class="PrimitiveType"
+  >Set</a
+  ><a name="1625"
+  > </a
+  ><a name="1626" class="Keyword"
+  >where</a
+  ><a name="1631"
+  >
+  </a
+  ><a name="1634" href="Functions.Views.html#1634" class="InductiveConstructor"
+  >even</a
+  ><a name="1638"
+  > </a
+  ><a name="1639" class="Symbol"
+  >:</a
+  ><a name="1640"
+  > </a
+  ><a name="1641" class="Symbol"
+  >&#8704;</a
+  ><a name="1642"
+  > </a
+  ><a name="1643" href="Functions.Views.html#1643" class="Bound"
+  >n</a
+  ><a name="1644"
+  > </a
+  ><a name="1645" class="Symbol"
+  >&#8594;</a
+  ><a name="1646"
+  > </a
+  ><a name="1647" href="Functions.Views.html#1609" class="Datatype"
+  >Parity</a
+  ><a name="1653"
+  > </a
+  ><a name="1654" class="Symbol"
+  >(</a
+  ><a name="1655" href="Functions.Views.html#1643" class="Bound"
+  >n</a
+  ><a name="1656"
+  > </a
+  ><a name="1657" href="Data.Nat.html#2544" class="Primitive Operator"
+  >*</a
+  ><a name="1658"
+  > </a
+  ><a name="1659" class="Number"
+  >2</a
+  ><a name="1660" class="Symbol"
+  >)</a
+  ><a name="1661"
+  >
+  </a
+  ><a name="1664" href="Functions.Views.html#1664" class="InductiveConstructor"
+  >odd</a
+  ><a name="1667"
+  >  </a
+  ><a name="1669" class="Symbol"
+  >:</a
+  ><a name="1670"
+  > </a
+  ><a name="1671" class="Symbol"
+  >&#8704;</a
+  ><a name="1672"
+  > </a
+  ><a name="1673" href="Functions.Views.html#1673" class="Bound"
+  >n</a
+  ><a name="1674"
+  > </a
+  ><a name="1675" class="Symbol"
+  >&#8594;</a
+  ><a name="1676"
+  > </a
+  ><a name="1677" href="Functions.Views.html#1609" class="Datatype"
+  >Parity</a
+  ><a name="1683"
+  > </a
+  ><a name="1684" class="Symbol"
+  >(</a
+  ><a name="1685" class="Number"
+  >1</a
+  ><a name="1686"
+  > </a
+  ><a name="1687" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1688"
+  > </a
+  ><a name="1689" href="Functions.Views.html#1673" class="Bound"
+  >n</a
+  ><a name="1690"
+  > </a
+  ><a name="1691" href="Data.Nat.html#2544" class="Primitive Operator"
+  >*</a
+  ><a name="1692"
+  > </a
+  ><a name="1693" class="Number"
+  >2</a
+  ><a name="1694" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p><code>n &lt; m  ⊎  n ≡ m  ⊎  n &gt; m</code> ~ <code>Ordering n m</code> where</p>
+<p><pre
+><a name="1761"
+  >
+</a
+  ><a name="1776" class="Keyword"
+  >data</a
+  ><a name="1780"
+  > </a
+  ><a name="1781" href="Functions.Views.html#1781" class="Datatype"
+  >Ordering</a
+  ><a name="1789"
+  > </a
+  ><a name="1790" class="Symbol"
+  >:</a
+  ><a name="1791"
+  > </a
+  ><a name="1792" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1793"
+  > </a
+  ><a name="1794" class="Symbol"
+  >&#8594;</a
+  ><a name="1795"
+  > </a
+  ><a name="1796" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1797"
+  > </a
+  ><a name="1798" class="Symbol"
+  >&#8594;</a
+  ><a name="1799"
+  > </a
+  ><a name="1800" class="PrimitiveType"
+  >Set</a
+  ><a name="1803"
+  > </a
+  ><a name="1804" class="Keyword"
+  >where</a
+  ><a name="1809"
+  >
+  </a
+  ><a name="1812" href="Functions.Views.html#1812" class="InductiveConstructor"
+  >less</a
+  ><a name="1816"
+  >    </a
+  ><a name="1820" class="Symbol"
+  >:</a
+  ><a name="1821"
+  > </a
+  ><a name="1822" class="Symbol"
+  >&#8704;</a
+  ><a name="1823"
+  > </a
+  ><a name="1824" href="Functions.Views.html#1824" class="Bound"
+  >m</a
+  ><a name="1825"
+  > </a
+  ><a name="1826" href="Functions.Views.html#1826" class="Bound"
+  >k</a
+  ><a name="1827"
+  > </a
+  ><a name="1828" class="Symbol"
+  >&#8594;</a
+  ><a name="1829"
+  > </a
+  ><a name="1830" href="Functions.Views.html#1781" class="Datatype"
+  >Ordering</a
+  ><a name="1838"
+  > </a
+  ><a name="1839" href="Functions.Views.html#1824" class="Bound"
+  >m</a
+  ><a name="1840"
+  > </a
+  ><a name="1841" class="Symbol"
+  >(</a
+  ><a name="1842" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1845"
+  > </a
+  ><a name="1846" class="Symbol"
+  >(</a
+  ><a name="1847" href="Functions.Views.html#1824" class="Bound"
+  >m</a
+  ><a name="1848"
+  > </a
+  ><a name="1849" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1850"
+  > </a
+  ><a name="1851" href="Functions.Views.html#1826" class="Bound"
+  >k</a
+  ><a name="1852" class="Symbol"
+  >))</a
+  ><a name="1854"
+  >
+  </a
+  ><a name="1857" href="Functions.Views.html#1857" class="InductiveConstructor"
+  >equal</a
+  ><a name="1862"
+  >   </a
+  ><a name="1865" class="Symbol"
+  >:</a
+  ><a name="1866"
+  > </a
+  ><a name="1867" class="Symbol"
+  >&#8704;</a
+  ><a name="1868"
+  > </a
+  ><a name="1869" href="Functions.Views.html#1869" class="Bound"
+  >m</a
+  ><a name="1870"
+  >   </a
+  ><a name="1873" class="Symbol"
+  >&#8594;</a
+  ><a name="1874"
+  > </a
+  ><a name="1875" href="Functions.Views.html#1781" class="Datatype"
+  >Ordering</a
+  ><a name="1883"
+  > </a
+  ><a name="1884" href="Functions.Views.html#1869" class="Bound"
+  >m</a
+  ><a name="1885"
+  > </a
+  ><a name="1886" href="Functions.Views.html#1869" class="Bound"
+  >m</a
+  ><a name="1887"
+  >
+  </a
+  ><a name="1890" href="Functions.Views.html#1890" class="InductiveConstructor"
+  >greater</a
+  ><a name="1897"
+  > </a
+  ><a name="1898" class="Symbol"
+  >:</a
+  ><a name="1899"
+  > </a
+  ><a name="1900" class="Symbol"
+  >&#8704;</a
+  ><a name="1901"
+  > </a
+  ><a name="1902" href="Functions.Views.html#1902" class="Bound"
+  >m</a
+  ><a name="1903"
+  > </a
+  ><a name="1904" href="Functions.Views.html#1904" class="Bound"
+  >k</a
+  ><a name="1905"
+  > </a
+  ><a name="1906" class="Symbol"
+  >&#8594;</a
+  ><a name="1907"
+  > </a
+  ><a name="1908" href="Functions.Views.html#1781" class="Datatype"
+  >Ordering</a
+  ><a name="1916"
+  > </a
+  ><a name="1917" class="Symbol"
+  >(</a
+  ><a name="1918" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1921"
+  > </a
+  ><a name="1922" class="Symbol"
+  >(</a
+  ><a name="1923" href="Functions.Views.html#1902" class="Bound"
+  >m</a
+  ><a name="1924"
+  > </a
+  ><a name="1925" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1926"
+  > </a
+  ><a name="1927" href="Functions.Views.html#1904" class="Bound"
+  >k</a
+  ><a name="1928" class="Symbol"
+  >))</a
+  ><a name="1930"
+  > </a
+  ><a name="1931" href="Functions.Views.html#1902" class="Bound"
+  >m</a
+  ></pre
+></p>
+<h1 id="exercises"><a href="#exercises">Exercises</a></h1>
+<p>Define the functions</p>
+<p><pre
+><a name="1987"
+  >
+</a
+  ><a name="2002" href="Functions.Views.html#2002" class="Function"
+  >parity&#8242;</a
+  ><a name="2009"
+  > </a
+  ><a name="2010" class="Symbol"
+  >:</a
+  ><a name="2011"
+  > </a
+  ><a name="2012" class="Symbol"
+  >&#8704;</a
+  ><a name="2013"
+  > </a
+  ><a name="2014" href="Functions.Views.html#2014" class="Bound"
+  >n</a
+  ><a name="2015"
+  > </a
+  ><a name="2016" class="Symbol"
+  >&#8594;</a
+  ><a name="2017"
+  > </a
+  ><a name="2018" href="Functions.Views.html#1609" class="Datatype"
+  >Parity</a
+  ><a name="2024"
+  > </a
+  ><a name="2025" href="Functions.Views.html#2014" class="Bound"
+  >n</a
+  ></pre
+></p>
+<p><pre
+><a name="2219"
+  >
+</a
+  ><a name="2234" href="Functions.Views.html#2234" class="Function"
+  >compare</a
+  ><a name="2241"
+  > </a
+  ><a name="2242" class="Symbol"
+  >:</a
+  ><a name="2243"
+  > </a
+  ><a name="2244" class="Symbol"
+  >&#8704;</a
+  ><a name="2245"
+  > </a
+  ><a name="2246" href="Functions.Views.html#2246" class="Bound"
+  >m</a
+  ><a name="2247"
+  > </a
+  ><a name="2248" href="Functions.Views.html#2248" class="Bound"
+  >n</a
+  ><a name="2249"
+  > </a
+  ><a name="2250" class="Symbol"
+  >&#8594;</a
+  ><a name="2251"
+  > </a
+  ><a name="2252" href="Functions.Views.html#1781" class="Datatype"
+  >Ordering</a
+  ><a name="2260"
+  > </a
+  ><a name="2261" href="Functions.Views.html#2246" class="Bound"
+  >m</a
+  ><a name="2262"
+  > </a
+  ><a name="2263" href="Functions.Views.html#2248" class="Bound"
+  >n</a
+  ></pre
+></p>
+<h1 id="usage-of-views"><a href="#usage-of-views">Usage of views</a></h1>
+<p>If we pattern match on <code>parity n</code> we learn not only whether <code>n</code> is even or odd but we also get a proof of it. From the proof we can get additional information too (like what is the half of <code>n</code>).</p>
+<p>Views are very handy with the <code>with</code> construct.</p>
+<h1 id="exercises-1"><a href="#exercises-1">Exercises</a></h1>
+<ol style="list-style-type: upper-alpha">
+<li>Define division by 2 with the help of <code>Parity</code>:</li>
+</ol>
+<p><pre
+><a name="3051"
+  >
+</a
+  ><a name="3066" href="Functions.Views.html#3066" class="Function Operator"
+  >&#8970;_/2&#8971;</a
+  ><a name="3071"
+  > </a
+  ><a name="3072" class="Symbol"
+  >:</a
+  ><a name="3073"
+  > </a
+  ><a name="3074" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="3075"
+  > </a
+  ><a name="3076" class="Symbol"
+  >&#8594;</a
+  ><a name="3077"
+  > </a
+  ><a name="3078" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="3079"
+  >      </a
+  ><a name="3085" class="Comment"
+  >-- half (&#8970; 1 /2&#8971; = 0)</a
+  ></pre
+></p>
+<ol start="2" style="list-style-type: upper-alpha">
+<li>Define congruence classes of 4 as a view on natural numbers!<br />Hint: use <code>Parity</code> when implementing the view function.</li>
+</ol>
+</body>
+</html>

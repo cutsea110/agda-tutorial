@@ -1,0 +1,417 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Data Modules</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Data Modules</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#data-modules">Data modules</a></li>
+<li><a href="#constructor-name-disambiguation">Constructor name disambiguation</a></li>
+<li><a href="#automatic-constructor-name-disambiguation">Automatic constructor name disambiguation</a></li>
+</ul>
+</div>
+<p><pre
+><a name="15"
+  >
+</a
+  ><a name="30" class="Keyword"
+  >module</a
+  ><a name="36"
+  > </a
+  ><a name="37" href="Modules.Data.html#1" class="Module"
+  >Modules.Data</a
+  ><a name="49"
+  > </a
+  ><a name="50" class="Keyword"
+  >where</a
+  ></pre
+></p>
+<h1 id="data-modules"><a href="#data-modules">Data modules</a></h1>
+<p>Data declarations define modules which are immediately opened:</p>
+<p><pre
+><a name="157"
+  >
+</a
+  ><a name="172" class="Keyword"
+  >data</a
+  ><a name="176"
+  > </a
+  ><a name="177" href="Modules.Data.html#177" class="Datatype"
+  >&#8469;</a
+  ><a name="178"
+  > </a
+  ><a name="179" class="Symbol"
+  >:</a
+  ><a name="180"
+  > </a
+  ><a name="181" class="PrimitiveType"
+  >Set</a
+  ><a name="184"
+  > </a
+  ><a name="185" class="Keyword"
+  >where</a
+  ><a name="190"
+  >
+  </a
+  ><a name="193" href="Modules.Data.html#193" class="InductiveConstructor"
+  >zero</a
+  ><a name="197"
+  > </a
+  ><a name="198" class="Symbol"
+  >:</a
+  ><a name="199"
+  > </a
+  ><a name="200" href="Modules.Data.html#177" class="Datatype"
+  >&#8469;</a
+  ><a name="201"
+  >
+  </a
+  ><a name="204" href="Modules.Data.html#204" class="InductiveConstructor"
+  >suc</a
+  ><a name="207"
+  >  </a
+  ><a name="209" class="Symbol"
+  >:</a
+  ><a name="210"
+  > </a
+  ><a name="211" href="Modules.Data.html#177" class="Datatype"
+  >&#8469;</a
+  ><a name="212"
+  > </a
+  ><a name="213" class="Symbol"
+  >&#8594;</a
+  ><a name="214"
+  > </a
+  ><a name="215" href="Modules.Data.html#177" class="Datatype"
+  >&#8469;</a
+  ><a name="216"
+  >
+
+</a
+  ><a name="218" href="Modules.Data.html#218" class="Function"
+  >x&#8321;</a
+  ><a name="220"
+  > </a
+  ><a name="221" class="Symbol"
+  >:</a
+  ><a name="222"
+  > </a
+  ><a name="223" href="Modules.Data.html#177" class="Datatype"
+  >&#8469;</a
+  ><a name="224"
+  >
+</a
+  ><a name="225" href="Modules.Data.html#218" class="Function"
+  >x&#8321;</a
+  ><a name="227"
+  > </a
+  ><a name="228" class="Symbol"
+  >=</a
+  ><a name="229"
+  > </a
+  ><a name="230" href="Modules.Data.html#204" class="InductiveConstructor"
+  >&#8469;.suc</a
+  ><a name="235"
+  > </a
+  ><a name="236" href="Modules.Data.html#193" class="InductiveConstructor"
+  >&#8469;.zero</a
+  ><a name="242"
+  >
+
+</a
+  ><a name="244" href="Modules.Data.html#244" class="Function"
+  >x&#8322;</a
+  ><a name="246"
+  > </a
+  ><a name="247" class="Symbol"
+  >:</a
+  ><a name="248"
+  > </a
+  ><a name="249" href="Modules.Data.html#177" class="Datatype"
+  >&#8469;</a
+  ><a name="250"
+  >
+</a
+  ><a name="251" href="Modules.Data.html#244" class="Function"
+  >x&#8322;</a
+  ><a name="253"
+  > </a
+  ><a name="254" class="Symbol"
+  >=</a
+  ><a name="255"
+  > </a
+  ><a name="256" href="Modules.Data.html#204" class="InductiveConstructor"
+  >suc</a
+  ><a name="259"
+  > </a
+  ><a name="260" href="Modules.Data.html#193" class="InductiveConstructor"
+  >zero</a
+  ></pre
+></p>
+<h1 id="constructor-name-disambiguation"><a href="#constructor-name-disambiguation">Constructor name disambiguation</a></h1>
+<p>Data modules are provided for constructor name disambiguation:</p>
+<p><pre
+><a name="405"
+  >
+</a
+  ><a name="420" class="Keyword"
+  >data</a
+  ><a name="424"
+  > </a
+  ><a name="425" href="Modules.Data.html#425" class="Datatype"
+  >&#8469;&#8242;</a
+  ><a name="427"
+  > </a
+  ><a name="428" class="Symbol"
+  >:</a
+  ><a name="429"
+  > </a
+  ><a name="430" class="PrimitiveType"
+  >Set</a
+  ><a name="433"
+  > </a
+  ><a name="434" class="Keyword"
+  >where</a
+  ><a name="439"
+  >
+  </a
+  ><a name="442" href="Modules.Data.html#442" class="InductiveConstructor"
+  >zero</a
+  ><a name="446"
+  > </a
+  ><a name="447" class="Symbol"
+  >:</a
+  ><a name="448"
+  > </a
+  ><a name="449" href="Modules.Data.html#425" class="Datatype"
+  >&#8469;&#8242;</a
+  ><a name="451"
+  >
+  </a
+  ><a name="454" href="Modules.Data.html#454" class="InductiveConstructor"
+  >suc</a
+  ><a name="457"
+  >  </a
+  ><a name="459" class="Symbol"
+  >:</a
+  ><a name="460"
+  > </a
+  ><a name="461" href="Modules.Data.html#425" class="Datatype"
+  >&#8469;&#8242;</a
+  ><a name="463"
+  > </a
+  ><a name="464" class="Symbol"
+  >&#8594;</a
+  ><a name="465"
+  > </a
+  ><a name="466" href="Modules.Data.html#425" class="Datatype"
+  >&#8469;&#8242;</a
+  ><a name="468"
+  >
+
+</a
+  ><a name="470" href="Modules.Data.html#470" class="Function"
+  >const</a
+  ><a name="475"
+  > </a
+  ><a name="476" class="Symbol"
+  >:</a
+  ><a name="477"
+  > </a
+  ><a name="478" class="Symbol"
+  >{</a
+  ><a name="479" href="Modules.Data.html#479" class="Bound"
+  >A</a
+  ><a name="480"
+  > </a
+  ><a name="481" href="Modules.Data.html#481" class="Bound"
+  >B</a
+  ><a name="482"
+  > </a
+  ><a name="483" class="Symbol"
+  >:</a
+  ><a name="484"
+  > </a
+  ><a name="485" class="PrimitiveType"
+  >Set</a
+  ><a name="488" class="Symbol"
+  >}</a
+  ><a name="489"
+  > </a
+  ><a name="490" class="Symbol"
+  >&#8594;</a
+  ><a name="491"
+  > </a
+  ><a name="492" href="Modules.Data.html#479" class="Bound"
+  >A</a
+  ><a name="493"
+  > </a
+  ><a name="494" class="Symbol"
+  >&#8594;</a
+  ><a name="495"
+  > </a
+  ><a name="496" href="Modules.Data.html#481" class="Bound"
+  >B</a
+  ><a name="497"
+  > </a
+  ><a name="498" class="Symbol"
+  >&#8594;</a
+  ><a name="499"
+  > </a
+  ><a name="500" href="Modules.Data.html#479" class="Bound"
+  >A</a
+  ><a name="501"
+  >
+</a
+  ><a name="502" href="Modules.Data.html#470" class="Function"
+  >const</a
+  ><a name="507"
+  > </a
+  ><a name="508" href="Modules.Data.html#508" class="Bound"
+  >a</a
+  ><a name="509"
+  > </a
+  ><a name="510" href="Modules.Data.html#510" class="Bound"
+  >b</a
+  ><a name="511"
+  > </a
+  ><a name="512" class="Symbol"
+  >=</a
+  ><a name="513"
+  > </a
+  ><a name="514" href="Modules.Data.html#508" class="Bound"
+  >a</a
+  ><a name="515"
+  >
+
+</a
+  ><a name="517" href="Modules.Data.html#517" class="Function"
+  >y&#8321;</a
+  ><a name="519"
+  > </a
+  ><a name="520" class="Symbol"
+  >:</a
+  ><a name="521"
+  > </a
+  ><a name="522" href="Modules.Data.html#425" class="Datatype"
+  >&#8469;&#8242;</a
+  ><a name="524"
+  >
+</a
+  ><a name="525" href="Modules.Data.html#517" class="Function"
+  >y&#8321;</a
+  ><a name="527"
+  > </a
+  ><a name="528" class="Symbol"
+  >=</a
+  ><a name="529"
+  > </a
+  ><a name="530" href="Modules.Data.html#470" class="Function"
+  >const</a
+  ><a name="535"
+  > </a
+  ><a name="536" href="Modules.Data.html#442" class="InductiveConstructor"
+  >&#8469;&#8242;.zero</a
+  ><a name="543"
+  > </a
+  ><a name="544" class="Symbol"
+  >(</a
+  ><a name="545" href="Modules.Data.html#204" class="InductiveConstructor"
+  >&#8469;.suc</a
+  ><a name="550"
+  > </a
+  ><a name="551" href="Modules.Data.html#193" class="InductiveConstructor"
+  >&#8469;.zero</a
+  ><a name="557" class="Symbol"
+  >)</a
+  ><a name="558"
+  >  </a
+  ><a name="560" class="Comment"
+  >-- constructor name disambiguation</a
+  ></pre
+></p>
+<h1 id="automatic-constructor-name-disambiguation"><a href="#automatic-constructor-name-disambiguation">Automatic constructor name disambiguation</a></h1>
+<p>Constructor names are disambiguated automatically if it is possible by observing the <em>result type</em> of the constructor:</p>
+<p><pre
+><a name="801"
+  >
+</a
+  ><a name="816" href="Modules.Data.html#816" class="Function"
+  >y&#8322;</a
+  ><a name="818"
+  > </a
+  ><a name="819" class="Symbol"
+  >:</a
+  ><a name="820"
+  > </a
+  ><a name="821" href="Modules.Data.html#425" class="Datatype"
+  >&#8469;&#8242;</a
+  ><a name="823"
+  >
+</a
+  ><a name="824" href="Modules.Data.html#816" class="Function"
+  >y&#8322;</a
+  ><a name="826"
+  > </a
+  ><a name="827" class="Symbol"
+  >=</a
+  ><a name="828"
+  > </a
+  ><a name="829" href="Modules.Data.html#470" class="Function"
+  >const</a
+  ><a name="834"
+  > </a
+  ><a name="835" class="InductiveConstructor"
+  >zero</a
+  ><a name="839"
+  > </a
+  ><a name="840" class="Symbol"
+  >(</a
+  ><a name="841" href="Modules.Data.html#204" class="InductiveConstructor"
+  >&#8469;.suc</a
+  ><a name="846"
+  > </a
+  ><a name="847" href="Modules.Data.html#193" class="InductiveConstructor"
+  >zero</a
+  ><a name="851" class="Symbol"
+  >)</a
+  ><a name="852"
+  >   </a
+  ><a name="855" class="Comment"
+  >-- automatic name disambiguation</a
+  ><a name="887"
+  >
+
+</a
+  ><a name="889" class="Comment"
+  >-- y&#8323; : &#8469;&#8242;</a
+  ><a name="899"
+  >
+</a
+  ><a name="900" class="Comment"
+  >-- y&#8323; = const zero (suc zero)  -- ambiguous</a
+  ><a name="943"
+  >
+
+</a
+  ><a name="945" class="Comment"
+  >-- y&#8324; : &#8469;&#8242;</a
+  ><a name="955"
+  >
+</a
+  ><a name="956" class="Comment"
+  >-- y&#8324; = const zero (suc &#8469;.zero) -- this is still ambiguous for Agda!</a
+  ></pre
+></p>
+<p>Ambiguous parts are highlighted in yellow.</p>
+</body>
+</html>

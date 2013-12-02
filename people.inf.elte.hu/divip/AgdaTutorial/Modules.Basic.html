@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Péter Diviánszky" />
+  <title>Modules</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Modules</h1>
+<h2 class="author">Péter Diviánszky</h2>
+<h3 class="date">2013. 01.</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#module-headers">Module headers</a></li>
+<li><a href="#exercise">Exercise</a></li>
+<li><a href="#declarations">Declarations</a></li>
+</ul>
+</div>
+<h1 id="module-headers"><a href="#module-headers">Module headers</a></h1>
+<p>Every Agda module should have a <em>module header</em> like</p>
+<p><pre
+><a name="127"
+  >
+</a
+  ><a name="142" class="Keyword"
+  >module</a
+  ><a name="148"
+  > </a
+  ><a name="149" href="Modules.Basic.html#1" class="Module"
+  >Modules.Basic</a
+  ><a name="162"
+  > </a
+  ><a name="163" class="Keyword"
+  >where</a
+  ></pre
+></p>
+<ul>
+<li><code>module</code> and <code>where</code> are keywords</li>
+<li>The module name after <code>module</code> should correspond to the file name in the file system.<br /> In this case the file name is <code>Modules/Basic.agda</code> (or <code>Modules/Basic.lagda</code>).</li>
+<li>Syntax highlighting is added by loading the module in Emacs with C-<code>c</code> C-<code>l</code>.</li>
+</ul>
+<h1 id="exercise"><a href="#exercise">Exercise</a></h1>
+<ol style="list-style-type: decimal">
+<li>Install the Agda compiler</li>
+<li>Open a file called &quot;First.agda&quot; (or similar) in Emacs</li>
+<li>Fill in the module header</li>
+<li>Load the module to get syntax highlighting</li>
+</ol>
+<h1 id="declarations"><a href="#declarations">Declarations</a></h1>
+<p>An Agda module is a module header and a list of declarations.</p>
+<p>In the following slides we will see declarations like</p>
+<ul>
+<li>set definitions</li>
+<li>function definitions</li>
+<li>import declarations</li>
+<li>...</li>
+</ul>
+</body>
+</html>

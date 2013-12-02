@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Import Declarations</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Import Declarations</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#detach-a-module-into-a-separate-file">Detach a module into a separate file</a></li>
+<li><a href="#example">Example</a></li>
+<li><a href="#search-paths">Search paths</a></li>
+<li><a href="#qualified-modules-in-import-declarations">Qualified modules in import declarations</a></li>
+<li><a href="#renaming-imported-modules">Renaming imported modules</a></li>
+<li><a href="#syntactic-abbreviations">Syntactic abbreviations</a></li>
+</ul>
+</div>
+<p><pre
+><a name="22"
+  >
+</a
+  ><a name="37" class="Keyword"
+  >module</a
+  ><a name="43"
+  > </a
+  ><a name="44" href="Modules.Imports.html#1" class="Module"
+  >Modules.Imports</a
+  ><a name="59"
+  > </a
+  ><a name="60" class="Keyword"
+  >where</a
+  ></pre
+></p>
+<h1 id="detach-a-module-into-a-separate-file"><a href="#detach-a-module-into-a-separate-file">Detach a module into a separate file</a></h1>
+<p>Module definitions can be detached into separate files:</p>
+<ol style="list-style-type: decimal">
+<li>A file named <em>modulename</em><code>.agda</code> should contain the module declaration.</li>
+<li>Now the module declaration can be replaced by an import declaration.</li>
+</ol>
+<h1 id="example"><a href="#example">Example</a></h1>
+<p><pre
+><a name="375"
+  >
+</a
+  ><a name="390" class="Keyword"
+  >module</a
+  ><a name="396"
+  > </a
+  ><a name="397" href="Modules.Imports.html#397" class="Module"
+  >X</a
+  ><a name="398"
+  > </a
+  ><a name="399" class="Keyword"
+  >where</a
+  ><a name="404"
+  >
+
+  </a
+  ><a name="408" class="Keyword"
+  >module</a
+  ><a name="414"
+  > </a
+  ><a name="415" href="Modules.Imports.html#415" class="Module"
+  >ImportExample</a
+  ><a name="428"
+  > </a
+  ><a name="429" class="Keyword"
+  >where</a
+  ><a name="434"
+  >
+
+    </a
+  ><a name="440" class="Keyword"
+  >data</a
+  ><a name="444"
+  > </a
+  ><a name="445" href="Modules.Imports.html#445" class="Datatype"
+  >Bool</a
+  ><a name="449"
+  > </a
+  ><a name="450" class="Symbol"
+  >:</a
+  ><a name="451"
+  > </a
+  ><a name="452" class="PrimitiveType"
+  >Set</a
+  ><a name="455"
+  > </a
+  ><a name="456" class="Keyword"
+  >where</a
+  ><a name="461"
+  >
+      </a
+  ><a name="468" href="Modules.Imports.html#468" class="InductiveConstructor"
+  >false</a
+  ><a name="473"
+  > </a
+  ><a name="474" href="Modules.Imports.html#474" class="InductiveConstructor"
+  >true</a
+  ><a name="478"
+  > </a
+  ><a name="479" class="Symbol"
+  >:</a
+  ><a name="480"
+  > </a
+  ><a name="481" href="Modules.Imports.html#445" class="Datatype"
+  >Bool</a
+  ><a name="485"
+  >
+
+  </a
+  ><a name="489" href="Modules.Imports.html#489" class="Function"
+  >x</a
+  ><a name="490"
+  > </a
+  ><a name="491" class="Symbol"
+  >=</a
+  ><a name="492"
+  > </a
+  ><a name="493" href="Modules.Imports.html#474" class="InductiveConstructor"
+  >ImportExample.true</a
+  ></pre
+></p>
+<p>can be replaced by</p>
+<p><pre
+><a name="542"
+  >
+</a
+  ><a name="557" class="Keyword"
+  >module</a
+  ><a name="563"
+  > </a
+  ><a name="564" href="Modules.Imports.html#564" class="Module"
+  >X&#8242;</a
+  ><a name="566"
+  > </a
+  ><a name="567" class="Keyword"
+  >where</a
+  ><a name="572"
+  >
+
+  </a
+  ><a name="576" class="Keyword"
+  >import</a
+  ><a name="582"
+  > </a
+  ><a name="583" href="ImportExample.html#1" class="Module"
+  >ImportExample</a
+  ><a name="596"
+  >  </a
+  ><a name="598" class="Comment"
+  >-- click to see the contents of ImportExample.agda</a
+  ><a name="648"
+  >
+
+  </a
+  ><a name="652" href="Modules.Imports.html#652" class="Function"
+  >x</a
+  ><a name="653"
+  > </a
+  ><a name="654" class="Symbol"
+  >=</a
+  ><a name="655"
+  > </a
+  ><a name="656" href="ImportExample.html#63" class="InductiveConstructor"
+  >ImportExample.true</a
+  ></pre
+></p>
+<h1 id="search-paths"><a href="#search-paths">Search paths</a></h1>
+<p>Agda source files should be accessible from the Agda search paths.</p>
+<p>In the Emacs environment, the Agda search paths can be set by</p>
+<ol style="list-style-type: decimal">
+<li>M-<code>x</code> <code>customize-group</code> <return> <code>agda2</code> <return> (M stands for Meta which is labelled Alt on most computers)</li>
+<li>Edit the contents of <code>Agda2 Include dirs</code></li>
+</ol>
+<p>The default search paths are the current directory (from where <code>emacs</code> was started) and the path of the Standard Libraries if it was installed properly.</p>
+<p>If you invoke the Agda compiler from the command line, you can add a path to the search paths by the <code>-i</code> flag. The default search path is the current directory.</p>
+<h1 id="qualified-modules-in-import-declarations"><a href="#qualified-modules-in-import-declarations">Qualified modules in import declarations</a></h1>
+<p>Module definitions can be detached into separate files contained in (possibly nested) directories accessible from the search paths.</p>
+<p>Example:</p>
+<p><pre
+><a name="1520"
+  >
+</a
+  ><a name="1535" class="Keyword"
+  >module</a
+  ><a name="1541"
+  > </a
+  ><a name="1542" href="Modules.Imports.html#1542" class="Module"
+  >X&#8243;</a
+  ><a name="1544"
+  > </a
+  ><a name="1545" class="Keyword"
+  >where</a
+  ><a name="1550"
+  >
+
+  </a
+  ><a name="1554" class="Keyword"
+  >module</a
+  ><a name="1560"
+  > </a
+  ><a name="1561" href="Modules.Imports.html#1561" class="Module"
+  >ImportExample</a
+  ><a name="1574"
+  > </a
+  ><a name="1575" class="Keyword"
+  >where</a
+  ><a name="1580"
+  >
+
+    </a
+  ><a name="1586" class="Keyword"
+  >data</a
+  ><a name="1590"
+  > </a
+  ><a name="1591" href="Modules.Imports.html#1591" class="Datatype"
+  >Bool</a
+  ><a name="1595"
+  > </a
+  ><a name="1596" class="Symbol"
+  >:</a
+  ><a name="1597"
+  > </a
+  ><a name="1598" class="PrimitiveType"
+  >Set</a
+  ><a name="1601"
+  > </a
+  ><a name="1602" class="Keyword"
+  >where</a
+  ><a name="1607"
+  >
+      </a
+  ><a name="1614" href="Modules.Imports.html#1614" class="InductiveConstructor"
+  >false</a
+  ><a name="1619"
+  > </a
+  ><a name="1620" href="Modules.Imports.html#1620" class="InductiveConstructor"
+  >true</a
+  ><a name="1624"
+  > </a
+  ><a name="1625" class="Symbol"
+  >:</a
+  ><a name="1626"
+  > </a
+  ><a name="1627" href="Modules.Imports.html#1591" class="Datatype"
+  >Bool</a
+  ><a name="1631"
+  >
+
+  </a
+  ><a name="1635" href="Modules.Imports.html#1635" class="Function"
+  >x</a
+  ><a name="1636"
+  > </a
+  ><a name="1637" class="Symbol"
+  >=</a
+  ><a name="1638"
+  > </a
+  ><a name="1639" href="Modules.Imports.html#1620" class="InductiveConstructor"
+  >ImportExample.true</a
+  ></pre
+></p>
+<p>can be replaced by</p>
+<p><pre
+><a name="1688"
+  >
+</a
+  ><a name="1703" class="Keyword"
+  >module</a
+  ><a name="1709"
+  > </a
+  ><a name="1710" href="Modules.Imports.html#1710" class="Module"
+  >X&#8244;</a
+  ><a name="1712"
+  > </a
+  ><a name="1713" class="Keyword"
+  >where</a
+  ><a name="1718"
+  >
+
+  </a
+  ><a name="1722" class="Keyword"
+  >import</a
+  ><a name="1728"
+  > </a
+  ><a name="1729" href="Modules.ImportExample.html#1" class="Module"
+  >Modules.ImportExample</a
+  ><a name="1750"
+  >  </a
+  ><a name="1752" class="Comment"
+  >-- click to see the contents of Modules/ImportExample.agda</a
+  ><a name="1810"
+  >
+
+  </a
+  ><a name="1814" href="Modules.Imports.html#1814" class="Function"
+  >x</a
+  ><a name="1815"
+  > </a
+  ><a name="1816" class="Symbol"
+  >=</a
+  ><a name="1817"
+  > </a
+  ><a name="1818" href="Modules.ImportExample.html#71" class="InductiveConstructor"
+  >Modules.ImportExample.true</a
+  ></pre
+></p>
+<p>Note that the top level module declaration of <code>Modules/ImportExample.agda</code> declares the qualified module <code>Modules.ImportExample</code>. Qualified module declaration are allowed only in this case.</p>
+<h1 id="renaming-imported-modules"><a href="#renaming-imported-modules">Renaming imported modules</a></h1>
+<p>One can rename imported modules:</p>
+<p><pre
+><a name="2124"
+  >
+</a
+  ><a name="2139" class="Keyword"
+  >module</a
+  ><a name="2145"
+  > </a
+  ><a name="2146" href="Modules.Imports.html#2146" class="Module"
+  >X&#8279;</a
+  ><a name="2148"
+  > </a
+  ><a name="2149" class="Keyword"
+  >where</a
+  ><a name="2154"
+  >
+
+  </a
+  ><a name="2158" class="Keyword"
+  >import</a
+  ><a name="2164"
+  > </a
+  ><a name="2165" href="Modules.ImportExample.html#1" class="Module"
+  >Modules.ImportExample</a
+  ><a name="2186"
+  > </a
+  ><a name="2187" class="Symbol"
+  >as</a
+  ><a name="2189"
+  > </a
+  ><a name="2190" class="Module"
+  >ImportExample</a
+  ><a name="2203"
+  >
+
+  </a
+  ><a name="2207" href="Modules.Imports.html#2207" class="Function"
+  >x</a
+  ><a name="2208"
+  > </a
+  ><a name="2209" class="Symbol"
+  >=</a
+  ><a name="2210"
+  > </a
+  ><a name="2211" href="Modules.ImportExample.html#71" class="InductiveConstructor"
+  >ImportExample.true</a
+  ></pre
+></p>
+<h1 id="syntactic-abbreviations"><a href="#syntactic-abbreviations">Syntactic abbreviations</a></h1>
+<p><code>open import</code> M</p>
+<p>stands for</p>
+<p><code>import</code> M<br /><code>open</code> M</p>
+<p>There are similar abbreviations for <code>using</code>, <code>hiding</code>, <code>renaming</code>, <code>public</code> constructs.</p>
+</body>
+</html>

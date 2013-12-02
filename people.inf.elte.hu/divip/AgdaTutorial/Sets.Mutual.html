@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Mutually Recursive Sets</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Mutually Recursive Sets</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#mutual-definitions">Mutual definitions</a></li>
+<li><a href="#exercise">Exercise</a></li>
+<li><a href="#exercise-1">Exercise</a></li>
+</ul>
+</div>
+<p><pre
+><a name="26"
+  >
+</a
+  ><a name="41" class="Keyword"
+  >module</a
+  ><a name="47"
+  > </a
+  ><a name="48" href="Sets.Mutual.html#1" class="Module"
+  >Sets.Mutual</a
+  ><a name="59"
+  > </a
+  ><a name="60" class="Keyword"
+  >where</a
+  ><a name="65"
+  >
+
+</a
+  ><a name="67" class="Keyword"
+  >open</a
+  ><a name="71"
+  > </a
+  ><a name="72" class="Keyword"
+  >import</a
+  ><a name="78"
+  > </a
+  ><a name="79" href="Sets.Enumerated.html#1" class="Module"
+  >Sets.Enumerated</a
+  ><a name="94"
+  > </a
+  ><a name="95" class="Keyword"
+  >using</a
+  ><a name="100"
+  > </a
+  ><a name="101" class="Symbol"
+  >(</a
+  ><a name="102"
+  >Bool</a
+  ><a name="106" class="Symbol"
+  >;</a
+  ><a name="107"
+  > true</a
+  ><a name="112" class="Symbol"
+  >;</a
+  ><a name="113"
+  > false</a
+  ><a name="119" class="Symbol"
+  >)</a
+  ><a name="120"
+  >
+</a
+  ><a name="121" class="Keyword"
+  >open</a
+  ><a name="125"
+  > </a
+  ><a name="126" class="Keyword"
+  >import</a
+  ><a name="132"
+  > </a
+  ><a name="133" href="Syntax.Decimal_Naturals.html#1" class="Module"
+  >Syntax.</a
+  ><a name="140" href="Syntax.Decimal_Naturals.html#1" class="Module Operator"
+  >Decimal_Naturals</a
+  ><a name="156"
+  > </a
+  ><a name="157" class="Keyword"
+  >using</a
+  ><a name="162"
+  > </a
+  ><a name="163" class="Symbol"
+  >(</a
+  ><a name="164"
+  >&#8469;</a
+  ><a name="165" class="Symbol"
+  >;</a
+  ><a name="166"
+  > zero</a
+  ><a name="171" class="Symbol"
+  >;</a
+  ><a name="172"
+  > suc</a
+  ><a name="176" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="mutual-definitions"><a href="#mutual-definitions">Mutual definitions</a></h1>
+<p>To allow mutual definitions one should declare any set before using it:</p>
+<p><pre
+><a name="292"
+  >
+</a
+  ><a name="307" class="Keyword"
+  >data</a
+  ><a name="311"
+  > </a
+  ><a name="312" href="Sets.Mutual.html#312" class="Datatype"
+  >L</a
+  ><a name="313"
+  > </a
+  ><a name="314" class="Symbol"
+  >:</a
+  ><a name="315"
+  > </a
+  ><a name="316" class="PrimitiveType"
+  >Set</a
+  ><a name="319"
+  >
+</a
+  ><a name="320" class="Keyword"
+  >data</a
+  ><a name="324"
+  > </a
+  ><a name="325" href="Sets.Mutual.html#325" class="Datatype"
+  >M</a
+  ><a name="326"
+  > </a
+  ><a name="327" class="Symbol"
+  >:</a
+  ><a name="328"
+  > </a
+  ><a name="329" class="PrimitiveType"
+  >Set</a
+  ><a name="332"
+  >
+
+</a
+  ><a name="334" class="Keyword"
+  >data</a
+  ><a name="338"
+  > </a
+  ><a name="339" href="Sets.Mutual.html#312" class="Datatype"
+  >L</a
+  ><a name="340"
+  > </a
+  ><a name="341" class="Keyword"
+  >where</a
+  ><a name="346"
+  >
+  </a
+  ><a name="349" href="Sets.Mutual.html#349" class="InductiveConstructor"
+  >nil</a
+  ><a name="352"
+  > </a
+  ><a name="353" class="Symbol"
+  >:</a
+  ><a name="354"
+  > </a
+  ><a name="355" href="Sets.Mutual.html#312" class="Datatype"
+  >L</a
+  ><a name="356"
+  >
+  </a
+  ><a name="359" href="Sets.Mutual.html#359" class="InductiveConstructor Operator"
+  >_&#8759;_</a
+  ><a name="362"
+  > </a
+  ><a name="363" class="Symbol"
+  >:</a
+  ><a name="364"
+  > </a
+  ><a name="365" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="366"
+  > </a
+  ><a name="367" class="Symbol"
+  >&#8594;</a
+  ><a name="368"
+  > </a
+  ><a name="369" href="Sets.Mutual.html#325" class="Datatype"
+  >M</a
+  ><a name="370"
+  > </a
+  ><a name="371" class="Symbol"
+  >&#8594;</a
+  ><a name="372"
+  > </a
+  ><a name="373" href="Sets.Mutual.html#312" class="Datatype"
+  >L</a
+  ><a name="374"
+  >
+
+</a
+  ><a name="376" class="Keyword"
+  >data</a
+  ><a name="380"
+  > </a
+  ><a name="381" href="Sets.Mutual.html#325" class="Datatype"
+  >M</a
+  ><a name="382"
+  > </a
+  ><a name="383" class="Keyword"
+  >where</a
+  ><a name="388"
+  >
+  </a
+  ><a name="391" href="Sets.Mutual.html#391" class="InductiveConstructor Operator"
+  >_&#8759;_</a
+  ><a name="394"
+  > </a
+  ><a name="395" class="Symbol"
+  >:</a
+  ><a name="396"
+  > </a
+  ><a name="397" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ><a name="401"
+  > </a
+  ><a name="402" class="Symbol"
+  >&#8594;</a
+  ><a name="403"
+  > </a
+  ><a name="404" href="Sets.Mutual.html#312" class="Datatype"
+  >L</a
+  ><a name="405"
+  > </a
+  ><a name="406" class="Symbol"
+  >&#8594;</a
+  ><a name="407"
+  > </a
+  ><a name="408" href="Sets.Mutual.html#325" class="Datatype"
+  >M</a
+  ></pre
+></p>
+<p>Note that <code>: Set</code> is missing in the definitions of sets declared before.</p>
+<p><em>Exercise</em>: What are the elements of <code>L</code> and <code>M</code>?</p>
+<h1 id="exercise"><a href="#exercise">Exercise</a></h1>
+<ul>
+<li>Define trees with nodes with finite children (0, 1, 2, ...)!</li>
+</ul>
+<h1 id="exercise-1"><a href="#exercise-1">Exercise</a></h1>
+<p>Define a small grammar!*</p>
+<hr />
+<p>*highly underspecified exercise</p>
+</body>
+</html>

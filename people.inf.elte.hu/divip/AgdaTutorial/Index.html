@@ -1,0 +1,466 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Péter Diviánszky and Ambrus Kaposi" />
+  <title>Agda Tutorial</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Agda Tutorial</h1>
+<h2 class="author">Péter Diviánszky and Ambrus Kaposi</h2>
+<h3 class="date">2011-2013</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#general-information">General Information</a></li>
+<li><a href="#sets">Sets</a></li>
+<li><a href="#functions">Functions</a></li>
+<li><a href="#modules-and-records">Modules and records</a></li>
+<li><a href="#applications">Applications</a></li>
+<li><a href="#coinduction">Coinduction</a></li>
+<li><a href="#other-material">Other material</a></li>
+</ul>
+</div>
+<h2 id="general-information"><a href="#general-information">General Information</a></h2>
+<p><pre
+><a name="153"
+  >
+</a
+  ><a name="168" class="Keyword"
+  >import</a
+  ><a name="174"
+  > </a
+  ><a name="175" href="Motivation.html#1" class="Module"
+  >Motivation</a
+  ><a name="185"
+  >
+
+</a
+  ><a name="187" class="Keyword"
+  >import</a
+  ><a name="193"
+  > </a
+  ><a name="194" href="Installation.html#1" class="Module"
+  >Installation</a
+  ><a name="206"
+  >
+
+</a
+  ><a name="208" class="Keyword"
+  >import</a
+  ><a name="214"
+  > </a
+  ><a name="215" href="Emacs_Usage.html#1" class="Module Operator"
+  >Emacs_Usage</a
+  ><a name="226"
+  >
+</a
+  ><a name="227" class="Keyword"
+  >import</a
+  ><a name="233"
+  > </a
+  ><a name="234" href="Symbols.html#1" class="Module"
+  >Symbols</a
+  ></pre
+></p>
+<h2 id="sets"><a href="#sets">Sets</a></h2>
+<p><pre
+><a name="263"
+  >
+</a
+  ><a name="278" class="Keyword"
+  >import</a
+  ><a name="284"
+  > </a
+  ><a name="285" href="Modules.Basic.html#1" class="Module"
+  >Modules.Basic</a
+  ><a name="298"
+  >
+</a
+  ><a name="299" class="Keyword"
+  >import</a
+  ><a name="305"
+  > </a
+  ><a name="306" href="Sets.Enumerated.html#1" class="Module"
+  >Sets.Enumerated</a
+  ><a name="321"
+  >
+</a
+  ><a name="322" class="Keyword"
+  >import</a
+  ><a name="328"
+  > </a
+  ><a name="329" href="Sets.Recursive.html#1" class="Module"
+  >Sets.Recursive</a
+  ><a name="343"
+  >
+</a
+  ><a name="344" class="Keyword"
+  >import</a
+  ><a name="350"
+  > </a
+  ><a name="351" href="Constants.html#1" class="Module"
+  >Constants</a
+  ><a name="360"
+  >
+</a
+  ><a name="361" class="Keyword"
+  >import</a
+  ><a name="367"
+  > </a
+  ><a name="368" href="Syntax.Decimal_Naturals.html#1" class="Module"
+  >Syntax.</a
+  ><a name="375" href="Syntax.Decimal_Naturals.html#1" class="Module Operator"
+  >Decimal_Naturals</a
+  ><a name="391"
+  >
+</a
+  ><a name="392" class="Keyword"
+  >import</a
+  ><a name="398"
+  > </a
+  ><a name="399" href="Syntax.Infix.html#1" class="Module"
+  >Syntax.Infix</a
+  ><a name="411"
+  >
+</a
+  ><a name="412" class="Keyword"
+  >import</a
+  ><a name="418"
+  > </a
+  ><a name="419" href="Sets.Mutual.html#1" class="Module"
+  >Sets.Mutual</a
+  ><a name="430"
+  >
+</a
+  ><a name="431" class="Keyword"
+  >import</a
+  ><a name="437"
+  > </a
+  ><a name="438" href="Sets.Parametric.html#1" class="Module"
+  >Sets.Parametric</a
+  ><a name="453"
+  >
+
+</a
+  ><a name="455" class="Keyword"
+  >import</a
+  ><a name="461"
+  > </a
+  ><a name="462" href="Sets.Indexed.html#1" class="Module"
+  >Sets.Indexed</a
+  ><a name="474"
+  >
+</a
+  ><a name="475" class="Keyword"
+  >import</a
+  ><a name="481"
+  > </a
+  ><a name="482" href="Term_Inference.html#1" class="Module Operator"
+  >Term_Inference</a
+  ><a name="496"
+  >
+</a
+  ><a name="497" class="Keyword"
+  >import</a
+  ><a name="503"
+  > </a
+  ><a name="504" href="Sets.Propositions.html#1" class="Module"
+  >Sets.Propositions</a
+  ><a name="521"
+  >
+</a
+  ><a name="522" class="Keyword"
+  >import</a
+  ><a name="528"
+  > </a
+  ><a name="529" href="Sets.Parameters_vs_Indices.html#1" class="Module"
+  >Sets.</a
+  ><a name="534" href="Sets.Parameters_vs_Indices.html#1" class="Module Operator"
+  >Parameters_vs_Indices</a
+  ></pre
+></p>
+<h2 id="functions"><a href="#functions">Functions</a></h2>
+<p><pre
+><a name="588"
+  >
+</a
+  ><a name="603" class="Keyword"
+  >import</a
+  ><a name="609"
+  > </a
+  ><a name="610" href="Functions.Cases.html#1" class="Module"
+  >Functions.Cases</a
+  ><a name="625"
+  >
+</a
+  ><a name="626" class="Keyword"
+  >import</a
+  ><a name="632"
+  > </a
+  ><a name="633" href="Functions.Recursive.html#1" class="Module"
+  >Functions.Recursive</a
+  ><a name="652"
+  >
+</a
+  ><a name="653" class="Keyword"
+  >import</a
+  ><a name="659"
+  > </a
+  ><a name="660" href="Functions.Polymorphic.html#1" class="Module"
+  >Functions.Polymorphic</a
+  ><a name="681"
+  >
+</a
+  ><a name="682" class="Keyword"
+  >import</a
+  ><a name="688"
+  > </a
+  ><a name="689" href="Functions.Functions_vs_Sets.html#1" class="Module"
+  >Functions.</a
+  ><a name="699" href="Functions.Functions_vs_Sets.html#1" class="Module Operator"
+  >Functions_vs_Sets</a
+  ><a name="716"
+  >
+</a
+  ><a name="717" class="Keyword"
+  >import</a
+  ><a name="723"
+  > </a
+  ><a name="724" href="Functions.Large.html#1" class="Module"
+  >Functions.Large</a
+  ><a name="739"
+  >
+
+</a
+  ><a name="741" class="Keyword"
+  >import</a
+  ><a name="747"
+  > </a
+  ><a name="748" href="Functions.Dependent.html#1" class="Module"
+  >Functions.Dependent</a
+  ><a name="767"
+  >
+</a
+  ><a name="768" class="Keyword"
+  >import</a
+  ><a name="774"
+  > </a
+  ><a name="775" href="Functions.Universal_Quantification.html#1" class="Module"
+  >Functions.</a
+  ><a name="785" href="Functions.Universal_Quantification.html#1" class="Module Operator"
+  >Universal_Quantification</a
+  ><a name="809"
+  >
+</a
+  ><a name="810" class="Comment"
+  >--import Functions.Negation</a
+  ><a name="837"
+  >
+</a
+  ><a name="838" class="Keyword"
+  >import</a
+  ><a name="844"
+  > </a
+  ><a name="845" href="Functions.Equality_Proofs.html#1" class="Module"
+  >Functions.</a
+  ><a name="855" href="Functions.Equality_Proofs.html#1" class="Module Operator"
+  >Equality_Proofs</a
+  ><a name="870"
+  >
+</a
+  ><a name="871" class="Keyword"
+  >import</a
+  ><a name="877"
+  > </a
+  ><a name="878" href="Sets.With_Functions.html#1" class="Module"
+  >Sets.</a
+  ><a name="883" href="Sets.With_Functions.html#1" class="Module Operator"
+  >With_Functions</a
+  ><a name="897"
+  >
+
+</a
+  ><a name="899" class="Keyword"
+  >import</a
+  ><a name="905"
+  > </a
+  ><a name="906" href="Sets.Sigma.html#1" class="Module"
+  >Sets.Sigma</a
+  ><a name="916"
+  >
+
+</a
+  ><a name="918" class="Keyword"
+  >import</a
+  ><a name="924"
+  > </a
+  ><a name="925" href="Functions.Views.html#1" class="Module"
+  >Functions.Views</a
+  ><a name="940"
+  >
+</a
+  ><a name="941" class="Keyword"
+  >import</a
+  ><a name="947"
+  > </a
+  ><a name="948" href="Functions.Views.Decidability.html#1" class="Module"
+  >Functions.Views.Decidability</a
+  ></pre
+></p>
+<h2 id="modules-and-records"><a href="#modules-and-records">Modules and records</a></h2>
+<p><pre
+><a name="1029"
+  >
+</a
+  ><a name="1044" class="Keyword"
+  >import</a
+  ><a name="1050"
+  > </a
+  ><a name="1051" href="Modules.Advanced.html#1" class="Module"
+  >Modules.Advanced</a
+  ><a name="1067"
+  >
+</a
+  ><a name="1068" class="Keyword"
+  >import</a
+  ><a name="1074"
+  > </a
+  ><a name="1075" href="Modules.Parameterised.html#1" class="Module"
+  >Modules.Parameterised</a
+  ><a name="1096"
+  >
+</a
+  ><a name="1097" class="Keyword"
+  >import</a
+  ><a name="1103"
+  > </a
+  ><a name="1104" href="Modules.Data.html#1" class="Module"
+  >Modules.Data</a
+  ><a name="1116"
+  >
+</a
+  ><a name="1117" class="Keyword"
+  >import</a
+  ><a name="1123"
+  > </a
+  ><a name="1124" href="Modules.Imports.html#1" class="Module"
+  >Modules.Imports</a
+  ><a name="1139"
+  >
+</a
+  ><a name="1140" class="Keyword"
+  >import</a
+  ><a name="1146"
+  > </a
+  ><a name="1147" href="Sets.Records.html#1" class="Module"
+  >Sets.Records</a
+  ><a name="1159"
+  >
+</a
+  ><a name="1160" class="Keyword"
+  >import</a
+  ><a name="1166"
+  > </a
+  ><a name="1167" href="Modules.Records.html#1" class="Module"
+  >Modules.Records</a
+  ></pre
+></p>
+<h2 id="applications"><a href="#applications">Applications</a></h2>
+<p><pre
+><a name="1221"
+  >
+</a
+  ><a name="1236" class="Keyword"
+  >import</a
+  ><a name="1242"
+  > </a
+  ><a name="1243" href="Application.Algebra.html#1" class="Module"
+  >Application.Algebra</a
+  ><a name="1262"
+  >
+</a
+  ><a name="1263" class="Keyword"
+  >import</a
+  ><a name="1269"
+  > </a
+  ><a name="1270" href="Revise.Reflection.html#1" class="Module"
+  >Revise.Reflection</a
+  ></pre
+></p>
+<h2 id="coinduction"><a href="#coinduction">Coinduction</a></h2>
+<p><pre
+><a name="1332"
+  >
+</a
+  ><a name="1347" class="Keyword"
+  >import</a
+  ><a name="1353"
+  > </a
+  ><a name="1354" href="Revise.Coinduction.html#1" class="Module"
+  >Revise.Coinduction</a
+  ><a name="1372"
+  >
+</a
+  ><a name="1373" class="Keyword"
+  >import</a
+  ><a name="1379"
+  > </a
+  ><a name="1380" href="Revise.IO.html#1" class="Module"
+  >Revise.IO</a
+  ><a name="1389"
+  >
+</a
+  ><a name="1390" class="Keyword"
+  >import</a
+  ><a name="1396"
+  > </a
+  ><a name="1397" href="Revise.InfIO.html#1" class="Module"
+  >Revise.InfIO</a
+  ></pre
+></p>
+<h2 id="other-material"><a href="#other-material">Other material</a></h2>
+<ul>
+<li><a href="http://people.inf.elte.hu/divip/Agda.pdf">Presentation for mathematicians</a></li>
+</ul>
+<p><pre
+><a name="1524"
+  >
+</a
+  ><a name="1539" class="Keyword"
+  >import</a
+  ><a name="1545"
+  > </a
+  ><a name="1546" href="Modules.Standard_Libraries.html#1" class="Module"
+  >Modules.</a
+  ><a name="1554" href="Modules.Standard_Libraries.html#1" class="Module Operator"
+  >Standard_Libraries</a
+  ><a name="1572"
+  >
+
+</a
+  ><a name="1574" class="Keyword"
+  >import</a
+  ><a name="1580"
+  > </a
+  ><a name="1581" href="Further_Reading.html#1" class="Module Operator"
+  >Further_Reading</a
+  ><a name="1596"
+  >
+
+</a
+  ><a name="1598" class="Keyword"
+  >import</a
+  ><a name="1604"
+  > </a
+  ><a name="1605" href="About.html#1" class="Module"
+  >About</a
+  ></pre
+></p>
+</body>
+</html>

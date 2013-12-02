@@ -1,0 +1,2422 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Sets with Functions</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Sets with Functions</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#types-with-function-application-in-indices">Types with function application in indices</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#lemmas">Lemmas</a></li>
+<li><a href="#proof-for-even">Proof for <code>Even′</code></a></li>
+<li><a href="#proof-for-even-1">Proof for <code>Even</code></a></li>
+<li><a href="#other-examples">Other examples</a></li>
+</ul>
+</div>
+<p><pre
+><a name="22"
+  >
+</a
+  ><a name="37" class="Keyword"
+  >module</a
+  ><a name="43"
+  > </a
+  ><a name="44" href="Sets.With_Functions.html#1" class="Module"
+  >Sets.</a
+  ><a name="49" href="Sets.With_Functions.html#1" class="Module Operator"
+  >With_Functions</a
+  ><a name="63"
+  > </a
+  ><a name="64" class="Keyword"
+  >where</a
+  ><a name="69"
+  >
+
+</a
+  ><a name="71" class="Keyword"
+  >open</a
+  ><a name="75"
+  > </a
+  ><a name="76" class="Keyword"
+  >import</a
+  ><a name="82"
+  > </a
+  ><a name="83" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="91"
+  >
+</a
+  ><a name="92" class="Keyword"
+  >open</a
+  ><a name="96"
+  > </a
+  ><a name="97" class="Keyword"
+  >import</a
+  ><a name="103"
+  > </a
+  ><a name="104" href="Data.Empty.html#1" class="Module"
+  >Data.Empty</a
+  ><a name="114"
+  > </a
+  ><a name="115" class="Keyword"
+  >using</a
+  ><a name="120"
+  > </a
+  ><a name="121" class="Symbol"
+  >(</a
+  ><a name="122"
+  >&#8869;</a
+  ><a name="123" class="Symbol"
+  >)</a
+  ><a name="124"
+  >
+</a
+  ><a name="125" class="Keyword"
+  >open</a
+  ><a name="129"
+  > </a
+  ><a name="130" class="Keyword"
+  >import</a
+  ><a name="136"
+  > </a
+  ><a name="137" href="Data.List.html#1" class="Module"
+  >Data.List</a
+  ><a name="146"
+  > </a
+  ><a name="147" class="Keyword"
+  >using</a
+  ><a name="152"
+  > </a
+  ><a name="153" class="Symbol"
+  >(</a
+  ><a name="154"
+  >List</a
+  ><a name="158" class="Symbol"
+  >;</a
+  ><a name="159"
+  > length</a
+  ><a name="166" class="Symbol"
+  >)</a
+  ><a name="167"
+  >
+</a
+  ><a name="168" class="Keyword"
+  >open</a
+  ><a name="172"
+  > </a
+  ><a name="173" class="Keyword"
+  >import</a
+  ><a name="179"
+  > </a
+  ><a name="180" href="Relation.Nullary.html#1" class="Module"
+  >Relation.Nullary</a
+  ><a name="196"
+  > </a
+  ><a name="197" class="Keyword"
+  >using</a
+  ><a name="202"
+  > </a
+  ><a name="203" class="Symbol"
+  >(</a
+  ><a name="204"
+  >Dec</a
+  ><a name="207" class="Symbol"
+  >;</a
+  ><a name="208"
+  > yes</a
+  ><a name="212" class="Symbol"
+  >;</a
+  ><a name="213"
+  > no</a
+  ><a name="216" class="Symbol"
+  >)</a
+  ><a name="217"
+  >
+</a
+  ><a name="218" class="Keyword"
+  >open</a
+  ><a name="222"
+  > </a
+  ><a name="223" class="Keyword"
+  >import</a
+  ><a name="229"
+  > </a
+  ><a name="230" href="Data.Product.html#1" class="Module"
+  >Data.Product</a
+  ><a name="242"
+  > </a
+  ><a name="243" class="Keyword"
+  >using</a
+  ><a name="248"
+  > </a
+  ><a name="249" class="Symbol"
+  >(</a
+  ><a name="250"
+  >&#931;</a
+  ><a name="251" class="Symbol"
+  >;</a
+  ><a name="252"
+  > _&#215;_</a
+  ><a name="256" class="Symbol"
+  >;</a
+  ><a name="257"
+  > _,_</a
+  ><a name="261" class="Symbol"
+  >;</a
+  ><a name="262"
+  > proj&#8321;</a
+  ><a name="268" class="Symbol"
+  >;</a
+  ><a name="269"
+  > proj&#8322;</a
+  ><a name="275" class="Symbol"
+  >)</a
+  ><a name="276"
+  >
+</a
+  ><a name="277" class="Keyword"
+  >open</a
+  ><a name="281"
+  > </a
+  ><a name="282" class="Keyword"
+  >import</a
+  ><a name="288"
+  > </a
+  ><a name="289" href="Relation.Binary.PropositionalEquality.html#1" class="Module"
+  >Relation.Binary.PropositionalEquality</a
+  ><a name="326"
+  > </a
+  ><a name="327" class="Keyword"
+  >using</a
+  ><a name="332"
+  > </a
+  ><a name="333" class="Symbol"
+  >(</a
+  ><a name="334"
+  >_&#8801;_</a
+  ><a name="337" class="Symbol"
+  >;</a
+  ><a name="338"
+  > refl</a
+  ><a name="343" class="Symbol"
+  >;</a
+  ><a name="344"
+  > trans</a
+  ><a name="350" class="Symbol"
+  >;</a
+  ><a name="351"
+  > sym</a
+  ><a name="355" class="Symbol"
+  >;</a
+  ><a name="356"
+  > cong</a
+  ><a name="361" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="types-with-function-application-in-indices"><a href="#types-with-function-application-in-indices">Types with function application in indices</a></h1>
+<p>The following two types are equivalent:</p>
+<p><pre
+><a name="502"
+  >
+</a
+  ><a name="517" class="Keyword"
+  >data</a
+  ><a name="521"
+  > </a
+  ><a name="522" href="Sets.With_Functions.html#522" class="Datatype"
+  >Even</a
+  ><a name="526"
+  > </a
+  ><a name="527" class="Symbol"
+  >:</a
+  ><a name="528"
+  > </a
+  ><a name="529" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="530"
+  > </a
+  ><a name="531" class="Symbol"
+  >&#8594;</a
+  ><a name="532"
+  > </a
+  ><a name="533" class="PrimitiveType"
+  >Set</a
+  ><a name="536"
+  > </a
+  ><a name="537" class="Keyword"
+  >where</a
+  ><a name="542"
+  >
+  </a
+  ><a name="545" href="Sets.With_Functions.html#545" class="InductiveConstructor"
+  >double</a
+  ><a name="551"
+  > </a
+  ><a name="552" class="Symbol"
+  >:</a
+  ><a name="553"
+  > </a
+  ><a name="554" class="Symbol"
+  >&#8704;</a
+  ><a name="555"
+  > </a
+  ><a name="556" href="Sets.With_Functions.html#556" class="Bound"
+  >n</a
+  ><a name="557"
+  > </a
+  ><a name="558" class="Symbol"
+  >&#8594;</a
+  ><a name="559"
+  > </a
+  ><a name="560" href="Sets.With_Functions.html#522" class="Datatype"
+  >Even</a
+  ><a name="564"
+  > </a
+  ><a name="565" class="Symbol"
+  >(</a
+  ><a name="566" href="Sets.With_Functions.html#556" class="Bound"
+  >n</a
+  ><a name="567"
+  > </a
+  ><a name="568" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="569"
+  > </a
+  ><a name="570" href="Sets.With_Functions.html#556" class="Bound"
+  >n</a
+  ><a name="571" class="Symbol"
+  >)</a
+  ><a name="572"
+  >
+
+</a
+  ><a name="574" class="Keyword"
+  >data</a
+  ><a name="578"
+  > </a
+  ><a name="579" href="Sets.With_Functions.html#579" class="Datatype"
+  >Even&#8242;</a
+  ><a name="584"
+  > </a
+  ><a name="585" class="Symbol"
+  >(</a
+  ><a name="586" href="Sets.With_Functions.html#586" class="Bound"
+  >m</a
+  ><a name="587"
+  > </a
+  ><a name="588" class="Symbol"
+  >:</a
+  ><a name="589"
+  > </a
+  ><a name="590" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="591" class="Symbol"
+  >)</a
+  ><a name="592"
+  > </a
+  ><a name="593" class="Symbol"
+  >:</a
+  ><a name="594"
+  > </a
+  ><a name="595" class="PrimitiveType"
+  >Set</a
+  ><a name="598"
+  > </a
+  ><a name="599" class="Keyword"
+  >where</a
+  ><a name="604"
+  >
+  </a
+  ><a name="607" href="Sets.With_Functions.html#607" class="InductiveConstructor"
+  >double</a
+  ><a name="613"
+  > </a
+  ><a name="614" class="Symbol"
+  >:</a
+  ><a name="615"
+  > </a
+  ><a name="616" class="Symbol"
+  >&#8704;</a
+  ><a name="617"
+  > </a
+  ><a name="618" href="Sets.With_Functions.html#618" class="Bound"
+  >n</a
+  ><a name="619"
+  > </a
+  ><a name="620" class="Symbol"
+  >&#8594;</a
+  ><a name="621"
+  > </a
+  ><a name="622" href="Sets.With_Functions.html#586" class="Bound"
+  >m</a
+  ><a name="623"
+  > </a
+  ><a name="624" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="625"
+  > </a
+  ><a name="626" href="Sets.With_Functions.html#618" class="Bound"
+  >n</a
+  ><a name="627"
+  > </a
+  ><a name="628" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="629"
+  > </a
+  ><a name="630" href="Sets.With_Functions.html#618" class="Bound"
+  >n</a
+  ><a name="631"
+  > </a
+  ><a name="632" class="Symbol"
+  >&#8594;</a
+  ><a name="633"
+  > </a
+  ><a name="634" href="Sets.With_Functions.html#579" class="Datatype"
+  >Even&#8242;</a
+  ><a name="639"
+  > </a
+  ><a name="640" href="Sets.With_Functions.html#586" class="Bound"
+  >m</a
+  ></pre
+></p>
+<p>Conversion functions:</p>
+<p><pre
+><a name="675"
+  >
+</a
+  ><a name="690" href="Sets.With_Functions.html#690" class="Function"
+  >toEven</a
+  ><a name="696"
+  > </a
+  ><a name="697" class="Symbol"
+  >:</a
+  ><a name="698"
+  > </a
+  ><a name="699" class="Symbol"
+  >&#8704;</a
+  ><a name="700"
+  > </a
+  ><a name="701" class="Symbol"
+  >{</a
+  ><a name="702" href="Sets.With_Functions.html#702" class="Bound"
+  >m</a
+  ><a name="703" class="Symbol"
+  >}</a
+  ><a name="704"
+  > </a
+  ><a name="705" class="Symbol"
+  >&#8594;</a
+  ><a name="706"
+  > </a
+  ><a name="707" href="Sets.With_Functions.html#579" class="Datatype"
+  >Even&#8242;</a
+  ><a name="712"
+  > </a
+  ><a name="713" href="Sets.With_Functions.html#702" class="Bound"
+  >m</a
+  ><a name="714"
+  > </a
+  ><a name="715" class="Symbol"
+  >&#8594;</a
+  ><a name="716"
+  > </a
+  ><a name="717" href="Sets.With_Functions.html#522" class="Datatype"
+  >Even</a
+  ><a name="721"
+  > </a
+  ><a name="722" href="Sets.With_Functions.html#702" class="Bound"
+  >m</a
+  ><a name="723"
+  >
+</a
+  ><a name="724" href="Sets.With_Functions.html#690" class="Function"
+  >toEven</a
+  ><a name="730"
+  > </a
+  ><a name="731" class="Symbol"
+  >{</a
+  ><a name="732" class="DottedPattern Symbol"
+  >.(</a
+  ><a name="734" href="Sets.With_Functions.html#750" class="DottedPattern Bound"
+  >n</a
+  ><a name="735"
+  > </a
+  ><a name="736" href="Data.Nat.html#2239" class="DottedPattern Primitive Operator"
+  >+</a
+  ><a name="737"
+  > </a
+  ><a name="738" href="Sets.With_Functions.html#750" class="DottedPattern Bound"
+  >n</a
+  ><a name="739" class="DottedPattern Symbol"
+  >)</a
+  ><a name="740" class="Symbol"
+  >}</a
+  ><a name="741"
+  > </a
+  ><a name="742" class="Symbol"
+  >(</a
+  ><a name="743" href="Sets.With_Functions.html#607" class="InductiveConstructor"
+  >double</a
+  ><a name="749"
+  > </a
+  ><a name="750" href="Sets.With_Functions.html#750" class="Bound"
+  >n</a
+  ><a name="751"
+  > </a
+  ><a name="752" href="Relation.Binary.Core.html#4653" class="InductiveConstructor"
+  >refl</a
+  ><a name="756" class="Symbol"
+  >)</a
+  ><a name="757"
+  > </a
+  ><a name="758" class="Symbol"
+  >=</a
+  ><a name="759"
+  > </a
+  ><a name="760" href="Sets.With_Functions.html#545" class="InductiveConstructor"
+  >double</a
+  ><a name="766"
+  > </a
+  ><a name="767" href="Sets.With_Functions.html#750" class="Bound"
+  >n</a
+  ><a name="768"
+  >
+
+</a
+  ><a name="770" href="Sets.With_Functions.html#770" class="Function"
+  >toEven&#8242;</a
+  ><a name="777"
+  > </a
+  ><a name="778" class="Symbol"
+  >:</a
+  ><a name="779"
+  > </a
+  ><a name="780" class="Symbol"
+  >&#8704;</a
+  ><a name="781"
+  > </a
+  ><a name="782" class="Symbol"
+  >{</a
+  ><a name="783" href="Sets.With_Functions.html#783" class="Bound"
+  >m</a
+  ><a name="784" class="Symbol"
+  >}</a
+  ><a name="785"
+  > </a
+  ><a name="786" class="Symbol"
+  >&#8594;</a
+  ><a name="787"
+  > </a
+  ><a name="788" href="Sets.With_Functions.html#522" class="Datatype"
+  >Even</a
+  ><a name="792"
+  > </a
+  ><a name="793" href="Sets.With_Functions.html#783" class="Bound"
+  >m</a
+  ><a name="794"
+  > </a
+  ><a name="795" class="Symbol"
+  >&#8594;</a
+  ><a name="796"
+  > </a
+  ><a name="797" href="Sets.With_Functions.html#579" class="Datatype"
+  >Even&#8242;</a
+  ><a name="802"
+  > </a
+  ><a name="803" href="Sets.With_Functions.html#783" class="Bound"
+  >m</a
+  ><a name="804"
+  >
+</a
+  ><a name="805" href="Sets.With_Functions.html#770" class="Function"
+  >toEven&#8242;</a
+  ><a name="812"
+  > </a
+  ><a name="813" class="Symbol"
+  >{</a
+  ><a name="814" class="DottedPattern Symbol"
+  >.(</a
+  ><a name="816" href="Sets.With_Functions.html#832" class="DottedPattern Bound"
+  >n</a
+  ><a name="817"
+  > </a
+  ><a name="818" href="Data.Nat.html#2239" class="DottedPattern Primitive Operator"
+  >+</a
+  ><a name="819"
+  > </a
+  ><a name="820" href="Sets.With_Functions.html#832" class="DottedPattern Bound"
+  >n</a
+  ><a name="821" class="DottedPattern Symbol"
+  >)</a
+  ><a name="822" class="Symbol"
+  >}</a
+  ><a name="823"
+  > </a
+  ><a name="824" class="Symbol"
+  >(</a
+  ><a name="825" href="Sets.With_Functions.html#545" class="InductiveConstructor"
+  >double</a
+  ><a name="831"
+  > </a
+  ><a name="832" href="Sets.With_Functions.html#832" class="Bound"
+  >n</a
+  ><a name="833" class="Symbol"
+  >)</a
+  ><a name="834"
+  > </a
+  ><a name="835" class="Symbol"
+  >=</a
+  ><a name="836"
+  > </a
+  ><a name="837" href="Sets.With_Functions.html#607" class="InductiveConstructor"
+  >double</a
+  ><a name="843"
+  > </a
+  ><a name="844" href="Sets.With_Functions.html#832" class="Bound"
+  >n</a
+  ><a name="845"
+  > </a
+  ><a name="846" href="Relation.Binary.Core.html#4653" class="InductiveConstructor"
+  >refl</a
+  ></pre
+></p>
+<h1 id="usage"><a href="#usage">Usage</a></h1>
+<p>Although <code>Even</code> and <code>Even′</code> are equivalent, <code>Even′</code> is much easier to use.</p>
+<p>To see this, try to prove that <code>Even n</code> is decidable for all <code>n</code>.</p>
+<h1 id="lemmas"><a href="#lemmas">Lemmas</a></h1>
+<p><pre
+><a name="1034"
+  >
+</a
+  ><a name="1049" href="Sets.With_Functions.html#1049" class="Function"
+  >suc-+</a
+  ><a name="1054"
+  > </a
+  ><a name="1055" class="Symbol"
+  >:</a
+  ><a name="1056"
+  > </a
+  ><a name="1057" class="Symbol"
+  >&#8704;</a
+  ><a name="1058"
+  > </a
+  ><a name="1059" href="Sets.With_Functions.html#1059" class="Bound"
+  >n</a
+  ><a name="1060"
+  > </a
+  ><a name="1061" href="Sets.With_Functions.html#1061" class="Bound"
+  >m</a
+  ><a name="1062"
+  > </a
+  ><a name="1063" class="Symbol"
+  >&#8594;</a
+  ><a name="1064"
+  > </a
+  ><a name="1065" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1068"
+  > </a
+  ><a name="1069" class="Symbol"
+  >(</a
+  ><a name="1070" href="Sets.With_Functions.html#1059" class="Bound"
+  >n</a
+  ><a name="1071"
+  > </a
+  ><a name="1072" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1073"
+  > </a
+  ><a name="1074" href="Sets.With_Functions.html#1061" class="Bound"
+  >m</a
+  ><a name="1075" class="Symbol"
+  >)</a
+  ><a name="1076"
+  > </a
+  ><a name="1077" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="1078"
+  > </a
+  ><a name="1079" href="Sets.With_Functions.html#1059" class="Bound"
+  >n</a
+  ><a name="1080"
+  > </a
+  ><a name="1081" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1082"
+  > </a
+  ><a name="1083" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1086"
+  > </a
+  ><a name="1087" href="Sets.With_Functions.html#1061" class="Bound"
+  >m</a
+  ><a name="1088"
+  >
+</a
+  ><a name="1089" href="Sets.With_Functions.html#1049" class="Function"
+  >suc-+</a
+  ><a name="1094"
+  > </a
+  ><a name="1095" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="1099"
+  > </a
+  ><a name="1100" href="Sets.With_Functions.html#1100" class="Bound"
+  >m</a
+  ><a name="1101"
+  > </a
+  ><a name="1102" class="Symbol"
+  >=</a
+  ><a name="1103"
+  > </a
+  ><a name="1104" href="Relation.Binary.Core.html#4653" class="InductiveConstructor"
+  >refl</a
+  ><a name="1108"
+  >
+</a
+  ><a name="1109" href="Sets.With_Functions.html#1049" class="Function"
+  >suc-+</a
+  ><a name="1114"
+  > </a
+  ><a name="1115" class="Symbol"
+  >(</a
+  ><a name="1116" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1119"
+  > </a
+  ><a name="1120" href="Sets.With_Functions.html#1120" class="Bound"
+  >n</a
+  ><a name="1121" class="Symbol"
+  >)</a
+  ><a name="1122"
+  > </a
+  ><a name="1123" href="Sets.With_Functions.html#1123" class="Bound"
+  >m</a
+  ><a name="1124"
+  > </a
+  ><a name="1125" class="Symbol"
+  >=</a
+  ><a name="1126"
+  > </a
+  ><a name="1127" href="Relation.Binary.PropositionalEquality.html#1034" class="Function"
+  >cong</a
+  ><a name="1131"
+  > </a
+  ><a name="1132" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1135"
+  > </a
+  ><a name="1136" class="Symbol"
+  >(</a
+  ><a name="1137" href="Sets.With_Functions.html#1049" class="Function"
+  >suc-+</a
+  ><a name="1142"
+  > </a
+  ><a name="1143" href="Sets.With_Functions.html#1120" class="Bound"
+  >n</a
+  ><a name="1144"
+  > </a
+  ><a name="1145" href="Sets.With_Functions.html#1123" class="Bound"
+  >m</a
+  ><a name="1146" class="Symbol"
+  >)</a
+  ><a name="1147"
+  >
+
+</a
+  ><a name="1149" href="Sets.With_Functions.html#1149" class="Function"
+  >prev-&#8801;</a
+  ><a name="1155"
+  > </a
+  ><a name="1156" class="Symbol"
+  >:</a
+  ><a name="1157"
+  > </a
+  ><a name="1158" class="Symbol"
+  >&#8704;</a
+  ><a name="1159"
+  > </a
+  ><a name="1160" class="Symbol"
+  >{</a
+  ><a name="1161" href="Sets.With_Functions.html#1161" class="Bound"
+  >n</a
+  ><a name="1162"
+  > </a
+  ><a name="1163" href="Sets.With_Functions.html#1163" class="Bound"
+  >m</a
+  ><a name="1164" class="Symbol"
+  >}</a
+  ><a name="1165"
+  > </a
+  ><a name="1166" class="Symbol"
+  >&#8594;</a
+  ><a name="1167"
+  > </a
+  ><a name="1168" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1171"
+  > </a
+  ><a name="1172" href="Sets.With_Functions.html#1161" class="Bound"
+  >n</a
+  ><a name="1173"
+  > </a
+  ><a name="1174" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="1175"
+  > </a
+  ><a name="1176" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1179"
+  > </a
+  ><a name="1180" href="Sets.With_Functions.html#1163" class="Bound"
+  >m</a
+  ><a name="1181"
+  > </a
+  ><a name="1182" class="Symbol"
+  >&#8594;</a
+  ><a name="1183"
+  > </a
+  ><a name="1184" href="Sets.With_Functions.html#1161" class="Bound"
+  >n</a
+  ><a name="1185"
+  > </a
+  ><a name="1186" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="1187"
+  > </a
+  ><a name="1188" href="Sets.With_Functions.html#1163" class="Bound"
+  >m</a
+  ><a name="1189"
+  >
+</a
+  ><a name="1190" href="Sets.With_Functions.html#1149" class="Function"
+  >prev-&#8801;</a
+  ><a name="1196"
+  > </a
+  ><a name="1197" class="Symbol"
+  >{</a
+  ><a name="1198" class="DottedPattern Symbol"
+  >.</a
+  ><a name="1199" href="Sets.With_Functions.html#1203" class="DottedPattern Bound"
+  >m</a
+  ><a name="1200" class="Symbol"
+  >}</a
+  ><a name="1201"
+  > </a
+  ><a name="1202" class="Symbol"
+  >{</a
+  ><a name="1203" href="Sets.With_Functions.html#1203" class="Bound"
+  >m</a
+  ><a name="1204" class="Symbol"
+  >}</a
+  ><a name="1205"
+  > </a
+  ><a name="1206" href="Relation.Binary.Core.html#4653" class="InductiveConstructor"
+  >refl</a
+  ><a name="1210"
+  > </a
+  ><a name="1211" class="Symbol"
+  >=</a
+  ><a name="1212"
+  > </a
+  ><a name="1213" href="Relation.Binary.Core.html#4653" class="InductiveConstructor"
+  >refl</a
+  ></pre
+></p>
+<h1 id="proof-for-even"><a href="#proof-for-even">Proof for <code>Even′</code></a></h1>
+<p><pre
+><a name="1255"
+  >
+</a
+  ><a name="1271" href="Sets.With_Functions.html#1271" class="Function"
+  >nextEven&#8242;</a
+  ><a name="1280"
+  > </a
+  ><a name="1281" class="Symbol"
+  >:</a
+  ><a name="1282"
+  > </a
+  ><a name="1283" class="Symbol"
+  >&#8704;</a
+  ><a name="1284"
+  > </a
+  ><a name="1285" class="Symbol"
+  >{</a
+  ><a name="1286" href="Sets.With_Functions.html#1286" class="Bound"
+  >n</a
+  ><a name="1287" class="Symbol"
+  >}</a
+  ><a name="1288"
+  > </a
+  ><a name="1289" class="Symbol"
+  >&#8594;</a
+  ><a name="1290"
+  > </a
+  ><a name="1291" href="Sets.With_Functions.html#579" class="Datatype"
+  >Even&#8242;</a
+  ><a name="1296"
+  > </a
+  ><a name="1297" href="Sets.With_Functions.html#1286" class="Bound"
+  >n</a
+  ><a name="1298"
+  > </a
+  ><a name="1299" class="Symbol"
+  >&#8594;</a
+  ><a name="1300"
+  > </a
+  ><a name="1301" href="Sets.With_Functions.html#579" class="Datatype"
+  >Even&#8242;</a
+  ><a name="1306"
+  > </a
+  ><a name="1307" class="Symbol"
+  >(</a
+  ><a name="1308" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1311"
+  > </a
+  ><a name="1312" class="Symbol"
+  >(</a
+  ><a name="1313" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1316"
+  > </a
+  ><a name="1317" href="Sets.With_Functions.html#1286" class="Bound"
+  >n</a
+  ><a name="1318" class="Symbol"
+  >))</a
+  ><a name="1320"
+  >
+</a
+  ><a name="1321" href="Sets.With_Functions.html#1271" class="Function"
+  >nextEven&#8242;</a
+  ><a name="1330"
+  > </a
+  ><a name="1331" class="Symbol"
+  >{</a
+  ><a name="1332" class="DottedPattern Symbol"
+  >.(</a
+  ><a name="1334" href="Sets.With_Functions.html#1352" class="DottedPattern Bound"
+  >n&#8321;</a
+  ><a name="1336"
+  > </a
+  ><a name="1337" href="Data.Nat.html#2239" class="DottedPattern Primitive Operator"
+  >+</a
+  ><a name="1338"
+  > </a
+  ><a name="1339" href="Sets.With_Functions.html#1352" class="DottedPattern Bound"
+  >n&#8321;</a
+  ><a name="1341" class="DottedPattern Symbol"
+  >)</a
+  ><a name="1342" class="Symbol"
+  >}</a
+  ><a name="1343"
+  > </a
+  ><a name="1344" class="Symbol"
+  >(</a
+  ><a name="1345" href="Sets.With_Functions.html#607" class="InductiveConstructor"
+  >double</a
+  ><a name="1351"
+  > </a
+  ><a name="1352" href="Sets.With_Functions.html#1352" class="Bound"
+  >n&#8321;</a
+  ><a name="1354"
+  > </a
+  ><a name="1355" href="Relation.Binary.Core.html#4653" class="InductiveConstructor"
+  >refl</a
+  ><a name="1359" class="Symbol"
+  >)</a
+  ><a name="1360"
+  >
+    </a
+  ><a name="1365" class="Symbol"
+  >=</a
+  ><a name="1366"
+  > </a
+  ><a name="1367" href="Sets.With_Functions.html#607" class="InductiveConstructor"
+  >double</a
+  ><a name="1373"
+  > </a
+  ><a name="1374" class="Symbol"
+  >(</a
+  ><a name="1375" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1378"
+  > </a
+  ><a name="1379" href="Sets.With_Functions.html#1352" class="Bound"
+  >n&#8321;</a
+  ><a name="1381" class="Symbol"
+  >)</a
+  ><a name="1382"
+  > </a
+  ><a name="1383" class="Symbol"
+  >(</a
+  ><a name="1384" href="Relation.Binary.PropositionalEquality.html#1034" class="Function"
+  >cong</a
+  ><a name="1388"
+  > </a
+  ><a name="1389" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1392"
+  > </a
+  ><a name="1393" class="Symbol"
+  >(</a
+  ><a name="1394" href="Sets.With_Functions.html#1049" class="Function"
+  >suc-+</a
+  ><a name="1399"
+  > </a
+  ><a name="1400" href="Sets.With_Functions.html#1352" class="Bound"
+  >n&#8321;</a
+  ><a name="1402"
+  > </a
+  ><a name="1403" href="Sets.With_Functions.html#1352" class="Bound"
+  >n&#8321;</a
+  ><a name="1405" class="Symbol"
+  >))</a
+  ><a name="1407"
+  >
+
+</a
+  ><a name="1409" href="Sets.With_Functions.html#1409" class="Function"
+  >prevEven&#8242;</a
+  ><a name="1418"
+  > </a
+  ><a name="1419" class="Symbol"
+  >:</a
+  ><a name="1420"
+  > </a
+  ><a name="1421" class="Symbol"
+  >&#8704;</a
+  ><a name="1422"
+  > </a
+  ><a name="1423" class="Symbol"
+  >{</a
+  ><a name="1424" href="Sets.With_Functions.html#1424" class="Bound"
+  >n</a
+  ><a name="1425" class="Symbol"
+  >}</a
+  ><a name="1426"
+  > </a
+  ><a name="1427" class="Symbol"
+  >&#8594;</a
+  ><a name="1428"
+  > </a
+  ><a name="1429" href="Sets.With_Functions.html#579" class="Datatype"
+  >Even&#8242;</a
+  ><a name="1434"
+  > </a
+  ><a name="1435" class="Symbol"
+  >(</a
+  ><a name="1436" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1439"
+  > </a
+  ><a name="1440" class="Symbol"
+  >(</a
+  ><a name="1441" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1444"
+  > </a
+  ><a name="1445" href="Sets.With_Functions.html#1424" class="Bound"
+  >n</a
+  ><a name="1446" class="Symbol"
+  >))</a
+  ><a name="1448"
+  > </a
+  ><a name="1449" class="Symbol"
+  >&#8594;</a
+  ><a name="1450"
+  > </a
+  ><a name="1451" href="Sets.With_Functions.html#579" class="Datatype"
+  >Even&#8242;</a
+  ><a name="1456"
+  > </a
+  ><a name="1457" href="Sets.With_Functions.html#1424" class="Bound"
+  >n</a
+  ><a name="1458"
+  >
+</a
+  ><a name="1459" href="Sets.With_Functions.html#1409" class="Function"
+  >prevEven&#8242;</a
+  ><a name="1468"
+  > </a
+  ><a name="1469" class="Symbol"
+  >{</a
+  ><a name="1470" href="Sets.With_Functions.html#1470" class="Bound"
+  >m</a
+  ><a name="1471" class="Symbol"
+  >}</a
+  ><a name="1472"
+  > </a
+  ><a name="1473" class="Symbol"
+  >(</a
+  ><a name="1474" href="Sets.With_Functions.html#607" class="InductiveConstructor"
+  >double</a
+  ><a name="1480"
+  > </a
+  ><a name="1481" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="1485"
+  > </a
+  ><a name="1486" class="Symbol"
+  >())</a
+  ><a name="1489"
+  >
+</a
+  ><a name="1490" href="Sets.With_Functions.html#1409" class="Function"
+  >prevEven&#8242;</a
+  ><a name="1499"
+  > </a
+  ><a name="1500" class="Symbol"
+  >{</a
+  ><a name="1501" href="Sets.With_Functions.html#1501" class="Bound"
+  >m</a
+  ><a name="1502" class="Symbol"
+  >}</a
+  ><a name="1503"
+  > </a
+  ><a name="1504" class="Symbol"
+  >(</a
+  ><a name="1505" href="Sets.With_Functions.html#607" class="InductiveConstructor"
+  >double</a
+  ><a name="1511"
+  > </a
+  ><a name="1512" class="Symbol"
+  >(</a
+  ><a name="1513" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1516"
+  > </a
+  ><a name="1517" href="Sets.With_Functions.html#1517" class="Bound"
+  >n</a
+  ><a name="1518" class="Symbol"
+  >)</a
+  ><a name="1519"
+  > </a
+  ><a name="1520" href="Sets.With_Functions.html#1520" class="Bound"
+  >x</a
+  ><a name="1521" class="Symbol"
+  >)</a
+  ><a name="1522"
+  >
+    </a
+  ><a name="1527" class="Symbol"
+  >=</a
+  ><a name="1528"
+  > </a
+  ><a name="1529" href="Sets.With_Functions.html#607" class="InductiveConstructor"
+  >double</a
+  ><a name="1535"
+  > </a
+  ><a name="1536" href="Sets.With_Functions.html#1517" class="Bound"
+  >n</a
+  ><a name="1537"
+  > </a
+  ><a name="1538" class="Symbol"
+  >(</a
+  ><a name="1539" href="Sets.With_Functions.html#1149" class="Function"
+  >prev-&#8801;</a
+  ><a name="1545"
+  > </a
+  ><a name="1546" class="Symbol"
+  >(</a
+  ><a name="1547" href="Relation.Binary.PropositionalEquality.Core.html#632" class="Function"
+  >trans</a
+  ><a name="1552"
+  > </a
+  ><a name="1553" class="Symbol"
+  >(</a
+  ><a name="1554" href="Sets.With_Functions.html#1149" class="Function"
+  >prev-&#8801;</a
+  ><a name="1560"
+  > </a
+  ><a name="1561" href="Sets.With_Functions.html#1520" class="Bound"
+  >x</a
+  ><a name="1562" class="Symbol"
+  >)</a
+  ><a name="1563"
+  > </a
+  ><a name="1564" class="Symbol"
+  >(</a
+  ><a name="1565" href="Relation.Binary.PropositionalEquality.Core.html#565" class="Function"
+  >sym</a
+  ><a name="1568"
+  > </a
+  ><a name="1569" class="Symbol"
+  >(</a
+  ><a name="1570" href="Sets.With_Functions.html#1049" class="Function"
+  >suc-+</a
+  ><a name="1575"
+  > </a
+  ><a name="1576" href="Sets.With_Functions.html#1517" class="Bound"
+  >n</a
+  ><a name="1577"
+  > </a
+  ><a name="1578" href="Sets.With_Functions.html#1517" class="Bound"
+  >n</a
+  ><a name="1579" class="Symbol"
+  >))))</a
+  ><a name="1583"
+  >
+
+</a
+  ><a name="1585" href="Sets.With_Functions.html#1585" class="Function"
+  >&#172;Even&#8242;1</a
+  ><a name="1592"
+  > </a
+  ><a name="1593" class="Symbol"
+  >:</a
+  ><a name="1594"
+  > </a
+  ><a name="1595" href="Sets.With_Functions.html#579" class="Datatype"
+  >Even&#8242;</a
+  ><a name="1600"
+  > </a
+  ><a name="1601" class="Number"
+  >1</a
+  ><a name="1602"
+  > </a
+  ><a name="1603" class="Symbol"
+  >&#8594;</a
+  ><a name="1604"
+  > </a
+  ><a name="1605" href="Data.Empty.html#243" class="Datatype"
+  >&#8869;</a
+  ><a name="1606"
+  >
+</a
+  ><a name="1607" href="Sets.With_Functions.html#1585" class="Function"
+  >&#172;Even&#8242;1</a
+  ><a name="1614"
+  > </a
+  ><a name="1615" class="Symbol"
+  >(</a
+  ><a name="1616" href="Sets.With_Functions.html#607" class="InductiveConstructor"
+  >double</a
+  ><a name="1622"
+  > </a
+  ><a name="1623" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="1627"
+  > </a
+  ><a name="1628" class="Symbol"
+  >())</a
+  ><a name="1631"
+  >
+</a
+  ><a name="1632" href="Sets.With_Functions.html#1585" class="Function"
+  >&#172;Even&#8242;1</a
+  ><a name="1639"
+  > </a
+  ><a name="1640" class="Symbol"
+  >(</a
+  ><a name="1641" href="Sets.With_Functions.html#607" class="InductiveConstructor"
+  >double</a
+  ><a name="1647"
+  > </a
+  ><a name="1648" class="Symbol"
+  >(</a
+  ><a name="1649" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1652"
+  > </a
+  ><a name="1653" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="1657" class="Symbol"
+  >)</a
+  ><a name="1658"
+  > </a
+  ><a name="1659" class="Symbol"
+  >())</a
+  ><a name="1662"
+  >
+</a
+  ><a name="1663" href="Sets.With_Functions.html#1585" class="Function"
+  >&#172;Even&#8242;1</a
+  ><a name="1670"
+  > </a
+  ><a name="1671" class="Symbol"
+  >(</a
+  ><a name="1672" href="Sets.With_Functions.html#607" class="InductiveConstructor"
+  >double</a
+  ><a name="1678"
+  > </a
+  ><a name="1679" class="Symbol"
+  >(</a
+  ><a name="1680" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1683"
+  > </a
+  ><a name="1684" class="Symbol"
+  >(</a
+  ><a name="1685" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1688"
+  > </a
+  ><a name="1689" href="Sets.With_Functions.html#1689" class="Bound"
+  >n</a
+  ><a name="1690" class="Symbol"
+  >))</a
+  ><a name="1692"
+  > </a
+  ><a name="1693" class="Symbol"
+  >())</a
+  ><a name="1696"
+  >
+
+</a
+  ><a name="1698" href="Sets.With_Functions.html#1698" class="Function"
+  >isEven&#8242;</a
+  ><a name="1705"
+  > </a
+  ><a name="1706" class="Symbol"
+  >:</a
+  ><a name="1707"
+  > </a
+  ><a name="1708" class="Symbol"
+  >(</a
+  ><a name="1709" href="Sets.With_Functions.html#1709" class="Bound"
+  >n</a
+  ><a name="1710"
+  > </a
+  ><a name="1711" class="Symbol"
+  >:</a
+  ><a name="1712"
+  > </a
+  ><a name="1713" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1714" class="Symbol"
+  >)</a
+  ><a name="1715"
+  > </a
+  ><a name="1716" class="Symbol"
+  >&#8594;</a
+  ><a name="1717"
+  > </a
+  ><a name="1718" href="Relation.Nullary.Core.html#468" class="Datatype"
+  >Dec</a
+  ><a name="1721"
+  > </a
+  ><a name="1722" class="Symbol"
+  >(</a
+  ><a name="1723" href="Sets.With_Functions.html#579" class="Datatype"
+  >Even&#8242;</a
+  ><a name="1728"
+  > </a
+  ><a name="1729" href="Sets.With_Functions.html#1709" class="Bound"
+  >n</a
+  ><a name="1730" class="Symbol"
+  >)</a
+  ><a name="1731"
+  >
+</a
+  ><a name="1732" href="Sets.With_Functions.html#1698" class="Function"
+  >isEven&#8242;</a
+  ><a name="1739"
+  > </a
+  ><a name="1740" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="1744"
+  > </a
+  ><a name="1745" class="Symbol"
+  >=</a
+  ><a name="1746"
+  > </a
+  ><a name="1747" href="Relation.Nullary.Core.html#504" class="InductiveConstructor"
+  >yes</a
+  ><a name="1750"
+  > </a
+  ><a name="1751" class="Symbol"
+  >(</a
+  ><a name="1752" href="Sets.With_Functions.html#607" class="InductiveConstructor"
+  >double</a
+  ><a name="1758"
+  > </a
+  ><a name="1759" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="1763"
+  > </a
+  ><a name="1764" href="Relation.Binary.Core.html#4653" class="InductiveConstructor"
+  >refl</a
+  ><a name="1768" class="Symbol"
+  >)</a
+  ><a name="1769"
+  >
+</a
+  ><a name="1770" href="Sets.With_Functions.html#1698" class="Function"
+  >isEven&#8242;</a
+  ><a name="1777"
+  > </a
+  ><a name="1778" class="Symbol"
+  >(</a
+  ><a name="1779" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1782"
+  > </a
+  ><a name="1783" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="1787" class="Symbol"
+  >)</a
+  ><a name="1788"
+  > </a
+  ><a name="1789" class="Symbol"
+  >=</a
+  ><a name="1790"
+  > </a
+  ><a name="1791" href="Relation.Nullary.Core.html#531" class="InductiveConstructor"
+  >no</a
+  ><a name="1793"
+  > </a
+  ><a name="1794" href="Sets.With_Functions.html#1585" class="Function"
+  >&#172;Even&#8242;1</a
+  ><a name="1801"
+  >
+</a
+  ><a name="1802" href="Sets.With_Functions.html#1698" class="Function"
+  >isEven&#8242;</a
+  ><a name="1809"
+  > </a
+  ><a name="1810" class="Symbol"
+  >(</a
+  ><a name="1811" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1814"
+  > </a
+  ><a name="1815" class="Symbol"
+  >(</a
+  ><a name="1816" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1819"
+  > </a
+  ><a name="1820" href="Sets.With_Functions.html#1820" class="Bound"
+  >n</a
+  ><a name="1821" class="Symbol"
+  >))</a
+  ><a name="1823"
+  > </a
+  ><a name="1824" class="Keyword"
+  >with</a
+  ><a name="1828"
+  > </a
+  ><a name="1829" href="Sets.With_Functions.html#1698" class="Function"
+  >isEven&#8242;</a
+  ><a name="1836"
+  > </a
+  ><a name="1837" href="Sets.With_Functions.html#1820" class="Bound"
+  >n</a
+  ><a name="1838"
+  >
+</a
+  ><a name="1839" href="Sets.With_Functions.html#1698" class="Function"
+  >isEven&#8242;</a
+  ><a name="1846"
+  > </a
+  ><a name="1847" class="Symbol"
+  >(</a
+  ><a name="1848" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1851"
+  > </a
+  ><a name="1852" class="Symbol"
+  >(</a
+  ><a name="1853" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1856"
+  > </a
+  ><a name="1857" href="Sets.With_Functions.html#1857" class="Bound"
+  >n</a
+  ><a name="1858" class="Symbol"
+  >))</a
+  ><a name="1860"
+  > </a
+  ><a name="1861" class="Symbol"
+  >|</a
+  ><a name="1862"
+  > </a
+  ><a name="1863" href="Relation.Nullary.Core.html#504" class="InductiveConstructor"
+  >yes</a
+  ><a name="1866"
+  > </a
+  ><a name="1867" href="Sets.With_Functions.html#1867" class="Bound"
+  >e</a
+  ><a name="1868"
+  > </a
+  ><a name="1869" class="Symbol"
+  >=</a
+  ><a name="1870"
+  > </a
+  ><a name="1871" href="Relation.Nullary.Core.html#504" class="InductiveConstructor"
+  >yes</a
+  ><a name="1874"
+  > </a
+  ><a name="1875" class="Symbol"
+  >(</a
+  ><a name="1876" href="Sets.With_Functions.html#1271" class="Function"
+  >nextEven&#8242;</a
+  ><a name="1885"
+  > </a
+  ><a name="1886" href="Sets.With_Functions.html#1867" class="Bound"
+  >e</a
+  ><a name="1887" class="Symbol"
+  >)</a
+  ><a name="1888"
+  >
+</a
+  ><a name="1889" href="Sets.With_Functions.html#1698" class="Function"
+  >isEven&#8242;</a
+  ><a name="1896"
+  > </a
+  ><a name="1897" class="Symbol"
+  >(</a
+  ><a name="1898" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1901"
+  > </a
+  ><a name="1902" class="Symbol"
+  >(</a
+  ><a name="1903" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1906"
+  > </a
+  ><a name="1907" href="Sets.With_Functions.html#1907" class="Bound"
+  >n</a
+  ><a name="1908" class="Symbol"
+  >))</a
+  ><a name="1910"
+  > </a
+  ><a name="1911" class="Symbol"
+  >|</a
+  ><a name="1912"
+  > </a
+  ><a name="1913" href="Relation.Nullary.Core.html#531" class="InductiveConstructor"
+  >no</a
+  ><a name="1915"
+  > </a
+  ><a name="1916" href="Sets.With_Functions.html#1916" class="Bound"
+  >&#172;p</a
+  ><a name="1918"
+  > </a
+  ><a name="1919" class="Symbol"
+  >=</a
+  ><a name="1920"
+  > </a
+  ><a name="1921" href="Relation.Nullary.Core.html#531" class="InductiveConstructor"
+  >no</a
+  ><a name="1923"
+  > </a
+  ><a name="1924" class="Symbol"
+  >(&#955;</a
+  ><a name="1926"
+  > </a
+  ><a name="1927" href="Sets.With_Functions.html#1927" class="Bound"
+  >x</a
+  ><a name="1928"
+  > </a
+  ><a name="1929" class="Symbol"
+  >&#8594;</a
+  ><a name="1930"
+  > </a
+  ><a name="1931" href="Sets.With_Functions.html#1916" class="Bound"
+  >&#172;p</a
+  ><a name="1933"
+  > </a
+  ><a name="1934" class="Symbol"
+  >(</a
+  ><a name="1935" href="Sets.With_Functions.html#1409" class="Function"
+  >prevEven&#8242;</a
+  ><a name="1944"
+  > </a
+  ><a name="1945" href="Sets.With_Functions.html#1927" class="Bound"
+  >x</a
+  ><a name="1946" class="Symbol"
+  >))</a
+  ></pre
+></p>
+<h1 id="proof-for-even-1"><a href="#proof-for-even-1">Proof for <code>Even</code></a></h1>
+<p>Now try to do the same for <code>Even</code>.</p>
+<p><code>¬Even1</code> is possible only with a trick:</p>
+<p><pre
+><a name="2062"
+  >
+</a
+  ><a name="2077" href="Sets.With_Functions.html#2077" class="Function"
+  >&#172;Even1</a
+  ><a name="2083"
+  > </a
+  ><a name="2084" class="Symbol"
+  >:</a
+  ><a name="2085"
+  > </a
+  ><a name="2086" class="Symbol"
+  >&#8704;</a
+  ><a name="2087"
+  > </a
+  ><a name="2088" class="Symbol"
+  >{</a
+  ><a name="2089" href="Sets.With_Functions.html#2089" class="Bound"
+  >n</a
+  ><a name="2090" class="Symbol"
+  >}</a
+  ><a name="2091"
+  > </a
+  ><a name="2092" class="Symbol"
+  >&#8594;</a
+  ><a name="2093"
+  > </a
+  ><a name="2094" href="Sets.With_Functions.html#522" class="Datatype"
+  >Even</a
+  ><a name="2098"
+  > </a
+  ><a name="2099" href="Sets.With_Functions.html#2089" class="Bound"
+  >n</a
+  ><a name="2100"
+  > </a
+  ><a name="2101" class="Symbol"
+  >&#8594;</a
+  ><a name="2102"
+  > </a
+  ><a name="2103" href="Sets.With_Functions.html#2089" class="Bound"
+  >n</a
+  ><a name="2104"
+  > </a
+  ><a name="2105" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="2106"
+  > </a
+  ><a name="2107" class="Number"
+  >1</a
+  ><a name="2108"
+  > </a
+  ><a name="2109" class="Symbol"
+  >&#8594;</a
+  ><a name="2110"
+  > </a
+  ><a name="2111" href="Data.Empty.html#243" class="Datatype"
+  >&#8869;</a
+  ><a name="2112"
+  >
+</a
+  ><a name="2113" href="Sets.With_Functions.html#2077" class="Function"
+  >&#172;Even1</a
+  ><a name="2119"
+  > </a
+  ><a name="2120" class="Symbol"
+  >(</a
+  ><a name="2121" href="Sets.With_Functions.html#545" class="InductiveConstructor"
+  >double</a
+  ><a name="2127"
+  > </a
+  ><a name="2128" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="2132" class="Symbol"
+  >)</a
+  ><a name="2133"
+  > </a
+  ><a name="2134" class="Symbol"
+  >()</a
+  ><a name="2136"
+  >
+</a
+  ><a name="2137" href="Sets.With_Functions.html#2077" class="Function"
+  >&#172;Even1</a
+  ><a name="2143"
+  > </a
+  ><a name="2144" class="Symbol"
+  >(</a
+  ><a name="2145" href="Sets.With_Functions.html#545" class="InductiveConstructor"
+  >double</a
+  ><a name="2151"
+  > </a
+  ><a name="2152" class="Symbol"
+  >(</a
+  ><a name="2153" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2156"
+  > </a
+  ><a name="2157" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="2161" class="Symbol"
+  >))</a
+  ><a name="2163"
+  > </a
+  ><a name="2164" class="Symbol"
+  >()</a
+  ><a name="2166"
+  >
+</a
+  ><a name="2167" href="Sets.With_Functions.html#2077" class="Function"
+  >&#172;Even1</a
+  ><a name="2173"
+  > </a
+  ><a name="2174" class="Symbol"
+  >(</a
+  ><a name="2175" href="Sets.With_Functions.html#545" class="InductiveConstructor"
+  >double</a
+  ><a name="2181"
+  > </a
+  ><a name="2182" class="Symbol"
+  >(</a
+  ><a name="2183" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2186"
+  > </a
+  ><a name="2187" class="Symbol"
+  >(</a
+  ><a name="2188" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2191"
+  > </a
+  ><a name="2192" href="Sets.With_Functions.html#2192" class="Bound"
+  >n</a
+  ><a name="2193" class="Symbol"
+  >)))</a
+  ><a name="2196"
+  > </a
+  ><a name="2197" class="Symbol"
+  >()</a
+  ></pre
+></p>
+<p>For <code>nextEven</code> we need rewriting (a new feature):</p>
+<p><pre
+><a name="2261"
+  >
+</a
+  ><a name="2276" href="Sets.With_Functions.html#2276" class="Function"
+  >nextEven</a
+  ><a name="2284"
+  > </a
+  ><a name="2285" class="Symbol"
+  >:</a
+  ><a name="2286"
+  > </a
+  ><a name="2287" class="Symbol"
+  >&#8704;</a
+  ><a name="2288"
+  > </a
+  ><a name="2289" class="Symbol"
+  >{</a
+  ><a name="2290" href="Sets.With_Functions.html#2290" class="Bound"
+  >n</a
+  ><a name="2291" class="Symbol"
+  >}</a
+  ><a name="2292"
+  > </a
+  ><a name="2293" class="Symbol"
+  >&#8594;</a
+  ><a name="2294"
+  > </a
+  ><a name="2295" href="Sets.With_Functions.html#522" class="Datatype"
+  >Even</a
+  ><a name="2299"
+  > </a
+  ><a name="2300" href="Sets.With_Functions.html#2290" class="Bound"
+  >n</a
+  ><a name="2301"
+  > </a
+  ><a name="2302" class="Symbol"
+  >&#8594;</a
+  ><a name="2303"
+  > </a
+  ><a name="2304" href="Sets.With_Functions.html#522" class="Datatype"
+  >Even</a
+  ><a name="2308"
+  > </a
+  ><a name="2309" class="Symbol"
+  >(</a
+  ><a name="2310" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2313"
+  > </a
+  ><a name="2314" class="Symbol"
+  >(</a
+  ><a name="2315" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2318"
+  > </a
+  ><a name="2319" href="Sets.With_Functions.html#2290" class="Bound"
+  >n</a
+  ><a name="2320" class="Symbol"
+  >))</a
+  ><a name="2322"
+  >
+</a
+  ><a name="2323" href="Sets.With_Functions.html#2276" class="Function"
+  >nextEven</a
+  ><a name="2331"
+  > </a
+  ><a name="2332" class="Symbol"
+  >{</a
+  ><a name="2333" class="DottedPattern Symbol"
+  >.(</a
+  ><a name="2335" href="Sets.With_Functions.html#2353" class="DottedPattern Bound"
+  >n&#8321;</a
+  ><a name="2337"
+  > </a
+  ><a name="2338" href="Data.Nat.html#2239" class="DottedPattern Primitive Operator"
+  >+</a
+  ><a name="2339"
+  > </a
+  ><a name="2340" href="Sets.With_Functions.html#2353" class="DottedPattern Bound"
+  >n&#8321;</a
+  ><a name="2342" class="DottedPattern Symbol"
+  >)</a
+  ><a name="2343" class="Symbol"
+  >}</a
+  ><a name="2344"
+  > </a
+  ><a name="2345" class="Symbol"
+  >(</a
+  ><a name="2346" href="Sets.With_Functions.html#545" class="InductiveConstructor"
+  >double</a
+  ><a name="2352"
+  > </a
+  ><a name="2353" href="Sets.With_Functions.html#2353" class="Bound"
+  >n&#8321;</a
+  ><a name="2355" class="Symbol"
+  >)</a
+  ><a name="2356"
+  > </a
+  ><a name="2357" class="Keyword"
+  >rewrite</a
+  ><a name="2364"
+  > </a
+  ><a name="2365" href="Relation.Binary.PropositionalEquality.html#1034" class="Function"
+  >cong</a
+  ><a name="2369"
+  > </a
+  ><a name="2370" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2373"
+  > </a
+  ><a name="2374" class="Symbol"
+  >(</a
+  ><a name="2375" href="Sets.With_Functions.html#1049" class="Function"
+  >suc-+</a
+  ><a name="2380"
+  > </a
+  ><a name="2381" href="Sets.With_Functions.html#2353" class="Bound"
+  >n&#8321;</a
+  ><a name="2383"
+  > </a
+  ><a name="2384" href="Sets.With_Functions.html#2353" class="Bound"
+  >n&#8321;</a
+  ><a name="2386" class="Symbol"
+  >)</a
+  ><a name="2387"
+  > </a
+  ><a name="2388" class="Symbol"
+  >=</a
+  ><a name="2389"
+  > </a
+  ><a name="2390" href="Sets.With_Functions.html#545" class="InductiveConstructor"
+  >double</a
+  ><a name="2396"
+  > </a
+  ><a name="2397" class="Symbol"
+  >(</a
+  ><a name="2398" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2401"
+  > </a
+  ><a name="2402" href="Sets.With_Functions.html#2353" class="Bound"
+  >n&#8321;</a
+  ><a name="2404" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p>However, I could prove <code>prevEven</code> only with the help of <code>prevEven′</code> which demonstrates that <code>Even′</code> is easier to use:</p>
+<p><pre
+><a name="2535"
+  >
+</a
+  ><a name="2550" href="Sets.With_Functions.html#2550" class="Function"
+  >prevEven</a
+  ><a name="2558"
+  > </a
+  ><a name="2559" class="Symbol"
+  >:</a
+  ><a name="2560"
+  > </a
+  ><a name="2561" class="Symbol"
+  >&#8704;</a
+  ><a name="2562"
+  > </a
+  ><a name="2563" class="Symbol"
+  >{</a
+  ><a name="2564" href="Sets.With_Functions.html#2564" class="Bound"
+  >n</a
+  ><a name="2565" class="Symbol"
+  >}</a
+  ><a name="2566"
+  > </a
+  ><a name="2567" class="Symbol"
+  >&#8594;</a
+  ><a name="2568"
+  > </a
+  ><a name="2569" href="Sets.With_Functions.html#522" class="Datatype"
+  >Even</a
+  ><a name="2573"
+  > </a
+  ><a name="2574" class="Symbol"
+  >(</a
+  ><a name="2575" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2578"
+  > </a
+  ><a name="2579" class="Symbol"
+  >(</a
+  ><a name="2580" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2583"
+  > </a
+  ><a name="2584" href="Sets.With_Functions.html#2564" class="Bound"
+  >n</a
+  ><a name="2585" class="Symbol"
+  >))</a
+  ><a name="2587"
+  > </a
+  ><a name="2588" class="Symbol"
+  >&#8594;</a
+  ><a name="2589"
+  > </a
+  ><a name="2590" href="Sets.With_Functions.html#522" class="Datatype"
+  >Even</a
+  ><a name="2594"
+  > </a
+  ><a name="2595" href="Sets.With_Functions.html#2564" class="Bound"
+  >n</a
+  ><a name="2596"
+  >
+</a
+  ><a name="2597" href="Sets.With_Functions.html#2550" class="Function"
+  >prevEven</a
+  ><a name="2605"
+  > </a
+  ><a name="2606" href="Sets.With_Functions.html#2606" class="Bound"
+  >e</a
+  ><a name="2607"
+  > </a
+  ><a name="2608" class="Symbol"
+  >=</a
+  ><a name="2609"
+  > </a
+  ><a name="2610" href="Sets.With_Functions.html#690" class="Function"
+  >toEven</a
+  ><a name="2616"
+  > </a
+  ><a name="2617" class="Symbol"
+  >(</a
+  ><a name="2618" href="Sets.With_Functions.html#1409" class="Function"
+  >prevEven&#8242;</a
+  ><a name="2627"
+  > </a
+  ><a name="2628" class="Symbol"
+  >(</a
+  ><a name="2629" href="Sets.With_Functions.html#770" class="Function"
+  >toEven&#8242;</a
+  ><a name="2636"
+  > </a
+  ><a name="2637" href="Sets.With_Functions.html#2606" class="Bound"
+  >e</a
+  ><a name="2638" class="Symbol"
+  >))</a
+  ><a name="2640"
+  > </a
+  ></pre
+></p>
+<p><code>isEven</code> is similar to <code>isEven′</code>:</p>
+<p><pre
+><a name="2687"
+  >
+</a
+  ><a name="2702" href="Sets.With_Functions.html#2702" class="Function"
+  >isEven</a
+  ><a name="2708"
+  > </a
+  ><a name="2709" class="Symbol"
+  >:</a
+  ><a name="2710"
+  > </a
+  ><a name="2711" class="Symbol"
+  >(</a
+  ><a name="2712" href="Sets.With_Functions.html#2712" class="Bound"
+  >n</a
+  ><a name="2713"
+  > </a
+  ><a name="2714" class="Symbol"
+  >:</a
+  ><a name="2715"
+  > </a
+  ><a name="2716" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2717" class="Symbol"
+  >)</a
+  ><a name="2718"
+  > </a
+  ><a name="2719" class="Symbol"
+  >&#8594;</a
+  ><a name="2720"
+  > </a
+  ><a name="2721" href="Relation.Nullary.Core.html#468" class="Datatype"
+  >Dec</a
+  ><a name="2724"
+  > </a
+  ><a name="2725" class="Symbol"
+  >(</a
+  ><a name="2726" href="Sets.With_Functions.html#522" class="Datatype"
+  >Even</a
+  ><a name="2730"
+  > </a
+  ><a name="2731" href="Sets.With_Functions.html#2712" class="Bound"
+  >n</a
+  ><a name="2732" class="Symbol"
+  >)</a
+  ><a name="2733"
+  >
+</a
+  ><a name="2734" href="Sets.With_Functions.html#2702" class="Function"
+  >isEven</a
+  ><a name="2740"
+  > </a
+  ><a name="2741" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="2745"
+  > </a
+  ><a name="2746" class="Symbol"
+  >=</a
+  ><a name="2747"
+  > </a
+  ><a name="2748" href="Relation.Nullary.Core.html#504" class="InductiveConstructor"
+  >yes</a
+  ><a name="2751"
+  > </a
+  ><a name="2752" class="Symbol"
+  >(</a
+  ><a name="2753" href="Sets.With_Functions.html#545" class="InductiveConstructor"
+  >double</a
+  ><a name="2759"
+  > </a
+  ><a name="2760" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="2764" class="Symbol"
+  >)</a
+  ><a name="2765"
+  >
+</a
+  ><a name="2766" href="Sets.With_Functions.html#2702" class="Function"
+  >isEven</a
+  ><a name="2772"
+  > </a
+  ><a name="2773" class="Symbol"
+  >(</a
+  ><a name="2774" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2777"
+  > </a
+  ><a name="2778" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="2782" class="Symbol"
+  >)</a
+  ><a name="2783"
+  > </a
+  ><a name="2784" class="Symbol"
+  >=</a
+  ><a name="2785"
+  > </a
+  ><a name="2786" href="Relation.Nullary.Core.html#531" class="InductiveConstructor"
+  >no</a
+  ><a name="2788"
+  > </a
+  ><a name="2789" class="Symbol"
+  >(&#955;</a
+  ><a name="2791"
+  > </a
+  ><a name="2792" href="Sets.With_Functions.html#2792" class="Bound"
+  >x</a
+  ><a name="2793"
+  > </a
+  ><a name="2794" class="Symbol"
+  >&#8594;</a
+  ><a name="2795"
+  > </a
+  ><a name="2796" href="Sets.With_Functions.html#2077" class="Function"
+  >&#172;Even1</a
+  ><a name="2802"
+  > </a
+  ><a name="2803" href="Sets.With_Functions.html#2792" class="Bound"
+  >x</a
+  ><a name="2804"
+  > </a
+  ><a name="2805" href="Relation.Binary.Core.html#4653" class="InductiveConstructor"
+  >refl</a
+  ><a name="2809" class="Symbol"
+  >)</a
+  ><a name="2810"
+  >
+</a
+  ><a name="2811" href="Sets.With_Functions.html#2702" class="Function"
+  >isEven</a
+  ><a name="2817"
+  > </a
+  ><a name="2818" class="Symbol"
+  >(</a
+  ><a name="2819" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2822"
+  > </a
+  ><a name="2823" class="Symbol"
+  >(</a
+  ><a name="2824" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2827"
+  > </a
+  ><a name="2828" href="Sets.With_Functions.html#2828" class="Bound"
+  >n</a
+  ><a name="2829" class="Symbol"
+  >))</a
+  ><a name="2831"
+  > </a
+  ><a name="2832" class="Keyword"
+  >with</a
+  ><a name="2836"
+  > </a
+  ><a name="2837" href="Sets.With_Functions.html#2702" class="Function"
+  >isEven</a
+  ><a name="2843"
+  > </a
+  ><a name="2844" href="Sets.With_Functions.html#2828" class="Bound"
+  >n</a
+  ><a name="2845"
+  >
+</a
+  ><a name="2846" href="Sets.With_Functions.html#2702" class="Function"
+  >isEven</a
+  ><a name="2852"
+  > </a
+  ><a name="2853" class="Symbol"
+  >(</a
+  ><a name="2854" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2857"
+  > </a
+  ><a name="2858" class="Symbol"
+  >(</a
+  ><a name="2859" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2862"
+  > </a
+  ><a name="2863" href="Sets.With_Functions.html#2863" class="Bound"
+  >n</a
+  ><a name="2864" class="Symbol"
+  >))</a
+  ><a name="2866"
+  > </a
+  ><a name="2867" class="Symbol"
+  >|</a
+  ><a name="2868"
+  > </a
+  ><a name="2869" href="Relation.Nullary.Core.html#504" class="InductiveConstructor"
+  >yes</a
+  ><a name="2872"
+  > </a
+  ><a name="2873" href="Sets.With_Functions.html#2873" class="Bound"
+  >e</a
+  ><a name="2874"
+  > </a
+  ><a name="2875" class="Symbol"
+  >=</a
+  ><a name="2876"
+  > </a
+  ><a name="2877" href="Relation.Nullary.Core.html#504" class="InductiveConstructor"
+  >yes</a
+  ><a name="2880"
+  > </a
+  ><a name="2881" class="Symbol"
+  >(</a
+  ><a name="2882" href="Sets.With_Functions.html#2276" class="Function"
+  >nextEven</a
+  ><a name="2890"
+  > </a
+  ><a name="2891" href="Sets.With_Functions.html#2873" class="Bound"
+  >e</a
+  ><a name="2892" class="Symbol"
+  >)</a
+  ><a name="2893"
+  >
+</a
+  ><a name="2894" href="Sets.With_Functions.html#2702" class="Function"
+  >isEven</a
+  ><a name="2900"
+  > </a
+  ><a name="2901" class="Symbol"
+  >(</a
+  ><a name="2902" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2905"
+  > </a
+  ><a name="2906" class="Symbol"
+  >(</a
+  ><a name="2907" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2910"
+  > </a
+  ><a name="2911" href="Sets.With_Functions.html#2911" class="Bound"
+  >n</a
+  ><a name="2912" class="Symbol"
+  >))</a
+  ><a name="2914"
+  > </a
+  ><a name="2915" class="Symbol"
+  >|</a
+  ><a name="2916"
+  > </a
+  ><a name="2917" href="Relation.Nullary.Core.html#531" class="InductiveConstructor"
+  >no</a
+  ><a name="2919"
+  > </a
+  ><a name="2920" href="Sets.With_Functions.html#2920" class="Bound"
+  >&#172;p</a
+  ><a name="2922"
+  > </a
+  ><a name="2923" class="Symbol"
+  >=</a
+  ><a name="2924"
+  > </a
+  ><a name="2925" href="Relation.Nullary.Core.html#531" class="InductiveConstructor"
+  >no</a
+  ><a name="2927"
+  > </a
+  ><a name="2928" class="Symbol"
+  >(&#955;</a
+  ><a name="2930"
+  > </a
+  ><a name="2931" href="Sets.With_Functions.html#2931" class="Bound"
+  >x</a
+  ><a name="2932"
+  > </a
+  ><a name="2933" class="Symbol"
+  >&#8594;</a
+  ><a name="2934"
+  > </a
+  ><a name="2935" href="Sets.With_Functions.html#2920" class="Bound"
+  >&#172;p</a
+  ><a name="2937"
+  > </a
+  ><a name="2938" class="Symbol"
+  >(</a
+  ><a name="2939" href="Sets.With_Functions.html#2550" class="Function"
+  >prevEven</a
+  ><a name="2947"
+  > </a
+  ><a name="2948" href="Sets.With_Functions.html#2931" class="Bound"
+  >x</a
+  ><a name="2949" class="Symbol"
+  >))</a
+  ></pre
+></p>
+<h1 id="other-examples"><a href="#other-examples">Other examples</a></h1>
+<p><pre
+><a name="2994"
+  >
+</a
+  ><a name="3009" class="Keyword"
+  >data</a
+  ><a name="3013"
+  >  </a
+  ><a name="3015" href="Sets.With_Functions.html#3015" class="Datatype Operator"
+  >_&#8804;&#8243;_</a
+  ><a name="3019"
+  > </a
+  ><a name="3020" class="Symbol"
+  >:</a
+  ><a name="3021"
+  > </a
+  ><a name="3022" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="3023"
+  > </a
+  ><a name="3024" class="Symbol"
+  >&#8594;</a
+  ><a name="3025"
+  > </a
+  ><a name="3026" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="3027"
+  > </a
+  ><a name="3028" class="Symbol"
+  >&#8594;</a
+  ><a name="3029"
+  > </a
+  ><a name="3030" class="PrimitiveType"
+  >Set</a
+  ><a name="3033"
+  >  </a
+  ><a name="3035" class="Keyword"
+  >where</a
+  ><a name="3040"
+  >
+   </a
+  ><a name="3044" href="Sets.With_Functions.html#3044" class="InductiveConstructor"
+  >diff</a
+  ><a name="3048"
+  > </a
+  ><a name="3049" class="Symbol"
+  >:</a
+  ><a name="3050"
+  > </a
+  ><a name="3051" class="Symbol"
+  >&#8704;</a
+  ><a name="3052"
+  > </a
+  ><a name="3053" href="Sets.With_Functions.html#3053" class="Bound"
+  >i</a
+  ><a name="3054"
+  > </a
+  ><a name="3055" href="Sets.With_Functions.html#3055" class="Bound"
+  >j</a
+  ><a name="3056"
+  > </a
+  ><a name="3057" class="Symbol"
+  >&#8594;</a
+  ><a name="3058"
+  > </a
+  ><a name="3059" href="Sets.With_Functions.html#3053" class="Bound"
+  >i</a
+  ><a name="3060"
+  > </a
+  ><a name="3061" href="Sets.With_Functions.html#3015" class="Datatype Operator"
+  >&#8804;&#8243;</a
+  ><a name="3063"
+  > </a
+  ><a name="3064" href="Sets.With_Functions.html#3055" class="Bound"
+  >j</a
+  ><a name="3065"
+  > </a
+  ><a name="3066" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="3067"
+  > </a
+  ><a name="3068" href="Sets.With_Functions.html#3053" class="Bound"
+  >i</a
+  ><a name="3069"
+  >
+
+</a
+  ><a name="3071" class="Keyword"
+  >infix</a
+  ><a name="3076"
+  > </a
+  ><a name="3077" class="Number"
+  >4</a
+  ><a name="3078"
+  > _&#8804;&#8243;_
+
+</a
+  ><a name="3085" class="Keyword"
+  >data</a
+  ><a name="3089"
+  > </a
+  ><a name="3090" href="Sets.With_Functions.html#3090" class="Datatype"
+  >Vec</a
+  ><a name="3093"
+  > </a
+  ><a name="3094" class="Symbol"
+  >(</a
+  ><a name="3095" href="Sets.With_Functions.html#3095" class="Bound"
+  >A</a
+  ><a name="3096"
+  > </a
+  ><a name="3097" class="Symbol"
+  >:</a
+  ><a name="3098"
+  > </a
+  ><a name="3099" class="PrimitiveType"
+  >Set</a
+  ><a name="3102" class="Symbol"
+  >)</a
+  ><a name="3103"
+  > </a
+  ><a name="3104" class="Symbol"
+  >:</a
+  ><a name="3105"
+  > </a
+  ><a name="3106" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="3107"
+  > </a
+  ><a name="3108" class="Symbol"
+  >-&gt;</a
+  ><a name="3110"
+  > </a
+  ><a name="3111" class="PrimitiveType"
+  >Set</a
+  ><a name="3114"
+  > </a
+  ><a name="3115" class="Keyword"
+  >where</a
+  ><a name="3120"
+  >
+  </a
+  ><a name="3123" href="Sets.With_Functions.html#3123" class="InductiveConstructor"
+  >vec</a
+  ><a name="3126"
+  > </a
+  ><a name="3127" class="Symbol"
+  >:</a
+  ><a name="3128"
+  > </a
+  ><a name="3129" class="Symbol"
+  >(</a
+  ><a name="3130" href="Sets.With_Functions.html#3130" class="Bound"
+  >x</a
+  ><a name="3131"
+  > </a
+  ><a name="3132" class="Symbol"
+  >:</a
+  ><a name="3133"
+  > </a
+  ><a name="3134" href="Data.List.html#659" class="Datatype"
+  >List</a
+  ><a name="3138"
+  > </a
+  ><a name="3139" href="Sets.With_Functions.html#3095" class="Bound"
+  >A</a
+  ><a name="3140" class="Symbol"
+  >)</a
+  ><a name="3141"
+  > </a
+  ><a name="3142" class="Symbol"
+  >-&gt;</a
+  ><a name="3144"
+  > </a
+  ><a name="3145" href="Sets.With_Functions.html#3090" class="Datatype"
+  >Vec</a
+  ><a name="3148"
+  > </a
+  ><a name="3149" href="Sets.With_Functions.html#3095" class="Bound"
+  >A</a
+  ><a name="3150"
+  > </a
+  ><a name="3151" class="Symbol"
+  >(</a
+  ><a name="3152" href="Data.List.html#2923" class="Function"
+  >length</a
+  ><a name="3158"
+  > </a
+  ><a name="3159" href="Sets.With_Functions.html#3130" class="Bound"
+  >x</a
+  ><a name="3160" class="Symbol"
+  >)</a
+  ></pre
+></p>
+</body>
+</html>

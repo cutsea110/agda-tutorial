@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Decimal Notation for Natural Numbers</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Decimal Notation for Natural Numbers</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#constants-in-peano-representation">Constants in Peano Representation</a></li>
+<li><a href="#decimal-notation-for-peano-representation">Decimal notation for Peano representation</a></li>
+<li><a href="#technical-details">Technical details</a></li>
+</ul>
+</div>
+<p><pre
+><a name="39"
+  >
+</a
+  ><a name="55" class="Keyword"
+  >module</a
+  ><a name="61"
+  > </a
+  ><a name="62" href="Syntax.Decimal_Naturals.html#1" class="Module"
+  >Syntax.</a
+  ><a name="69" href="Syntax.Decimal_Naturals.html#1" class="Module Operator"
+  >Decimal_Naturals</a
+  ><a name="85"
+  > </a
+  ><a name="86" class="Keyword"
+  >where</a
+  ></pre
+></p>
+<h1 id="constants-in-peano-representation"><a href="#constants-in-peano-representation">Constants in Peano Representation</a></h1>
+<p>Peano representation of natural number constants which are greater than three are hard to read:</p>
+<pre><code>suc (suc (suc (suc (suc (suc (suc (suc (suc (suc (suc (suc zero)))))))))))</code></pre>
+<p>On the other hand, decimal representation which we are used to is easy to read:</p>
+<pre><code>12</code></pre>
+<h1 id="decimal-notation-for-peano-representation"><a href="#decimal-notation-for-peano-representation">Decimal notation for Peano representation</a></h1>
+<p>Agda's solution is to <em>keep</em> the Peano representation while giving a decimal notation for constants in Peano representation.</p>
+<p>For example,</p>
+<pre><code>3</code></pre>
+<p>will be a shorthand for</p>
+<pre><code>suc (suc (suc zero))</code></pre>
+<h1 id="technical-details"><a href="#technical-details">Technical details</a></h1>
+<p>Agda needs special directives to allow decimal notations of constants in Peano representation:</p>
+<pre><code>data ℕ : Set where
+  zero :     ℕ
+  suc  : ℕ → ℕ
+
+{-# BUILTIN NATURAL ℕ    #-}
+{-# BUILTIN ZERO    zero #-}
+{-# BUILTIN SUC     suc  #-}</code></pre>
+<p>Unfortunately, this BUILTIN machinery is not designed to accommodate multiple definitions of a given BUILTIN. If we wish to use definitions from the Standard Libraries later (and we wish), we cannot make another Peano representation of naturals <em>with</em> decimal notation.</p>
+<p>The solution is to reuse the existing <code>ℕ</code>, <code>zero</code>, <code>suc</code> definitions with decimal notation from the Standard Libraries:</p>
+<p><pre
+><a name="1404"
+  >
+</a
+  ><a name="1419" class="Keyword"
+  >open</a
+  ><a name="1423"
+  > </a
+  ><a name="1424" class="Keyword"
+  >import</a
+  ><a name="1430"
+  > </a
+  ><a name="1431" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="1439"
+  > </a
+  ><a name="1440" class="Keyword"
+  >public</a
+  ><a name="1446"
+  > </a
+  ><a name="1447" class="Keyword"
+  >using</a
+  ><a name="1452"
+  > </a
+  ><a name="1453" class="Symbol"
+  >(</a
+  ><a name="1454"
+  >&#8469;</a
+  ><a name="1455" class="Symbol"
+  >;</a
+  ><a name="1456"
+  > zero</a
+  ><a name="1461" class="Symbol"
+  >;</a
+  ><a name="1462"
+  > suc</a
+  ><a name="1466" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p>(<code>import</code> declarations are discussed later.)</p>
+</body>
+</html>

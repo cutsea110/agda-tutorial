@@ -1,0 +1,990 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Universal Quantification</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Universal Quantification</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#imports">Imports</a></li>
+<li><a href="#universal-quantification">Universal quantification</a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#exercises-1">Exercises</a></li>
+<li><a href="#exercises-with-fin">Exercises with <code>Fin</code></a></li>
+</ul>
+</div>
+<h1 id="imports"><a href="#imports">Imports</a></h1>
+<p><pre
+><a name="46"
+  >
+</a
+  ><a name="61" class="Keyword"
+  >module</a
+  ><a name="67"
+  > </a
+  ><a name="68" href="Functions.Universal_Quantification.html#1" class="Module"
+  >Functions.</a
+  ><a name="78" href="Functions.Universal_Quantification.html#1" class="Module Operator"
+  >Universal_Quantification</a
+  ><a name="102"
+  > </a
+  ><a name="103" class="Keyword"
+  >where</a
+  ><a name="108"
+  >
+
+</a
+  ><a name="110" class="Keyword"
+  >open</a
+  ><a name="114"
+  > </a
+  ><a name="115" class="Keyword"
+  >import</a
+  ><a name="121"
+  > </a
+  ><a name="122" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="130"
+  > </a
+  ><a name="131" class="Keyword"
+  >using</a
+  ><a name="136"
+  > </a
+  ><a name="137" class="Symbol"
+  >(</a
+  ><a name="138"
+  >&#8469;</a
+  ><a name="139" class="Symbol"
+  >;</a
+  ><a name="140"
+  > zero</a
+  ><a name="145" class="Symbol"
+  >;</a
+  ><a name="146"
+  > suc</a
+  ><a name="150" class="Symbol"
+  >;</a
+  ><a name="151"
+  > _+_</a
+  ><a name="155" class="Symbol"
+  >;</a
+  ><a name="156"
+  > _&#8804;_</a
+  ><a name="160" class="Symbol"
+  >;</a
+  ><a name="161"
+  > _&lt;_</a
+  ><a name="165" class="Symbol"
+  >;</a
+  ><a name="166"
+  > z&#8804;n</a
+  ><a name="170" class="Symbol"
+  >;</a
+  ><a name="171"
+  > s&#8804;s</a
+  ><a name="175" class="Symbol"
+  >;</a
+  ><a name="176"
+  > _&#8804;&#8242;_</a
+  ><a name="181" class="Symbol"
+  >;</a
+  ><a name="182"
+  > &#8804;&#8242;-step</a
+  ><a name="190" class="Symbol"
+  >;</a
+  ><a name="191"
+  > &#8804;&#8242;-refl</a
+  ><a name="199" class="Symbol"
+  >)</a
+  ><a name="200"
+  >
+</a
+  ><a name="201" class="Keyword"
+  >open</a
+  ><a name="205"
+  > </a
+  ><a name="206" class="Keyword"
+  >import</a
+  ><a name="212"
+  > </a
+  ><a name="213" href="Data.Fin.html#1" class="Module"
+  >Data.Fin</a
+  ><a name="221"
+  > </a
+  ><a name="222" class="Keyword"
+  >using</a
+  ><a name="227"
+  > </a
+  ><a name="228" class="Symbol"
+  >(</a
+  ><a name="229"
+  >Fin</a
+  ><a name="232" class="Symbol"
+  >;</a
+  ><a name="233"
+  > zero</a
+  ><a name="238" class="Symbol"
+  >;</a
+  ><a name="239"
+  > suc</a
+  ><a name="243" class="Symbol"
+  >;</a
+  ><a name="244"
+  > to&#8469;</a
+  ><a name="248" class="Symbol"
+  >)</a
+  ><a name="249"
+  >
+</a
+  ><a name="250" class="Keyword"
+  >open</a
+  ><a name="254"
+  > </a
+  ><a name="255" class="Keyword"
+  >import</a
+  ><a name="261"
+  > </a
+  ><a name="262" href="Data.Empty.html#1" class="Module"
+  >Data.Empty</a
+  ><a name="272"
+  > </a
+  ><a name="273" class="Keyword"
+  >using</a
+  ><a name="278"
+  > </a
+  ><a name="279" class="Symbol"
+  >(</a
+  ><a name="280"
+  >&#8869;</a
+  ><a name="281" class="Symbol"
+  >)</a
+  ><a name="282"
+  >
+</a
+  ><a name="283" class="Keyword"
+  >open</a
+  ><a name="287"
+  > </a
+  ><a name="288" class="Keyword"
+  >import</a
+  ><a name="294"
+  > </a
+  ><a name="295" href="Data.Sum.html#1" class="Module"
+  >Data.Sum</a
+  ><a name="303"
+  > </a
+  ><a name="304" class="Keyword"
+  >using</a
+  ><a name="309"
+  > </a
+  ><a name="310" class="Symbol"
+  >(</a
+  ><a name="311"
+  >_&#8846;_</a
+  ><a name="314" class="Symbol"
+  >;</a
+  ><a name="315"
+  > inj&#8321;</a
+  ><a name="320" class="Symbol"
+  >;</a
+  ><a name="321"
+  > inj&#8322;</a
+  ><a name="326" class="Symbol"
+  >;</a
+  ><a name="327"
+  > [_,_]&#8242;</a
+  ><a name="334" class="Symbol"
+  >)</a
+  ><a name="335"
+  >
+</a
+  ><a name="336" class="Keyword"
+  >open</a
+  ><a name="340"
+  > </a
+  ><a name="341" class="Keyword"
+  >import</a
+  ><a name="347"
+  > </a
+  ><a name="348" href="Function.html#1" class="Module"
+  >Function</a
+  ><a name="356"
+  > </a
+  ><a name="357" class="Keyword"
+  >using</a
+  ><a name="362"
+  > </a
+  ><a name="363" class="Symbol"
+  >(</a
+  ><a name="364"
+  >flip</a
+  ><a name="368" class="Symbol"
+  >;</a
+  ><a name="369"
+  > _$_</a
+  ><a name="373" class="Symbol"
+  >;</a
+  ><a name="374"
+  > _&#8728;_</a
+  ><a name="378" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="universal-quantification"><a href="#universal-quantification">Universal quantification</a></h1>
+<p>We can represent a proof for universal quantification on a set by a dependent function on that set.</p>
+<p>Example:</p>
+<p><pre
+><a name="536"
+  >
+</a
+  ><a name="551" href="Functions.Universal_Quantification.html#551" class="Function"
+  >&#8804;-refl</a
+  ><a name="557"
+  > </a
+  ><a name="558" class="Symbol"
+  >:</a
+  ><a name="559"
+  > </a
+  ><a name="560" class="Symbol"
+  >(</a
+  ><a name="561" href="Functions.Universal_Quantification.html#561" class="Bound"
+  >n</a
+  ><a name="562"
+  > </a
+  ><a name="563" class="Symbol"
+  >:</a
+  ><a name="564"
+  > </a
+  ><a name="565" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="566" class="Symbol"
+  >)</a
+  ><a name="567"
+  > </a
+  ><a name="568" class="Symbol"
+  >&#8594;</a
+  ><a name="569"
+  > </a
+  ><a name="570" href="Functions.Universal_Quantification.html#561" class="Bound"
+  >n</a
+  ><a name="571"
+  > </a
+  ><a name="572" href="Data.Nat.html#879" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="573"
+  > </a
+  ><a name="574" href="Functions.Universal_Quantification.html#561" class="Bound"
+  >n</a
+  ><a name="575"
+  >
+</a
+  ><a name="576" href="Functions.Universal_Quantification.html#551" class="Function"
+  >&#8804;-refl</a
+  ><a name="582"
+  > </a
+  ><a name="583" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="587"
+  >    </a
+  ><a name="591" class="Symbol"
+  >=</a
+  ><a name="592"
+  > </a
+  ><a name="593" href="Data.Nat.html#910" class="InductiveConstructor"
+  >z&#8804;n</a
+  ><a name="596"
+  >
+</a
+  ><a name="597" href="Functions.Universal_Quantification.html#551" class="Function"
+  >&#8804;-refl</a
+  ><a name="603"
+  > </a
+  ><a name="604" class="Symbol"
+  >(</a
+  ><a name="605" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="608"
+  > </a
+  ><a name="609" href="Functions.Universal_Quantification.html#609" class="Bound"
+  >n</a
+  ><a name="610" class="Symbol"
+  >)</a
+  ><a name="611"
+  > </a
+  ><a name="612" class="Symbol"
+  >=</a
+  ><a name="613"
+  > </a
+  ><a name="614" href="Data.Nat.html#952" class="InductiveConstructor"
+  >s&#8804;s</a
+  ><a name="617"
+  > </a
+  ><a name="618" class="Symbol"
+  >(</a
+  ><a name="619" href="Functions.Universal_Quantification.html#551" class="Function"
+  >&#8804;-refl</a
+  ><a name="625"
+  > </a
+  ><a name="626" href="Functions.Universal_Quantification.html#609" class="Bound"
+  >n</a
+  ><a name="627" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="exercises"><a href="#exercises">Exercises</a></h1>
+<p>Define the following functions (prove these properties):</p>
+<p><pre
+><a name="718"
+  >
+</a
+  ><a name="733" href="Functions.Universal_Quantification.html#733" class="Function"
+  >&#8804;-trans</a
+  ><a name="740"
+  >      </a
+  ><a name="746" class="Symbol"
+  >:</a
+  ><a name="747"
+  > </a
+  ><a name="748" class="Symbol"
+  >&#8704;</a
+  ><a name="749"
+  > </a
+  ><a name="750" class="Symbol"
+  >{</a
+  ><a name="751" href="Functions.Universal_Quantification.html#751" class="Bound"
+  >m</a
+  ><a name="752"
+  > </a
+  ><a name="753" href="Functions.Universal_Quantification.html#753" class="Bound"
+  >n</a
+  ><a name="754"
+  > </a
+  ><a name="755" href="Functions.Universal_Quantification.html#755" class="Bound"
+  >o</a
+  ><a name="756" class="Symbol"
+  >}</a
+  ><a name="757"
+  > </a
+  ><a name="758" class="Symbol"
+  >&#8594;</a
+  ><a name="759"
+  > </a
+  ><a name="760" href="Functions.Universal_Quantification.html#751" class="Bound"
+  >m</a
+  ><a name="761"
+  > </a
+  ><a name="762" href="Data.Nat.html#879" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="763"
+  > </a
+  ><a name="764" href="Functions.Universal_Quantification.html#753" class="Bound"
+  >n</a
+  ><a name="765"
+  > </a
+  ><a name="766" class="Symbol"
+  >&#8594;</a
+  ><a name="767"
+  > </a
+  ><a name="768" href="Functions.Universal_Quantification.html#753" class="Bound"
+  >n</a
+  ><a name="769"
+  > </a
+  ><a name="770" href="Data.Nat.html#879" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="771"
+  > </a
+  ><a name="772" href="Functions.Universal_Quantification.html#755" class="Bound"
+  >o</a
+  ><a name="773"
+  > </a
+  ><a name="774" class="Symbol"
+  >&#8594;</a
+  ><a name="775"
+  > </a
+  ><a name="776" href="Functions.Universal_Quantification.html#751" class="Bound"
+  >m</a
+  ><a name="777"
+  > </a
+  ><a name="778" href="Data.Nat.html#879" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="779"
+  > </a
+  ><a name="780" href="Functions.Universal_Quantification.html#755" class="Bound"
+  >o</a
+  ></pre
+></p>
+<p><pre
+><a name="1032"
+  >
+</a
+  ><a name="1047" href="Functions.Universal_Quantification.html#1047" class="Function"
+  >total</a
+  ><a name="1052"
+  >        </a
+  ><a name="1060" class="Symbol"
+  >:</a
+  ><a name="1061"
+  > </a
+  ><a name="1062" class="Symbol"
+  >&#8704;</a
+  ><a name="1063"
+  > </a
+  ><a name="1064" href="Functions.Universal_Quantification.html#1064" class="Bound"
+  >m</a
+  ><a name="1065"
+  > </a
+  ><a name="1066" href="Functions.Universal_Quantification.html#1066" class="Bound"
+  >n</a
+  ><a name="1067"
+  > </a
+  ><a name="1068" class="Symbol"
+  >&#8594;</a
+  ><a name="1069"
+  > </a
+  ><a name="1070" href="Functions.Universal_Quantification.html#1064" class="Bound"
+  >m</a
+  ><a name="1071"
+  > </a
+  ><a name="1072" href="Data.Nat.html#879" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="1073"
+  > </a
+  ><a name="1074" href="Functions.Universal_Quantification.html#1066" class="Bound"
+  >n</a
+  ><a name="1075"
+  > </a
+  ><a name="1076" href="Data.Sum.html#404" class="Datatype Operator"
+  >&#8846;</a
+  ><a name="1077"
+  > </a
+  ><a name="1078" href="Functions.Universal_Quantification.html#1066" class="Bound"
+  >n</a
+  ><a name="1079"
+  > </a
+  ><a name="1080" href="Data.Nat.html#879" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="1081"
+  > </a
+  ><a name="1082" href="Functions.Universal_Quantification.html#1064" class="Bound"
+  >m</a
+  ><a name="1083"
+  > </a
+  ><a name="1084" class="Comment"
+  >-- hint: use [_,_]&#8242;</a
+  ></pre
+></p>
+<p>From the 4 above properties follows that <code>_≤_</code> is a total order on <code>ℕ</code>. (We can look at <code>_≤_</code> as a relation over <code>ℕ</code>.)</p>
+<p><pre
+><a name="1473"
+  >
+</a
+  ><a name="1488" href="Functions.Universal_Quantification.html#1488" class="Function"
+  >&#8804;-pred</a
+  ><a name="1494"
+  >  </a
+  ><a name="1496" class="Symbol"
+  >:</a
+  ><a name="1497"
+  > </a
+  ><a name="1498" class="Symbol"
+  >&#8704;</a
+  ><a name="1499"
+  > </a
+  ><a name="1500" class="Symbol"
+  >{</a
+  ><a name="1501" href="Functions.Universal_Quantification.html#1501" class="Bound"
+  >m</a
+  ><a name="1502"
+  > </a
+  ><a name="1503" href="Functions.Universal_Quantification.html#1503" class="Bound"
+  >n</a
+  ><a name="1504" class="Symbol"
+  >}</a
+  ><a name="1505"
+  > </a
+  ><a name="1506" class="Symbol"
+  >&#8594;</a
+  ><a name="1507"
+  > </a
+  ><a name="1508" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1511"
+  > </a
+  ><a name="1512" href="Functions.Universal_Quantification.html#1501" class="Bound"
+  >m</a
+  ><a name="1513"
+  > </a
+  ><a name="1514" href="Data.Nat.html#879" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="1515"
+  > </a
+  ><a name="1516" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1519"
+  > </a
+  ><a name="1520" href="Functions.Universal_Quantification.html#1503" class="Bound"
+  >n</a
+  ><a name="1521"
+  > </a
+  ><a name="1522" class="Symbol"
+  >&#8594;</a
+  ><a name="1523"
+  > </a
+  ><a name="1524" href="Functions.Universal_Quantification.html#1501" class="Bound"
+  >m</a
+  ><a name="1525"
+  > </a
+  ><a name="1526" href="Data.Nat.html#879" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="1527"
+  > </a
+  ><a name="1528" href="Functions.Universal_Quantification.html#1503" class="Bound"
+  >n</a
+  ></pre
+></p>
+<p><pre
+><a name="1600"
+  >
+</a
+  ><a name="1615" href="Functions.Universal_Quantification.html#1615" class="Function"
+  >&#8804;-mono</a
+  ><a name="1621"
+  >  </a
+  ><a name="1623" class="Symbol"
+  >:</a
+  ><a name="1624"
+  > </a
+  ><a name="1625" class="Symbol"
+  >&#8704;</a
+  ><a name="1626"
+  > </a
+  ><a name="1627" class="Symbol"
+  >{</a
+  ><a name="1628" href="Functions.Universal_Quantification.html#1628" class="Bound"
+  >m</a
+  ><a name="1629"
+  > </a
+  ><a name="1630" href="Functions.Universal_Quantification.html#1630" class="Bound"
+  >n</a
+  ><a name="1631"
+  > </a
+  ><a name="1632" href="Functions.Universal_Quantification.html#1632" class="Bound"
+  >k</a
+  ><a name="1633" class="Symbol"
+  >}</a
+  ><a name="1634"
+  > </a
+  ><a name="1635" class="Symbol"
+  >&#8594;</a
+  ><a name="1636"
+  > </a
+  ><a name="1637" href="Functions.Universal_Quantification.html#1630" class="Bound"
+  >n</a
+  ><a name="1638"
+  > </a
+  ><a name="1639" href="Data.Nat.html#879" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="1640"
+  > </a
+  ><a name="1641" href="Functions.Universal_Quantification.html#1628" class="Bound"
+  >m</a
+  ><a name="1642"
+  > </a
+  ><a name="1643" class="Symbol"
+  >&#8594;</a
+  ><a name="1644"
+  > </a
+  ><a name="1645" href="Functions.Universal_Quantification.html#1632" class="Bound"
+  >k</a
+  ><a name="1646"
+  > </a
+  ><a name="1647" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1648"
+  > </a
+  ><a name="1649" href="Functions.Universal_Quantification.html#1630" class="Bound"
+  >n</a
+  ><a name="1650"
+  > </a
+  ><a name="1651" href="Data.Nat.html#879" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="1652"
+  > </a
+  ><a name="1653" href="Functions.Universal_Quantification.html#1632" class="Bound"
+  >k</a
+  ><a name="1654"
+  > </a
+  ><a name="1655" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1656"
+  > </a
+  ><a name="1657" href="Functions.Universal_Quantification.html#1628" class="Bound"
+  >m</a
+  ></pre
+></p>
+<h1 id="exercises-1"><a href="#exercises-1">Exercises</a></h1>
+<p>Define the following functions:</p>
+<p><pre
+><a name="1846"
+  >
+</a
+  ><a name="1861" href="Functions.Universal_Quantification.html#1861" class="Function"
+  >&#8804;-step</a
+  ><a name="1867"
+  > </a
+  ><a name="1868" class="Symbol"
+  >:</a
+  ><a name="1869"
+  > </a
+  ><a name="1870" class="Symbol"
+  >&#8704;</a
+  ><a name="1871"
+  > </a
+  ><a name="1872" class="Symbol"
+  >{</a
+  ><a name="1873" href="Functions.Universal_Quantification.html#1873" class="Bound"
+  >m</a
+  ><a name="1874"
+  > </a
+  ><a name="1875" href="Functions.Universal_Quantification.html#1875" class="Bound"
+  >n</a
+  ><a name="1876" class="Symbol"
+  >}</a
+  ><a name="1877"
+  > </a
+  ><a name="1878" class="Symbol"
+  >&#8594;</a
+  ><a name="1879"
+  > </a
+  ><a name="1880" href="Functions.Universal_Quantification.html#1873" class="Bound"
+  >m</a
+  ><a name="1881"
+  > </a
+  ><a name="1882" href="Data.Nat.html#879" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="1883"
+  > </a
+  ><a name="1884" href="Functions.Universal_Quantification.html#1875" class="Bound"
+  >n</a
+  ><a name="1885"
+  > </a
+  ><a name="1886" class="Symbol"
+  >&#8594;</a
+  ><a name="1887"
+  > </a
+  ><a name="1888" href="Functions.Universal_Quantification.html#1873" class="Bound"
+  >m</a
+  ><a name="1889"
+  > </a
+  ><a name="1890" href="Data.Nat.html#879" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="1891"
+  > </a
+  ><a name="1892" class="Number"
+  >1</a
+  ><a name="1893"
+  > </a
+  ><a name="1894" href="Data.Nat.html#2239" class="Primitive Operator"
+  >+</a
+  ><a name="1895"
+  > </a
+  ><a name="1896" href="Functions.Universal_Quantification.html#1875" class="Bound"
+  >n</a
+  ></pre
+></p>
+<p><pre
+><a name="2003"
+  >
+</a
+  ><a name="2018" href="Functions.Universal_Quantification.html#2018" class="Function"
+  >&#8804;&#8242;&#8658;&#8804;</a
+  ><a name="2022"
+  > </a
+  ><a name="2023" class="Symbol"
+  >:</a
+  ><a name="2024"
+  > </a
+  ><a name="2025" class="Symbol"
+  >&#8704;</a
+  ><a name="2026"
+  > </a
+  ><a name="2027" class="Symbol"
+  >{</a
+  ><a name="2028" href="Functions.Universal_Quantification.html#2028" class="Bound"
+  >a</a
+  ><a name="2029"
+  > </a
+  ><a name="2030" href="Functions.Universal_Quantification.html#2030" class="Bound"
+  >b</a
+  ><a name="2031" class="Symbol"
+  >}</a
+  ><a name="2032"
+  > </a
+  ><a name="2033" class="Symbol"
+  >&#8594;</a
+  ><a name="2034"
+  > </a
+  ><a name="2035" href="Functions.Universal_Quantification.html#2028" class="Bound"
+  >a</a
+  ><a name="2036"
+  > </a
+  ><a name="2037" href="Data.Nat.html#1426" class="Datatype Operator"
+  >&#8804;&#8242;</a
+  ><a name="2039"
+  > </a
+  ><a name="2040" href="Functions.Universal_Quantification.html#2030" class="Bound"
+  >b</a
+  ><a name="2041"
+  > </a
+  ><a name="2042" class="Symbol"
+  >&#8594;</a
+  ><a name="2043"
+  > </a
+  ><a name="2044" href="Functions.Universal_Quantification.html#2028" class="Bound"
+  >a</a
+  ><a name="2045"
+  > </a
+  ><a name="2046" href="Data.Nat.html#879" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="2047"
+  > </a
+  ><a name="2048" href="Functions.Universal_Quantification.html#2030" class="Bound"
+  >b</a
+  ></pre
+></p>
+<p><pre
+><a name="2172"
+  >
+</a
+  ><a name="2187" href="Functions.Universal_Quantification.html#2187" class="Function"
+  >z&#8804;&#8242;n</a
+  ><a name="2191"
+  > </a
+  ><a name="2192" class="Symbol"
+  >:</a
+  ><a name="2193"
+  > </a
+  ><a name="2194" class="Symbol"
+  >&#8704;</a
+  ><a name="2195"
+  > </a
+  ><a name="2196" href="Functions.Universal_Quantification.html#2196" class="Bound"
+  >n</a
+  ><a name="2197"
+  > </a
+  ><a name="2198" class="Symbol"
+  >&#8594;</a
+  ><a name="2199"
+  > </a
+  ><a name="2200" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="2204"
+  > </a
+  ><a name="2205" href="Data.Nat.html#1426" class="Datatype Operator"
+  >&#8804;&#8242;</a
+  ><a name="2207"
+  > </a
+  ><a name="2208" href="Functions.Universal_Quantification.html#2196" class="Bound"
+  >n</a
+  ></pre
+></p>
+<p><pre
+><a name="2313"
+  >
+</a
+  ><a name="2328" href="Functions.Universal_Quantification.html#2328" class="Function"
+  >s&#8804;&#8242;s</a
+  ><a name="2332"
+  > </a
+  ><a name="2333" class="Symbol"
+  >:</a
+  ><a name="2334"
+  > </a
+  ><a name="2335" class="Symbol"
+  >&#8704;</a
+  ><a name="2336"
+  > </a
+  ><a name="2337" class="Symbol"
+  >{</a
+  ><a name="2338" href="Functions.Universal_Quantification.html#2338" class="Bound"
+  >m</a
+  ><a name="2339"
+  > </a
+  ><a name="2340" href="Functions.Universal_Quantification.html#2340" class="Bound"
+  >n</a
+  ><a name="2341" class="Symbol"
+  >}</a
+  ><a name="2342"
+  > </a
+  ><a name="2343" class="Symbol"
+  >&#8594;</a
+  ><a name="2344"
+  > </a
+  ><a name="2345" href="Functions.Universal_Quantification.html#2338" class="Bound"
+  >m</a
+  ><a name="2346"
+  > </a
+  ><a name="2347" href="Data.Nat.html#1426" class="Datatype Operator"
+  >&#8804;&#8242;</a
+  ><a name="2349"
+  > </a
+  ><a name="2350" href="Functions.Universal_Quantification.html#2340" class="Bound"
+  >n</a
+  ><a name="2351"
+  > </a
+  ><a name="2352" class="Symbol"
+  >&#8594;</a
+  ><a name="2353"
+  > </a
+  ><a name="2354" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2357"
+  > </a
+  ><a name="2358" href="Functions.Universal_Quantification.html#2338" class="Bound"
+  >m</a
+  ><a name="2359"
+  > </a
+  ><a name="2360" href="Data.Nat.html#1426" class="Datatype Operator"
+  >&#8804;&#8242;</a
+  ><a name="2362"
+  > </a
+  ><a name="2363" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2366"
+  > </a
+  ><a name="2367" href="Functions.Universal_Quantification.html#2340" class="Bound"
+  >n</a
+  ></pre
+></p>
+<p><pre
+><a name="2491"
+  >
+</a
+  ><a name="2506" href="Functions.Universal_Quantification.html#2506" class="Function"
+  >&#8804;&#8658;&#8804;&#8242;</a
+  ><a name="2510"
+  > </a
+  ><a name="2511" class="Symbol"
+  >:</a
+  ><a name="2512"
+  > </a
+  ><a name="2513" class="Symbol"
+  >&#8704;</a
+  ><a name="2514"
+  > </a
+  ><a name="2515" class="Symbol"
+  >{</a
+  ><a name="2516" href="Functions.Universal_Quantification.html#2516" class="Bound"
+  >a</a
+  ><a name="2517"
+  > </a
+  ><a name="2518" href="Functions.Universal_Quantification.html#2518" class="Bound"
+  >b</a
+  ><a name="2519" class="Symbol"
+  >}</a
+  ><a name="2520"
+  > </a
+  ><a name="2521" class="Symbol"
+  >&#8594;</a
+  ><a name="2522"
+  > </a
+  ><a name="2523" href="Functions.Universal_Quantification.html#2516" class="Bound"
+  >a</a
+  ><a name="2524"
+  > </a
+  ><a name="2525" href="Data.Nat.html#879" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="2526"
+  > </a
+  ><a name="2527" href="Functions.Universal_Quantification.html#2518" class="Bound"
+  >b</a
+  ><a name="2528"
+  > </a
+  ><a name="2529" class="Symbol"
+  >&#8594;</a
+  ><a name="2530"
+  > </a
+  ><a name="2531" href="Functions.Universal_Quantification.html#2516" class="Bound"
+  >a</a
+  ><a name="2532"
+  > </a
+  ><a name="2533" href="Data.Nat.html#1426" class="Datatype Operator"
+  >&#8804;&#8242;</a
+  ><a name="2535"
+  > </a
+  ><a name="2536" href="Functions.Universal_Quantification.html#2518" class="Bound"
+  >b</a
+  ></pre
+></p>
+<h1 id="exercises-with-fin"><a href="#exercises-with-fin">Exercises with <code>Fin</code></a></h1>
+<p>Define <code>fin≤</code>:</p>
+<p><pre
+><a name="2701"
+  >
+</a
+  ><a name="2716" href="Functions.Universal_Quantification.html#2716" class="Function"
+  >fin&#8804;</a
+  ><a name="2720"
+  > </a
+  ><a name="2721" class="Symbol"
+  >:</a
+  ><a name="2722"
+  > </a
+  ><a name="2723" class="Symbol"
+  >&#8704;</a
+  ><a name="2724"
+  > </a
+  ><a name="2725" class="Symbol"
+  >{</a
+  ><a name="2726" href="Functions.Universal_Quantification.html#2726" class="Bound"
+  >n</a
+  ><a name="2727" class="Symbol"
+  >}(</a
+  ><a name="2729" href="Functions.Universal_Quantification.html#2729" class="Bound"
+  >m</a
+  ><a name="2730"
+  > </a
+  ><a name="2731" class="Symbol"
+  >:</a
+  ><a name="2732"
+  > </a
+  ><a name="2733" href="Data.Fin.html#775" class="Datatype"
+  >Fin</a
+  ><a name="2736"
+  > </a
+  ><a name="2737" href="Functions.Universal_Quantification.html#2726" class="Bound"
+  >n</a
+  ><a name="2738" class="Symbol"
+  >)</a
+  ><a name="2739"
+  > </a
+  ><a name="2740" class="Symbol"
+  >&#8594;</a
+  ><a name="2741"
+  > </a
+  ><a name="2742" href="Data.Fin.html#901" class="Function"
+  >to&#8469;</a
+  ><a name="2745"
+  > </a
+  ><a name="2746" href="Functions.Universal_Quantification.html#2729" class="Bound"
+  >m</a
+  ><a name="2747"
+  > </a
+  ><a name="2748" href="Data.Nat.html#997" class="Function Operator"
+  >&lt;</a
+  ><a name="2749"
+  > </a
+  ><a name="2750" href="Functions.Universal_Quantification.html#2726" class="Bound"
+  >n</a
+  ></pre
+></p>
+</body>
+</html>

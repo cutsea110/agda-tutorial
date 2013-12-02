@@ -1,0 +1,1614 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Péter Diviánszky and Ambrus Kaposi" />
+  <title>Propositions</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Propositions</h1>
+<h2 class="author">Péter Diviánszky and Ambrus Kaposi</h2>
+<h3 class="date">2011. 05. 03., 2013. 01.</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#imports">Imports</a></li>
+<li><a href="#proofs-as-data">Proofs as data</a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#remarks">Remarks</a></li>
+<li><a href="#less-or-equal-predicate"><code>_≤_</code>: Less-or-equal predicate</a></li>
+<li><a href="#proving-non-emptiness">Proving non-emptiness</a></li>
+<li><a href="#proving-emptiness">Proving emptiness</a></li>
+<li><a href="#exercises-1">Exercises</a></li>
+<li><a href="#alternative-representation">Alternative representation</a></li>
+<li><a href="#syntactic-abbreviations">Syntactic abbreviations</a></li>
+<li><a href="#addition-predicate"><code>_+_≡_</code>: Addition predicate</a></li>
+<li><a href="#definition-of-___">Definition of <code>_+_≡_</code></a></li>
+<li><a href="#exercises-2">Exercises</a></li>
+<li><a href="#exercises-3">Exercises</a></li>
+<li><a href="#definition-reuse">Definition reuse</a></li>
+<li><a href="#exercises-4">Exercises</a></li>
+</ul>
+</div>
+<h1 id="imports"><a href="#imports">Imports</a></h1>
+<p><pre
+><a name="98"
+  >
+</a
+  ><a name="113" class="Keyword"
+  >module</a
+  ><a name="119"
+  > </a
+  ><a name="120" href="Sets.Propositions.html#1" class="Module"
+  >Sets.Propositions</a
+  ><a name="137"
+  > </a
+  ><a name="138" class="Keyword"
+  >where</a
+  ><a name="143"
+  >
+
+</a
+  ><a name="145" class="Keyword"
+  >open</a
+  ><a name="149"
+  > </a
+  ><a name="150" class="Keyword"
+  >import</a
+  ><a name="156"
+  > </a
+  ><a name="157" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="165"
+  > </a
+  ><a name="166" class="Keyword"
+  >using</a
+  ><a name="171"
+  > </a
+  ><a name="172" class="Symbol"
+  >(</a
+  ><a name="173"
+  >&#8469;</a
+  ><a name="174" class="Symbol"
+  >;</a
+  ><a name="175"
+  > zero</a
+  ><a name="180" class="Symbol"
+  >;</a
+  ><a name="181"
+  > suc</a
+  ><a name="185" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="proofs-as-data"><a href="#proofs-as-data">Proofs as data</a></h1>
+<p>It is beneficial to represent proofs as ordinary data; we can manipulate them like natural numbers.<br />The proofs of each proposition will have a distinct type.</p>
+<p>We represent the proofs of the <strong>true proposition</strong> by the type <code>⊤</code>.<br />The true proposition has a trivial proof: <code>tt</code> (trivially true).</p>
+<p><pre
+><a name="527"
+  >
+</a
+  ><a name="542" class="Keyword"
+  >data</a
+  ><a name="546"
+  > </a
+  ><a name="547" href="Sets.Propositions.html#547" class="Datatype"
+  >&#8868;</a
+  ><a name="548"
+  > </a
+  ><a name="549" class="Symbol"
+  >:</a
+  ><a name="550"
+  > </a
+  ><a name="551" class="PrimitiveType"
+  >Set</a
+  ><a name="554"
+  > </a
+  ><a name="555" class="Keyword"
+  >where</a
+  ><a name="560"
+  >
+  </a
+  ><a name="563" href="Sets.Propositions.html#563" class="InductiveConstructor"
+  >tt</a
+  ><a name="565"
+  > </a
+  ><a name="566" class="Symbol"
+  >:</a
+  ><a name="567"
+  > </a
+  ><a name="568" href="Sets.Propositions.html#547" class="Datatype"
+  >&#8868;</a
+  ></pre
+></p>
+<p>We represent the proofs of the <strong>false proposition</strong> by the type <code>⊥</code>.<br />The false proposition has no proofs (it cannot be proven).</p>
+<p><pre
+><a name="712"
+  >
+</a
+  ><a name="727" class="Keyword"
+  >data</a
+  ><a name="731"
+  > </a
+  ><a name="732" href="Sets.Propositions.html#732" class="Datatype"
+  >&#8869;</a
+  ><a name="733"
+  > </a
+  ><a name="734" class="Symbol"
+  >:</a
+  ><a name="735"
+  > </a
+  ><a name="736" class="PrimitiveType"
+  >Set</a
+  ><a name="739"
+  > </a
+  ><a name="740" class="Keyword"
+  >where</a
+  ></pre
+></p>
+<p>We represent the proofs of the <strong>conjunction</strong> of two propositions <code>A</code> and <code>B</code> by the type <code>A × B</code>.<br /><code>A × B</code> has proofs of form <code>a , b</code> where <code>a</code> is a proof of <code>A</code> and <code>b</code> is a proof of <code>B</code>.</p>
+<p><pre
+><a name="949"
+  >
+</a
+  ><a name="964" class="Keyword"
+  >data</a
+  ><a name="968"
+  > </a
+  ><a name="969" href="Sets.Propositions.html#969" class="Datatype Operator"
+  >_&#215;_</a
+  ><a name="972"
+  > </a
+  ><a name="973" class="Symbol"
+  >(</a
+  ><a name="974" href="Sets.Propositions.html#974" class="Bound"
+  >A</a
+  ><a name="975"
+  > </a
+  ><a name="976" href="Sets.Propositions.html#976" class="Bound"
+  >B</a
+  ><a name="977"
+  > </a
+  ><a name="978" class="Symbol"
+  >:</a
+  ><a name="979"
+  > </a
+  ><a name="980" class="PrimitiveType"
+  >Set</a
+  ><a name="983" class="Symbol"
+  >)</a
+  ><a name="984"
+  > </a
+  ><a name="985" class="Symbol"
+  >:</a
+  ><a name="986"
+  > </a
+  ><a name="987" class="PrimitiveType"
+  >Set</a
+  ><a name="990"
+  > </a
+  ><a name="991" class="Keyword"
+  >where</a
+  ><a name="996"
+  >
+  </a
+  ><a name="999" href="Sets.Propositions.html#999" class="InductiveConstructor Operator"
+  >_,_</a
+  ><a name="1002"
+  > </a
+  ><a name="1003" class="Symbol"
+  >:</a
+  ><a name="1004"
+  > </a
+  ><a name="1005" href="Sets.Propositions.html#974" class="Bound"
+  >A</a
+  ><a name="1006"
+  > </a
+  ><a name="1007" class="Symbol"
+  >&#8594;</a
+  ><a name="1008"
+  > </a
+  ><a name="1009" href="Sets.Propositions.html#976" class="Bound"
+  >B</a
+  ><a name="1010"
+  > </a
+  ><a name="1011" class="Symbol"
+  >&#8594;</a
+  ><a name="1012"
+  > </a
+  ><a name="1013" href="Sets.Propositions.html#974" class="Bound"
+  >A</a
+  ><a name="1014"
+  > </a
+  ><a name="1015" href="Sets.Propositions.html#969" class="Datatype Operator"
+  >&#215;</a
+  ><a name="1016"
+  > </a
+  ><a name="1017" href="Sets.Propositions.html#976" class="Bound"
+  >B</a
+  ><a name="1018"
+  >
+
+</a
+  ><a name="1020" class="Keyword"
+  >infixr</a
+  ><a name="1026"
+  > </a
+  ><a name="1027" class="Number"
+  >4</a
+  ><a name="1028"
+  > _,_
+</a
+  ><a name="1033" class="Keyword"
+  >infixr</a
+  ><a name="1039"
+  > </a
+  ><a name="1040" class="Number"
+  >2</a
+  ><a name="1041"
+  > _&#215;_</a
+  ></pre
+></p>
+<p>We represent the proofs of the <strong>disjunction</strong> of two propositions <code>A</code> and <code>B</code> by the type <code>A ⊎ B</code>.<br /><code>A ⊎ B</code> has two different kinds of proofs:</p>
+<ul>
+<li><code>inj₁ a</code>, where <code>a</code> is proof of <code>A</code>,</li>
+<li><code>inj₂ b</code>, where <code>b</code> is proof of <code>B</code>.</li>
+</ul>
+<p><pre
+><a name="1285"
+  >
+</a
+  ><a name="1300" class="Keyword"
+  >data</a
+  ><a name="1304"
+  > </a
+  ><a name="1305" href="Sets.Propositions.html#1305" class="Datatype Operator"
+  >_&#8846;_</a
+  ><a name="1308"
+  > </a
+  ><a name="1309" class="Symbol"
+  >(</a
+  ><a name="1310" href="Sets.Propositions.html#1310" class="Bound"
+  >A</a
+  ><a name="1311"
+  > </a
+  ><a name="1312" href="Sets.Propositions.html#1312" class="Bound"
+  >B</a
+  ><a name="1313"
+  > </a
+  ><a name="1314" class="Symbol"
+  >:</a
+  ><a name="1315"
+  > </a
+  ><a name="1316" class="PrimitiveType"
+  >Set</a
+  ><a name="1319" class="Symbol"
+  >)</a
+  ><a name="1320"
+  > </a
+  ><a name="1321" class="Symbol"
+  >:</a
+  ><a name="1322"
+  > </a
+  ><a name="1323" class="PrimitiveType"
+  >Set</a
+  ><a name="1326"
+  > </a
+  ><a name="1327" class="Keyword"
+  >where</a
+  ><a name="1332"
+  >
+  </a
+  ><a name="1335" href="Sets.Propositions.html#1335" class="InductiveConstructor"
+  >inj&#8321;</a
+  ><a name="1339"
+  > </a
+  ><a name="1340" class="Symbol"
+  >:</a
+  ><a name="1341"
+  > </a
+  ><a name="1342" href="Sets.Propositions.html#1310" class="Bound"
+  >A</a
+  ><a name="1343"
+  > </a
+  ><a name="1344" class="Symbol"
+  >&#8594;</a
+  ><a name="1345"
+  > </a
+  ><a name="1346" href="Sets.Propositions.html#1310" class="Bound"
+  >A</a
+  ><a name="1347"
+  > </a
+  ><a name="1348" href="Sets.Propositions.html#1305" class="Datatype Operator"
+  >&#8846;</a
+  ><a name="1349"
+  > </a
+  ><a name="1350" href="Sets.Propositions.html#1312" class="Bound"
+  >B</a
+  ><a name="1351"
+  >
+  </a
+  ><a name="1354" href="Sets.Propositions.html#1354" class="InductiveConstructor"
+  >inj&#8322;</a
+  ><a name="1358"
+  > </a
+  ><a name="1359" class="Symbol"
+  >:</a
+  ><a name="1360"
+  > </a
+  ><a name="1361" href="Sets.Propositions.html#1312" class="Bound"
+  >B</a
+  ><a name="1362"
+  > </a
+  ><a name="1363" class="Symbol"
+  >&#8594;</a
+  ><a name="1364"
+  > </a
+  ><a name="1365" href="Sets.Propositions.html#1310" class="Bound"
+  >A</a
+  ><a name="1366"
+  > </a
+  ><a name="1367" href="Sets.Propositions.html#1305" class="Datatype Operator"
+  >&#8846;</a
+  ><a name="1368"
+  > </a
+  ><a name="1369" href="Sets.Propositions.html#1312" class="Bound"
+  >B</a
+  ><a name="1370"
+  >
+
+</a
+  ><a name="1372" class="Keyword"
+  >infixr</a
+  ><a name="1378"
+  > </a
+  ><a name="1379" class="Number"
+  >1</a
+  ><a name="1380"
+  > _&#8846;_</a
+  ></pre
+></p>
+<h1 id="exercises"><a href="#exercises">Exercises</a></h1>
+<p>Construct one proof for each proposition if possible:</p>
+<ul>
+<li><code>⊤ × ⊤</code></li>
+<li><code>⊤ × ⊥</code></li>
+<li><code>⊥ × ⊥</code></li>
+<li><code>⊤ ⊎ ⊤</code></li>
+<li><code>⊤ ⊎ ⊥</code></li>
+<li><code>⊥ ⊎ ⊥</code></li>
+<li><code>⊥ ⊎ ⊤ ⊎ ⊤ × (⊥ ⊎ ⊥) ⊎ ⊤</code></li>
+</ul>
+<p>Example:</p>
+<p><pre
+><a name="1587"
+  >
+</a
+  ><a name="1602" href="Sets.Propositions.html#1602" class="Function"
+  >&#8868;&#215;&#8868;</a
+  ><a name="1605"
+  > </a
+  ><a name="1606" class="Symbol"
+  >:</a
+  ><a name="1607"
+  > </a
+  ><a name="1608" href="Sets.Propositions.html#547" class="Datatype"
+  >&#8868;</a
+  ><a name="1609"
+  > </a
+  ><a name="1610" href="Sets.Propositions.html#969" class="Datatype Operator"
+  >&#215;</a
+  ><a name="1611"
+  > </a
+  ><a name="1612" href="Sets.Propositions.html#547" class="Datatype"
+  >&#8868;</a
+  ><a name="1613"
+  >
+</a
+  ><a name="1614" href="Sets.Propositions.html#1602" class="Function"
+  >&#8868;&#215;&#8868;</a
+  ><a name="1617"
+  > </a
+  ><a name="1618" class="Symbol"
+  >=</a
+  ><a name="1619"
+  > </a
+  ><a name="1620" href="Sets.Propositions.html#563" class="InductiveConstructor"
+  >tt</a
+  ><a name="1622"
+  > </a
+  ><a name="1623" href="Sets.Propositions.html#999" class="InductiveConstructor Operator"
+  >,</a
+  ><a name="1624"
+  > </a
+  ><a name="1625" href="Sets.Propositions.html#563" class="InductiveConstructor"
+  >tt</a
+  ></pre
+></p>
+<h1 id="remarks"><a href="#remarks">Remarks</a></h1>
+<p>We represent implication, negation, universal and existential quantification later.</p>
+<p><code>_⊎_</code> represents <em>constructive</em> disjunction, we represent classical disjunction later and compare them.</p>
+<h1 id="less-or-equal-predicate"><a href="#less-or-equal-predicate"><code>_≤_</code>: Less-or-equal predicate</a></h1>
+<p>We wish to represent proofs of propositions n ≤ m (n, m = 0, 1, ...).<br />For this we define a set indexed with two natural numbers:</p>
+<p><pre
+><a name="2023"
+  >
+</a
+  ><a name="2038" class="Keyword"
+  >data</a
+  ><a name="2042"
+  >  </a
+  ><a name="2044" href="Sets.Propositions.html#2044" class="Datatype Operator"
+  >_&#8804;_</a
+  ><a name="2047"
+  > </a
+  ><a name="2048" class="Symbol"
+  >:</a
+  ><a name="2049"
+  > </a
+  ><a name="2050" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2051"
+  > </a
+  ><a name="2052" class="Symbol"
+  >&#8594;</a
+  ><a name="2053"
+  > </a
+  ><a name="2054" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2055"
+  > </a
+  ><a name="2056" class="Symbol"
+  >&#8594;</a
+  ><a name="2057"
+  > </a
+  ><a name="2058" class="PrimitiveType"
+  >Set</a
+  ><a name="2061"
+  > </a
+  ><a name="2062" class="Keyword"
+  >where</a
+  ><a name="2067"
+  >
+  </a
+  ><a name="2070" href="Sets.Propositions.html#2070" class="InductiveConstructor"
+  >z&#8804;n</a
+  ><a name="2073"
+  > </a
+  ><a name="2074" class="Symbol"
+  >:</a
+  ><a name="2075"
+  > </a
+  ><a name="2076" class="Symbol"
+  >{</a
+  ><a name="2077" href="Sets.Propositions.html#2077" class="Bound"
+  >n</a
+  ><a name="2078"
+  > </a
+  ><a name="2079" class="Symbol"
+  >:</a
+  ><a name="2080"
+  > </a
+  ><a name="2081" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2082" class="Symbol"
+  >}</a
+  ><a name="2083"
+  > </a
+  ><a name="2084" class="Symbol"
+  >&#8594;</a
+  ><a name="2085"
+  >                       </a
+  ><a name="2108" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="2112"
+  >  </a
+  ><a name="2114" href="Sets.Propositions.html#2044" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="2115"
+  > </a
+  ><a name="2116" href="Sets.Propositions.html#2077" class="Bound"
+  >n</a
+  ><a name="2117"
+  >
+  </a
+  ><a name="2120" href="Sets.Propositions.html#2120" class="InductiveConstructor"
+  >s&#8804;s</a
+  ><a name="2123"
+  > </a
+  ><a name="2124" class="Symbol"
+  >:</a
+  ><a name="2125"
+  > </a
+  ><a name="2126" class="Symbol"
+  >{</a
+  ><a name="2127" href="Sets.Propositions.html#2127" class="Bound"
+  >m</a
+  ><a name="2128"
+  > </a
+  ><a name="2129" class="Symbol"
+  >:</a
+  ><a name="2130"
+  > </a
+  ><a name="2131" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2132" class="Symbol"
+  >}</a
+  ><a name="2133"
+  > </a
+  ><a name="2134" class="Symbol"
+  >&#8594;</a
+  ><a name="2135"
+  > </a
+  ><a name="2136" class="Symbol"
+  >{</a
+  ><a name="2137" href="Sets.Propositions.html#2137" class="Bound"
+  >n</a
+  ><a name="2138"
+  > </a
+  ><a name="2139" class="Symbol"
+  >:</a
+  ><a name="2140"
+  > </a
+  ><a name="2141" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2142" class="Symbol"
+  >}</a
+  ><a name="2143"
+  > </a
+  ><a name="2144" class="Symbol"
+  >&#8594;</a
+  ><a name="2145"
+  >   </a
+  ><a name="2148" href="Sets.Propositions.html#2127" class="Bound"
+  >m</a
+  ><a name="2149"
+  > </a
+  ><a name="2150" href="Sets.Propositions.html#2044" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="2151"
+  > </a
+  ><a name="2152" href="Sets.Propositions.html#2137" class="Bound"
+  >n</a
+  ><a name="2153"
+  >  </a
+  ><a name="2155" class="Symbol"
+  >&#8594;</a
+  ><a name="2156"
+  >  </a
+  ><a name="2158" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2161"
+  > </a
+  ><a name="2162" href="Sets.Propositions.html#2127" class="Bound"
+  >m</a
+  ><a name="2163"
+  > </a
+  ><a name="2164" href="Sets.Propositions.html#2044" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="2165"
+  > </a
+  ><a name="2166" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2169"
+  > </a
+  ><a name="2170" href="Sets.Propositions.html#2137" class="Bound"
+  >n</a
+  ><a name="2171"
+  >
+
+</a
+  ><a name="2173" class="Keyword"
+  >infix</a
+  ><a name="2178"
+  > </a
+  ><a name="2179" class="Number"
+  >4</a
+  ><a name="2180"
+  > _&#8804;_</a
+  ></pre
+></p>
+<p>This yields the statements</p>
+<pre><code>z≤n {0} : 0 ≤ 0
+z≤n {1} : 0 ≤ 1
+z≤n {2} : 0 ≤ 2
+...
+s≤s (z≤n {0}) : 1 ≤ 1
+s≤s (z≤n {1}) : 1 ≤ 2
+s≤s (z≤n {2}) : 1 ≤ 3
+...
+s≤s (s≤s (z≤n {0})) : 2 ≤ 2
+s≤s (s≤s (z≤n {1})) : 2 ≤ 3
+s≤s (s≤s (z≤n {2})) : 2 ≤ 4
+...
+...</code></pre>
+<p>which means that the following propositions have proofs:</p>
+<pre><code>0 ≤ 0
+0 ≤ 1,  1 ≤ 1
+0 ≤ 2,  1 ≤ 2,  2 ≤ 2
+0 ≤ 3,  1 ≤ 3,  2 ≤ 3,  3 ≤ 3
+...                             ...</code></pre>
+<p>Notes</p>
+<ul>
+<li>The <code>z≤n</code> constructor yields the first column of statements.</li>
+<li>The <code>s≤s</code> constructor yields the successive columns of statements.</li>
+<li><code>1 ≤ 0</code> is also a valid expression which denotes an empty set.</li>
+</ul>
+<h1 id="proving-non-emptiness"><a href="#proving-non-emptiness">Proving non-emptiness</a></h1>
+<p>We can prove that a set is non-empty by giving an element<br />(remember the syntax of constant definition):</p>
+<p><pre
+><a name="3031"
+  >
+</a
+  ><a name="3046" href="Sets.Propositions.html#3046" class="Function"
+  >0&#8804;1</a
+  ><a name="3049"
+  > </a
+  ><a name="3050" class="Symbol"
+  >:</a
+  ><a name="3051"
+  > </a
+  ><a name="3052" class="Number"
+  >1</a
+  ><a name="3053"
+  > </a
+  ><a name="3054" href="Sets.Propositions.html#2044" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="3055"
+  > </a
+  ><a name="3056" class="Number"
+  >10</a
+  ><a name="3058"
+  >
+</a
+  ><a name="3059" href="Sets.Propositions.html#3046" class="Function"
+  >0&#8804;1</a
+  ><a name="3062"
+  > </a
+  ><a name="3063" class="Symbol"
+  >=</a
+  ><a name="3064"
+  > </a
+  ><a name="3065" href="Sets.Propositions.html#2120" class="InductiveConstructor"
+  >s&#8804;s</a
+  ><a name="3068"
+  > </a
+  ><a name="3069" href="Sets.Propositions.html#2070" class="InductiveConstructor"
+  >z&#8804;n</a
+  ></pre
+></p>
+<p><em>Exercise:</em> Prove that 3 ≤ 7!</p>
+<h1 id="proving-emptiness"><a href="#proving-emptiness">Proving emptiness</a></h1>
+<p>How can we prove that a set like <code>7 ≤ 3</code> is empty?</p>
+<ol style="list-style-type: decimal">
+<li>If <code>7 ≤ 3</code> would be non-empty, all its elements would look like <code>s≤s x</code> where <code>x : 6 ≤ 2</code>.
+<ul>
+<li><code>z≤n</code> yields an element in <code>0 ≤ n</code> and <code>0</code> ≠ <code>7</code>.</li>
+</ul></li>
+<li>If <code>6 ≤ 2</code> would be non-empty, all its elements would look like <code>s≤s x</code> where <code>x : 5 ≤ 1</code>.
+<ul>
+<li><code>z≤n</code> yields an element in <code>0 ≤ n</code> and <code>0</code> ≠ <code>6</code>.</li>
+</ul></li>
+<li>If <code>5 ≤ 1</code> would be non-empty, all its elements would look like <code>s≤s x</code> where <code>x : 4 ≤ 0</code>.
+<ul>
+<li><code>z≤n</code> yields an element in <code>0 ≤ n</code> and <code>0</code> ≠ <code>5</code>.</li>
+</ul></li>
+<li><code>4 ≤ 0</code> is empty.
+<ul>
+<li><code>z≤n</code> yields an element in <code>0 ≤ n</code> and <code>0</code> ≠ <code>4</code>.</li>
+<li><code>s≤s</code> yields an element in <code>suc m ≤ suc n</code> and <code>suc n</code> ≠ <code>0</code>.</li>
+</ul></li>
+</ol>
+<p>Although we will discuss all the details later here we have a look at how can this chain of inference be given in Agda:*</p>
+<p><pre
+><a name="3935"
+  >
+</a
+  ><a name="3950" href="Sets.Propositions.html#3950" class="Function"
+  >7&#8816;3</a
+  ><a name="3953"
+  > </a
+  ><a name="3954" class="Symbol"
+  >:</a
+  ><a name="3955"
+  > </a
+  ><a name="3956" class="Number"
+  >7</a
+  ><a name="3957"
+  > </a
+  ><a name="3958" href="Sets.Propositions.html#2044" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="3959"
+  > </a
+  ><a name="3960" class="Number"
+  >3</a
+  ><a name="3961"
+  > </a
+  ><a name="3962" class="Symbol"
+  >&#8594;</a
+  ><a name="3963"
+  > </a
+  ><a name="3964" href="Sets.Propositions.html#732" class="Datatype"
+  >&#8869;</a
+  ><a name="3965"
+  >
+</a
+  ><a name="3966" href="Sets.Propositions.html#3950" class="Function"
+  >7&#8816;3</a
+  ><a name="3969"
+  > </a
+  ><a name="3970" class="Symbol"
+  >(</a
+  ><a name="3971" href="Sets.Propositions.html#2120" class="InductiveConstructor"
+  >s&#8804;s</a
+  ><a name="3974"
+  > </a
+  ><a name="3975" class="Symbol"
+  >(</a
+  ><a name="3976" href="Sets.Propositions.html#2120" class="InductiveConstructor"
+  >s&#8804;s</a
+  ><a name="3979"
+  > </a
+  ><a name="3980" class="Symbol"
+  >(</a
+  ><a name="3981" href="Sets.Propositions.html#2120" class="InductiveConstructor"
+  >s&#8804;s</a
+  ><a name="3984"
+  > </a
+  ><a name="3985" class="Symbol"
+  >())))</a
+  ></pre
+></p>
+<ul>
+<li><code>()</code> denotes a value in a trivially empty set.</li>
+</ul>
+<p><em>Exercise:</em> prove that <code>4 ≤ 2</code> is empty!</p>
+<p>We can use an emptiness proof in another emptiness proof:</p>
+<p><pre
+><a name="4154"
+  >
+</a
+  ><a name="4169" href="Sets.Propositions.html#4169" class="Function"
+  >8&#8816;4</a
+  ><a name="4172"
+  > </a
+  ><a name="4173" class="Symbol"
+  >:</a
+  ><a name="4174"
+  > </a
+  ><a name="4175" class="Number"
+  >8</a
+  ><a name="4176"
+  > </a
+  ><a name="4177" href="Sets.Propositions.html#2044" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="4178"
+  > </a
+  ><a name="4179" class="Number"
+  >4</a
+  ><a name="4180"
+  > </a
+  ><a name="4181" class="Symbol"
+  >&#8594;</a
+  ><a name="4182"
+  > </a
+  ><a name="4183" href="Sets.Propositions.html#732" class="Datatype"
+  >&#8869;</a
+  ><a name="4184"
+  >
+</a
+  ><a name="4185" href="Sets.Propositions.html#4169" class="Function"
+  >8&#8816;4</a
+  ><a name="4188"
+  > </a
+  ><a name="4189" class="Symbol"
+  >(</a
+  ><a name="4190" href="Sets.Propositions.html#2120" class="InductiveConstructor"
+  >s&#8804;s</a
+  ><a name="4193"
+  > </a
+  ><a name="4194" href="Sets.Propositions.html#4194" class="Bound"
+  >x</a
+  ><a name="4195" class="Symbol"
+  >)</a
+  ><a name="4196"
+  > </a
+  ><a name="4197" class="Symbol"
+  >=</a
+  ><a name="4198"
+  > </a
+  ><a name="4199" href="Sets.Propositions.html#3950" class="Function"
+  >7&#8816;3</a
+  ><a name="4202"
+  > </a
+  ><a name="4203" href="Sets.Propositions.html#4194" class="Bound"
+  >x</a
+  ></pre
+></p>
+<ul>
+<li><code>x</code> is an arbitrary variable name.</li>
+</ul>
+<p><em>Question:</em> Guess what kind of code can be generated from emptiness proofs!</p>
+<hr />
+<p>*<code>7 ≤ 3 → ⊥</code> denotes a function from <code>7 ≤ 3</code> to <code>⊥</code> so we prove that <code>7 ≤ 3</code> is empty by giving a function which maps <code>7 ≤ 3</code> to a trivially empty set.<br />During the function definition we show that <code>7 ≤ 3</code> has no element so the function is defined.<br />We discuss functions in detail later.</p>
+<h1 id="exercises-1"><a href="#exercises-1">Exercises</a></h1>
+<ul>
+<li>Define an indexed set <code>_isDoubleOf_ : ℕ → ℕ → Set</code> such that <code>m isDoubleOf n</code> is non-empty iff <code>m</code> is the double of <code>n</code>!
+<ul>
+<li>Prove that <code>8 isDoubleOf 4</code> is non-empty!</li>
+<li>Prove that <code>9 isDoubleOf 4</code> is empty!</li>
+</ul></li>
+<li>Define an indexed set <code>Odd : ℕ → Set</code> such that <code>odd n</code> is non-empty iff <code>n</code> is odd!
+<ul>
+<li>Prove that <code>Odd 9</code> is non-empty!</li>
+<li>Prove that <code>Odd 8</code> is empty!</li>
+</ul></li>
+<li>Define <code>Even : ℕ → Set</code> and <code>Odd : ℕ → Set</code> mutually!</li>
+<li>Define equality <code>_≡_ : ℕ → ℕ → Set</code>!</li>
+<li>Define non-equality <code>_≠_ : ℕ → ℕ → Set</code>!</li>
+</ul>
+<!--
+| Equality on `ℕ`
+| ===============
+|
+| \begin{code}
+| data _≡₁_ : ℕ → ℕ → Set where --
+|   zz : zero ≡₁ zero --
+|   ss : {m n : ℕ} → m ≡₁ n → suc m ≡₁ suc n --
+| 
+| infix 4 _≡₁_ --
+| \end{code}
+| 
+| yields
+| 
+| ~~~~~~~~~~~~~~~~~ 
+| zz         : 0 ≡₁ 0
+| ss zz      : 1 ≡₁ 1
+| ss (ss zz) : 2 ≡₁ 2
+| ...
+| ~~~~~~~~~~~~~~~~~
+|
+| This is not isomorphic to ℕ.
+| 
+| *Exercises:*
+| 
+| Define the symmetry and transitivity of `_≡₁_`:
+| 
+| \begin{code}
+| ≡₁-sym : ∀ {n m} → n ≡₁ m → m ≡₁ n
+| ≡₁-sym zz = zz --
+| ≡₁-sym (ss y) = ss (≡₁-sym y) --
+| ≡₁-trans : ∀ a b c → a ≡₁ b → b ≡₁ c → a ≡₁ c
+| ≡₁-trans .0 .0 c zz b≡c = b≡c --
+| ≡₁-trans .(suc a) .(suc b) .(suc c) (ss {a} {b} a≡b) (ss {.b} {c} b≡c) = ss $ ≡₁-trans a b c a≡b b≡c --
+| -- (reflexivity will be defined on next slide)
+| \end{code}
+| 
+| Now we can define the antisymmetric property of `_≤_`:
+| 
+| \begin{code}
+| antisym : ∀ {m n} → m ≤ n → n ≤ m → m ≡₁ n
+| antisym z≤n z≤n = zz --
+| antisym (s≤s m≤n) (s≤s n≤m) = ss $ antisym m≤n n≤m --
+| \end{code}
+| 
+| \begin{code}
+| data _≠_ : ℕ → ℕ → Set where --
+|   z≠s : {n : ℕ}   →          zero ≠ suc n --
+|   s≠z : {n : ℕ}   →         suc n ≠ zero --
+|   s≠s : {m n : ℕ} → m ≠ n → suc m ≠ suc n --
+| 
+| data _isDoubleOf_ : ℕ → ℕ → Set where  --
+|   z : zero isDoubleOf zero --
+|   s : (m n : ℕ) → m isDoubleOf n → suc (suc m) isDoubleOf suc n --
+| 
+| 8isDoubleOf4 : 8 isDoubleOf 4 --
+| 8isDoubleOf4 = s 6 3 (s 4 2 (s 2 1 (s 0 0 z))) --
+| 
+| 9isDoubleOf4 : 9 isDoubleOf 4 → ⊥ --
+| 9isDoubleOf4 (s .7 .3 (s .5 .2 (s .3 .1 (s .1 .0 ()))))  --
+| \end{code}
+-->
+
+<h1 id="alternative-representation"><a href="#alternative-representation">Alternative representation</a></h1>
+<p><pre
+><a name="6807"
+  >
+</a
+  ><a name="6822" class="Keyword"
+  >data</a
+  ><a name="6826"
+  > </a
+  ><a name="6827" href="Sets.Propositions.html#6827" class="Datatype Operator"
+  >_&#8804;&#8242;_</a
+  ><a name="6831"
+  > </a
+  ><a name="6832" class="Symbol"
+  >:</a
+  ><a name="6833"
+  > </a
+  ><a name="6834" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="6835"
+  > </a
+  ><a name="6836" class="Symbol"
+  >&#8594;</a
+  ><a name="6837"
+  > </a
+  ><a name="6838" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="6839"
+  > </a
+  ><a name="6840" class="Symbol"
+  >&#8594;</a
+  ><a name="6841"
+  > </a
+  ><a name="6842" class="PrimitiveType"
+  >Set</a
+  ><a name="6845"
+  > </a
+  ><a name="6846" class="Keyword"
+  >where</a
+  ><a name="6851"
+  >
+  </a
+  ><a name="6854" href="Sets.Propositions.html#6854" class="InductiveConstructor"
+  >&#8804;&#8242;-refl</a
+  ><a name="6861"
+  > </a
+  ><a name="6862" class="Symbol"
+  >:</a
+  ><a name="6863"
+  > </a
+  ><a name="6864" class="Symbol"
+  >{</a
+  ><a name="6865" href="Sets.Propositions.html#6865" class="Bound"
+  >m</a
+  ><a name="6866"
+  > </a
+  ><a name="6867" class="Symbol"
+  >:</a
+  ><a name="6868"
+  > </a
+  ><a name="6869" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="6870" class="Symbol"
+  >}</a
+  ><a name="6871"
+  > </a
+  ><a name="6872" class="Symbol"
+  >&#8594;</a
+  ><a name="6873"
+  >                       </a
+  ><a name="6896" href="Sets.Propositions.html#6865" class="Bound"
+  >m</a
+  ><a name="6897"
+  > </a
+  ><a name="6898" href="Sets.Propositions.html#6827" class="Datatype Operator"
+  >&#8804;&#8242;</a
+  ><a name="6900"
+  > </a
+  ><a name="6901" href="Sets.Propositions.html#6865" class="Bound"
+  >m</a
+  ><a name="6902"
+  >
+  </a
+  ><a name="6905" href="Sets.Propositions.html#6905" class="InductiveConstructor"
+  >&#8804;&#8242;-step</a
+  ><a name="6912"
+  > </a
+  ><a name="6913" class="Symbol"
+  >:</a
+  ><a name="6914"
+  > </a
+  ><a name="6915" class="Symbol"
+  >{</a
+  ><a name="6916" href="Sets.Propositions.html#6916" class="Bound"
+  >m</a
+  ><a name="6917"
+  > </a
+  ><a name="6918" class="Symbol"
+  >:</a
+  ><a name="6919"
+  > </a
+  ><a name="6920" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="6921" class="Symbol"
+  >}</a
+  ><a name="6922"
+  > </a
+  ><a name="6923" class="Symbol"
+  >&#8594;</a
+  ><a name="6924"
+  > </a
+  ><a name="6925" class="Symbol"
+  >{</a
+  ><a name="6926" href="Sets.Propositions.html#6926" class="Bound"
+  >n</a
+  ><a name="6927"
+  > </a
+  ><a name="6928" class="Symbol"
+  >:</a
+  ><a name="6929"
+  > </a
+  ><a name="6930" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="6931" class="Symbol"
+  >}</a
+  ><a name="6932"
+  > </a
+  ><a name="6933" class="Symbol"
+  >&#8594;</a
+  ><a name="6934"
+  >  </a
+  ><a name="6936" href="Sets.Propositions.html#6916" class="Bound"
+  >m</a
+  ><a name="6937"
+  > </a
+  ><a name="6938" href="Sets.Propositions.html#6827" class="Datatype Operator"
+  >&#8804;&#8242;</a
+  ><a name="6940"
+  > </a
+  ><a name="6941" href="Sets.Propositions.html#6926" class="Bound"
+  >n</a
+  ><a name="6942"
+  >  </a
+  ><a name="6944" class="Symbol"
+  >&#8594;</a
+  ><a name="6945"
+  >  </a
+  ><a name="6947" href="Sets.Propositions.html#6916" class="Bound"
+  >m</a
+  ><a name="6948"
+  > </a
+  ><a name="6949" href="Sets.Propositions.html#6827" class="Datatype Operator"
+  >&#8804;&#8242;</a
+  ><a name="6951"
+  > </a
+  ><a name="6952" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="6955"
+  > </a
+  ><a name="6956" href="Sets.Propositions.html#6926" class="Bound"
+  >n</a
+  ><a name="6957"
+  >
+
+</a
+  ><a name="6959" class="Keyword"
+  >infix</a
+  ><a name="6964"
+  > </a
+  ><a name="6965" class="Number"
+  >4</a
+  ><a name="6966"
+  > _&#8804;&#8242;_</a
+  ></pre
+></p>
+<p>yields</p>
+<pre><code>≤′-refl : 0 ≤ 0
+≤′-step ≤′-refl : 0 ≤ 1
+≤′-step (≤′-step ≤′-refl) : 0 ≤ 2
+...
+≤′-refl : 1 ≤ 1
+≤′-step ≤′-refl : 1 ≤ 2
+≤′-step (≤′-step ≤′-refl) : 1 ≤ 3
+...
+≤′-refl : 2 ≤ 2
+≤′-step ≤′-refl : 2 ≤ 3
+≤′-step (≤′-step ≤′-refl) : 2 ≤ 4
+...
+...</code></pre>
+<p>As with <code>ℕ</code> and <code>ℕ₂</code>,</p>
+<ul>
+<li>the structure of the <code>m ≤ n</code> and <code>m ≤′ n</code> set elements are different</li>
+<li>different representations are good for different tasks</li>
+</ul>
+<!--
+| Alternative Definition
+| ========
+| 
+| \begin{code}
+| data _≤′_ (m : ℕ) : ℕ → Set where
+|   ≤′-refl :                    m ≤′ m
+|   ≤′-step : {n : ℕ} → m ≤′ n → m ≤′ suc n
+| 
+| infix 4 _≤′_
+| \end{code}
+| 
+| Other alternative definition:
+| 
+| \begin{code}
+| data  _≤″_ : ℕ → ℕ → Set  where
+|    diff : (i j : ℕ) → i ≤″ j + i
+| 
+| infix 4 _≤″_
+| \end{code}
+| 
+| *Exercise:*
+| 
+| Explore the elements of sets `_≤′_` and `_≤″_`!
+| 
+| 
+| Rationale behind different definitions
+| ======================================
+| 
+| *Exercise:*
+| 
+| Define the following functions:
+| 
+| \begin{code}
+| 3≤5  : 3 ≤ 5
+| 3≤5 = s≤s (s≤s (s≤s (z≤n (suc (suc zero))))) --
+| 3≤′5 : 3 ≤′ 5
+| 3≤′5 = ≤′-step (≤′-step ≤′-refl) --
+| 3≤″5 : 3 ≤″ 5
+| 3≤″5 = diff (suc (suc (suc zero))) (suc (suc zero)) --
+| 
+| 4≤4  : 4 ≤ 4
+| 4≤4 = s≤s (s≤s (s≤s (s≤s (z≤n zero)))) --
+| 4≤′4 : 4 ≤′ 4
+| 4≤′4 = ≤′-refl --
+| 4≤″4 : 4 ≤″ 4
+| 4≤″4 = diff (suc (suc (suc (suc zero)))) zero --
+| \end{code}
+| 
+| 
+| Define safe substraction:
+| 
+| \begin{code}
+| _∸_if_ : (a b : ℕ) → b ≤ a → ℕ
+| zero ∸ .0     if z≤n .0       = 0 --
+| suc a ∸ zero  if z≤n .(suc a) = suc a --
+| suc a ∸ suc b if s≤s p        = a ∸ b if p --
+| \end{code}
+| 
+| Let's define it for the third version:
+| 
+| \begin{code}
+| _∸_if″_ : (a b : ℕ) → b ≤″ a → ℕ
+| .(j + b) ∸ b if″ diff .b j = j --
+| \end{code}
+| 
+| 
+| 
+| Exercises
+| =============
+| 
+| Define the following (helper and) conversion functions:
+| 
+| \begin{code}
+| ≤-step : ∀ {m n} → m ≤ n → m ≤ 1 + n
+| ≤-step (z≤n _)   = z≤n (suc _) --
+| ≤-step (s≤s m≤n) = s≤s (≤-step m≤n) --
+| ≤′⇒≤ : ∀ {a b} → a ≤′ b → a ≤ b
+| ≤′⇒≤ ≤′-refl        = ≤-refl --
+| ≤′⇒≤ (≤′-step m≤′n) = ≤-step $ ≤′⇒≤ m≤′n --
+| 
+| z≤′n : ∀ {n} → zero ≤′ n
+| z≤′n {zero}  = ≤′-refl --
+| z≤′n {suc n} = ≤′-step z≤′n --
+| s≤′s : ∀ {m n} → m ≤′ n → suc m ≤′ suc n
+| s≤′s ≤′-refl        = ≤′-refl --
+| s≤′s (≤′-step m≤′n) = ≤′-step (s≤′s m≤′n) --
+| ≤⇒≤′ : ∀ {a b} → a ≤ b → a ≤′ b
+| ≤⇒≤′ (z≤n _)   = z≤′n --
+| ≤⇒≤′ (s≤s a≤b) = s≤′s $ ≤⇒≤′ a≤b --
+| \end{code}
+-->
+
+
+<h1 id="syntactic-abbreviations"><a href="#syntactic-abbreviations">Syntactic abbreviations</a></h1>
+<p>All code on this slide is valid.</p>
+<p>Original definition:</p>
+<pre><code>data  _≤_ : ℕ → ℕ → Set where
+  z≤n : {n : ℕ} →                       zero  ≤ n
+  s≤s : {m : ℕ} → {n : ℕ} →   m ≤ n  →  suc m ≤ suc n</code></pre>
+<p>The arrows between typed variables are not needed (also in case of round parenthesis):</p>
+<pre><code>data  _≤_ : ℕ → ℕ → Set where
+  z≤n : {n : ℕ} →                     zero  ≤ n
+  s≤s : {m : ℕ} {n : ℕ} →   m ≤ n  →  suc m ≤ suc n</code></pre>
+<p>Typed variables with the same type can be contracted (also in case of round parenthesis):</p>
+<pre><code>data  _≤_ : ℕ → ℕ → Set where
+  z≤n : {n : ℕ} →               zero  ≤ n
+  s≤s : {m n : ℕ} →   m ≤ n  →  suc m ≤ suc n</code></pre>
+<p>Inferable expressions can be replaced by an underscore:</p>
+<pre><code>data  _≤_ : ℕ → ℕ → Set where
+  z≤n : {n : _} →               zero  ≤ n
+  s≤s : {m n : _} →   m ≤ n  →  suc m ≤ suc n</code></pre>
+<p>Variables with inferred types can be introduced by <code>∀</code>:</p>
+<pre><code>data  _≤_ : ℕ → ℕ → Set where
+  z≤n : ∀ {n} →               zero  ≤ n
+  s≤s : ∀ {m n} →   m ≤ n  →  suc m ≤ suc n</code></pre>
+<h1 id="addition-predicate"><a href="#addition-predicate"><code>_+_≡_</code>: Addition predicate</a></h1>
+<p>We wish to give a definition which yields the infinite set of true propositions</p>
+<pre><code>0 + 0 ≡ 0,  1 + 0 ≡ 1,  2 + 0 ≡ 2,  ...
+0 + 1 ≡ 1,  1 + 1 ≡ 2,  2 + 1 ≡ 3,  ...
+0 + 2 ≡ 2,  1 + 2 ≡ 3,  2 + 2 ≡ 4,  ...
+...</code></pre>
+<p>The outline of the solution:</p>
+<pre><code>(n : ℕ)                        zero  + n ≡ n     -- yields the first column of statements
+(m : ℕ) (n : ℕ)  m + n ≡ k  →  suc m + n ≡ suc k -- yields the successive columns of statements</code></pre>
+<p>Technical details of the solution<br />(nothing new but better to repeat):</p>
+<ul>
+<li>We define the <em>set</em> <code>n + m ≡ k</code> for each <code>n : ℕ</code>, <code>m : ℕ</code> and <code>k : ℕ</code>.<br /> (<code>2 + 2 ≡ 5</code> is a valid set too.)</li>
+<li>The set <code>n + m ≡ k</code> will be non-empty iff <code>n</code> + <code>m</code> = <code>k</code>.<br /> (<code>2 + 2 ≡ 4</code> is non-empty, <code>2 + 2 ≡ 5</code> is empty.)</li>
+</ul>
+<h1 id="definition-of-___"><a href="#definition-of-___">Definition of <code>_+_≡_</code></a></h1>
+<p><code>_+_≡_</code> is an indexed set with three natural number indices and with two constructors:*</p>
+<p><pre
+><a name="11553"
+  >
+</a
+  ><a name="11568" class="Keyword"
+  >data</a
+  ><a name="11572"
+  > </a
+  ><a name="11573" href="Sets.Propositions.html#11573" class="Datatype Operator"
+  >_+_&#8801;_</a
+  ><a name="11578"
+  > </a
+  ><a name="11579" class="Symbol"
+  >:</a
+  ><a name="11580"
+  > </a
+  ><a name="11581" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="11582"
+  > </a
+  ><a name="11583" class="Symbol"
+  >&#8594;</a
+  ><a name="11584"
+  > </a
+  ><a name="11585" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="11586"
+  > </a
+  ><a name="11587" class="Symbol"
+  >&#8594;</a
+  ><a name="11588"
+  > </a
+  ><a name="11589" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="11590"
+  > </a
+  ><a name="11591" class="Symbol"
+  >&#8594;</a
+  ><a name="11592"
+  > </a
+  ><a name="11593" class="PrimitiveType"
+  >Set</a
+  ><a name="11596"
+  > </a
+  ><a name="11597" class="Keyword"
+  >where</a
+  ><a name="11602"
+  >
+  </a
+  ><a name="11605" href="Sets.Propositions.html#11605" class="InductiveConstructor"
+  >znn</a
+  ><a name="11608"
+  > </a
+  ><a name="11609" class="Symbol"
+  >:</a
+  ><a name="11610"
+  > </a
+  ><a name="11611" class="Symbol"
+  >&#8704;</a
+  ><a name="11612"
+  > </a
+  ><a name="11613" class="Symbol"
+  >{</a
+  ><a name="11614" href="Sets.Propositions.html#11614" class="Bound"
+  >n</a
+  ><a name="11615" class="Symbol"
+  >}</a
+  ><a name="11616"
+  > </a
+  ><a name="11617" class="Symbol"
+  >&#8594;</a
+  ><a name="11618"
+  > </a
+  ><a name="11619" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="11623"
+  > </a
+  ><a name="11624" href="Sets.Propositions.html#11573" class="Datatype Operator"
+  >+</a
+  ><a name="11625"
+  > </a
+  ><a name="11626" href="Sets.Propositions.html#11614" class="Bound"
+  >n</a
+  ><a name="11627"
+  > </a
+  ><a name="11628" href="Sets.Propositions.html#11573" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="11629"
+  > </a
+  ><a name="11630" href="Sets.Propositions.html#11614" class="Bound"
+  >n</a
+  ><a name="11631"
+  >
+  </a
+  ><a name="11634" href="Sets.Propositions.html#11634" class="InductiveConstructor"
+  >sns</a
+  ><a name="11637"
+  > </a
+  ><a name="11638" class="Symbol"
+  >:</a
+  ><a name="11639"
+  > </a
+  ><a name="11640" class="Symbol"
+  >&#8704;</a
+  ><a name="11641"
+  > </a
+  ><a name="11642" class="Symbol"
+  >{</a
+  ><a name="11643" href="Sets.Propositions.html#11643" class="Bound"
+  >m</a
+  ><a name="11644"
+  > </a
+  ><a name="11645" href="Sets.Propositions.html#11645" class="Bound"
+  >n</a
+  ><a name="11646"
+  > </a
+  ><a name="11647" href="Sets.Propositions.html#11647" class="Bound"
+  >k</a
+  ><a name="11648" class="Symbol"
+  >}</a
+  ><a name="11649"
+  > </a
+  ><a name="11650" class="Symbol"
+  >&#8594;</a
+  ><a name="11651"
+  > </a
+  ><a name="11652" href="Sets.Propositions.html#11643" class="Bound"
+  >m</a
+  ><a name="11653"
+  > </a
+  ><a name="11654" href="Sets.Propositions.html#11573" class="Datatype Operator"
+  >+</a
+  ><a name="11655"
+  > </a
+  ><a name="11656" href="Sets.Propositions.html#11645" class="Bound"
+  >n</a
+  ><a name="11657"
+  > </a
+  ><a name="11658" href="Sets.Propositions.html#11573" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="11659"
+  > </a
+  ><a name="11660" href="Sets.Propositions.html#11647" class="Bound"
+  >k</a
+  ><a name="11661"
+  > </a
+  ><a name="11662" class="Symbol"
+  >&#8594;</a
+  ><a name="11663"
+  > </a
+  ><a name="11664" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="11667"
+  > </a
+  ><a name="11668" href="Sets.Propositions.html#11643" class="Bound"
+  >m</a
+  ><a name="11669"
+  > </a
+  ><a name="11670" href="Sets.Propositions.html#11573" class="Datatype Operator"
+  >+</a
+  ><a name="11671"
+  > </a
+  ><a name="11672" href="Sets.Propositions.html#11645" class="Bound"
+  >n</a
+  ><a name="11673"
+  > </a
+  ><a name="11674" href="Sets.Propositions.html#11573" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="11675"
+  > </a
+  ><a name="11676" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="11679"
+  > </a
+  ><a name="11680" href="Sets.Propositions.html#11647" class="Bound"
+  >k</a
+  ></pre
+></p>
+<p>which yields the statements</p>
+<pre><code>znn : 0 + 0 ≡ 0
+znn : 0 + 1 ≡ 1
+znn : 0 + 2 ≡ 2
+...
+sns znn : 1 + 0 ≡ 1
+sns znn : 1 + 1 ≡ 2
+sns znn : 1 + 2 ≡ 3
+...
+sns (sns znn) : 2 + 0 ≡ 2
+sns (sns znn) : 2 + 1 ≡ 3
+sns (sns znn) : 2 + 2 ≡ 4
+...
+...</code></pre>
+<p>Notes</p>
+<ul>
+<li>Underscores in <code>_+_≡_</code> denote the space for the operands (mixfix notation).</li>
+</ul>
+<hr />
+<p>*this is the same as</p>
+<pre><code>data _+_≡_ : ℕ → ℕ → ℕ → Set where
+  znn : {n : ℕ} → zero + n ≡ n
+  sns : {m : ℕ} → {n : ℕ} → m + n ≡ k → suc m + n ≡ suc k</code></pre>
+<h1 id="exercises-2"><a href="#exercises-2">Exercises</a></h1>
+<ul>
+<li>Prove that 5 + 5 = 10!</li>
+<li>Prove that 2 + 2 ≠ 5!</li>
+</ul>
+<h1 id="exercises-3"><a href="#exercises-3">Exercises</a></h1>
+<ul>
+<li>Define <code>_⊓_ : ℕ → ℕ → Set</code> such that <code>n ⊓ m ≡ k</code> iff <code>k</code> is the minimum of <code>n</code> and <code>m</code>!
+<ul>
+<li>Prove that <code>3 ⊓ 5 ≡ 3</code> is non-empty!</li>
+<li>Prove that <code>3 ⊓ 5 ≡ 5</code> is empty!</li>
+</ul></li>
+<li>Define <code>_⊔_ : ℕ → ℕ → Set</code> such that <code>n ⊔ m ≡ k</code> iff <code>k</code> is the maximum of <code>n</code> and <code>m</code>!
+<ul>
+<li>Prove that <code>3 ⊔ 5 ≡ 5</code> is non-empty!</li>
+<li>Prove that <code>3 ⊔ 5 ≡ 3</code> is empty!</li>
+</ul></li>
+</ul>
+<h1 id="definition-reuse"><a href="#definition-reuse">Definition reuse</a></h1>
+<p>Another definition of <code>_≤_</code>:</p>
+<p><pre
+><a name="12887"
+  >
+</a
+  ><a name="12902" class="Keyword"
+  >data</a
+  ><a name="12906"
+  > </a
+  ><a name="12907" href="Sets.Propositions.html#12907" class="Datatype Operator"
+  >_&#8804;&#8243;_</a
+  ><a name="12911"
+  > </a
+  ><a name="12912" class="Symbol"
+  >:</a
+  ><a name="12913"
+  > </a
+  ><a name="12914" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="12915"
+  > </a
+  ><a name="12916" class="Symbol"
+  >&#8594;</a
+  ><a name="12917"
+  > </a
+  ><a name="12918" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="12919"
+  > </a
+  ><a name="12920" class="Symbol"
+  >&#8594;</a
+  ><a name="12921"
+  > </a
+  ><a name="12922" class="PrimitiveType"
+  >Set</a
+  ><a name="12925"
+  > </a
+  ><a name="12926" class="Keyword"
+  >where</a
+  ><a name="12931"
+  >
+  </a
+  ><a name="12934" href="Sets.Propositions.html#12934" class="InductiveConstructor"
+  >&#8804;+</a
+  ><a name="12936"
+  > </a
+  ><a name="12937" class="Symbol"
+  >:</a
+  ><a name="12938"
+  > </a
+  ><a name="12939" class="Symbol"
+  >&#8704;</a
+  ><a name="12940"
+  > </a
+  ><a name="12941" class="Symbol"
+  >{</a
+  ><a name="12942" href="Sets.Propositions.html#12942" class="Bound"
+  >m</a
+  ><a name="12943"
+  > </a
+  ><a name="12944" href="Sets.Propositions.html#12944" class="Bound"
+  >n</a
+  ><a name="12945"
+  > </a
+  ><a name="12946" href="Sets.Propositions.html#12946" class="Bound"
+  >k</a
+  ><a name="12947" class="Symbol"
+  >}</a
+  ><a name="12948"
+  > </a
+  ><a name="12949" class="Symbol"
+  >&#8594;</a
+  ><a name="12950"
+  > </a
+  ><a name="12951" href="Sets.Propositions.html#12942" class="Bound"
+  >m</a
+  ><a name="12952"
+  > </a
+  ><a name="12953" href="Sets.Propositions.html#11573" class="Datatype Operator"
+  >+</a
+  ><a name="12954"
+  > </a
+  ><a name="12955" href="Sets.Propositions.html#12944" class="Bound"
+  >n</a
+  ><a name="12956"
+  > </a
+  ><a name="12957" href="Sets.Propositions.html#11573" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="12958"
+  > </a
+  ><a name="12959" href="Sets.Propositions.html#12946" class="Bound"
+  >k</a
+  ><a name="12960"
+  > </a
+  ><a name="12961" class="Symbol"
+  >&#8594;</a
+  ><a name="12962"
+  > </a
+  ><a name="12963" href="Sets.Propositions.html#12942" class="Bound"
+  >m</a
+  ><a name="12964"
+  > </a
+  ><a name="12965" href="Sets.Propositions.html#12907" class="Datatype Operator"
+  >&#8804;&#8243;</a
+  ><a name="12967"
+  > </a
+  ><a name="12968" href="Sets.Propositions.html#12946" class="Bound"
+  >k</a
+  ></pre
+></p>
+<p>which yields</p>
+<pre><code>≤+ znn : 0 ≤″ 0
+≤+ znn : 0 ≤″ 1
+≤+ znn : 0 ≤″ 2
+...
+≤+ (sns znn) : 1 ≤″ 1
+≤+ (sns znn) : 1 ≤″ 2
+≤+ (sns znn) : 1 ≤″ 3
+...
+≤+ (sns (sns znn)) : 2 ≤″ 2
+≤+ (sns (sns znn)) : 2 ≤″ 3
+≤+ (sns (sns znn)) : 2 ≤″ 4
+...
+...</code></pre>
+<p>Notes</p>
+<ul>
+<li>This representation of less-than-or-equal is similar to <code>_≤_</code>.</li>
+<li>If we write <code>≤+ : ∀ {m n k} → m + n ≡ k → n ≤″ k</code> (use <code>n</code> instead of <code>m</code> at the end) we get a representation of less-than-or-equal similar to <code>_≤′_</code> on the previous slides.</li>
+</ul>
+<h1 id="exercises-4"><a href="#exercises-4">Exercises</a></h1>
+<ul>
+<li>Define <code>_isDoubleOf_ : ℕ → ℕ → Set</code> on top of <code>_+_≡_</code>!
+<ul>
+<li>Prove that <code>8 isDoubleOf 4</code> is non-empty!</li>
+<li>Prove that <code>9 isDoubleOf 4</code> is empty!</li>
+</ul></li>
+<li>Define <code>_*_≡_ : ℕ → ℕ → Set</code> with the help of <code>_+_≡_</code>!
+<ul>
+<li>Prove that <code>3 * 3 ≡ 9</code> is non-empty!</li>
+<li>Prove that <code>3 * 3 ≡ 8</code> is empty!</li>
+</ul></li>
+<li>Define <code>_≈_ : ℕ → ℕ⁺ → Set</code> which represents the (canonical) isomorphism between <code>ℕ</code> and <code>ℕ⁺</code>!*
+<ul>
+<li>Prove that <code>5 ≈ double+1 (double one)</code> is non-empty!</li>
+<li>Prove that <code>4 ≈ double+1 (double one)</code> is empty!</li>
+</ul></li>
+</ul>
+<hr />
+<p>*There are lots of isomorphisms between <code>ℕ</code> and <code>ℕ⁺</code>, we mean here the most natural one.</p>
+</body>
+</html>

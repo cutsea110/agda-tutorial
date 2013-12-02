@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Infix Notation</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Infix Notation</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#infix-notation">Infix notation</a></li>
+</ul>
+</div>
+<p><pre
+><a name="17"
+  >
+</a
+  ><a name="32" class="Keyword"
+  >module</a
+  ><a name="38"
+  > </a
+  ><a name="39" href="Syntax.Infix.html#1" class="Module"
+  >Syntax.Infix</a
+  ><a name="51"
+  > </a
+  ><a name="52" class="Keyword"
+  >where</a
+  ><a name="57"
+  >
+
+</a
+  ><a name="59" class="Keyword"
+  >open</a
+  ><a name="63"
+  > </a
+  ><a name="64" class="Keyword"
+  >import</a
+  ><a name="70"
+  > </a
+  ><a name="71" href="Sets.Enumerated.html#1" class="Module"
+  >Sets.Enumerated</a
+  ><a name="86"
+  > </a
+  ><a name="87" class="Keyword"
+  >using</a
+  ><a name="92"
+  > </a
+  ><a name="93" class="Symbol"
+  >(</a
+  ><a name="94"
+  >Bool</a
+  ><a name="98" class="Symbol"
+  >;</a
+  ><a name="99"
+  > true</a
+  ><a name="104" class="Symbol"
+  >;</a
+  ><a name="105"
+  > false</a
+  ><a name="111" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="infix-notation"><a href="#infix-notation">Infix notation</a></h1>
+<p><pre
+><a name="155"
+  >
+</a
+  ><a name="170" class="Keyword"
+  >data</a
+  ><a name="174"
+  > </a
+  ><a name="175" href="Syntax.Infix.html#175" class="Datatype"
+  >BinTree'</a
+  ><a name="183"
+  > </a
+  ><a name="184" class="Symbol"
+  >:</a
+  ><a name="185"
+  > </a
+  ><a name="186" class="PrimitiveType"
+  >Set</a
+  ><a name="189"
+  > </a
+  ><a name="190" class="Keyword"
+  >where</a
+  ><a name="195"
+  >
+  </a
+  ><a name="198" href="Syntax.Infix.html#198" class="InductiveConstructor"
+  >x</a
+  ><a name="199"
+  > </a
+  ><a name="200" class="Symbol"
+  >:</a
+  ><a name="201"
+  > </a
+  ><a name="202" href="Syntax.Infix.html#175" class="Datatype"
+  >BinTree'</a
+  ><a name="210"
+  >
+  </a
+  ><a name="213" href="Syntax.Infix.html#213" class="InductiveConstructor Operator"
+  >_+_</a
+  ><a name="216"
+  > </a
+  ><a name="217" class="Symbol"
+  >:</a
+  ><a name="218"
+  > </a
+  ><a name="219" href="Syntax.Infix.html#175" class="Datatype"
+  >BinTree'</a
+  ><a name="227"
+  > </a
+  ><a name="228" class="Symbol"
+  >&#8594;</a
+  ><a name="229"
+  > </a
+  ><a name="230" href="Syntax.Infix.html#175" class="Datatype"
+  >BinTree'</a
+  ><a name="238"
+  > </a
+  ><a name="239" class="Symbol"
+  >&#8594;</a
+  ><a name="240"
+  > </a
+  ><a name="241" href="Syntax.Infix.html#175" class="Datatype"
+  >BinTree'</a
+  ></pre
+></p>
+<p>yields</p>
+<pre><code>BinTree&#39; : Set
+x : BinTree&#39;
+x + x : BinTree&#39;
+(x + x) + x : BinTree&#39;
+x + (x + x) : BinTree&#39;
+(x + x) + (x + x) : BinTree&#39;
+...</code></pre>
+<p>Underscores in names like <code>_+_</code> denote the space for the operands.</p>
+<p>One can give the precedence with <code>infix</code>, <code>infixl</code> or <code>infixr</code>:</p>
+<p><pre
+><a name="565"
+  >
+</a
+  ><a name="580" class="Keyword"
+  >infixr</a
+  ><a name="586"
+  > </a
+  ><a name="587" class="Number"
+  >3</a
+  ><a name="588"
+  > _+_</a
+  ></pre
+></p>
+<p>yields</p>
+<pre><code>BinTree&#39; : Set
+x : BinTree&#39;
+x + x : BinTree&#39;
+(x + x) + x : BinTree&#39;
+x + x + x : BinTree&#39;
+(x + x) + x + x : BinTree&#39;
+...</code></pre>
+<p>(so <code>_+_</code> has right precedence)</p>
+</body>
+</html>

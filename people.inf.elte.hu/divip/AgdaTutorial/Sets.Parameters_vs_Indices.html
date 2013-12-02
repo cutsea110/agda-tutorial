@@ -1,0 +1,536 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Ambrus Kaposi &amp; Peter Divianszky" />
+  <title>Parameters vs. Indices</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Parameters vs. Indices</h1>
+<h2 class="author">Ambrus Kaposi &amp; Peter Divianszky</h2>
+<h3 class="date">2011. 10. 05.</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#import-list">Import List</a></li>
+<li><a href="#parameters-vs.-indices">Parameters vs. indices</a></li>
+<li><a href="#parameters-vs.-indices-2">Parameters vs. indices (2)</a></li>
+<li><a href="#general-equality-__">General equality: <code>_≡_</code></a></li>
+<li><a href="#proposition"><code>_∈_</code> proposition</a></li>
+<li><a href="#exercises">Exercises</a></li>
+</ul>
+</div>
+<p><pre
+><a name="76"
+  >
+</a
+  ><a name="91" class="Keyword"
+  >module</a
+  ><a name="97"
+  > </a
+  ><a name="98" href="Sets.Parameters_vs_Indices.html#1" class="Module"
+  >Sets.</a
+  ><a name="103" href="Sets.Parameters_vs_Indices.html#1" class="Module Operator"
+  >Parameters_vs_Indices</a
+  ><a name="124"
+  > </a
+  ><a name="125" class="Keyword"
+  >where</a
+  ></pre
+></p>
+<h1 id="import-list"><a href="#import-list">Import List</a></h1>
+<p><pre
+><a name="167"
+  >
+</a
+  ><a name="182" class="Keyword"
+  >open</a
+  ><a name="186"
+  > </a
+  ><a name="187" class="Keyword"
+  >import</a
+  ><a name="193"
+  > </a
+  ><a name="194" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="202"
+  > </a
+  ><a name="203" class="Keyword"
+  >using</a
+  ><a name="208"
+  > </a
+  ><a name="209" class="Symbol"
+  >(</a
+  ><a name="210"
+  >&#8469;</a
+  ><a name="211" class="Symbol"
+  >;</a
+  ><a name="212"
+  > zero</a
+  ><a name="217" class="Symbol"
+  >;</a
+  ><a name="218"
+  > suc</a
+  ><a name="222" class="Symbol"
+  >;</a
+  ><a name="223"
+  > _&#8804;_</a
+  ><a name="227" class="Symbol"
+  >;</a
+  ><a name="228"
+  > z&#8804;n</a
+  ><a name="232" class="Symbol"
+  >;</a
+  ><a name="233"
+  > s&#8804;s</a
+  ><a name="237" class="Symbol"
+  >)</a
+  ><a name="238"
+  >
+</a
+  ><a name="239" class="Keyword"
+  >open</a
+  ><a name="243"
+  > </a
+  ><a name="244" class="Keyword"
+  >import</a
+  ><a name="250"
+  > </a
+  ><a name="251" href="Data.List.html#1" class="Module"
+  >Data.List</a
+  ><a name="260"
+  > </a
+  ><a name="261" class="Keyword"
+  >using</a
+  ><a name="266"
+  > </a
+  ><a name="267" class="Symbol"
+  >(</a
+  ><a name="268"
+  >List</a
+  ><a name="272" class="Symbol"
+  >;</a
+  ><a name="273"
+  > []</a
+  ><a name="276" class="Symbol"
+  >;</a
+  ><a name="277"
+  > _&#8759;_</a
+  ><a name="281" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<!--
+| open import Data.Nat using (ℕ; zero; suc; _+_; _*_; _≤_; z≤n; s≤s)
+| open import Data.List using (List; []; _∷_; _++_)
+| open import Data.Unit using (⊤; tt)
+| open import Data.Product using (_×_; _,_)
+| open import Function using (_$_; _∘_)
+-->
+
+<h1 id="parameters-vs.-indices"><a href="#parameters-vs.-indices">Parameters vs. indices</a></h1>
+<p>The <em>first</em> index can be turned into a new parameter if each constructor has the same variable on the first index position (in the result type).</p>
+<p><strong>Example 1</strong></p>
+<pre><code>data _≤′_ : ℕ → ℕ → Set where
+  ≤′-refl : {m : ℕ} →                       m ≤′ m
+  ≤′-step : {m : ℕ} → {n : ℕ} →  m ≤′ n  →  m ≤′ suc n</code></pre>
+<p>is similar to</p>
+<pre><code>data _≤′_ (m : ℕ) : ℕ → Set where
+  ≤′-refl :                       m ≤′ m
+  ≤′-step : {n : ℕ} →  m ≤′ n  →  m ≤′ suc n</code></pre>
+<p><strong>Example 2</strong></p>
+<pre><code>data _≤″_ : ℕ → ℕ → Set where
+  ≤+ : ∀ {m n k} → m + n ≡ k → m ≤″ k</code></pre>
+<p>is similar to</p>
+<pre><code>data _≤″_ (m : ℕ) : ℕ → Set where
+  ≤+ : ∀ {n k} → m + n ≡ k → m ≤″ k</code></pre>
+<p>which is similar to</p>
+<pre><code>data _≤″_ (m : ℕ) (k : ℕ) : Set where
+  ≤+ : ∀ {n} → m + n ≡ k → m ≤″ k</code></pre>
+<p><strong>Design decision</strong></p>
+<p>A parameter instead of an index is always a better choice</p>
+<ul>
+<li>We state more about the structure of the set.*<br /> In turn, the Agda compiler can infer more properties of the set.**</li>
+<li>Cleaner syntax: each constructor has one parameter less.</li>
+</ul>
+<hr />
+<p>*The parameter can be fixed to get a simpler definition, for example</p>
+<pre><code>data 10≤′ : ℕ → Set where
+  10≤′-refl :                       10≤′ 10
+  10≤′-step : {n : ℕ} →  10≤′ n  →  10≤′ suc n</code></pre>
+<p>was made from <code>_≤′_</code> with a simple substitution which is possible with <code>_≤_</code>.</p>
+<p>**TODO: give examples.</p>
+<h1 id="parameters-vs.-indices-2"><a href="#parameters-vs.-indices-2">Parameters vs. indices (2)</a></h1>
+<p>The parameters of the set are present as implicit arguments in the constructors.</p>
+<p>TODO</p>
+<!--
+| A simpler definition
+| ====================
+| 
+| Motivation:
+| 
+| \begin{code}
+| ≡₁-refl : (a : ℕ) → a ≡₁ a
+| ≡₁-refl zero = zz
+| ≡₁-refl (suc n) = ss (≡₁-refl n)
+| \end{code}
+| 
+| Definition with reflexivity:
+| 
+| \begin{code}
+| data _≡₂_ (a : ℕ) : ℕ → Set where
+|   refl : a ≡₂ a
+| 
+| 
+| infix 4 _≡₂_
+| \end{code}
+| 
+| *Exercise*:
+| 
+| Create conversion functions between the two equalities:
+| 
+| \begin{code}
+| cong₂ : ∀ {a b} (f : ℕ → ℕ) → a ≡₂ b → f a ≡₂ f b -- helper function
+| cong₂ f refl = refl --
+| 1→2 : ∀ {a b} → a ≡₁ b → a ≡₂ b
+| 1→2 zz = refl --
+| 1→2 (ss a≡₁b) = cong₂ suc $ 1→2 a≡₁b --
+| 2→1 : ∀ a b → a ≡₂ b → a ≡₁ b
+| 2→1 zero .0 refl = zz --
+| 2→1 (suc n) .(suc n) refl = ss $ 2→1 n n refl --
+| \end{code}
+-->
+
+<h1 id="general-equality-__"><a href="#general-equality-__">General equality: <code>_≡_</code></a></h1>
+<p><pre
+><a name="2886"
+  >
+</a
+  ><a name="2901" class="Keyword"
+  >data</a
+  ><a name="2905"
+  >  </a
+  ><a name="2907" href="Sets.Parameters_vs_Indices.html#2907" class="Datatype Operator"
+  >_&#8801;_</a
+  ><a name="2910"
+  > </a
+  ><a name="2911" class="Symbol"
+  >{</a
+  ><a name="2912" href="Sets.Parameters_vs_Indices.html#2912" class="Bound"
+  >A</a
+  ><a name="2913"
+  > </a
+  ><a name="2914" class="Symbol"
+  >:</a
+  ><a name="2915"
+  > </a
+  ><a name="2916" class="PrimitiveType"
+  >Set</a
+  ><a name="2919" class="Symbol"
+  >}</a
+  ><a name="2920"
+  > </a
+  ><a name="2921" class="Symbol"
+  >(</a
+  ><a name="2922" href="Sets.Parameters_vs_Indices.html#2922" class="Bound"
+  >x</a
+  ><a name="2923"
+  > </a
+  ><a name="2924" class="Symbol"
+  >:</a
+  ><a name="2925"
+  > </a
+  ><a name="2926" href="Sets.Parameters_vs_Indices.html#2912" class="Bound"
+  >A</a
+  ><a name="2927" class="Symbol"
+  >)</a
+  ><a name="2928"
+  > </a
+  ><a name="2929" class="Symbol"
+  >:</a
+  ><a name="2930"
+  > </a
+  ><a name="2931" href="Sets.Parameters_vs_Indices.html#2912" class="Bound"
+  >A</a
+  ><a name="2932"
+  > </a
+  ><a name="2933" class="Symbol"
+  >&#8594;</a
+  ><a name="2934"
+  > </a
+  ><a name="2935" class="PrimitiveType"
+  >Set</a
+  ><a name="2938"
+  >  </a
+  ><a name="2940" class="Keyword"
+  >where</a
+  ><a name="2945"
+  >
+  </a
+  ><a name="2948" href="Sets.Parameters_vs_Indices.html#2948" class="InductiveConstructor"
+  >refl</a
+  ><a name="2952"
+  > </a
+  ><a name="2953" class="Symbol"
+  >:</a
+  ><a name="2954"
+  > </a
+  ><a name="2955" href="Sets.Parameters_vs_Indices.html#2922" class="Bound"
+  >x</a
+  ><a name="2956"
+  > </a
+  ><a name="2957" href="Sets.Parameters_vs_Indices.html#2907" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="2958"
+  > </a
+  ><a name="2959" href="Sets.Parameters_vs_Indices.html#2922" class="Bound"
+  >x</a
+  ><a name="2960"
+  >
+
+</a
+  ><a name="2962" class="Keyword"
+  >infix</a
+  ><a name="2967"
+  > </a
+  ><a name="2968" class="Number"
+  >4</a
+  ><a name="2969"
+  > _&#8801;_</a
+  ></pre
+></p>
+<p>yields</p>
+<pre><code>refl {ℕ} {0} : 0 ≡ 0
+refl {ℕ} {1} : 1 ≡ 1
+refl {ℕ} {2} : 2 ≡ 2
+...</code></pre>
+<p>so it represents equality!</p>
+<!--
+| *Examples:*
+| 
+| Set           1st,      2nd, 3rd, ...
+| ------------- --------- ---------------
+| `0 ≡ 0` = {   `refl {0}` }
+| `0 ≡ 1` = { }
+| `0 ≡ 2` = { }
+| ...                  
+| `1 ≡ 0` = { } 
+| `1 ≡ 1` = {   `refl {1}` }
+| `1 ≡ 2` = { }
+| ...                        
+| `2 ≡ 0` = { } 
+| `2 ≡ 1` = { }
+| `2 ≡ 2` = {   `refl {2}` }
+| ...           
+| ...           ...     
+| 
+| 
+-->
+
+<h1 id="proposition"><a href="#proposition"><code>_∈_</code> proposition</a></h1>
+<p>Another parametric definition:</p>
+<p><pre
+><a name="3588"
+  >
+</a
+  ><a name="3603" class="Keyword"
+  >data</a
+  ><a name="3607"
+  > </a
+  ><a name="3608" href="Sets.Parameters_vs_Indices.html#3608" class="Datatype Operator"
+  >_&#8712;_</a
+  ><a name="3611"
+  > </a
+  ><a name="3612" class="Symbol"
+  >{</a
+  ><a name="3613" href="Sets.Parameters_vs_Indices.html#3613" class="Bound"
+  >A</a
+  ><a name="3614"
+  > </a
+  ><a name="3615" class="Symbol"
+  >:</a
+  ><a name="3616"
+  > </a
+  ><a name="3617" class="PrimitiveType"
+  >Set</a
+  ><a name="3620" class="Symbol"
+  >}(</a
+  ><a name="3622" href="Sets.Parameters_vs_Indices.html#3622" class="Bound"
+  >x</a
+  ><a name="3623"
+  > </a
+  ><a name="3624" class="Symbol"
+  >:</a
+  ><a name="3625"
+  > </a
+  ><a name="3626" href="Sets.Parameters_vs_Indices.html#3613" class="Bound"
+  >A</a
+  ><a name="3627" class="Symbol"
+  >)</a
+  ><a name="3628"
+  > </a
+  ><a name="3629" class="Symbol"
+  >:</a
+  ><a name="3630"
+  > </a
+  ><a name="3631" href="Data.List.html#659" class="Datatype"
+  >List</a
+  ><a name="3635"
+  > </a
+  ><a name="3636" href="Sets.Parameters_vs_Indices.html#3613" class="Bound"
+  >A</a
+  ><a name="3637"
+  > </a
+  ><a name="3638" class="Symbol"
+  >&#8594;</a
+  ><a name="3639"
+  > </a
+  ><a name="3640" class="PrimitiveType"
+  >Set</a
+  ><a name="3643"
+  > </a
+  ><a name="3644" class="Keyword"
+  >where</a
+  ><a name="3649"
+  >
+  </a
+  ><a name="3652" href="Sets.Parameters_vs_Indices.html#3652" class="InductiveConstructor"
+  >first</a
+  ><a name="3657"
+  > </a
+  ><a name="3658" class="Symbol"
+  >:</a
+  ><a name="3659"
+  > </a
+  ><a name="3660" class="Symbol"
+  >&#8704;</a
+  ><a name="3661"
+  > </a
+  ><a name="3662" class="Symbol"
+  >{</a
+  ><a name="3663" href="Sets.Parameters_vs_Indices.html#3663" class="Bound"
+  >xs</a
+  ><a name="3665" class="Symbol"
+  >}</a
+  ><a name="3666"
+  > </a
+  ><a name="3667" class="Symbol"
+  >&#8594;</a
+  ><a name="3668"
+  > </a
+  ><a name="3669" href="Sets.Parameters_vs_Indices.html#3622" class="Bound"
+  >x</a
+  ><a name="3670"
+  > </a
+  ><a name="3671" href="Sets.Parameters_vs_Indices.html#3608" class="Datatype Operator"
+  >&#8712;</a
+  ><a name="3672"
+  > </a
+  ><a name="3673" href="Sets.Parameters_vs_Indices.html#3622" class="Bound"
+  >x</a
+  ><a name="3674"
+  > </a
+  ><a name="3675" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3676"
+  > </a
+  ><a name="3677" href="Sets.Parameters_vs_Indices.html#3663" class="Bound"
+  >xs</a
+  ><a name="3679"
+  >
+  </a
+  ><a name="3682" href="Sets.Parameters_vs_Indices.html#3682" class="InductiveConstructor"
+  >later</a
+  ><a name="3687"
+  > </a
+  ><a name="3688" class="Symbol"
+  >:</a
+  ><a name="3689"
+  > </a
+  ><a name="3690" class="Symbol"
+  >&#8704;</a
+  ><a name="3691"
+  > </a
+  ><a name="3692" class="Symbol"
+  >{</a
+  ><a name="3693" href="Sets.Parameters_vs_Indices.html#3693" class="Bound"
+  >y</a
+  ><a name="3694"
+  > </a
+  ><a name="3695" href="Sets.Parameters_vs_Indices.html#3695" class="Bound"
+  >xs</a
+  ><a name="3697" class="Symbol"
+  >}</a
+  ><a name="3698"
+  > </a
+  ><a name="3699" class="Symbol"
+  >&#8594;</a
+  ><a name="3700"
+  > </a
+  ><a name="3701" href="Sets.Parameters_vs_Indices.html#3622" class="Bound"
+  >x</a
+  ><a name="3702"
+  > </a
+  ><a name="3703" href="Sets.Parameters_vs_Indices.html#3608" class="Datatype Operator"
+  >&#8712;</a
+  ><a name="3704"
+  > </a
+  ><a name="3705" href="Sets.Parameters_vs_Indices.html#3695" class="Bound"
+  >xs</a
+  ><a name="3707"
+  > </a
+  ><a name="3708" class="Symbol"
+  >&#8594;</a
+  ><a name="3709"
+  > </a
+  ><a name="3710" href="Sets.Parameters_vs_Indices.html#3622" class="Bound"
+  >x</a
+  ><a name="3711"
+  > </a
+  ><a name="3712" href="Sets.Parameters_vs_Indices.html#3608" class="Datatype Operator"
+  >&#8712;</a
+  ><a name="3713"
+  > </a
+  ><a name="3714" href="Sets.Parameters_vs_Indices.html#3693" class="Bound"
+  >y</a
+  ><a name="3715"
+  > </a
+  ><a name="3716" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3717"
+  > </a
+  ><a name="3718" href="Sets.Parameters_vs_Indices.html#3695" class="Bound"
+  >xs</a
+  ><a name="3720"
+  >
+
+</a
+  ><a name="3722" class="Keyword"
+  >infix</a
+  ><a name="3727"
+  > </a
+  ><a name="3728" class="Number"
+  >4</a
+  ><a name="3729"
+  > _&#8712;_</a
+  ></pre
+></p>
+<h1 id="exercises"><a href="#exercises">Exercises</a></h1>
+<ul>
+<li>Define <code>_⊆_ {A : Set} : List A → List A → Set</code>!
+<ul>
+<li>Prove that <code>1 ∷ 2 ∷ [] ⊆ 1 ∷ 2 ∷ 3 ∷ []</code>!</li>
+<li>Prove that <code>1 ∷ 2 ∷ 3 ∷ [] ⊆ 1 ∷ 2 ∷ []</code> is false!</li>
+</ul></li>
+<li>Define a permutation predicate!</li>
+<li>Define a sort predicate!</li>
+</ul>
+<hr />
+<p>You can type <code>⊆</code> as <code>\sub=</code>.</p>
+</body>
+</html>

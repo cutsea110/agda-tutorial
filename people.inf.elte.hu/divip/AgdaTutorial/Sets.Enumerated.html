@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Enumerated Sets</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Enumerated Sets</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#the-bool-set">The <code>Bool</code> set</a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#questions">Questions</a></li>
+<li><a href="#isomorphisms">Isomorphisms</a></li>
+<li><a href="#representation-and-interpretation">Representation and interpretation</a></li>
+<li><a href="#special-finite-sets">Special finite sets</a></li>
+<li><a href="#types-vs.-sets">Types vs. sets</a></li>
+<li><a href="#syntactic-abbreviation">Syntactic abbreviation</a></li>
+</ul>
+</div>
+<h1 id="the-bool-set"><a href="#the-bool-set">The <code>Bool</code> set</a></h1>
+<p>Definition of <code>Bool</code> with two elements <code>true</code> and <code>false</code>:</p>
+<p><pre
+><a name="173"
+  >
+</a
+  ><a name="188" class="Keyword"
+  >data</a
+  ><a name="192"
+  > </a
+  ><a name="193" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ><a name="197"
+  > </a
+  ><a name="198" class="Symbol"
+  >:</a
+  ><a name="199"
+  > </a
+  ><a name="200" class="PrimitiveType"
+  >Set</a
+  ><a name="203"
+  > </a
+  ><a name="204" class="Keyword"
+  >where</a
+  ><a name="209"
+  >
+  </a
+  ><a name="212" href="Sets.Enumerated.html#212" class="InductiveConstructor"
+  >true</a
+  ><a name="216"
+  >  </a
+  ><a name="218" class="Symbol"
+  >:</a
+  ><a name="219"
+  > </a
+  ><a name="220" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ><a name="224"
+  >
+  </a
+  ><a name="227" href="Sets.Enumerated.html#227" class="InductiveConstructor"
+  >false</a
+  ><a name="232"
+  > </a
+  ><a name="233" class="Symbol"
+  >:</a
+  ><a name="234"
+  > </a
+  ><a name="235" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ></pre
+></p>
+<p><em>Interpretation:</em></p>
+<ul>
+<li><code>Bool</code> is a <code>Set</code></li>
+<li><code>true</code> is a <code>Bool</code></li>
+<li><code>false</code> is a <code>Bool</code></li>
+<li>there is nothing else which is <code>Bool</code></li>
+<li><code>true</code> and <code>false</code> are different</li>
+</ul>
+<p>It is because of the last two points that the syntax of the definition doesn't look like this:</p>
+<pre><code>Bool  : Set
+true  : Bool
+false : Bool</code></pre>
+<hr />
+<ul>
+<li><code>data</code> and <code>where</code> are keywords</li>
+<li><code>Set</code> is the set of sets (a constant)</li>
+<li>':' is pronounced &quot;is a&quot; or &quot;type of&quot;, it has similar rule as '∈' in set theory.<br /> We do not use the '∈' symbol because ':' and '∈' have different behaviour which will be highlighted later.</li>
+<li>Indentation matters!</li>
+<li>Spaces are needed!</li>
+<li>We call <code>true</code> and <code>false</code> <em>constructors</em> of <em>data type</em> <code>Bool</code> (more explanations of constructors come later)</li>
+</ul>
+<h1 id="exercises"><a href="#exercises">Exercises</a></h1>
+<ol style="list-style-type: upper-alpha">
+<li><p>Define a set named <code>Answer</code> with three elements, <code>yes</code>, <code>no</code> and <code>maybe</code>.</p></li>
+<li><p>Define a set named <code>Quarter</code> with four elements, <code>east</code>, <code>west</code>, <code>north</code> and <code>south</code>.</p></li>
+</ol>
+<h1 id="questions"><a href="#questions">Questions</a></h1>
+<p>Suppose we have <code>Bool'</code> defined:</p>
+<p><pre
+><a name="1305"
+  >
+</a
+  ><a name="1320" class="Keyword"
+  >data</a
+  ><a name="1324"
+  > </a
+  ><a name="1325" href="Sets.Enumerated.html#1325" class="Datatype"
+  >Bool'</a
+  ><a name="1330"
+  > </a
+  ><a name="1331" class="Symbol"
+  >:</a
+  ><a name="1332"
+  > </a
+  ><a name="1333" class="PrimitiveType"
+  >Set</a
+  ><a name="1336"
+  > </a
+  ><a name="1337" class="Keyword"
+  >where</a
+  ><a name="1342"
+  >
+  </a
+  ><a name="1345" href="Sets.Enumerated.html#1345" class="InductiveConstructor"
+  >true'</a
+  ><a name="1350"
+  >  </a
+  ><a name="1352" class="Symbol"
+  >:</a
+  ><a name="1353"
+  > </a
+  ><a name="1354" href="Sets.Enumerated.html#1325" class="Datatype"
+  >Bool'</a
+  ><a name="1359"
+  >
+  </a
+  ><a name="1362" href="Sets.Enumerated.html#1362" class="InductiveConstructor"
+  >false'</a
+  ><a name="1368"
+  > </a
+  ><a name="1369" class="Symbol"
+  >:</a
+  ><a name="1370"
+  > </a
+  ><a name="1371" href="Sets.Enumerated.html#1325" class="Datatype"
+  >Bool'</a
+  ></pre
+></p>
+<ol style="list-style-type: decimal">
+<li>Are <code>Bool</code> and <code>Bool'</code> the same sets?<br /></li>
+<li>If not, which one is the &quot;real&quot; set of Booleans?</li>
+</ol>
+<h1 id="isomorphisms"><a href="#isomorphisms">Isomorphisms</a></h1>
+<p><code>Bool</code> and <code>Bool'</code> are definitionally different but they are <em>isomorphic</em>.</p>
+<ul>
+<li>Two sets are isomorphic if there is a one-to-one relation between their elements.</li>
+<li>We will represent isomorphisms in Agda later.</li>
+</ul>
+<h1 id="representation-and-interpretation"><a href="#representation-and-interpretation">Representation and interpretation</a></h1>
+<p>Interpretation (or meaning) is the opposite relation to representation.</p>
+<ul>
+<li>The interpretation (the meaning) of <code>Bool</code> is the set of Boolean values.</li>
+<li>One possible representation of the set of Booleans is <code>Bool</code>.</li>
+<li>Another possible representation of the set of Booleans is <code>Bool'</code>.</li>
+<li>Different interpretations of the same definition are also possible as we will see.</li>
+</ul>
+<h1 id="special-finite-sets"><a href="#special-finite-sets">Special finite sets</a></h1>
+<p>We can define finite sets with n = 0, 1, 2, ... elements.</p>
+<p>The special case with n = 0 is the empty set:</p>
+<p><pre
+><a name="2291"
+  >
+</a
+  ><a name="2306" class="Keyword"
+  >data</a
+  ><a name="2310"
+  > </a
+  ><a name="2311" href="Sets.Enumerated.html#2311" class="Datatype"
+  >&#8869;</a
+  ><a name="2312"
+  > </a
+  ><a name="2313" class="Symbol"
+  >:</a
+  ><a name="2314"
+  > </a
+  ><a name="2315" class="PrimitiveType"
+  >Set</a
+  ><a name="2318"
+  > </a
+  ><a name="2319" class="Keyword"
+  >where</a
+  ><a name="2324"
+  >   </a
+  ><a name="2327" class="Comment"
+  >-- There is no constructor.</a
+  ></pre
+></p>
+<p>The special case with n = 1 is the singleton set (set with one element):</p>
+<p><pre
+><a name="2439"
+  >
+</a
+  ><a name="2454" class="Keyword"
+  >data</a
+  ><a name="2458"
+  > </a
+  ><a name="2459" href="Sets.Enumerated.html#2459" class="Datatype"
+  >&#8868;</a
+  ><a name="2460"
+  > </a
+  ><a name="2461" class="Symbol"
+  >:</a
+  ><a name="2462"
+  > </a
+  ><a name="2463" class="PrimitiveType"
+  >Set</a
+  ><a name="2466"
+  > </a
+  ><a name="2467" class="Keyword"
+  >where</a
+  ><a name="2472"
+  >
+  </a
+  ><a name="2475" href="Sets.Enumerated.html#2475" class="InductiveConstructor"
+  >tt</a
+  ><a name="2477"
+  > </a
+  ><a name="2478" class="Symbol"
+  >:</a
+  ><a name="2479"
+  > </a
+  ><a name="2480" href="Sets.Enumerated.html#2459" class="Datatype"
+  >&#8868;</a
+  ></pre
+></p>
+<p><code>⊥</code> and <code>⊤</code> have interesting interpretations as we will see.</p>
+<h1 id="types-vs.-sets"><a href="#types-vs.-sets">Types vs. sets</a></h1>
+<p>Basic differences between types and sets:</p>
+<ul>
+<li>The type of an element is unique ↔ an element can be member of different sets<br /> E.g. <code>true</code> cannot be the element of two different types at the same time.</li>
+<li>A type is not the collection of its elements ↔ a set is characterized by its elements<br /> E.g. there are different empty types.</li>
+</ul>
+<p><code>data</code> defines types, not sets!</p>
+<ul>
+<li>We prefer types over sets for several reasons.</li>
+<li>From now on, we use both terms 'type' and 'set' for types.<br /> We use the term 'element' for types too.</li>
+<li><code>Set</code> is the type of types, so it should be called <code>Type</code>.<br /> Agda 2.3.2 and before (and probably after too) calls it <code>Set</code>.</li>
+<li>Agda allows to give the same name to constructors of different types,<br /> if at each constructor application the type is unambiguous.</li>
+</ul>
+<h1 id="syntactic-abbreviation"><a href="#syntactic-abbreviation">Syntactic abbreviation</a></h1>
+<p>If we have multiple elements of the same type we can define them in one line:</p>
+<p><pre
+><a name="3520"
+  >
+</a
+  ><a name="3535" class="Keyword"
+  >data</a
+  ><a name="3539"
+  > </a
+  ><a name="3540" href="Sets.Enumerated.html#3540" class="Datatype"
+  >name</a
+  ><a name="3544"
+  > </a
+  ><a name="3545" class="Symbol"
+  >:</a
+  ><a name="3546"
+  > </a
+  ><a name="3547" class="PrimitiveType"
+  >Set</a
+  ><a name="3550"
+  > </a
+  ><a name="3551" class="Keyword"
+  >where</a
+  ><a name="3556"
+  >
+  </a
+  ><a name="3559" href="Sets.Enumerated.html#3559" class="InductiveConstructor"
+  >elem&#8321;</a
+  ><a name="3564"
+  > </a
+  ><a name="3565" href="Sets.Enumerated.html#3565" class="InductiveConstructor"
+  >elem&#8322;</a
+  ><a name="3570"
+  > </a
+  ><a name="3571" class="Symbol"
+  >:</a
+  ><a name="3572"
+  > </a
+  ><a name="3573" href="Sets.Enumerated.html#3540" class="Datatype"
+  >name</a
+  ></pre
+></p>
+</body>
+</html>

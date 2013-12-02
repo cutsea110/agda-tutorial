@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Péter Diviánszky, Ambrus Kaposi and Gábor Páli" />
+  <title>Installation</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Installation</h1>
+<h2 class="author">Péter Diviánszky, Ambrus Kaposi and Gábor Páli</h2>
+<h3 class="date">2012.</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#agda-compiler">Agda compiler</a><ul>
+<li><a href="#linux-or-freebsd">Linux or FreeBSD</a></li>
+<li><a href="#windows">Windows</a></li>
+</ul></li>
+<li><a href="#standard-library">Standard library</a></li>
+</ul>
+</div>
+<h1 id="agda-compiler"><a href="#agda-compiler">Agda compiler</a></h1>
+<p>General installation instruction can be found at the <a href="http://wiki.portal.chalmers.se/agda/pmwiki.php?n=Main.Download">Download</a> section of the Agda website.</p>
+<p>The following instructions may be out of date.</p>
+<h2 id="linux-or-freebsd"><a href="#linux-or-freebsd">Linux or FreeBSD</a></h2>
+<p>If you have Ubuntu / Debian / NixOS / some other decent Linux distro or FreeBSD, you can safely install Agda from your package manager. Or you can use cabal-install as described below for the Windows version.</p>
+<p>After installation show Emacs where to find agda-mode by the following command:</p>
+<p><code>agda-mode setup</code></p>
+<h2 id="windows"><a href="#windows">Windows</a></h2>
+<ol style="list-style-type: decimal">
+<li>If you don't have Haskell platform and you have administrator access to the computer, try the <a href="http://wiki.portal.chalmers.se/agda/pmwiki.php?n=Main.Windows">all-in-one Windows installer</a>.</li>
+<li><p>If you already have Haskell platform installed (and maybe don't have administrator access), you need to go through the following steps:</p>
+<ol style="list-style-type: decimal">
+<li>Put GHC into <code>%PATH%</code> (cmd: <code>set PATH=%PATH%;&quot;C:\Program Files\Haskell Platform\2011.2.0.1\bin&quot;;</code>)</li>
+<li>install <a href="http://www.gnu.org/software/emacs/">Emacs</a></li>
+<li>put Emacs into <code>%PATH%</code> (cmd: <code>set PATH=%PATH%;&quot;c:\program files (x86)\emacs-23.3\bin&quot;;</code>)</li>
+<li>put the cabal/bin folder into <code>%PATH%</code> (cmd: <code>set PATH=%PATH%;%APPDATA%\cabal\bin;</code>)</li>
+<li>cmd: <code>cabal update</code></li>
+<li>cmd: <code>cabal install agda</code></li>
+<li><code>agda-mode setup</code><br /> If that fails, you have two opportunities:
+<ol style="list-style-type: decimal">
+<li>put <code>(load-file (let ((coding-system-for-read ‘utf-8)) (shell-command-to-string “agda-mode locate”)))</code> into your <code>.emacs</code> file (path is usually <code>Users/username/AppData/Roaming/.emacs</code>)</li>
+<li>after starting emacs, type <code>(load-file (let ((coding-system-for-read ‘utf-8)) (shell-command-to-string “agda-mode locate”)))</code> into the <em>scratch</em> buffer, select it with the mouse and type <code>M-x eval-region</code></li>
+</ol></li>
+</ol></li>
+<li><p>If you neither have administrator access nor Haskell Platform installed: get administrator access!</p></li>
+</ol>
+<h1 id="standard-library"><a href="#standard-library">Standard library</a></h1>
+<p>You can download the Agda standard libraries from <a href="http://wiki.portal.chalmers.se/agda/pmwiki.php?n=Libraries.StandardLibrary">here</a>.</p>
+<p>This is how to teach Agda see the standard libraries using the following commands in Emacs. Note that it requires <a href="http://projects.haskell.org/haskellmode-emacs/">haskell-mode</a> to be installed first.</p>
+<ol style="list-style-type: decimal">
+<li><code>M-x load-library</code> &lt;return&gt; <code>agda2-mode</code> &lt;return&gt;<br /></li>
+<li><code>M-x customize-group</code> &lt;return&gt; <code>agda2</code> &lt;return&gt;<br /> (<code>M</code> stands for Meta which is labelled Alt on most computers)</li>
+<li>Search for: <code>Agda2 Include dirs</code></li>
+<li>Type here the path of the Agda libraries something like<br /> <code>/home/divip/share/lib-0.6/src</code></li>
+<li>On top of the buffer click on this button: <code>Save for future sessions</code></li>
+</ol>
+<hr />
+<p>When we use the standard library modules for the first time it takes some time to load them because Agda is compiling them.</p>
+</body>
+</html>

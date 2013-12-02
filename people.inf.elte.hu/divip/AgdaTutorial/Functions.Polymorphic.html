@@ -1,0 +1,1177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Ambrus Kaposi and Péter Diviánszky" />
+  <title>Polymorphic Functions</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Polymorphic Functions</h1>
+<h2 class="author">Ambrus Kaposi and Péter Diviánszky</h2>
+<h3 class="date">2011. 09. 15.</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#import-list">Import list</a></li>
+<li><a href="#definition-of-list">Definition of <code>List</code></a></li>
+<li><a href="#concatenation-on-lists"><code>_++_</code> : Concatenation on Lists</a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#exercises-1">Exercises</a></li>
+<li><a href="#polymorphic-id-function">Polymorphic <code>id</code> function</a></li>
+<li><a href="#exercise">Exercise</a></li>
+<li><a href="#cartesian-product"><code>_×_</code>: Cartesian Product</a></li>
+<li><a href="#exercises-2">Exercises</a></li>
+<li><a href="#disjoint-union-sum"><code>_⊎_</code>: Disjoint Union (Sum)</a></li>
+<li><a href="#exercises-3">Exercises</a></li>
+</ul>
+</div>
+<h1 id="import-list"><a href="#import-list">Import list</a></h1>
+<p><pre
+><a name="102"
+  >
+</a
+  ><a name="117" class="Keyword"
+  >module</a
+  ><a name="123"
+  > </a
+  ><a name="124" href="Functions.Polymorphic.html#1" class="Module"
+  >Functions.Polymorphic</a
+  ><a name="145"
+  > </a
+  ><a name="146" class="Keyword"
+  >where</a
+  ><a name="151"
+  >
+
+</a
+  ><a name="153" class="Keyword"
+  >open</a
+  ><a name="157"
+  > </a
+  ><a name="158" class="Keyword"
+  >import</a
+  ><a name="164"
+  > </a
+  ><a name="165" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="173"
+  >
+</a
+  ><a name="174" class="Keyword"
+  >open</a
+  ><a name="178"
+  > </a
+  ><a name="179" class="Keyword"
+  >import</a
+  ><a name="185"
+  > </a
+  ><a name="186" href="Data.Unit.html#1" class="Module"
+  >Data.Unit</a
+  ><a name="195"
+  > </a
+  ><a name="196" class="Keyword"
+  >using</a
+  ><a name="201"
+  > </a
+  ><a name="202" class="Symbol"
+  >(</a
+  ><a name="203"
+  >&#8868;</a
+  ><a name="204" class="Symbol"
+  >;</a
+  ><a name="205"
+  > tt</a
+  ><a name="208" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="definition-of-list"><a href="#definition-of-list">Definition of <code>List</code></a></h1>
+<p>Recall the definition of <code>List</code>:</p>
+<p><pre
+><a name="292"
+  >
+</a
+  ><a name="307" class="Keyword"
+  >data</a
+  ><a name="311"
+  > </a
+  ><a name="312" href="Functions.Polymorphic.html#312" class="Datatype"
+  >List</a
+  ><a name="316"
+  > </a
+  ><a name="317" class="Symbol"
+  >(</a
+  ><a name="318" href="Functions.Polymorphic.html#318" class="Bound"
+  >A</a
+  ><a name="319"
+  > </a
+  ><a name="320" class="Symbol"
+  >:</a
+  ><a name="321"
+  > </a
+  ><a name="322" class="PrimitiveType"
+  >Set</a
+  ><a name="325" class="Symbol"
+  >)</a
+  ><a name="326"
+  > </a
+  ><a name="327" class="Symbol"
+  >:</a
+  ><a name="328"
+  > </a
+  ><a name="329" class="PrimitiveType"
+  >Set</a
+  ><a name="332"
+  > </a
+  ><a name="333" class="Keyword"
+  >where</a
+  ><a name="338"
+  >
+  </a
+  ><a name="341" href="Functions.Polymorphic.html#341" class="InductiveConstructor"
+  >[]</a
+  ><a name="343"
+  >  </a
+  ><a name="345" class="Symbol"
+  >:</a
+  ><a name="346"
+  > </a
+  ><a name="347" href="Functions.Polymorphic.html#312" class="Datatype"
+  >List</a
+  ><a name="351"
+  > </a
+  ><a name="352" href="Functions.Polymorphic.html#318" class="Bound"
+  >A</a
+  ><a name="353"
+  >
+  </a
+  ><a name="356" href="Functions.Polymorphic.html#356" class="InductiveConstructor Operator"
+  >_&#8759;_</a
+  ><a name="359"
+  > </a
+  ><a name="360" class="Symbol"
+  >:</a
+  ><a name="361"
+  > </a
+  ><a name="362" href="Functions.Polymorphic.html#318" class="Bound"
+  >A</a
+  ><a name="363"
+  > </a
+  ><a name="364" class="Symbol"
+  >&#8594;</a
+  ><a name="365"
+  > </a
+  ><a name="366" href="Functions.Polymorphic.html#312" class="Datatype"
+  >List</a
+  ><a name="370"
+  > </a
+  ><a name="371" href="Functions.Polymorphic.html#318" class="Bound"
+  >A</a
+  ><a name="372"
+  > </a
+  ><a name="373" class="Symbol"
+  >&#8594;</a
+  ><a name="374"
+  > </a
+  ><a name="375" href="Functions.Polymorphic.html#312" class="Datatype"
+  >List</a
+  ><a name="379"
+  > </a
+  ><a name="380" href="Functions.Polymorphic.html#318" class="Bound"
+  >A</a
+  ><a name="381"
+  >
+
+</a
+  ><a name="383" class="Keyword"
+  >infixr</a
+  ><a name="389"
+  > </a
+  ><a name="390" class="Number"
+  >5</a
+  ><a name="391"
+  > _&#8759;_</a
+  ></pre
+></p>
+<h1 id="concatenation-on-lists"><a href="#concatenation-on-lists"><code>_++_</code> : Concatenation on Lists</a></h1>
+<p>Definition of concatenation:</p>
+<p><pre
+><a name="498"
+  >
+</a
+  ><a name="513" href="Functions.Polymorphic.html#513" class="Function Operator"
+  >_++_</a
+  ><a name="517"
+  > </a
+  ><a name="518" class="Symbol"
+  >:</a
+  ><a name="519"
+  > </a
+  ><a name="520" class="Symbol"
+  >{</a
+  ><a name="521" href="Functions.Polymorphic.html#521" class="Bound"
+  >A</a
+  ><a name="522"
+  > </a
+  ><a name="523" class="Symbol"
+  >:</a
+  ><a name="524"
+  > </a
+  ><a name="525" class="PrimitiveType"
+  >Set</a
+  ><a name="528" class="Symbol"
+  >}</a
+  ><a name="529"
+  > </a
+  ><a name="530" class="Symbol"
+  >&#8594;</a
+  ><a name="531"
+  > </a
+  ><a name="532" href="Functions.Polymorphic.html#312" class="Datatype"
+  >List</a
+  ><a name="536"
+  > </a
+  ><a name="537" href="Functions.Polymorphic.html#521" class="Bound"
+  >A</a
+  ><a name="538"
+  > </a
+  ><a name="539" class="Symbol"
+  >&#8594;</a
+  ><a name="540"
+  > </a
+  ><a name="541" href="Functions.Polymorphic.html#312" class="Datatype"
+  >List</a
+  ><a name="545"
+  > </a
+  ><a name="546" href="Functions.Polymorphic.html#521" class="Bound"
+  >A</a
+  ><a name="547"
+  > </a
+  ><a name="548" class="Symbol"
+  >&#8594;</a
+  ><a name="549"
+  > </a
+  ><a name="550" href="Functions.Polymorphic.html#312" class="Datatype"
+  >List</a
+  ><a name="554"
+  > </a
+  ><a name="555" href="Functions.Polymorphic.html#521" class="Bound"
+  >A</a
+  ><a name="556"
+  >
+</a
+  ><a name="557" href="Functions.Polymorphic.html#341" class="InductiveConstructor"
+  >[]</a
+  ><a name="559"
+  >       </a
+  ><a name="566" href="Functions.Polymorphic.html#513" class="Function Operator"
+  >++</a
+  ><a name="568"
+  > </a
+  ><a name="569" href="Functions.Polymorphic.html#569" class="Bound"
+  >ys</a
+  ><a name="571"
+  > </a
+  ><a name="572" class="Symbol"
+  >=</a
+  ><a name="573"
+  > </a
+  ><a name="574" href="Functions.Polymorphic.html#569" class="Bound"
+  >ys</a
+  ><a name="576"
+  >
+</a
+  ><a name="577" class="Symbol"
+  >(</a
+  ><a name="578" href="Functions.Polymorphic.html#578" class="Bound"
+  >x</a
+  ><a name="579"
+  > </a
+  ><a name="580" href="Functions.Polymorphic.html#356" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="581"
+  > </a
+  ><a name="582" href="Functions.Polymorphic.html#582" class="Bound"
+  >xs</a
+  ><a name="584" class="Symbol"
+  >)</a
+  ><a name="585"
+  > </a
+  ><a name="586" href="Functions.Polymorphic.html#513" class="Function Operator"
+  >++</a
+  ><a name="588"
+  > </a
+  ><a name="589" href="Functions.Polymorphic.html#589" class="Bound"
+  >ys</a
+  ><a name="591"
+  > </a
+  ><a name="592" class="Symbol"
+  >=</a
+  ><a name="593"
+  > </a
+  ><a name="594" href="Functions.Polymorphic.html#578" class="Bound"
+  >x</a
+  ><a name="595"
+  > </a
+  ><a name="596" href="Functions.Polymorphic.html#356" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="597"
+  > </a
+  ><a name="598" class="Symbol"
+  >(</a
+  ><a name="599" href="Functions.Polymorphic.html#582" class="Bound"
+  >xs</a
+  ><a name="601"
+  > </a
+  ><a name="602" href="Functions.Polymorphic.html#513" class="Function Operator"
+  >++</a
+  ><a name="604"
+  > </a
+  ><a name="605" href="Functions.Polymorphic.html#589" class="Bound"
+  >ys</a
+  ><a name="607" class="Symbol"
+  >)</a
+  ><a name="608"
+  >
+
+</a
+  ><a name="610" class="Keyword"
+  >infixr</a
+  ><a name="616"
+  > </a
+  ><a name="617" class="Number"
+  >5</a
+  ><a name="618"
+  > _++_</a
+  ></pre
+></p>
+<p><code>_++_</code> works with <code>List</code>s parametrised by arbitrary <code>Set</code>s. We call this parameter a polymorphic parameter and <code>_++_</code> a polymorphic function. Polymorphic parameters have to be named explicitly in beginning of the declaration of the function by putting them into curly braces:</p>
+<pre><code>f : {A B C : Set} → ...</code></pre>
+<hr />
+<p>In Agda, polymorphic parameters are explicit, in Haskell they are implicit.</p>
+<p>Instead of curly braces we can use also round braces but then we have to give the set as a parameter at every function call.</p>
+<!--
+| Exercises: `head` and `tail` on Lists
+| ====================================
+| 
+| Try to define the following functions:
+| 
+| \begin{code}
+| head₀ : {A : Set} → List A → A
+| head₀ []       = {!!} --
+| head₀ (x ∷ xs) = x --
+| \end{code}
+| 
+| \begin{code}
+| tail₀ : {A : Set} → List A → List A
+| tail₀ []       = [] --
+| tail₀ (x ∷ xs) = xs --
+| \end{code}
+| 
+| Define the following functions:
+| 
+| \begin{code}
+| head₁ : List ℕ → ℕ
+| head₁ []       = 0 --
+| head₁ (x ∷ xs) = x --
+| \end{code}
+| 
+| \begin{code}
+| tail₁ : List ℕ → List ℕ
+| tail₁ []       = [] --
+| tail₁ (x ∷ xs) = xs --
+| \end{code}
+| 
+| Define the following functions (`head` should return `[]` for empty lists and a singleton list for non-empty lists):
+| 
+| \begin{code}
+| head₂ : {A : Set} → List A → List A
+| head₂ []       = [] --
+| head₂ (x ∷ xs) = x ∷ [] --
+| \end{code}
+| 
+| \begin{code}
+| tail₂ : {A : Set} → List A → List (List A)
+| tail₂ []       = [] --
+| tail₂ (x ∷ xs) = xs ∷ [] --
+| \end{code}
+-->
+
+<h1 id="exercises"><a href="#exercises">Exercises</a></h1>
+<ul>
+<li>Define two functions which define the isomorphism between <code>List ⊤</code> and <code>ℕ</code>!</li>
+</ul>
+<p><pre
+><a name="2253"
+  >
+</a
+  ><a name="2268" href="Functions.Polymorphic.html#2268" class="Function"
+  >fromList</a
+  ><a name="2276"
+  > </a
+  ><a name="2277" class="Symbol"
+  >:</a
+  ><a name="2278"
+  > </a
+  ><a name="2279" href="Functions.Polymorphic.html#312" class="Datatype"
+  >List</a
+  ><a name="2283"
+  > </a
+  ><a name="2284" href="Data.Unit.html#653" class="Record"
+  >&#8868;</a
+  ><a name="2285"
+  > </a
+  ><a name="2286" class="Symbol"
+  >&#8594;</a
+  ><a name="2287"
+  > </a
+  ><a name="2288" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ></pre
+></p>
+<p><pre
+><a name="2405"
+  >
+</a
+  ><a name="2420" href="Functions.Polymorphic.html#2420" class="Function"
+  >toList</a
+  ><a name="2426"
+  >   </a
+  ><a name="2429" class="Symbol"
+  >:</a
+  ><a name="2430"
+  > </a
+  ><a name="2431" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2432"
+  > </a
+  ><a name="2433" class="Symbol"
+  >&#8594;</a
+  ><a name="2434"
+  > </a
+  ><a name="2435" href="Functions.Polymorphic.html#312" class="Datatype"
+  >List</a
+  ><a name="2439"
+  > </a
+  ><a name="2440" href="Data.Unit.html#653" class="Record"
+  >&#8868;</a
+  ></pre
+></p>
+<ul>
+<li><p>Show on a sheet of paper with equational reasoning that the <code>fromList</code> function is a bijection and it preserves the <code>_+_</code> and <code>_++_</code> operations (that is, <code>∀ a, b ∈ List ⊤ . fromList (a ++ b) = fromList a + fromList b</code>).</p></li>
+<li><p>Define a <code>Maybe</code> set (lists with 0 or 1 elements) and <code>head</code> and <code>tail</code> functions for the polymorphic <code>List</code> type with the help of <code>Maybe</code>.</p></li>
+</ul>
+<h1 id="exercises-1"><a href="#exercises-1">Exercises</a></h1>
+<p>Define the following functions on lists:</p>
+<p><pre
+><a name="2982"
+  >
+</a
+  ><a name="2997" href="Functions.Polymorphic.html#2997" class="Function"
+  >map</a
+  ><a name="3000"
+  >  </a
+  ><a name="3002" class="Symbol"
+  >:</a
+  ><a name="3003"
+  > </a
+  ><a name="3004" class="Symbol"
+  >{</a
+  ><a name="3005" href="Functions.Polymorphic.html#3005" class="Bound"
+  >A</a
+  ><a name="3006"
+  > </a
+  ><a name="3007" href="Functions.Polymorphic.html#3007" class="Bound"
+  >B</a
+  ><a name="3008"
+  > </a
+  ><a name="3009" class="Symbol"
+  >:</a
+  ><a name="3010"
+  > </a
+  ><a name="3011" class="PrimitiveType"
+  >Set</a
+  ><a name="3014" class="Symbol"
+  >}</a
+  ><a name="3015"
+  > </a
+  ><a name="3016" class="Symbol"
+  >&#8594;</a
+  ><a name="3017"
+  > </a
+  ><a name="3018" class="Symbol"
+  >(</a
+  ><a name="3019" href="Functions.Polymorphic.html#3005" class="Bound"
+  >A</a
+  ><a name="3020"
+  > </a
+  ><a name="3021" class="Symbol"
+  >&#8594;</a
+  ><a name="3022"
+  > </a
+  ><a name="3023" href="Functions.Polymorphic.html#3007" class="Bound"
+  >B</a
+  ><a name="3024" class="Symbol"
+  >)</a
+  ><a name="3025"
+  >      </a
+  ><a name="3031" class="Symbol"
+  >&#8594;</a
+  ><a name="3032"
+  > </a
+  ><a name="3033" href="Functions.Polymorphic.html#312" class="Datatype"
+  >List</a
+  ><a name="3037"
+  > </a
+  ><a name="3038" href="Functions.Polymorphic.html#3005" class="Bound"
+  >A</a
+  ><a name="3039"
+  > </a
+  ><a name="3040" class="Symbol"
+  >&#8594;</a
+  ><a name="3041"
+  > </a
+  ><a name="3042" href="Functions.Polymorphic.html#312" class="Datatype"
+  >List</a
+  ><a name="3046"
+  > </a
+  ><a name="3047" href="Functions.Polymorphic.html#3007" class="Bound"
+  >B</a
+  ><a name="3048"
+  > </a
+  ><a name="3049" class="Comment"
+  >-- regular map</a
+  ></pre
+></p>
+<p><pre
+><a name="3166"
+  >
+</a
+  ><a name="3181" href="Functions.Polymorphic.html#3181" class="Function"
+  >maps</a
+  ><a name="3185"
+  > </a
+  ><a name="3186" class="Symbol"
+  >:</a
+  ><a name="3187"
+  > </a
+  ><a name="3188" class="Symbol"
+  >{</a
+  ><a name="3189" href="Functions.Polymorphic.html#3189" class="Bound"
+  >A</a
+  ><a name="3190"
+  > </a
+  ><a name="3191" href="Functions.Polymorphic.html#3191" class="Bound"
+  >B</a
+  ><a name="3192"
+  > </a
+  ><a name="3193" class="Symbol"
+  >:</a
+  ><a name="3194"
+  > </a
+  ><a name="3195" class="PrimitiveType"
+  >Set</a
+  ><a name="3198" class="Symbol"
+  >}</a
+  ><a name="3199"
+  > </a
+  ><a name="3200" class="Symbol"
+  >&#8594;</a
+  ><a name="3201"
+  > </a
+  ><a name="3202" href="Functions.Polymorphic.html#312" class="Datatype"
+  >List</a
+  ><a name="3206"
+  > </a
+  ><a name="3207" class="Symbol"
+  >(</a
+  ><a name="3208" href="Functions.Polymorphic.html#3189" class="Bound"
+  >A</a
+  ><a name="3209"
+  > </a
+  ><a name="3210" class="Symbol"
+  >&#8594;</a
+  ><a name="3211"
+  > </a
+  ><a name="3212" href="Functions.Polymorphic.html#3191" class="Bound"
+  >B</a
+  ><a name="3213" class="Symbol"
+  >)</a
+  ><a name="3214"
+  > </a
+  ><a name="3215" class="Symbol"
+  >&#8594;</a
+  ><a name="3216"
+  > </a
+  ><a name="3217" href="Functions.Polymorphic.html#312" class="Datatype"
+  >List</a
+  ><a name="3221"
+  > </a
+  ><a name="3222" href="Functions.Polymorphic.html#3189" class="Bound"
+  >A</a
+  ><a name="3223"
+  > </a
+  ><a name="3224" class="Symbol"
+  >&#8594;</a
+  ><a name="3225"
+  > </a
+  ><a name="3226" href="Functions.Polymorphic.html#312" class="Datatype"
+  >List</a
+  ><a name="3230"
+  > </a
+  ><a name="3231" href="Functions.Polymorphic.html#3191" class="Bound"
+  >B</a
+  ><a name="3232"
+  > </a
+  ><a name="3233" class="Comment"
+  >-- pairwise map</a
+  ></pre
+></p>
+<p>Define the singleton list function:</p>
+<p><pre
+><a name="3439"
+  >
+</a
+  ><a name="3454" href="Functions.Polymorphic.html#3454" class="Function Operator"
+  >[_]</a
+  ><a name="3457"
+  > </a
+  ><a name="3458" class="Symbol"
+  >:</a
+  ><a name="3459"
+  > </a
+  ><a name="3460" class="Symbol"
+  >{</a
+  ><a name="3461" href="Functions.Polymorphic.html#3461" class="Bound"
+  >A</a
+  ><a name="3462"
+  > </a
+  ><a name="3463" class="Symbol"
+  >:</a
+  ><a name="3464"
+  > </a
+  ><a name="3465" class="PrimitiveType"
+  >Set</a
+  ><a name="3468" class="Symbol"
+  >}</a
+  ><a name="3469"
+  > </a
+  ><a name="3470" class="Symbol"
+  >&#8594;</a
+  ><a name="3471"
+  > </a
+  ><a name="3472" href="Functions.Polymorphic.html#3461" class="Bound"
+  >A</a
+  ><a name="3473"
+  > </a
+  ><a name="3474" class="Symbol"
+  >&#8594;</a
+  ><a name="3475"
+  > </a
+  ><a name="3476" href="Functions.Polymorphic.html#312" class="Datatype"
+  >List</a
+  ><a name="3480"
+  > </a
+  ><a name="3481" href="Functions.Polymorphic.html#3461" class="Bound"
+  >A</a
+  ></pre
+></p>
+<h1 id="polymorphic-id-function"><a href="#polymorphic-id-function">Polymorphic <code>id</code> function</a></h1>
+<!--
+| If we tend to put an `_` in place of a parameter it probably means that it can be made implicit, that is, we could rely on Agda to guess the value. We can do this putting the parameter in curly braces:
+-->
+
+<p><pre
+><a name="4438"
+  >
+</a
+  ><a name="4453" href="Functions.Polymorphic.html#4453" class="Function"
+  >id</a
+  ><a name="4455"
+  > </a
+  ><a name="4456" class="Symbol"
+  >:</a
+  ><a name="4457"
+  > </a
+  ><a name="4458" class="Symbol"
+  >{</a
+  ><a name="4459" href="Functions.Polymorphic.html#4459" class="Bound"
+  >A</a
+  ><a name="4460"
+  > </a
+  ><a name="4461" class="Symbol"
+  >:</a
+  ><a name="4462"
+  > </a
+  ><a name="4463" class="PrimitiveType"
+  >Set</a
+  ><a name="4466" class="Symbol"
+  >}</a
+  ><a name="4467"
+  > </a
+  ><a name="4468" class="Symbol"
+  >&#8594;</a
+  ><a name="4469"
+  > </a
+  ><a name="4470" href="Functions.Polymorphic.html#4459" class="Bound"
+  >A</a
+  ><a name="4471"
+  > </a
+  ><a name="4472" class="Symbol"
+  >&#8594;</a
+  ><a name="4473"
+  > </a
+  ><a name="4474" href="Functions.Polymorphic.html#4459" class="Bound"
+  >A</a
+  ><a name="4475"
+  >
+</a
+  ><a name="4476" href="Functions.Polymorphic.html#4453" class="Function"
+  >id</a
+  ><a name="4478"
+  > </a
+  ><a name="4479" href="Functions.Polymorphic.html#4479" class="Bound"
+  >a</a
+  ><a name="4480"
+  > </a
+  ><a name="4481" class="Symbol"
+  >=</a
+  ><a name="4482"
+  > </a
+  ><a name="4483" href="Functions.Polymorphic.html#4479" class="Bound"
+  >a</a
+  ></pre
+></p>
+<p>If we want, can specify the implicit parameter manually in curly braces:</p>
+<p><pre
+><a name="4569"
+  >
+</a
+  ><a name="4584" href="Functions.Polymorphic.html#4584" class="Function"
+  >aNumber</a
+  ><a name="4591"
+  > </a
+  ><a name="4592" class="Symbol"
+  >=</a
+  ><a name="4593"
+  > </a
+  ><a name="4594" href="Functions.Polymorphic.html#4453" class="Function"
+  >id</a
+  ><a name="4596"
+  > </a
+  ><a name="4597" class="Symbol"
+  >{</a
+  ><a name="4598" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="4599" class="Symbol"
+  >}</a
+  ><a name="4600"
+  > </a
+  ><a name="4601" class="Symbol"
+  >(</a
+  ><a name="4602" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="4605"
+  > </a
+  ><a name="4606" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="4610" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="exercise"><a href="#exercise">Exercise</a></h1>
+<p>Define <code>const : {A B : Set} → A → B → A</code>!</p>
+<p>Define <code>flip : {A B C : Set} → (A → B → C) → B → A → C</code>!</p>
+<h1 id="cartesian-product"><a href="#cartesian-product"><code>_×_</code>: Cartesian Product</a></h1>
+<p>Recall the definition of Cartesian product:</p>
+<p><pre
+><a name="4840"
+  >
+</a
+  ><a name="4855" class="Keyword"
+  >data</a
+  ><a name="4859"
+  > </a
+  ><a name="4860" href="Functions.Polymorphic.html#4860" class="Datatype Operator"
+  >_&#215;_</a
+  ><a name="4863"
+  > </a
+  ><a name="4864" class="Symbol"
+  >(</a
+  ><a name="4865" href="Functions.Polymorphic.html#4865" class="Bound"
+  >A</a
+  ><a name="4866"
+  > </a
+  ><a name="4867" href="Functions.Polymorphic.html#4867" class="Bound"
+  >B</a
+  ><a name="4868"
+  > </a
+  ><a name="4869" class="Symbol"
+  >:</a
+  ><a name="4870"
+  > </a
+  ><a name="4871" class="PrimitiveType"
+  >Set</a
+  ><a name="4874" class="Symbol"
+  >)</a
+  ><a name="4875"
+  > </a
+  ><a name="4876" class="Symbol"
+  >:</a
+  ><a name="4877"
+  > </a
+  ><a name="4878" class="PrimitiveType"
+  >Set</a
+  ><a name="4881"
+  > </a
+  ><a name="4882" class="Keyword"
+  >where</a
+  ><a name="4887"
+  >
+  </a
+  ><a name="4890" href="Functions.Polymorphic.html#4890" class="InductiveConstructor Operator"
+  >_,_</a
+  ><a name="4893"
+  > </a
+  ><a name="4894" class="Symbol"
+  >:</a
+  ><a name="4895"
+  > </a
+  ><a name="4896" href="Functions.Polymorphic.html#4865" class="Bound"
+  >A</a
+  ><a name="4897"
+  > </a
+  ><a name="4898" class="Symbol"
+  >&#8594;</a
+  ><a name="4899"
+  > </a
+  ><a name="4900" href="Functions.Polymorphic.html#4867" class="Bound"
+  >B</a
+  ><a name="4901"
+  > </a
+  ><a name="4902" class="Symbol"
+  >&#8594;</a
+  ><a name="4903"
+  > </a
+  ><a name="4904" href="Functions.Polymorphic.html#4865" class="Bound"
+  >A</a
+  ><a name="4905"
+  > </a
+  ><a name="4906" href="Functions.Polymorphic.html#4860" class="Datatype Operator"
+  >&#215;</a
+  ><a name="4907"
+  > </a
+  ><a name="4908" href="Functions.Polymorphic.html#4867" class="Bound"
+  >B</a
+  ><a name="4909"
+  >
+
+</a
+  ><a name="4911" class="Keyword"
+  >infixr</a
+  ><a name="4917"
+  > </a
+  ><a name="4918" class="Number"
+  >4</a
+  ><a name="4919"
+  > _,_
+</a
+  ><a name="4924" class="Keyword"
+  >infixr</a
+  ><a name="4930"
+  > </a
+  ><a name="4931" class="Number"
+  >2</a
+  ><a name="4932"
+  > _&#215;_</a
+  ></pre
+></p>
+<h1 id="exercises-2"><a href="#exercises-2">Exercises</a></h1>
+<p>Define a function which swaps the two elements!</p>
+<p>Define the following functions:</p>
+<p><pre
+><a name="5050"
+  >
+</a
+  ><a name="5065" href="Functions.Polymorphic.html#5065" class="Function"
+  >proj&#8321;</a
+  ><a name="5070"
+  > </a
+  ><a name="5071" class="Symbol"
+  >:</a
+  ><a name="5072"
+  > </a
+  ><a name="5073" class="Symbol"
+  >{</a
+  ><a name="5074" href="Functions.Polymorphic.html#5074" class="Bound"
+  >A</a
+  ><a name="5075"
+  > </a
+  ><a name="5076" href="Functions.Polymorphic.html#5076" class="Bound"
+  >B</a
+  ><a name="5077"
+  > </a
+  ><a name="5078" class="Symbol"
+  >:</a
+  ><a name="5079"
+  > </a
+  ><a name="5080" class="PrimitiveType"
+  >Set</a
+  ><a name="5083" class="Symbol"
+  >}</a
+  ><a name="5084"
+  > </a
+  ><a name="5085" class="Symbol"
+  >&#8594;</a
+  ><a name="5086"
+  > </a
+  ><a name="5087" href="Functions.Polymorphic.html#5074" class="Bound"
+  >A</a
+  ><a name="5088"
+  > </a
+  ><a name="5089" href="Functions.Polymorphic.html#4860" class="Datatype Operator"
+  >&#215;</a
+  ><a name="5090"
+  > </a
+  ><a name="5091" href="Functions.Polymorphic.html#5076" class="Bound"
+  >B</a
+  ><a name="5092"
+  > </a
+  ><a name="5093" class="Symbol"
+  >&#8594;</a
+  ><a name="5094"
+  > </a
+  ><a name="5095" href="Functions.Polymorphic.html#5074" class="Bound"
+  >A</a
+  ></pre
+></p>
+<h1 id="disjoint-union-sum"><a href="#disjoint-union-sum"><code>_⊎_</code>: Disjoint Union (Sum)</a></h1>
+<p>Recall the definition</p>
+<p><pre
+><a name="5303"
+  >
+</a
+  ><a name="5318" class="Keyword"
+  >data</a
+  ><a name="5322"
+  > </a
+  ><a name="5323" href="Functions.Polymorphic.html#5323" class="Datatype Operator"
+  >_&#8846;_</a
+  ><a name="5326"
+  > </a
+  ><a name="5327" class="Symbol"
+  >(</a
+  ><a name="5328" href="Functions.Polymorphic.html#5328" class="Bound"
+  >A</a
+  ><a name="5329"
+  > </a
+  ><a name="5330" href="Functions.Polymorphic.html#5330" class="Bound"
+  >B</a
+  ><a name="5331"
+  > </a
+  ><a name="5332" class="Symbol"
+  >:</a
+  ><a name="5333"
+  > </a
+  ><a name="5334" class="PrimitiveType"
+  >Set</a
+  ><a name="5337" class="Symbol"
+  >)</a
+  ><a name="5338"
+  > </a
+  ><a name="5339" class="Symbol"
+  >:</a
+  ><a name="5340"
+  > </a
+  ><a name="5341" class="PrimitiveType"
+  >Set</a
+  ><a name="5344"
+  > </a
+  ><a name="5345" class="Keyword"
+  >where</a
+  ><a name="5350"
+  >
+  </a
+  ><a name="5353" href="Functions.Polymorphic.html#5353" class="InductiveConstructor"
+  >inj&#8321;</a
+  ><a name="5357"
+  > </a
+  ><a name="5358" class="Symbol"
+  >:</a
+  ><a name="5359"
+  > </a
+  ><a name="5360" href="Functions.Polymorphic.html#5328" class="Bound"
+  >A</a
+  ><a name="5361"
+  > </a
+  ><a name="5362" class="Symbol"
+  >&#8594;</a
+  ><a name="5363"
+  > </a
+  ><a name="5364" href="Functions.Polymorphic.html#5328" class="Bound"
+  >A</a
+  ><a name="5365"
+  > </a
+  ><a name="5366" href="Functions.Polymorphic.html#5323" class="Datatype Operator"
+  >&#8846;</a
+  ><a name="5367"
+  > </a
+  ><a name="5368" href="Functions.Polymorphic.html#5330" class="Bound"
+  >B</a
+  ><a name="5369"
+  >
+  </a
+  ><a name="5372" href="Functions.Polymorphic.html#5372" class="InductiveConstructor"
+  >inj&#8322;</a
+  ><a name="5376"
+  > </a
+  ><a name="5377" class="Symbol"
+  >:</a
+  ><a name="5378"
+  > </a
+  ><a name="5379" href="Functions.Polymorphic.html#5330" class="Bound"
+  >B</a
+  ><a name="5380"
+  > </a
+  ><a name="5381" class="Symbol"
+  >&#8594;</a
+  ><a name="5382"
+  > </a
+  ><a name="5383" href="Functions.Polymorphic.html#5328" class="Bound"
+  >A</a
+  ><a name="5384"
+  > </a
+  ><a name="5385" href="Functions.Polymorphic.html#5323" class="Datatype Operator"
+  >&#8846;</a
+  ><a name="5386"
+  > </a
+  ><a name="5387" href="Functions.Polymorphic.html#5330" class="Bound"
+  >B</a
+  ><a name="5388"
+  >
+
+</a
+  ><a name="5390" class="Keyword"
+  >infixr</a
+  ><a name="5396"
+  > </a
+  ><a name="5397" class="Number"
+  >1</a
+  ><a name="5398"
+  > _&#8846;_</a
+  ></pre
+></p>
+<h1 id="exercises-3"><a href="#exercises-3">Exercises</a></h1>
+<p>Define a function which swaps the two elements!</p>
+<p>Define the eliminator function for disjoint union:</p>
+<p><pre
+><a name="5536"
+  >
+</a
+  ><a name="5551" href="Functions.Polymorphic.html#5551" class="Function Operator"
+  >[_,_]</a
+  ><a name="5556"
+  > </a
+  ><a name="5557" class="Symbol"
+  >:</a
+  ><a name="5558"
+  > </a
+  ><a name="5559" class="Symbol"
+  >{</a
+  ><a name="5560" href="Functions.Polymorphic.html#5560" class="Bound"
+  >A</a
+  ><a name="5561"
+  > </a
+  ><a name="5562" href="Functions.Polymorphic.html#5562" class="Bound"
+  >B</a
+  ><a name="5563"
+  > </a
+  ><a name="5564" href="Functions.Polymorphic.html#5564" class="Bound"
+  >C</a
+  ><a name="5565"
+  > </a
+  ><a name="5566" class="Symbol"
+  >:</a
+  ><a name="5567"
+  > </a
+  ><a name="5568" class="PrimitiveType"
+  >Set</a
+  ><a name="5571" class="Symbol"
+  >}</a
+  ><a name="5572"
+  > </a
+  ><a name="5573" class="Symbol"
+  >&#8594;</a
+  ><a name="5574"
+  > </a
+  ><a name="5575" class="Symbol"
+  >(</a
+  ><a name="5576" href="Functions.Polymorphic.html#5560" class="Bound"
+  >A</a
+  ><a name="5577"
+  > </a
+  ><a name="5578" class="Symbol"
+  >&#8594;</a
+  ><a name="5579"
+  > </a
+  ><a name="5580" href="Functions.Polymorphic.html#5564" class="Bound"
+  >C</a
+  ><a name="5581" class="Symbol"
+  >)</a
+  ><a name="5582"
+  > </a
+  ><a name="5583" class="Symbol"
+  >&#8594;</a
+  ><a name="5584"
+  > </a
+  ><a name="5585" class="Symbol"
+  >(</a
+  ><a name="5586" href="Functions.Polymorphic.html#5562" class="Bound"
+  >B</a
+  ><a name="5587"
+  > </a
+  ><a name="5588" class="Symbol"
+  >&#8594;</a
+  ><a name="5589"
+  > </a
+  ><a name="5590" href="Functions.Polymorphic.html#5564" class="Bound"
+  >C</a
+  ><a name="5591" class="Symbol"
+  >)</a
+  ><a name="5592"
+  > </a
+  ><a name="5593" class="Symbol"
+  >&#8594;</a
+  ><a name="5594"
+  > </a
+  ><a name="5595" class="Symbol"
+  >(</a
+  ><a name="5596" href="Functions.Polymorphic.html#5560" class="Bound"
+  >A</a
+  ><a name="5597"
+  > </a
+  ><a name="5598" href="Functions.Polymorphic.html#5323" class="Datatype Operator"
+  >&#8846;</a
+  ><a name="5599"
+  > </a
+  ><a name="5600" href="Functions.Polymorphic.html#5562" class="Bound"
+  >B</a
+  ><a name="5601"
+  > </a
+  ><a name="5602" class="Symbol"
+  >&#8594;</a
+  ><a name="5603"
+  > </a
+  ><a name="5604" href="Functions.Polymorphic.html#5564" class="Bound"
+  >C</a
+  ><a name="5605" class="Symbol"
+  >)</a
+  ></pre
+></p>
+</body>
+</html>

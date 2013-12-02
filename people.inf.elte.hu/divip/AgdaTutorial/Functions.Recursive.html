@@ -1,0 +1,778 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Recursive Functions</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Recursive Functions</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#import-list">Import List</a></li>
+<li><a href="#addition"><code>_+_</code>: Addition</a></li>
+<li><a href="#exercises-pred-__-__-__-and-_2">Exercises: <code>pred</code>, <code>_*_</code>, <code>_⊔_</code>, <code>_⊓_</code> and <code>⌊_/2⌋</code></a></li>
+<li><a href="#exercises-even-odd">Exercises: <code>even</code>, <code>odd</code></a></li>
+<li><a href="#mutual-definitions">Mutual definitions</a></li>
+<li><a href="#exercises-__-__">Exercises: <code>_≡?_</code>, <code>_≤?_</code></a></li>
+<li><a href="#binary-representation-of-ℕ">Binary representation of <code>ℕ</code></a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#binary-trees">Binary trees</a></li>
+</ul>
+</div>
+<p><pre
+><a name="22"
+  >
+</a
+  ><a name="37" class="Keyword"
+  >module</a
+  ><a name="43"
+  > </a
+  ><a name="44" href="Functions.Recursive.html#1" class="Module"
+  >Functions.Recursive</a
+  ><a name="63"
+  > </a
+  ><a name="64" class="Keyword"
+  >where</a
+  ></pre
+></p>
+<h1 id="import-list"><a href="#import-list">Import List</a></h1>
+<p><pre
+><a name="105"
+  >
+</a
+  ><a name="120" class="Keyword"
+  >open</a
+  ><a name="124"
+  > </a
+  ><a name="125" class="Keyword"
+  >import</a
+  ><a name="131"
+  > </a
+  ><a name="132" href="Data.Bool.html#1" class="Module"
+  >Data.Bool</a
+  ><a name="141"
+  > </a
+  ><a name="142" class="Keyword"
+  >using</a
+  ><a name="147"
+  > </a
+  ><a name="148" class="Symbol"
+  >(</a
+  ><a name="149"
+  >Bool</a
+  ><a name="153" class="Symbol"
+  >;</a
+  ><a name="154"
+  > true</a
+  ><a name="159" class="Symbol"
+  >;</a
+  ><a name="160"
+  > false</a
+  ><a name="166" class="Symbol"
+  >)</a
+  ><a name="167"
+  >
+</a
+  ><a name="168" class="Keyword"
+  >open</a
+  ><a name="172"
+  > </a
+  ><a name="173" class="Keyword"
+  >import</a
+  ><a name="179"
+  > </a
+  ><a name="180" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="188"
+  > </a
+  ><a name="189" class="Keyword"
+  >using</a
+  ><a name="194"
+  > </a
+  ><a name="195" class="Symbol"
+  >(</a
+  ><a name="196"
+  >&#8469;</a
+  ><a name="197" class="Symbol"
+  >;</a
+  ><a name="198"
+  > suc</a
+  ><a name="202" class="Symbol"
+  >;</a
+  ><a name="203"
+  > zero</a
+  ><a name="208" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="addition"><a href="#addition"><code>_+_</code>: Addition</a></h1>
+<p>Definition of addition:</p>
+<p><pre
+><a name="282"
+  >
+</a
+  ><a name="297" href="Functions.Recursive.html#297" class="Function Operator"
+  >_+_</a
+  ><a name="300"
+  > </a
+  ><a name="301" class="Symbol"
+  >:</a
+  ><a name="302"
+  > </a
+  ><a name="303" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="304"
+  > </a
+  ><a name="305" class="Symbol"
+  >&#8594;</a
+  ><a name="306"
+  > </a
+  ><a name="307" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="308"
+  > </a
+  ><a name="309" class="Symbol"
+  >&#8594;</a
+  ><a name="310"
+  > </a
+  ><a name="311" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="312"
+  >
+</a
+  ><a name="313" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="317"
+  >  </a
+  ><a name="319" href="Functions.Recursive.html#297" class="Function Operator"
+  >+</a
+  ><a name="320"
+  > </a
+  ><a name="321" href="Functions.Recursive.html#321" class="Bound"
+  >n</a
+  ><a name="322"
+  > </a
+  ><a name="323" class="Symbol"
+  >=</a
+  ><a name="324"
+  > </a
+  ><a name="325" href="Functions.Recursive.html#321" class="Bound"
+  >n</a
+  ><a name="326"
+  >
+</a
+  ><a name="327" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="330"
+  > </a
+  ><a name="331" href="Functions.Recursive.html#331" class="Bound"
+  >m</a
+  ><a name="332"
+  > </a
+  ><a name="333" href="Functions.Recursive.html#297" class="Function Operator"
+  >+</a
+  ><a name="334"
+  > </a
+  ><a name="335" href="Functions.Recursive.html#335" class="Bound"
+  >n</a
+  ><a name="336"
+  > </a
+  ><a name="337" class="Symbol"
+  >=</a
+  ><a name="338"
+  > </a
+  ><a name="339" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="342"
+  > </a
+  ><a name="343" class="Symbol"
+  >(</a
+  ><a name="344" href="Functions.Recursive.html#331" class="Bound"
+  >m</a
+  ><a name="345"
+  > </a
+  ><a name="346" href="Functions.Recursive.html#297" class="Function Operator"
+  >+</a
+  ><a name="347"
+  > </a
+  ><a name="348" href="Functions.Recursive.html#335" class="Bound"
+  >n</a
+  ><a name="349" class="Symbol"
+  >)</a
+  ><a name="350"
+  >
+
+</a
+  ><a name="352" class="Keyword"
+  >infixl</a
+  ><a name="358"
+  > </a
+  ><a name="359" class="Number"
+  >6</a
+  ><a name="360"
+  > _+_</a
+  ></pre
+></p>
+<h1 id="exercises-pred-__-__-__-and-_2"><a href="#exercises-pred-__-__-__-and-_2">Exercises: <code>pred</code>, <code>_*_</code>, <code>_⊔_</code>, <code>_⊓_</code> and <code>⌊_/2⌋</code></a></h1>
+<p>Define the following functions:</p>
+<p><pre
+><a name="471"
+  >
+</a
+  ><a name="486" href="Functions.Recursive.html#486" class="Function"
+  >pred</a
+  ><a name="490"
+  >  </a
+  ><a name="492" class="Symbol"
+  >:</a
+  ><a name="493"
+  > </a
+  ><a name="494" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="495"
+  > </a
+  ><a name="496" class="Symbol"
+  >&#8594;</a
+  ><a name="497"
+  > </a
+  ><a name="498" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="499"
+  >      </a
+  ><a name="505" class="Comment"
+  >-- predecessor (pred 0 = 0)</a
+  ></pre
+></p>
+<p><pre
+><a name="620"
+  >
+</a
+  ><a name="635" class="Keyword"
+  >infixl</a
+  ><a name="641"
+  > </a
+  ><a name="642" class="Number"
+  >6</a
+  ><a name="643"
+  > _&#8760;_
+</a
+  ><a name="648" href="Functions.Recursive.html#648" class="Function Operator"
+  >_&#8760;_</a
+  ><a name="651"
+  >   </a
+  ><a name="654" class="Symbol"
+  >:</a
+  ><a name="655"
+  > </a
+  ><a name="656" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="657"
+  > </a
+  ><a name="658" class="Symbol"
+  >&#8594;</a
+  ><a name="659"
+  > </a
+  ><a name="660" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="661"
+  > </a
+  ><a name="662" class="Symbol"
+  >&#8594;</a
+  ><a name="663"
+  > </a
+  ><a name="664" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="665"
+  >  </a
+  ><a name="667" class="Comment"
+  >-- subtraction (0 &#8760; n = n)</a
+  ></pre
+></p>
+<p><pre
+><a name="812"
+  >
+</a
+  ><a name="827" class="Keyword"
+  >infixl</a
+  ><a name="833"
+  > </a
+  ><a name="834" class="Number"
+  >7</a
+  ><a name="835"
+  > _*_
+</a
+  ><a name="840" href="Functions.Recursive.html#840" class="Function Operator"
+  >_*_</a
+  ><a name="843"
+  >   </a
+  ><a name="846" class="Symbol"
+  >:</a
+  ><a name="847"
+  > </a
+  ><a name="848" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="849"
+  > </a
+  ><a name="850" class="Symbol"
+  >&#8594;</a
+  ><a name="851"
+  > </a
+  ><a name="852" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="853"
+  > </a
+  ><a name="854" class="Symbol"
+  >&#8594;</a
+  ><a name="855"
+  > </a
+  ><a name="856" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="857"
+  >  </a
+  ><a name="859" class="Comment"
+  >-- multiplication</a
+  ></pre
+></p>
+<p><pre
+><a name="966"
+  >
+</a
+  ><a name="981" class="Keyword"
+  >infixl</a
+  ><a name="987"
+  > </a
+  ><a name="988" class="Number"
+  >6</a
+  ><a name="989"
+  > _&#8852;_
+</a
+  ><a name="994" href="Functions.Recursive.html#994" class="Function Operator"
+  >_&#8852;_</a
+  ><a name="997"
+  >   </a
+  ><a name="1000" class="Symbol"
+  >:</a
+  ><a name="1001"
+  > </a
+  ><a name="1002" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1003"
+  > </a
+  ><a name="1004" class="Symbol"
+  >&#8594;</a
+  ><a name="1005"
+  > </a
+  ><a name="1006" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1007"
+  > </a
+  ><a name="1008" class="Symbol"
+  >&#8594;</a
+  ><a name="1009"
+  > </a
+  ><a name="1010" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1011"
+  >  </a
+  ><a name="1013" class="Comment"
+  >-- maximum</a
+  ></pre
+></p>
+<p><pre
+><a name="1141"
+  >
+</a
+  ><a name="1156" class="Keyword"
+  >infixl</a
+  ><a name="1162"
+  > </a
+  ><a name="1163" class="Number"
+  >7</a
+  ><a name="1164"
+  > _&#8851;_
+</a
+  ><a name="1169" href="Functions.Recursive.html#1169" class="Function Operator"
+  >_&#8851;_</a
+  ><a name="1172"
+  >   </a
+  ><a name="1175" class="Symbol"
+  >:</a
+  ><a name="1176"
+  > </a
+  ><a name="1177" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1178"
+  > </a
+  ><a name="1179" class="Symbol"
+  >&#8594;</a
+  ><a name="1180"
+  > </a
+  ><a name="1181" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1182"
+  > </a
+  ><a name="1183" class="Symbol"
+  >&#8594;</a
+  ><a name="1184"
+  > </a
+  ><a name="1185" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1186"
+  >  </a
+  ><a name="1188" class="Comment"
+  >-- minimum</a
+  ></pre
+></p>
+<p><pre
+><a name="1322"
+  >
+</a
+  ><a name="1337" href="Functions.Recursive.html#1337" class="Function Operator"
+  >&#8970;_/2&#8971;</a
+  ><a name="1342"
+  > </a
+  ><a name="1343" class="Symbol"
+  >:</a
+  ><a name="1344"
+  > </a
+  ><a name="1345" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1346"
+  > </a
+  ><a name="1347" class="Symbol"
+  >&#8594;</a
+  ><a name="1348"
+  > </a
+  ><a name="1349" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1350"
+  >      </a
+  ><a name="1356" class="Comment"
+  >-- half (&#8970; 1 /2&#8971; = 0)</a
+  ></pre
+></p>
+<h1 id="exercises-even-odd"><a href="#exercises-even-odd">Exercises: <code>even</code>, <code>odd</code></a></h1>
+<p><pre
+><a name="1549"
+  >
+</a
+  ><a name="1564" href="Functions.Recursive.html#1564" class="Function"
+  >odd</a
+  ><a name="1567"
+  >   </a
+  ><a name="1570" class="Symbol"
+  >:</a
+  ><a name="1571"
+  > </a
+  ><a name="1572" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1573"
+  > </a
+  ><a name="1574" class="Symbol"
+  >&#8594;</a
+  ><a name="1575"
+  > </a
+  ><a name="1576" href="Data.Bool.html#603" class="Datatype"
+  >Bool</a
+  ><a name="1580"
+  >   </a
+  ><a name="1583" class="Comment"
+  >-- is odd</a
+  ></pre
+></p>
+<p><pre
+><a name="1723"
+  >
+</a
+  ><a name="1738" href="Functions.Recursive.html#1738" class="Function"
+  >even</a
+  ><a name="1742"
+  >  </a
+  ><a name="1744" class="Symbol"
+  >:</a
+  ><a name="1745"
+  > </a
+  ><a name="1746" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1747"
+  > </a
+  ><a name="1748" class="Symbol"
+  >&#8594;</a
+  ><a name="1749"
+  > </a
+  ><a name="1750" href="Data.Bool.html#603" class="Datatype"
+  >Bool</a
+  ><a name="1754"
+  >   </a
+  ><a name="1757" class="Comment"
+  >-- is even</a
+  ></pre
+></p>
+<h1 id="mutual-definitions"><a href="#mutual-definitions">Mutual definitions</a></h1>
+<p>Define <code>even</code> and <code>odd</code> mutually with the <code>mutual</code> keyword!</p>
+<h1 id="exercises-__-__"><a href="#exercises-__-__">Exercises: <code>_≡?_</code>, <code>_≤?_</code></a></h1>
+<p><pre
+><a name="2031"
+  >
+</a
+  ><a name="2047" href="Functions.Recursive.html#2047" class="Function Operator"
+  >_&#8801;?_</a
+  ><a name="2051"
+  >  </a
+  ><a name="2053" class="Symbol"
+  >:</a
+  ><a name="2054"
+  > </a
+  ><a name="2055" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2056"
+  > </a
+  ><a name="2057" class="Symbol"
+  >&#8594;</a
+  ><a name="2058"
+  > </a
+  ><a name="2059" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2060"
+  > </a
+  ><a name="2061" class="Symbol"
+  >&#8594;</a
+  ><a name="2062"
+  > </a
+  ><a name="2063" href="Data.Bool.html#603" class="Datatype"
+  >Bool</a
+  ><a name="2067"
+  >  </a
+  ><a name="2069" class="Comment"
+  >-- is equal</a
+  ></pre
+></p>
+<p><pre
+><a name="2229"
+  >
+</a
+  ><a name="2244" href="Functions.Recursive.html#2244" class="Function Operator"
+  >_&#8804;?_</a
+  ><a name="2248"
+  >  </a
+  ><a name="2250" class="Symbol"
+  >:</a
+  ><a name="2251"
+  > </a
+  ><a name="2252" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2253"
+  > </a
+  ><a name="2254" class="Symbol"
+  >&#8594;</a
+  ><a name="2255"
+  > </a
+  ><a name="2256" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2257"
+  > </a
+  ><a name="2258" class="Symbol"
+  >&#8594;</a
+  ><a name="2259"
+  > </a
+  ><a name="2260" href="Data.Bool.html#603" class="Datatype"
+  >Bool</a
+  ><a name="2264"
+  >  </a
+  ><a name="2266" class="Comment"
+  >-- is less than or equal</a
+  ></pre
+></p>
+<h1 id="binary-representation-of-ℕ"><a href="#binary-representation-of-ℕ">Binary representation of <code>ℕ</code></a></h1>
+<p>Import the binary representation of natural numbers:</p>
+<p><pre
+><a name="2513"
+  >
+</a
+  ><a name="2528" class="Keyword"
+  >open</a
+  ><a name="2532"
+  > </a
+  ><a name="2533" class="Keyword"
+  >import</a
+  ><a name="2539"
+  > </a
+  ><a name="2540" href="Sets.Recursive.html#1" class="Module"
+  >Sets.Recursive</a
+  ><a name="2554"
+  > </a
+  ><a name="2555" class="Keyword"
+  >using</a
+  ><a name="2560"
+  > </a
+  ><a name="2561" class="Symbol"
+  >(</a
+  ><a name="2562"
+  >&#8469;&#8314;</a
+  ><a name="2564" class="Symbol"
+  >;</a
+  ><a name="2565"
+  > one</a
+  ><a name="2569" class="Symbol"
+  >;</a
+  ><a name="2570"
+  > double</a
+  ><a name="2577" class="Symbol"
+  >;</a
+  ><a name="2578"
+  > double+1</a
+  ><a name="2587" class="Symbol"
+  >;</a
+  ><a name="2588"
+  > &#8469;&#8322;</a
+  ><a name="2591" class="Symbol"
+  >;</a
+  ><a name="2592"
+  > zero</a
+  ><a name="2597" class="Symbol"
+  >;</a
+  ><a name="2598"
+  > id</a
+  ><a name="2601" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p><em>Exercise:</em> define the conversion function:</p>
+<p><pre
+><a name="2658"
+  >
+</a
+  ><a name="2673" href="Functions.Recursive.html#2673" class="Function"
+  >from</a
+  ><a name="2677"
+  > </a
+  ><a name="2678" class="Symbol"
+  >:</a
+  ><a name="2679"
+  > </a
+  ><a name="2680" href="Sets.Recursive.html#2014" class="Datatype"
+  >&#8469;&#8322;</a
+  ><a name="2682"
+  > </a
+  ><a name="2683" class="Symbol"
+  >&#8594;</a
+  ><a name="2684"
+  > </a
+  ><a name="2685" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2686"
+  >  </a
+  ><a name="2688" class="Comment"
+  >-- hint: use _*_</a
+  ></pre
+></p>
+<p><code>from</code> should define the backward function of the following isomorphism between <code>ℕ</code> and <code>ℕ₂</code> (we prove that <code>from</code> is an isomorphism later):</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><strong>ℕ</strong></th>
+<th align="left"><strong>ℕ₂</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>zero</code></td>
+<td align="left"><code>zero</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>suc zero</code></td>
+<td align="left"><code>id one</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>suc (suc zero)</code></td>
+<td align="left"><code>id (double one)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>suc (suc (suc zero))</code></td>
+<td align="left"><code>id (double+1 one)</code></td>
+</tr>
+<tr class="odd">
+<td align="left">...</td>
+<td align="left">...</td>
+</tr>
+</tbody>
+</table>
+<p>We will see how to define the conversion to the other direction later.</p>
+<h1 id="exercises"><a href="#exercises">Exercises</a></h1>
+<p>Define <code>ℤ</code> and some operations on it (<code>_+_</code>, <code>_-_</code>, <code>_*_</code>)!</p>
+<h1 id="binary-trees"><a href="#binary-trees">Binary trees</a></h1>
+<p><pre
+><a name="3524"
+  >
+</a
+  ><a name="3539" class="Keyword"
+  >data</a
+  ><a name="3543"
+  > </a
+  ><a name="3544" href="Functions.Recursive.html#3544" class="Datatype"
+  >BinTree</a
+  ><a name="3551"
+  > </a
+  ><a name="3552" class="Symbol"
+  >:</a
+  ><a name="3553"
+  > </a
+  ><a name="3554" class="PrimitiveType"
+  >Set</a
+  ><a name="3557"
+  > </a
+  ><a name="3558" class="Keyword"
+  >where</a
+  ><a name="3563"
+  >
+  </a
+  ><a name="3566" href="Functions.Recursive.html#3566" class="InductiveConstructor"
+  >leaf</a
+  ><a name="3570"
+  > </a
+  ><a name="3571" class="Symbol"
+  >:</a
+  ><a name="3572"
+  > </a
+  ><a name="3573" href="Functions.Recursive.html#3544" class="Datatype"
+  >BinTree</a
+  ><a name="3580"
+  >
+  </a
+  ><a name="3583" href="Functions.Recursive.html#3583" class="InductiveConstructor"
+  >node</a
+  ><a name="3587"
+  > </a
+  ><a name="3588" class="Symbol"
+  >:</a
+  ><a name="3589"
+  > </a
+  ><a name="3590" href="Functions.Recursive.html#3544" class="Datatype"
+  >BinTree</a
+  ><a name="3597"
+  > </a
+  ><a name="3598" class="Symbol"
+  >&#8594;</a
+  ><a name="3599"
+  > </a
+  ><a name="3600" href="Functions.Recursive.html#3544" class="Datatype"
+  >BinTree</a
+  ><a name="3607"
+  > </a
+  ><a name="3608" class="Symbol"
+  >&#8594;</a
+  ><a name="3609"
+  > </a
+  ><a name="3610" href="Functions.Recursive.html#3544" class="Datatype"
+  >BinTree</a
+  ></pre
+></p>
+<p><em>Exercise:</em> define (recursive) mirroring of binary trees!</p>
+</body>
+</html>

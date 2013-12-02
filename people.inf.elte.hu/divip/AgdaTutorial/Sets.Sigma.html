@@ -1,0 +1,1789 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>The Dependent Pair</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">The Dependent Pair</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#import-list">Import List</a></li>
+<li><a href="#dependent-pair">Dependent pair</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#σ-as-disjoint-union"><code>Σ</code> as disjoint union</a></li>
+<li><a href="#σ-as-subset"><code>Σ</code> as subset</a></li>
+<li><a href="#exercise">Exercise</a></li>
+<li><a href="#σ-as-existential-quantification"><code>Σ</code> as existential quantification</a></li>
+<li><a href="#exercise-1">Exercise</a></li>
+<li><a href="#exercise-2">Exercise</a></li>
+</ul>
+</div>
+<p><pre
+><a name="21"
+  >
+</a
+  ><a name="36" class="Keyword"
+  >module</a
+  ><a name="42"
+  > </a
+  ><a name="43" href="Sets.Sigma.html#1" class="Module"
+  >Sets.Sigma</a
+  ><a name="53"
+  > </a
+  ><a name="54" class="Keyword"
+  >where</a
+  ></pre
+></p>
+<h1 id="import-list"><a href="#import-list">Import List</a></h1>
+<p><pre
+><a name="96"
+  >
+</a
+  ><a name="111" class="Keyword"
+  >open</a
+  ><a name="115"
+  > </a
+  ><a name="116" class="Keyword"
+  >import</a
+  ><a name="122"
+  > </a
+  ><a name="123" href="Data.Bool.html#1" class="Module"
+  >Data.Bool</a
+  ><a name="132"
+  > </a
+  ><a name="133" class="Keyword"
+  >using</a
+  ><a name="138"
+  > </a
+  ><a name="139" class="Symbol"
+  >(</a
+  ><a name="140"
+  >Bool</a
+  ><a name="144" class="Symbol"
+  >;</a
+  ><a name="145"
+  > true</a
+  ><a name="150" class="Symbol"
+  >;</a
+  ><a name="151"
+  > false</a
+  ><a name="157" class="Symbol"
+  >;</a
+  ><a name="158"
+  > if_then_else_</a
+  ><a name="172" class="Symbol"
+  >)</a
+  ><a name="173"
+  >
+</a
+  ><a name="174" class="Keyword"
+  >open</a
+  ><a name="178"
+  > </a
+  ><a name="179" class="Keyword"
+  >import</a
+  ><a name="185"
+  > </a
+  ><a name="186" href="Data.Empty.html#1" class="Module"
+  >Data.Empty</a
+  ><a name="196"
+  > </a
+  ><a name="197" class="Keyword"
+  >using</a
+  ><a name="202"
+  > </a
+  ><a name="203" class="Symbol"
+  >(</a
+  ><a name="204"
+  >&#8869;</a
+  ><a name="205" class="Symbol"
+  >)</a
+  ><a name="206"
+  >
+</a
+  ><a name="207" class="Keyword"
+  >open</a
+  ><a name="211"
+  > </a
+  ><a name="212" class="Keyword"
+  >import</a
+  ><a name="218"
+  > </a
+  ><a name="219" href="Data.Fin.html#1" class="Module"
+  >Data.Fin</a
+  ><a name="227"
+  > </a
+  ><a name="228" class="Keyword"
+  >using</a
+  ><a name="233"
+  > </a
+  ><a name="234" class="Symbol"
+  >(</a
+  ><a name="235"
+  >Fin</a
+  ><a name="238" class="Symbol"
+  >;</a
+  ><a name="239"
+  > zero</a
+  ><a name="244" class="Symbol"
+  >;</a
+  ><a name="245"
+  > suc</a
+  ><a name="249" class="Symbol"
+  >)</a
+  ><a name="250"
+  >
+</a
+  ><a name="251" class="Keyword"
+  >open</a
+  ><a name="255"
+  > </a
+  ><a name="256" class="Keyword"
+  >import</a
+  ><a name="262"
+  > </a
+  ><a name="263" href="Data.List.html#1" class="Module"
+  >Data.List</a
+  ><a name="272"
+  > </a
+  ><a name="273" class="Keyword"
+  >using</a
+  ><a name="278"
+  > </a
+  ><a name="279" class="Symbol"
+  >(</a
+  ><a name="280"
+  >List</a
+  ><a name="284" class="Symbol"
+  >;</a
+  ><a name="285"
+  > []</a
+  ><a name="288" class="Symbol"
+  >;</a
+  ><a name="289"
+  > _&#8759;_</a
+  ><a name="293" class="Symbol"
+  >;</a
+  ><a name="294"
+  > _++_</a
+  ><a name="299" class="Symbol"
+  >)</a
+  ><a name="300"
+  >
+</a
+  ><a name="301" class="Keyword"
+  >open</a
+  ><a name="305"
+  > </a
+  ><a name="306" class="Keyword"
+  >import</a
+  ><a name="312"
+  > </a
+  ><a name="313" href="Data.Maybe.html#1" class="Module"
+  >Data.Maybe</a
+  ><a name="323"
+  > </a
+  ><a name="324" class="Keyword"
+  >using</a
+  ><a name="329"
+  > </a
+  ><a name="330" class="Symbol"
+  >(</a
+  ><a name="331"
+  >Maybe</a
+  ><a name="336" class="Symbol"
+  >;</a
+  ><a name="337"
+  > just</a
+  ><a name="342" class="Symbol"
+  >;</a
+  ><a name="343"
+  > nothing</a
+  ><a name="351" class="Symbol"
+  >)</a
+  ><a name="352"
+  >
+</a
+  ><a name="353" class="Keyword"
+  >open</a
+  ><a name="357"
+  > </a
+  ><a name="358" class="Keyword"
+  >import</a
+  ><a name="364"
+  > </a
+  ><a name="365" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="373"
+  > </a
+  ><a name="374" class="Keyword"
+  >using</a
+  ><a name="379"
+  > </a
+  ><a name="380" class="Symbol"
+  >(</a
+  ><a name="381"
+  >&#8469;</a
+  ><a name="382" class="Symbol"
+  >;</a
+  ><a name="383"
+  > zero</a
+  ><a name="388" class="Symbol"
+  >;</a
+  ><a name="389"
+  > suc</a
+  ><a name="393" class="Symbol"
+  >;</a
+  ><a name="394"
+  > _&lt;_</a
+  ><a name="398" class="Symbol"
+  >;</a
+  ><a name="399"
+  > s&#8804;s</a
+  ><a name="403" class="Symbol"
+  >;</a
+  ><a name="404"
+  > z&#8804;n</a
+  ><a name="408" class="Symbol"
+  >)</a
+  ><a name="409"
+  >
+</a
+  ><a name="410" class="Keyword"
+  >open</a
+  ><a name="414"
+  > </a
+  ><a name="415" class="Keyword"
+  >import</a
+  ><a name="421"
+  > </a
+  ><a name="422" href="Data.Unit.html#1" class="Module"
+  >Data.Unit</a
+  ><a name="431"
+  > </a
+  ><a name="432" class="Keyword"
+  >using</a
+  ><a name="437"
+  > </a
+  ><a name="438" class="Symbol"
+  >(</a
+  ><a name="439"
+  >&#8868;</a
+  ><a name="440" class="Symbol"
+  >;</a
+  ><a name="441"
+  > tt</a
+  ><a name="444" class="Symbol"
+  >)</a
+  ><a name="445"
+  >
+</a
+  ><a name="446" class="Keyword"
+  >open</a
+  ><a name="450"
+  > </a
+  ><a name="451" class="Keyword"
+  >import</a
+  ><a name="457"
+  > </a
+  ><a name="458" href="Data.Product.html#1" class="Module"
+  >Data.Product</a
+  ><a name="470"
+  > </a
+  ><a name="471" class="Keyword"
+  >using</a
+  ><a name="476"
+  > </a
+  ><a name="477" class="Symbol"
+  >(</a
+  ><a name="478"
+  >_&#215;_</a
+  ><a name="481" class="Symbol"
+  >;</a
+  ><a name="482"
+  > _,_</a
+  ><a name="486" class="Symbol"
+  >)</a
+  ><a name="487"
+  >
+</a
+  ><a name="488" class="Keyword"
+  >open</a
+  ><a name="492"
+  > </a
+  ><a name="493" class="Keyword"
+  >import</a
+  ><a name="499"
+  > </a
+  ><a name="500" href="Function.html#1" class="Module"
+  >Function</a
+  ><a name="508"
+  > </a
+  ><a name="509" class="Keyword"
+  >using</a
+  ><a name="514"
+  > </a
+  ><a name="515" class="Symbol"
+  >(</a
+  ><a name="516"
+  >_$_</a
+  ><a name="519" class="Symbol"
+  >;</a
+  ><a name="520"
+  > _&#8728;_</a
+  ><a name="524" class="Symbol"
+  >)</a
+  ><a name="525"
+  >
+</a
+  ><a name="526" class="Keyword"
+  >open</a
+  ><a name="530"
+  > </a
+  ><a name="531" class="Keyword"
+  >import</a
+  ><a name="537"
+  > </a
+  ><a name="538" href="Relation.Binary.PropositionalEquality.html#1" class="Module"
+  >Relation.Binary.PropositionalEquality</a
+  ><a name="575"
+  > </a
+  ><a name="576" class="Keyword"
+  >using</a
+  ><a name="581"
+  > </a
+  ><a name="582" class="Symbol"
+  >(</a
+  ><a name="583"
+  >_&#8801;_</a
+  ><a name="586" class="Symbol"
+  >;</a
+  ><a name="587"
+  > refl</a
+  ><a name="592" class="Symbol"
+  >;</a
+  ><a name="593"
+  > cong</a
+  ><a name="598" class="Symbol"
+  >)</a
+  ><a name="599"
+  >
+</a
+  ><a name="600" class="Keyword"
+  >open</a
+  ><a name="604"
+  > </a
+  ><a name="605" class="Keyword"
+  >import</a
+  ><a name="611"
+  > </a
+  ><a name="612" href="Data.Empty.html#1" class="Module"
+  >Data.Empty</a
+  ><a name="622"
+  > </a
+  ><a name="623" class="Keyword"
+  >using</a
+  ><a name="628"
+  > </a
+  ><a name="629" class="Symbol"
+  >(</a
+  ><a name="630"
+  >&#8869;</a
+  ><a name="631" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="dependent-pair"><a href="#dependent-pair">Dependent pair</a></h1>
+<p>The generalization of <code>_×_</code> is called <code>Σ</code> (Sigma) or dependent pair:</p>
+<p><pre
+><a name="745"
+  >
+</a
+  ><a name="760" class="Keyword"
+  >data</a
+  ><a name="764"
+  > </a
+  ><a name="765" href="Sets.Sigma.html#765" class="Datatype"
+  >&#931;</a
+  ><a name="766"
+  > </a
+  ><a name="767" class="Symbol"
+  >(</a
+  ><a name="768" href="Sets.Sigma.html#768" class="Bound"
+  >A</a
+  ><a name="769"
+  > </a
+  ><a name="770" class="Symbol"
+  >:</a
+  ><a name="771"
+  > </a
+  ><a name="772" class="PrimitiveType"
+  >Set</a
+  ><a name="775" class="Symbol"
+  >)</a
+  ><a name="776"
+  > </a
+  ><a name="777" class="Symbol"
+  >(</a
+  ><a name="778" href="Sets.Sigma.html#778" class="Bound"
+  >B</a
+  ><a name="779"
+  > </a
+  ><a name="780" class="Symbol"
+  >:</a
+  ><a name="781"
+  > </a
+  ><a name="782" href="Sets.Sigma.html#768" class="Bound"
+  >A</a
+  ><a name="783"
+  > </a
+  ><a name="784" class="Symbol"
+  >&#8594;</a
+  ><a name="785"
+  > </a
+  ><a name="786" class="PrimitiveType"
+  >Set</a
+  ><a name="789" class="Symbol"
+  >)</a
+  ><a name="790"
+  > </a
+  ><a name="791" class="Symbol"
+  >:</a
+  ><a name="792"
+  > </a
+  ><a name="793" class="PrimitiveType"
+  >Set</a
+  ><a name="796"
+  > </a
+  ><a name="797" class="Keyword"
+  >where</a
+  ><a name="802"
+  >
+  </a
+  ><a name="805" href="Sets.Sigma.html#805" class="InductiveConstructor Operator"
+  >_,_</a
+  ><a name="808"
+  > </a
+  ><a name="809" class="Symbol"
+  >:</a
+  ><a name="810"
+  > </a
+  ><a name="811" class="Symbol"
+  >(</a
+  ><a name="812" href="Sets.Sigma.html#812" class="Bound"
+  >a</a
+  ><a name="813"
+  > </a
+  ><a name="814" class="Symbol"
+  >:</a
+  ><a name="815"
+  > </a
+  ><a name="816" href="Sets.Sigma.html#768" class="Bound"
+  >A</a
+  ><a name="817" class="Symbol"
+  >)</a
+  ><a name="818"
+  > </a
+  ><a name="819" class="Symbol"
+  >&#8594;</a
+  ><a name="820"
+  > </a
+  ><a name="821" class="Symbol"
+  >(</a
+  ><a name="822" href="Sets.Sigma.html#822" class="Bound"
+  >b</a
+  ><a name="823"
+  > </a
+  ><a name="824" class="Symbol"
+  >:</a
+  ><a name="825"
+  > </a
+  ><a name="826" href="Sets.Sigma.html#778" class="Bound"
+  >B</a
+  ><a name="827"
+  > </a
+  ><a name="828" href="Sets.Sigma.html#812" class="Bound"
+  >a</a
+  ><a name="829" class="Symbol"
+  >)</a
+  ><a name="830"
+  > </a
+  ><a name="831" class="Symbol"
+  >&#8594;</a
+  ><a name="832"
+  > </a
+  ><a name="833" href="Sets.Sigma.html#765" class="Datatype"
+  >&#931;</a
+  ><a name="834"
+  > </a
+  ><a name="835" href="Sets.Sigma.html#768" class="Bound"
+  >A</a
+  ><a name="836"
+  > </a
+  ><a name="837" href="Sets.Sigma.html#778" class="Bound"
+  >B</a
+  ><a name="838"
+  >
+
+</a
+  ><a name="840" class="Keyword"
+  >infixr</a
+  ><a name="846"
+  > </a
+  ><a name="847" class="Number"
+  >4</a
+  ><a name="848"
+  > _,_</a
+  ></pre
+></p>
+<h1 id="usage"><a href="#usage">Usage</a></h1>
+<p>The dependent pair may represent</p>
+<ul>
+<li>disjoint union of a family of data types,</li>
+<li>subset of a set,</li>
+<li>existential quantification.</li>
+</ul>
+<h1 id="σ-as-disjoint-union"><a href="#σ-as-disjoint-union"><code>Σ</code> as disjoint union</a></h1>
+<p>Examples:</p>
+<ul>
+<li><code>List A</code> ~ <code>Σ ℕ (Vec A)</code></li>
+<li><code>Σ ℕ Fin</code> is the type that contains all <code>Fin</code>s.</li>
+</ul>
+<p>The non-dependent pair and the disjoint union of two types are special cases of <code>Σ</code>:</p>
+<ul>
+<li><code>A × B</code> ~ <code>Σ A (const B)</code></li>
+<li><code>A ⊎ B</code> ~ <code>Σ Bool (λ b → if b then A else B)</code></li>
+</ul>
+<h1 id="σ-as-subset"><a href="#σ-as-subset"><code>Σ</code> as subset</a></h1>
+<p>If <code>A</code> is a type and <code>P</code> is a predicate on <code>A</code>, then we can represent the set of elements which fulfil the predicate by <code>Σ A P</code>.</p>
+<p>Examples:</p>
+<ul>
+<li><code>Vec A n</code> ~ <code>Σ (List A) (λ l → length l ≡ n)</code></li>
+<li><code>Fin n</code> ~ <code>Σ ℕ        (λ m → m &lt; n)</code></li>
+<li>balanced trees ~ <code>Σ</code> tree <code>(λ t → t</code> is balanced<code>)</code></li>
+</ul>
+<h1 id="exercise"><a href="#exercise">Exercise</a></h1>
+<p>Define <code>toFin</code>:</p>
+<p><pre
+><a name="1687"
+  >
+</a
+  ><a name="1702" href="Sets.Sigma.html#1702" class="Function"
+  >Fin&#8242;</a
+  ><a name="1706"
+  > </a
+  ><a name="1707" class="Symbol"
+  >:</a
+  ><a name="1708"
+  > </a
+  ><a name="1709" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1710"
+  > </a
+  ><a name="1711" class="Symbol"
+  >&#8594;</a
+  ><a name="1712"
+  > </a
+  ><a name="1713" class="PrimitiveType"
+  >Set</a
+  ><a name="1716"
+  >
+</a
+  ><a name="1717" href="Sets.Sigma.html#1702" class="Function"
+  >Fin&#8242;</a
+  ><a name="1721"
+  > </a
+  ><a name="1722" href="Sets.Sigma.html#1722" class="Bound"
+  >n</a
+  ><a name="1723"
+  > </a
+  ><a name="1724" class="Symbol"
+  >=</a
+  ><a name="1725"
+  > </a
+  ><a name="1726" href="Sets.Sigma.html#765" class="Datatype"
+  >&#931;</a
+  ><a name="1727"
+  > </a
+  ><a name="1728" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1729"
+  > </a
+  ><a name="1730" class="Symbol"
+  >(&#955;</a
+  ><a name="1732"
+  > </a
+  ><a name="1733" href="Sets.Sigma.html#1733" class="Bound"
+  >x</a
+  ><a name="1734"
+  > </a
+  ><a name="1735" class="Symbol"
+  >&#8594;</a
+  ><a name="1736"
+  > </a
+  ><a name="1737" href="Sets.Sigma.html#1733" class="Bound"
+  >x</a
+  ><a name="1738"
+  > </a
+  ><a name="1739" href="Data.Nat.html#997" class="Function Operator"
+  >&lt;</a
+  ><a name="1740"
+  > </a
+  ><a name="1741" href="Sets.Sigma.html#1722" class="Bound"
+  >n</a
+  ><a name="1742" class="Symbol"
+  >)</a
+  ><a name="1743"
+  >
+
+</a
+  ><a name="1745" href="Sets.Sigma.html#1745" class="Function"
+  >toFin</a
+  ><a name="1750"
+  > </a
+  ><a name="1751" class="Symbol"
+  >:</a
+  ><a name="1752"
+  > </a
+  ><a name="1753" class="Symbol"
+  >&#8704;</a
+  ><a name="1754"
+  > </a
+  ><a name="1755" class="Symbol"
+  >{</a
+  ><a name="1756" href="Sets.Sigma.html#1756" class="Bound"
+  >n</a
+  ><a name="1757" class="Symbol"
+  >}</a
+  ><a name="1758"
+  > </a
+  ><a name="1759" class="Symbol"
+  >&#8594;</a
+  ><a name="1760"
+  > </a
+  ><a name="1761" href="Sets.Sigma.html#1702" class="Function"
+  >Fin&#8242;</a
+  ><a name="1765"
+  > </a
+  ><a name="1766" href="Sets.Sigma.html#1756" class="Bound"
+  >n</a
+  ><a name="1767"
+  > </a
+  ><a name="1768" class="Symbol"
+  >&#8594;</a
+  ><a name="1769"
+  > </a
+  ><a name="1770" href="Data.Fin.html#775" class="Datatype"
+  >Fin</a
+  ><a name="1773"
+  > </a
+  ><a name="1774" href="Sets.Sigma.html#1756" class="Bound"
+  >n</a
+  ></pre
+></p>
+<h1 id="σ-as-existential-quantification"><a href="#σ-as-existential-quantification"><code>Σ</code> as existential quantification</a></h1>
+<p>Let <code>A</code> be a type and let <code>P</code> be a predicate on <code>A</code>.<br />There exists (constructively) an element of <code>A</code> for which <code>P</code> holds iff the subset <code>Σ A P</code> is nonempty.</p>
+<p>Examples:</p>
+<ul>
+<li><code>a ≤ b</code> ~ <code>Σ ℕ (λ k → k + a ≡ b)</code></li>
+<li><code>even n</code> ~ <code>Σ ℕ (λ k → n ≡ 2 * k)</code></li>
+<li><code>odd n</code> ~ <code>Σ ℕ (λ k → n ≡ 1 + 2 * k)</code></li>
+<li><code>a ∈ as</code> ~ <code>Σ ℕ (λ k → as ! k ≡ a)</code></li>
+</ul>
+<h1 id="exercise-1"><a href="#exercise-1">Exercise</a></h1>
+<p>Sigma is very handy when a function needs to return a value and a proof that the value has some property.</p>
+<p>Example:</p>
+<p><pre
+><a name="2440"
+  >
+</a
+  ><a name="2455" class="Keyword"
+  >data</a
+  ><a name="2459"
+  > </a
+  ><a name="2460" href="Sets.Sigma.html#2460" class="Datatype Operator"
+  >_&#8712;_</a
+  ><a name="2463"
+  > </a
+  ><a name="2464" class="Symbol"
+  >{</a
+  ><a name="2465" href="Sets.Sigma.html#2465" class="Bound"
+  >A</a
+  ><a name="2466"
+  > </a
+  ><a name="2467" class="Symbol"
+  >:</a
+  ><a name="2468"
+  > </a
+  ><a name="2469" class="PrimitiveType"
+  >Set</a
+  ><a name="2472" class="Symbol"
+  >}(</a
+  ><a name="2474" href="Sets.Sigma.html#2474" class="Bound"
+  >x</a
+  ><a name="2475"
+  > </a
+  ><a name="2476" class="Symbol"
+  >:</a
+  ><a name="2477"
+  > </a
+  ><a name="2478" href="Sets.Sigma.html#2465" class="Bound"
+  >A</a
+  ><a name="2479" class="Symbol"
+  >)</a
+  ><a name="2480"
+  > </a
+  ><a name="2481" class="Symbol"
+  >:</a
+  ><a name="2482"
+  > </a
+  ><a name="2483" href="Data.List.html#659" class="Datatype"
+  >List</a
+  ><a name="2487"
+  > </a
+  ><a name="2488" href="Sets.Sigma.html#2465" class="Bound"
+  >A</a
+  ><a name="2489"
+  > </a
+  ><a name="2490" class="Symbol"
+  >&#8594;</a
+  ><a name="2491"
+  > </a
+  ><a name="2492" class="PrimitiveType"
+  >Set</a
+  ><a name="2495"
+  > </a
+  ><a name="2496" class="Keyword"
+  >where</a
+  ><a name="2501"
+  >
+  </a
+  ><a name="2504" href="Sets.Sigma.html#2504" class="InductiveConstructor"
+  >first</a
+  ><a name="2509"
+  > </a
+  ><a name="2510" class="Symbol"
+  >:</a
+  ><a name="2511"
+  > </a
+  ><a name="2512" class="Symbol"
+  >{</a
+  ><a name="2513" href="Sets.Sigma.html#2513" class="Bound"
+  >xs</a
+  ><a name="2515"
+  > </a
+  ><a name="2516" class="Symbol"
+  >:</a
+  ><a name="2517"
+  > </a
+  ><a name="2518" href="Data.List.html#659" class="Datatype"
+  >List</a
+  ><a name="2522"
+  > </a
+  ><a name="2523" href="Sets.Sigma.html#2465" class="Bound"
+  >A</a
+  ><a name="2524" class="Symbol"
+  >}</a
+  ><a name="2525"
+  > </a
+  ><a name="2526" class="Symbol"
+  >&#8594;</a
+  ><a name="2527"
+  > </a
+  ><a name="2528" href="Sets.Sigma.html#2474" class="Bound"
+  >x</a
+  ><a name="2529"
+  > </a
+  ><a name="2530" href="Sets.Sigma.html#2460" class="Datatype Operator"
+  >&#8712;</a
+  ><a name="2531"
+  > </a
+  ><a name="2532" href="Sets.Sigma.html#2474" class="Bound"
+  >x</a
+  ><a name="2533"
+  > </a
+  ><a name="2534" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="2535"
+  > </a
+  ><a name="2536" href="Sets.Sigma.html#2513" class="Bound"
+  >xs</a
+  ><a name="2538"
+  >
+  </a
+  ><a name="2541" href="Sets.Sigma.html#2541" class="InductiveConstructor"
+  >later</a
+  ><a name="2546"
+  > </a
+  ><a name="2547" class="Symbol"
+  >:</a
+  ><a name="2548"
+  > </a
+  ><a name="2549" class="Symbol"
+  >{</a
+  ><a name="2550" href="Sets.Sigma.html#2550" class="Bound"
+  >y</a
+  ><a name="2551"
+  > </a
+  ><a name="2552" class="Symbol"
+  >:</a
+  ><a name="2553"
+  > </a
+  ><a name="2554" href="Sets.Sigma.html#2465" class="Bound"
+  >A</a
+  ><a name="2555" class="Symbol"
+  >}{</a
+  ><a name="2557" href="Sets.Sigma.html#2557" class="Bound"
+  >xs</a
+  ><a name="2559"
+  > </a
+  ><a name="2560" class="Symbol"
+  >:</a
+  ><a name="2561"
+  > </a
+  ><a name="2562" href="Data.List.html#659" class="Datatype"
+  >List</a
+  ><a name="2566"
+  > </a
+  ><a name="2567" href="Sets.Sigma.html#2465" class="Bound"
+  >A</a
+  ><a name="2568" class="Symbol"
+  >}</a
+  ><a name="2569"
+  > </a
+  ><a name="2570" class="Symbol"
+  >&#8594;</a
+  ><a name="2571"
+  > </a
+  ><a name="2572" href="Sets.Sigma.html#2474" class="Bound"
+  >x</a
+  ><a name="2573"
+  > </a
+  ><a name="2574" href="Sets.Sigma.html#2460" class="Datatype Operator"
+  >&#8712;</a
+  ><a name="2575"
+  > </a
+  ><a name="2576" href="Sets.Sigma.html#2557" class="Bound"
+  >xs</a
+  ><a name="2578"
+  > </a
+  ><a name="2579" class="Symbol"
+  >&#8594;</a
+  ><a name="2580"
+  > </a
+  ><a name="2581" href="Sets.Sigma.html#2474" class="Bound"
+  >x</a
+  ><a name="2582"
+  > </a
+  ><a name="2583" href="Sets.Sigma.html#2460" class="Datatype Operator"
+  >&#8712;</a
+  ><a name="2584"
+  > </a
+  ><a name="2585" href="Sets.Sigma.html#2550" class="Bound"
+  >y</a
+  ><a name="2586"
+  > </a
+  ><a name="2587" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="2588"
+  > </a
+  ><a name="2589" href="Sets.Sigma.html#2557" class="Bound"
+  >xs</a
+  ><a name="2591"
+  >
+
+</a
+  ><a name="2593" class="Keyword"
+  >infix</a
+  ><a name="2598"
+  > </a
+  ><a name="2599" class="Number"
+  >4</a
+  ><a name="2600"
+  > _&#8712;_
+
+</a
+  ><a name="2606" href="Sets.Sigma.html#2606" class="Function Operator"
+  >_!_</a
+  ><a name="2609"
+  > </a
+  ><a name="2610" class="Symbol"
+  >:</a
+  ><a name="2611"
+  > </a
+  ><a name="2612" class="Symbol"
+  >&#8704;{</a
+  ><a name="2614" href="Sets.Sigma.html#2614" class="Bound"
+  >A</a
+  ><a name="2615"
+  > </a
+  ><a name="2616" class="Symbol"
+  >:</a
+  ><a name="2617"
+  > </a
+  ><a name="2618" class="PrimitiveType"
+  >Set</a
+  ><a name="2621" class="Symbol"
+  >}</a
+  ><a name="2622"
+  > </a
+  ><a name="2623" class="Symbol"
+  >&#8594;</a
+  ><a name="2624"
+  > </a
+  ><a name="2625" href="Data.List.html#659" class="Datatype"
+  >List</a
+  ><a name="2629"
+  > </a
+  ><a name="2630" href="Sets.Sigma.html#2614" class="Bound"
+  >A</a
+  ><a name="2631"
+  > </a
+  ><a name="2632" class="Symbol"
+  >&#8594;</a
+  ><a name="2633"
+  > </a
+  ><a name="2634" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2635"
+  > </a
+  ><a name="2636" class="Symbol"
+  >&#8594;</a
+  ><a name="2637"
+  > </a
+  ><a name="2638" href="Data.Maybe.Core.html#315" class="Datatype"
+  >Maybe</a
+  ><a name="2643"
+  > </a
+  ><a name="2644" href="Sets.Sigma.html#2614" class="Bound"
+  >A</a
+  ><a name="2645"
+  >
+</a
+  ><a name="2646" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="2648"
+  > </a
+  ><a name="2649" href="Sets.Sigma.html#2606" class="Function Operator"
+  >!</a
+  ><a name="2650"
+  > </a
+  ><a name="2651" class="Symbol"
+  >_</a
+  ><a name="2652"
+  >           </a
+  ><a name="2663" class="Symbol"
+  >=</a
+  ><a name="2664"
+  > </a
+  ><a name="2665" href="Data.Maybe.Core.html#383" class="InductiveConstructor"
+  >nothing</a
+  ><a name="2672"
+  >
+</a
+  ><a name="2673" href="Sets.Sigma.html#2673" class="Bound"
+  >x</a
+  ><a name="2674"
+  > </a
+  ><a name="2675" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="2676"
+  > </a
+  ><a name="2677" href="Sets.Sigma.html#2677" class="Bound"
+  >xs</a
+  ><a name="2679"
+  > </a
+  ><a name="2680" href="Sets.Sigma.html#2606" class="Function Operator"
+  >!</a
+  ><a name="2681"
+  > </a
+  ><a name="2682" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="2686"
+  >    </a
+  ><a name="2690" class="Symbol"
+  >=</a
+  ><a name="2691"
+  > </a
+  ><a name="2692" href="Data.Maybe.Core.html#353" class="InductiveConstructor"
+  >just</a
+  ><a name="2696"
+  > </a
+  ><a name="2697" href="Sets.Sigma.html#2673" class="Bound"
+  >x</a
+  ><a name="2698"
+  >
+</a
+  ><a name="2699" href="Sets.Sigma.html#2699" class="Bound"
+  >x</a
+  ><a name="2700"
+  > </a
+  ><a name="2701" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="2702"
+  > </a
+  ><a name="2703" href="Sets.Sigma.html#2703" class="Bound"
+  >xs</a
+  ><a name="2705"
+  > </a
+  ><a name="2706" href="Sets.Sigma.html#2606" class="Function Operator"
+  >!</a
+  ><a name="2707"
+  > </a
+  ><a name="2708" class="Symbol"
+  >(</a
+  ><a name="2709" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2712"
+  > </a
+  ><a name="2713" href="Sets.Sigma.html#2713" class="Bound"
+  >n</a
+  ><a name="2714" class="Symbol"
+  >)</a
+  ><a name="2715"
+  > </a
+  ><a name="2716" class="Symbol"
+  >=</a
+  ><a name="2717"
+  > </a
+  ><a name="2718" href="Sets.Sigma.html#2703" class="Bound"
+  >xs</a
+  ><a name="2720"
+  > </a
+  ><a name="2721" href="Sets.Sigma.html#2606" class="Function Operator"
+  >!</a
+  ><a name="2722"
+  > </a
+  ><a name="2723" href="Sets.Sigma.html#2713" class="Bound"
+  >n</a
+  ><a name="2724"
+  >
+
+</a
+  ><a name="2726" class="Keyword"
+  >infix</a
+  ><a name="2731"
+  > </a
+  ><a name="2732" class="Number"
+  >5</a
+  ><a name="2733"
+  > _!_
+
+</a
+  ><a name="2739" href="Sets.Sigma.html#2739" class="Function"
+  >lookup</a
+  ><a name="2745"
+  > </a
+  ><a name="2746" class="Symbol"
+  >:</a
+  ><a name="2747"
+  > </a
+  ><a name="2748" class="Symbol"
+  >&#8704;</a
+  ><a name="2749"
+  > </a
+  ><a name="2750" class="Symbol"
+  >{</a
+  ><a name="2751" href="Sets.Sigma.html#2751" class="Bound"
+  >A</a
+  ><a name="2752" class="Symbol"
+  >}{</a
+  ><a name="2754" href="Sets.Sigma.html#2754" class="Bound"
+  >x</a
+  ><a name="2755"
+  > </a
+  ><a name="2756" class="Symbol"
+  >:</a
+  ><a name="2757"
+  > </a
+  ><a name="2758" href="Sets.Sigma.html#2751" class="Bound"
+  >A</a
+  ><a name="2759" class="Symbol"
+  >}(</a
+  ><a name="2761" href="Sets.Sigma.html#2761" class="Bound"
+  >xs</a
+  ><a name="2763"
+  > </a
+  ><a name="2764" class="Symbol"
+  >:</a
+  ><a name="2765"
+  > </a
+  ><a name="2766" href="Data.List.html#659" class="Datatype"
+  >List</a
+  ><a name="2770"
+  > </a
+  ><a name="2771" href="Sets.Sigma.html#2751" class="Bound"
+  >A</a
+  ><a name="2772" class="Symbol"
+  >)</a
+  ><a name="2773"
+  > </a
+  ><a name="2774" class="Symbol"
+  >&#8594;</a
+  ><a name="2775"
+  > </a
+  ><a name="2776" href="Sets.Sigma.html#2754" class="Bound"
+  >x</a
+  ><a name="2777"
+  > </a
+  ><a name="2778" href="Sets.Sigma.html#2460" class="Datatype Operator"
+  >&#8712;</a
+  ><a name="2779"
+  > </a
+  ><a name="2780" href="Sets.Sigma.html#2761" class="Bound"
+  >xs</a
+  ><a name="2782"
+  > </a
+  ><a name="2783" class="Symbol"
+  >&#8594;</a
+  ><a name="2784"
+  > </a
+  ><a name="2785" href="Sets.Sigma.html#765" class="Datatype"
+  >&#931;</a
+  ><a name="2786"
+  > </a
+  ><a name="2787" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2788"
+  > </a
+  ><a name="2789" class="Symbol"
+  >(&#955;</a
+  ><a name="2791"
+  > </a
+  ><a name="2792" href="Sets.Sigma.html#2792" class="Bound"
+  >n</a
+  ><a name="2793"
+  > </a
+  ><a name="2794" class="Symbol"
+  >&#8594;</a
+  ><a name="2795"
+  > </a
+  ><a name="2796" href="Sets.Sigma.html#2761" class="Bound"
+  >xs</a
+  ><a name="2798"
+  > </a
+  ><a name="2799" href="Sets.Sigma.html#2606" class="Function Operator"
+  >!</a
+  ><a name="2800"
+  > </a
+  ><a name="2801" href="Sets.Sigma.html#2792" class="Bound"
+  >n</a
+  ><a name="2802"
+  > </a
+  ><a name="2803" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="2804"
+  > </a
+  ><a name="2805" href="Data.Maybe.Core.html#353" class="InductiveConstructor"
+  >just</a
+  ><a name="2809"
+  > </a
+  ><a name="2810" href="Sets.Sigma.html#2754" class="Bound"
+  >x</a
+  ><a name="2811" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p>Define <code>lookup</code>!</p>
+<h1 id="exercise-2"><a href="#exercise-2">Exercise</a></h1>
+<p><pre
+><a name="3040"
+  >
+</a
+  ><a name="3055" href="Sets.Sigma.html#3055" class="Function"
+  >fromList</a
+  ><a name="3063"
+  > </a
+  ><a name="3064" class="Symbol"
+  >:</a
+  ><a name="3065"
+  > </a
+  ><a name="3066" href="Data.List.html#659" class="Datatype"
+  >List</a
+  ><a name="3070"
+  > </a
+  ><a name="3071" href="Data.Unit.html#653" class="Record"
+  >&#8868;</a
+  ><a name="3072"
+  > </a
+  ><a name="3073" class="Symbol"
+  >&#8594;</a
+  ><a name="3074"
+  > </a
+  ><a name="3075" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="3076"
+  >
+</a
+  ><a name="3077" href="Sets.Sigma.html#3055" class="Function"
+  >fromList</a
+  ><a name="3085"
+  > </a
+  ><a name="3086" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="3088"
+  > </a
+  ><a name="3089" class="Symbol"
+  >=</a
+  ><a name="3090"
+  > </a
+  ><a name="3091" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="3095"
+  >
+</a
+  ><a name="3096" href="Sets.Sigma.html#3055" class="Function"
+  >fromList</a
+  ><a name="3104"
+  > </a
+  ><a name="3105" class="Symbol"
+  >(</a
+  ><a name="3106" href="Sets.Sigma.html#3106" class="Bound"
+  >x</a
+  ><a name="3107"
+  > </a
+  ><a name="3108" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3109"
+  > </a
+  ><a name="3110" href="Sets.Sigma.html#3110" class="Bound"
+  >xs</a
+  ><a name="3112" class="Symbol"
+  >)</a
+  ><a name="3113"
+  > </a
+  ><a name="3114" class="Symbol"
+  >=</a
+  ><a name="3115"
+  > </a
+  ><a name="3116" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="3119"
+  > </a
+  ><a name="3120" class="Symbol"
+  >(</a
+  ><a name="3121" href="Sets.Sigma.html#3055" class="Function"
+  >fromList</a
+  ><a name="3129"
+  > </a
+  ><a name="3130" href="Sets.Sigma.html#3110" class="Bound"
+  >xs</a
+  ><a name="3132" class="Symbol"
+  >)</a
+  ><a name="3133"
+  >
+
+</a
+  ><a name="3135" href="Sets.Sigma.html#3135" class="Function"
+  >toList</a
+  ><a name="3141"
+  > </a
+  ><a name="3142" class="Symbol"
+  >:</a
+  ><a name="3143"
+  > </a
+  ><a name="3144" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="3145"
+  > </a
+  ><a name="3146" class="Symbol"
+  >&#8594;</a
+  ><a name="3147"
+  > </a
+  ><a name="3148" href="Data.List.html#659" class="Datatype"
+  >List</a
+  ><a name="3152"
+  > </a
+  ><a name="3153" href="Data.Unit.html#653" class="Record"
+  >&#8868;</a
+  ><a name="3154"
+  >
+</a
+  ><a name="3155" href="Sets.Sigma.html#3135" class="Function"
+  >toList</a
+  ><a name="3161"
+  > </a
+  ><a name="3162" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="3166"
+  > </a
+  ><a name="3167" class="Symbol"
+  >=</a
+  ><a name="3168"
+  > </a
+  ><a name="3169" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="3171"
+  >
+</a
+  ><a name="3172" href="Sets.Sigma.html#3135" class="Function"
+  >toList</a
+  ><a name="3178"
+  > </a
+  ><a name="3179" class="Symbol"
+  >(</a
+  ><a name="3180" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="3183"
+  > </a
+  ><a name="3184" href="Sets.Sigma.html#3184" class="Bound"
+  >n</a
+  ><a name="3185" class="Symbol"
+  >)</a
+  ><a name="3186"
+  > </a
+  ><a name="3187" class="Symbol"
+  >=</a
+  ><a name="3188"
+  > </a
+  ><a name="3189" href="Data.Unit.html#681" class="InductiveConstructor"
+  >tt</a
+  ><a name="3191"
+  > </a
+  ><a name="3192" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3193"
+  > </a
+  ><a name="3194" href="Sets.Sigma.html#3135" class="Function"
+  >toList</a
+  ><a name="3200"
+  > </a
+  ><a name="3201" href="Sets.Sigma.html#3184" class="Bound"
+  >n</a
+  ><a name="3202"
+  >
+
+</a
+  ><a name="3204" href="Sets.Sigma.html#3204" class="Function"
+  >lemm</a
+  ><a name="3208"
+  > </a
+  ><a name="3209" class="Symbol"
+  >:</a
+  ><a name="3210"
+  > </a
+  ><a name="3211" class="Symbol"
+  >&#8704;</a
+  ><a name="3212"
+  > </a
+  ><a name="3213" class="Symbol"
+  >{</a
+  ><a name="3214" href="Sets.Sigma.html#3214" class="Bound"
+  >a</a
+  ><a name="3215"
+  > </a
+  ><a name="3216" href="Sets.Sigma.html#3216" class="Bound"
+  >b</a
+  ><a name="3217"
+  > </a
+  ><a name="3218" class="Symbol"
+  >:</a
+  ><a name="3219"
+  > </a
+  ><a name="3220" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="3221" class="Symbol"
+  >}</a
+  ><a name="3222"
+  > </a
+  ><a name="3223" class="Symbol"
+  >&#8594;</a
+  ><a name="3224"
+  > </a
+  ><a name="3225" href="Data.Nat.html#725" class="InductiveConstructor"
+  >Data.Nat.suc</a
+  ><a name="3237"
+  > </a
+  ><a name="3238" href="Sets.Sigma.html#3214" class="Bound"
+  >a</a
+  ><a name="3239"
+  > </a
+  ><a name="3240" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="3241"
+  > </a
+  ><a name="3242" href="Data.Nat.html#725" class="InductiveConstructor"
+  >Data.Nat.suc</a
+  ><a name="3254"
+  > </a
+  ><a name="3255" href="Sets.Sigma.html#3216" class="Bound"
+  >b</a
+  ><a name="3256"
+  > </a
+  ><a name="3257" class="Symbol"
+  >&#8594;</a
+  ><a name="3258"
+  > </a
+  ><a name="3259" href="Sets.Sigma.html#3214" class="Bound"
+  >a</a
+  ><a name="3260"
+  > </a
+  ><a name="3261" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="3262"
+  > </a
+  ><a name="3263" href="Sets.Sigma.html#3216" class="Bound"
+  >b</a
+  ><a name="3264"
+  >
+</a
+  ><a name="3265" href="Sets.Sigma.html#3204" class="Function"
+  >lemm</a
+  ><a name="3269"
+  > </a
+  ><a name="3270" href="Relation.Binary.Core.html#4653" class="InductiveConstructor"
+  >refl</a
+  ><a name="3274"
+  > </a
+  ><a name="3275" class="Symbol"
+  >=</a
+  ><a name="3276"
+  > </a
+  ><a name="3277" href="Relation.Binary.Core.html#4653" class="InductiveConstructor"
+  >refl</a
+  ><a name="3281"
+  >
+
+</a
+  ><a name="3283" href="Sets.Sigma.html#3283" class="Function"
+  >from-injection</a
+  ><a name="3297"
+  > </a
+  ><a name="3298" class="Symbol"
+  >:</a
+  ><a name="3299"
+  > </a
+  ><a name="3300" class="Symbol"
+  >&#8704;</a
+  ><a name="3301"
+  > </a
+  ><a name="3302" class="Symbol"
+  >{</a
+  ><a name="3303" href="Sets.Sigma.html#3303" class="Bound"
+  >a</a
+  ><a name="3304"
+  > </a
+  ><a name="3305" href="Sets.Sigma.html#3305" class="Bound"
+  >b</a
+  ><a name="3306" class="Symbol"
+  >}</a
+  ><a name="3307"
+  > </a
+  ><a name="3308" class="Symbol"
+  >&#8594;</a
+  ><a name="3309"
+  > </a
+  ><a name="3310" href="Sets.Sigma.html#3055" class="Function"
+  >fromList</a
+  ><a name="3318"
+  > </a
+  ><a name="3319" href="Sets.Sigma.html#3303" class="Bound"
+  >a</a
+  ><a name="3320"
+  > </a
+  ><a name="3321" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="3322"
+  > </a
+  ><a name="3323" href="Sets.Sigma.html#3055" class="Function"
+  >fromList</a
+  ><a name="3331"
+  > </a
+  ><a name="3332" href="Sets.Sigma.html#3305" class="Bound"
+  >b</a
+  ><a name="3333"
+  > </a
+  ><a name="3334" class="Symbol"
+  >&#8594;</a
+  ><a name="3335"
+  > </a
+  ><a name="3336" href="Sets.Sigma.html#3303" class="Bound"
+  >a</a
+  ><a name="3337"
+  > </a
+  ><a name="3338" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="3339"
+  > </a
+  ><a name="3340" href="Sets.Sigma.html#3305" class="Bound"
+  >b</a
+  ><a name="3341"
+  >
+</a
+  ><a name="3342" href="Sets.Sigma.html#3283" class="Function"
+  >from-injection</a
+  ><a name="3356"
+  > </a
+  ><a name="3357" class="Symbol"
+  >{</a
+  ><a name="3358" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="3360" class="Symbol"
+  >}</a
+  ><a name="3361"
+  >      </a
+  ><a name="3367" class="Symbol"
+  >{</a
+  ><a name="3368" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="3370" class="Symbol"
+  >}</a
+  ><a name="3371"
+  >      </a
+  ><a name="3377" href="Relation.Binary.Core.html#4653" class="InductiveConstructor"
+  >refl</a
+  ><a name="3381"
+  > </a
+  ><a name="3382" class="Symbol"
+  >=</a
+  ><a name="3383"
+  > </a
+  ><a name="3384" href="Relation.Binary.Core.html#4653" class="InductiveConstructor"
+  >refl</a
+  ><a name="3388"
+  >
+</a
+  ><a name="3389" href="Sets.Sigma.html#3283" class="Function"
+  >from-injection</a
+  ><a name="3403"
+  > </a
+  ><a name="3404" class="Symbol"
+  >{</a
+  ><a name="3405" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="3407" class="Symbol"
+  >}</a
+  ><a name="3408"
+  >      </a
+  ><a name="3414" class="Symbol"
+  >{</a
+  ><a name="3415" href="Sets.Sigma.html#3415" class="Bound"
+  >x</a
+  ><a name="3416"
+  > </a
+  ><a name="3417" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3418"
+  > </a
+  ><a name="3419" href="Sets.Sigma.html#3419" class="Bound"
+  >xs</a
+  ><a name="3421" class="Symbol"
+  >}</a
+  ><a name="3422"
+  >  </a
+  ><a name="3424" class="Symbol"
+  >()</a
+  ><a name="3426"
+  >
+</a
+  ><a name="3427" href="Sets.Sigma.html#3283" class="Function"
+  >from-injection</a
+  ><a name="3441"
+  > </a
+  ><a name="3442" class="Symbol"
+  >{</a
+  ><a name="3443" href="Sets.Sigma.html#3443" class="Bound"
+  >x</a
+  ><a name="3444"
+  > </a
+  ><a name="3445" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3446"
+  > </a
+  ><a name="3447" href="Sets.Sigma.html#3447" class="Bound"
+  >xs</a
+  ><a name="3449" class="Symbol"
+  >}</a
+  ><a name="3450"
+  >  </a
+  ><a name="3452" class="Symbol"
+  >{</a
+  ><a name="3453" href="Data.List.html#696" class="InductiveConstructor"
+  >[]</a
+  ><a name="3455" class="Symbol"
+  >}</a
+  ><a name="3456"
+  >      </a
+  ><a name="3462" class="Symbol"
+  >()</a
+  ><a name="3464"
+  >
+</a
+  ><a name="3465" href="Sets.Sigma.html#3283" class="Function"
+  >from-injection</a
+  ><a name="3479"
+  > </a
+  ><a name="3480" class="Symbol"
+  >{</a
+  ><a name="3481" href="Data.Unit.html#681" class="InductiveConstructor"
+  >tt</a
+  ><a name="3483"
+  > </a
+  ><a name="3484" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3485"
+  > </a
+  ><a name="3486" href="Sets.Sigma.html#3486" class="Bound"
+  >xs</a
+  ><a name="3488" class="Symbol"
+  >}</a
+  ><a name="3489"
+  > </a
+  ><a name="3490" class="Symbol"
+  >{</a
+  ><a name="3491" href="Data.Unit.html#681" class="InductiveConstructor"
+  >tt</a
+  ><a name="3493"
+  > </a
+  ><a name="3494" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3495"
+  > </a
+  ><a name="3496" href="Sets.Sigma.html#3496" class="Bound"
+  >ys</a
+  ><a name="3498" class="Symbol"
+  >}</a
+  ><a name="3499"
+  > </a
+  ><a name="3500" href="Sets.Sigma.html#3500" class="Bound"
+  >p</a
+  ><a name="3501"
+  > </a
+  ><a name="3502" class="Symbol"
+  >=</a
+  ><a name="3503"
+  > </a
+  ><a name="3504" href="Relation.Binary.PropositionalEquality.html#1034" class="Function"
+  >cong</a
+  ><a name="3508"
+  > </a
+  ><a name="3509" class="Symbol"
+  >(</a
+  ><a name="3510" href="Data.List.html#711" class="InductiveConstructor Operator"
+  >_&#8759;_</a
+  ><a name="3513"
+  > </a
+  ><a name="3514" href="Data.Unit.html#681" class="InductiveConstructor"
+  >tt</a
+  ><a name="3516" class="Symbol"
+  >)</a
+  ><a name="3517"
+  > </a
+  ><a name="3518" href="Function.html#1829" class="Function Operator"
+  >$</a
+  ><a name="3519"
+  > </a
+  ><a name="3520" href="Sets.Sigma.html#3283" class="Function"
+  >from-injection</a
+  ><a name="3534"
+  > </a
+  ><a name="3535" class="Symbol"
+  >{</a
+  ><a name="3536" href="Sets.Sigma.html#3486" class="Bound"
+  >xs</a
+  ><a name="3538" class="Symbol"
+  >}</a
+  ><a name="3539"
+  > </a
+  ><a name="3540" class="Symbol"
+  >{</a
+  ><a name="3541" href="Sets.Sigma.html#3496" class="Bound"
+  >ys</a
+  ><a name="3543" class="Symbol"
+  >}</a
+  ><a name="3544"
+  > </a
+  ><a name="3545" class="Symbol"
+  >(</a
+  ><a name="3546" href="Sets.Sigma.html#3204" class="Function"
+  >lemm</a
+  ><a name="3550"
+  > </a
+  ><a name="3551" href="Sets.Sigma.html#3500" class="Bound"
+  >p</a
+  ><a name="3552" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p>Define the following function:</p>
+<p><pre
+><a name="3596"
+  >
+</a
+  ><a name="3611" href="Sets.Sigma.html#3611" class="Function"
+  >from-surjection</a
+  ><a name="3626"
+  > </a
+  ><a name="3627" class="Symbol"
+  >:</a
+  ><a name="3628"
+  > </a
+  ><a name="3629" class="Symbol"
+  >&#8704;</a
+  ><a name="3630"
+  > </a
+  ><a name="3631" class="Symbol"
+  >(</a
+  ><a name="3632" href="Sets.Sigma.html#3632" class="Bound"
+  >n</a
+  ><a name="3633"
+  > </a
+  ><a name="3634" class="Symbol"
+  >:</a
+  ><a name="3635"
+  > </a
+  ><a name="3636" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="3637" class="Symbol"
+  >)</a
+  ><a name="3638"
+  > </a
+  ><a name="3639" class="Symbol"
+  >&#8594;</a
+  ><a name="3640"
+  > </a
+  ><a name="3641" href="Sets.Sigma.html#765" class="Datatype"
+  >&#931;</a
+  ><a name="3642"
+  > </a
+  ><a name="3643" class="Symbol"
+  >(</a
+  ><a name="3644" href="Data.List.html#659" class="Datatype"
+  >List</a
+  ><a name="3648"
+  > </a
+  ><a name="3649" href="Data.Unit.html#653" class="Record"
+  >&#8868;</a
+  ><a name="3650" class="Symbol"
+  >)</a
+  ><a name="3651"
+  > </a
+  ><a name="3652" class="Symbol"
+  >(</a
+  ><a name="3653" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >_&#8801;_</a
+  ><a name="3656"
+  > </a
+  ><a name="3657" href="Sets.Sigma.html#3632" class="Bound"
+  >n</a
+  ><a name="3658"
+  > </a
+  ><a name="3659" href="Function.html#713" class="Function Operator"
+  >&#8728;</a
+  ><a name="3660"
+  > </a
+  ><a name="3661" href="Sets.Sigma.html#3055" class="Function"
+  >fromList</a
+  ><a name="3669" class="Symbol"
+  >)</a
+  ></pre
+></p>
+</body>
+</html>

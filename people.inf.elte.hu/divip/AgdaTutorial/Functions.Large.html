@@ -1,0 +1,1063 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Functions with Sets Result</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Functions with Sets Result</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#imports">Imports</a></li>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#inductive-__-definition">Inductive <code>_≤_</code> definition</a></li>
+<li><a href="#recursive-__-definition">Recursive <code>_≤_</code> definition</a></li>
+<li><a href="#inductive-vs.-recursive-definitions">Inductive vs. recursive definitions</a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#macro-like-set-definitions">Macro-like <code>Set</code> definitions</a></li>
+<li><a href="#exercises-1">Exercises</a></li>
+<li><a href="#another-example">Another example</a></li>
+<li><a href="#another-example-recursive-fin">Another example: recursive <code>Fin</code></a></li>
+</ul>
+</div>
+<h1 id="imports"><a href="#imports">Imports</a></h1>
+<p><pre
+><a name="48"
+  >
+</a
+  ><a name="63" class="Keyword"
+  >module</a
+  ><a name="69"
+  > </a
+  ><a name="70" href="Functions.Large.html#1" class="Module"
+  >Functions.Large</a
+  ><a name="85"
+  > </a
+  ><a name="86" class="Keyword"
+  >where</a
+  ><a name="91"
+  >
+
+</a
+  ><a name="93" class="Keyword"
+  >open</a
+  ><a name="97"
+  > </a
+  ><a name="98" class="Keyword"
+  >import</a
+  ><a name="104"
+  > </a
+  ><a name="105" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="113"
+  > </a
+  ><a name="114" class="Keyword"
+  >using</a
+  ><a name="119"
+  > </a
+  ><a name="120" class="Symbol"
+  >(</a
+  ><a name="121"
+  >&#8469;</a
+  ><a name="122" class="Symbol"
+  >;</a
+  ><a name="123"
+  > zero</a
+  ><a name="128" class="Symbol"
+  >;</a
+  ><a name="129"
+  > suc</a
+  ><a name="133" class="Symbol"
+  >)</a
+  ><a name="134"
+  >
+</a
+  ><a name="135" class="Keyword"
+  >open</a
+  ><a name="139"
+  > </a
+  ><a name="140" class="Keyword"
+  >import</a
+  ><a name="146"
+  > </a
+  ><a name="147" href="Data.Empty.html#1" class="Module"
+  >Data.Empty</a
+  ><a name="157"
+  > </a
+  ><a name="158" class="Keyword"
+  >using</a
+  ><a name="163"
+  > </a
+  ><a name="164" class="Symbol"
+  >(</a
+  ><a name="165"
+  >&#8869;</a
+  ><a name="166" class="Symbol"
+  >)</a
+  ><a name="167"
+  >
+</a
+  ><a name="168" class="Keyword"
+  >open</a
+  ><a name="172"
+  > </a
+  ><a name="173" class="Keyword"
+  >import</a
+  ><a name="179"
+  > </a
+  ><a name="180" href="Data.Unit.html#1" class="Module"
+  >Data.Unit</a
+  ><a name="189"
+  > </a
+  ><a name="190" class="Keyword"
+  >using</a
+  ><a name="195"
+  > </a
+  ><a name="196" class="Symbol"
+  >(</a
+  ><a name="197"
+  >&#8868;</a
+  ><a name="198" class="Symbol"
+  >;</a
+  ><a name="199"
+  > tt</a
+  ><a name="202" class="Symbol"
+  >)</a
+  ><a name="203"
+  >
+</a
+  ><a name="204" class="Keyword"
+  >open</a
+  ><a name="208"
+  > </a
+  ><a name="209" class="Keyword"
+  >import</a
+  ><a name="215"
+  > </a
+  ><a name="216" href="Data.Sum.html#1" class="Module"
+  >Data.Sum</a
+  ><a name="224"
+  > </a
+  ><a name="225" class="Keyword"
+  >using</a
+  ><a name="230"
+  > </a
+  ><a name="231" class="Symbol"
+  >(</a
+  ><a name="232"
+  >_&#8846;_</a
+  ><a name="235" class="Symbol"
+  >;</a
+  ><a name="236"
+  > inj&#8321;</a
+  ><a name="241" class="Symbol"
+  >;</a
+  ><a name="242"
+  > inj&#8322;</a
+  ><a name="247" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="introduction"><a href="#introduction">Introduction</a></h1>
+<p>Function definitions give another possibility to define sets.<br />We give general design rules on which language construct to use.</p>
+<h1 id="inductive-__-definition"><a href="#inductive-__-definition">Inductive <code>_≤_</code> definition</a></h1>
+<p>The <em>inductive</em> definition of <code>_≤_</code>:</p>
+<p><pre
+><a name="494"
+  >
+</a
+  ><a name="509" class="Keyword"
+  >data</a
+  ><a name="513"
+  >  </a
+  ><a name="515" href="Functions.Large.html#515" class="Datatype Operator"
+  >_&#8804;_</a
+  ><a name="518"
+  > </a
+  ><a name="519" class="Symbol"
+  >:</a
+  ><a name="520"
+  > </a
+  ><a name="521" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="522"
+  > </a
+  ><a name="523" class="Symbol"
+  >&#8594;</a
+  ><a name="524"
+  > </a
+  ><a name="525" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="526"
+  > </a
+  ><a name="527" class="Symbol"
+  >&#8594;</a
+  ><a name="528"
+  > </a
+  ><a name="529" class="PrimitiveType"
+  >Set</a
+  ><a name="532"
+  > </a
+  ><a name="533" class="Keyword"
+  >where</a
+  ><a name="538"
+  >
+  </a
+  ><a name="541" href="Functions.Large.html#541" class="InductiveConstructor"
+  >z&#8804;n</a
+  ><a name="544"
+  > </a
+  ><a name="545" class="Symbol"
+  >:</a
+  ><a name="546"
+  > </a
+  ><a name="547" class="Symbol"
+  >{</a
+  ><a name="548" href="Functions.Large.html#548" class="Bound"
+  >n</a
+  ><a name="549"
+  > </a
+  ><a name="550" class="Symbol"
+  >:</a
+  ><a name="551"
+  > </a
+  ><a name="552" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="553" class="Symbol"
+  >}</a
+  ><a name="554"
+  > </a
+  ><a name="555" class="Symbol"
+  >&#8594;</a
+  ><a name="556"
+  >               </a
+  ><a name="571" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="575"
+  >  </a
+  ><a name="577" href="Functions.Large.html#515" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="578"
+  > </a
+  ><a name="579" href="Functions.Large.html#548" class="Bound"
+  >n</a
+  ><a name="580"
+  >
+  </a
+  ><a name="583" href="Functions.Large.html#583" class="InductiveConstructor"
+  >s&#8804;s</a
+  ><a name="586"
+  > </a
+  ><a name="587" class="Symbol"
+  >:</a
+  ><a name="588"
+  > </a
+  ><a name="589" class="Symbol"
+  >{</a
+  ><a name="590" href="Functions.Large.html#590" class="Bound"
+  >m</a
+  ><a name="591"
+  > </a
+  ><a name="592" href="Functions.Large.html#592" class="Bound"
+  >n</a
+  ><a name="593"
+  > </a
+  ><a name="594" class="Symbol"
+  >:</a
+  ><a name="595"
+  > </a
+  ><a name="596" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="597" class="Symbol"
+  >}</a
+  ><a name="598"
+  > </a
+  ><a name="599" class="Symbol"
+  >&#8594;</a
+  ><a name="600"
+  >   </a
+  ><a name="603" href="Functions.Large.html#590" class="Bound"
+  >m</a
+  ><a name="604"
+  > </a
+  ><a name="605" href="Functions.Large.html#515" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="606"
+  > </a
+  ><a name="607" href="Functions.Large.html#592" class="Bound"
+  >n</a
+  ><a name="608"
+  >  </a
+  ><a name="610" class="Symbol"
+  >&#8594;</a
+  ><a name="611"
+  >  </a
+  ><a name="613" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="616"
+  > </a
+  ><a name="617" href="Functions.Large.html#590" class="Bound"
+  >m</a
+  ><a name="618"
+  > </a
+  ><a name="619" href="Functions.Large.html#515" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="620"
+  > </a
+  ><a name="621" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="624"
+  > </a
+  ><a name="625" href="Functions.Large.html#592" class="Bound"
+  >n</a
+  ></pre
+></p>
+<p>which yields the statements</p>
+<pre><code>z≤n : 0 ≤ 0
+z≤n : 0 ≤ 1
+z≤n : 0 ≤ 2
+...
+s≤s z≤n : 1 ≤ 1
+s≤s z≤n : 1 ≤ 2
+s≤s z≤n : 1 ≤ 3
+...
+s≤s (s≤s z≤n) : 2 ≤ 2
+s≤s (s≤s z≤n) : 2 ≤ 3
+s≤s (s≤s z≤n) : 2 ≤ 4
+...
+...</code></pre>
+<h1 id="recursive-__-definition"><a href="#recursive-__-definition">Recursive <code>_≤_</code> definition</a></h1>
+<p>The <em>recursive</em> definition of less-than-or-equal:</p>
+<p><pre
+><a name="961"
+  >
+</a
+  ><a name="976" href="Functions.Large.html#976" class="Function Operator"
+  >_&#8804;&#8242;_</a
+  ><a name="980"
+  > </a
+  ><a name="981" class="Symbol"
+  >:</a
+  ><a name="982"
+  > </a
+  ><a name="983" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="984"
+  > </a
+  ><a name="985" class="Symbol"
+  >&#8594;</a
+  ><a name="986"
+  > </a
+  ><a name="987" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="988"
+  > </a
+  ><a name="989" class="Symbol"
+  >&#8594;</a
+  ><a name="990"
+  > </a
+  ><a name="991" class="PrimitiveType"
+  >Set</a
+  ><a name="994"
+  >
+</a
+  ><a name="995" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="999"
+  >  </a
+  ><a name="1001" href="Functions.Large.html#976" class="Function Operator"
+  >&#8804;&#8242;</a
+  ><a name="1003"
+  > </a
+  ><a name="1004" href="Functions.Large.html#1004" class="Bound"
+  >n</a
+  ><a name="1005"
+  >     </a
+  ><a name="1010" class="Symbol"
+  >=</a
+  ><a name="1011"
+  > </a
+  ><a name="1012" href="Data.Unit.html#653" class="Record"
+  >&#8868;</a
+  ><a name="1013"
+  >
+</a
+  ><a name="1014" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1017"
+  > </a
+  ><a name="1018" href="Functions.Large.html#1018" class="Bound"
+  >m</a
+  ><a name="1019"
+  > </a
+  ><a name="1020" href="Functions.Large.html#976" class="Function Operator"
+  >&#8804;&#8242;</a
+  ><a name="1022"
+  > </a
+  ><a name="1023" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="1027"
+  >  </a
+  ><a name="1029" class="Symbol"
+  >=</a
+  ><a name="1030"
+  > </a
+  ><a name="1031" href="Data.Empty.html#243" class="Datatype"
+  >&#8869;</a
+  ><a name="1032"
+  >
+</a
+  ><a name="1033" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1036"
+  > </a
+  ><a name="1037" href="Functions.Large.html#1037" class="Bound"
+  >m</a
+  ><a name="1038"
+  > </a
+  ><a name="1039" href="Functions.Large.html#976" class="Function Operator"
+  >&#8804;&#8242;</a
+  ><a name="1041"
+  > </a
+  ><a name="1042" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1045"
+  > </a
+  ><a name="1046" href="Functions.Large.html#1046" class="Bound"
+  >n</a
+  ><a name="1047"
+  > </a
+  ><a name="1048" class="Symbol"
+  >=</a
+  ><a name="1049"
+  > </a
+  ><a name="1050" href="Functions.Large.html#1037" class="Bound"
+  >m</a
+  ><a name="1051"
+  > </a
+  ><a name="1052" href="Functions.Large.html#976" class="Function Operator"
+  >&#8804;&#8242;</a
+  ><a name="1054"
+  > </a
+  ><a name="1055" href="Functions.Large.html#1046" class="Bound"
+  >n</a
+  ></pre
+></p>
+<p>which yields the statements</p>
+<pre><code>tt : 0 ≤′ 0
+tt : 0 ≤′ 1
+tt : 0 ≤′ 2
+...
+tt : 1 ≤′ 1
+tt : 1 ≤′ 2
+tt : 1 ≤′ 3
+...
+tt : 2 ≤′ 2
+tt : 2 ≤′ 3
+tt : 2 ≤′ 4
+...
+...</code></pre>
+<h1 id="inductive-vs.-recursive-definitions"><a href="#inductive-vs.-recursive-definitions">Inductive vs. recursive definitions</a></h1>
+<p><code>_≤_</code> and <code>_≤′_</code> have the same type and define exactly the same relations. But:</p>
+<p><strong>Inductive definitions are better than recursive definitions with pattern matching.</strong></p>
+<p><em>Explanation</em></p>
+<p>Suppose in a function definition we have <code>n : ℕ</code>, <code>m : ℕ</code>.</p>
+<ul>
+<li>In case of <code>e : n ≤ m</code> we <em>can</em> pattern match on <code>e</code>; the possible cases are <code>z≤n</code> and <code>s≤s x</code>.</li>
+<li>In case of <code>e : n ≤′ m</code> we <em>cannot</em> pattern match on <code>e</code>, because the type of <code>e</code> is not yet known to be <code>⊥</code> or <code>⊤</code>. We should pattern match on <code>n</code> and <code>m</code> before to learn more about <code>n ≤′ m</code>.</li>
+</ul>
+<p>Example (we discuss <em>dependent functions</em> like this later):</p>
+<p><pre
+><a name="1919"
+  >
+</a
+  ><a name="1934" href="Functions.Large.html#1934" class="Function"
+  >f</a
+  ><a name="1935"
+  > </a
+  ><a name="1936" class="Symbol"
+  >:</a
+  ><a name="1937"
+  > </a
+  ><a name="1938" class="Symbol"
+  >{</a
+  ><a name="1939" href="Functions.Large.html#1939" class="Bound"
+  >n</a
+  ><a name="1940"
+  > </a
+  ><a name="1941" href="Functions.Large.html#1941" class="Bound"
+  >m</a
+  ><a name="1942"
+  > </a
+  ><a name="1943" class="Symbol"
+  >:</a
+  ><a name="1944"
+  > </a
+  ><a name="1945" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1946" class="Symbol"
+  >}</a
+  ><a name="1947"
+  > </a
+  ><a name="1948" class="Symbol"
+  >&#8594;</a
+  ><a name="1949"
+  > </a
+  ><a name="1950" href="Functions.Large.html#1939" class="Bound"
+  >n</a
+  ><a name="1951"
+  > </a
+  ><a name="1952" href="Functions.Large.html#515" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="1953"
+  > </a
+  ><a name="1954" href="Functions.Large.html#1941" class="Bound"
+  >m</a
+  ><a name="1955"
+  > </a
+  ><a name="1956" class="Symbol"
+  >&#8594;</a
+  ><a name="1957"
+  > </a
+  ><a name="1958" href="Functions.Large.html#1939" class="Bound"
+  >n</a
+  ><a name="1959"
+  > </a
+  ><a name="1960" href="Functions.Large.html#515" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="1961"
+  > </a
+  ><a name="1962" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="1965"
+  > </a
+  ><a name="1966" href="Functions.Large.html#1941" class="Bound"
+  >m</a
+  ><a name="1967"
+  >
+</a
+  ><a name="1968" href="Functions.Large.html#1934" class="Function"
+  >f</a
+  ><a name="1969"
+  > </a
+  ><a name="1970" href="Functions.Large.html#541" class="InductiveConstructor"
+  >z&#8804;n</a
+  ><a name="1973"
+  > </a
+  ><a name="1974" class="Symbol"
+  >=</a
+  ><a name="1975"
+  > </a
+  ><a name="1976" href="Functions.Large.html#541" class="InductiveConstructor"
+  >z&#8804;n</a
+  ><a name="1979"
+  >
+</a
+  ><a name="1980" href="Functions.Large.html#1934" class="Function"
+  >f</a
+  ><a name="1981"
+  > </a
+  ><a name="1982" class="Symbol"
+  >(</a
+  ><a name="1983" href="Functions.Large.html#583" class="InductiveConstructor"
+  >s&#8804;s</a
+  ><a name="1986"
+  > </a
+  ><a name="1987" href="Functions.Large.html#1987" class="Bound"
+  >x</a
+  ><a name="1988" class="Symbol"
+  >)</a
+  ><a name="1989"
+  > </a
+  ><a name="1990" class="Symbol"
+  >=</a
+  ><a name="1991"
+  > </a
+  ><a name="1992" href="Functions.Large.html#583" class="InductiveConstructor"
+  >s&#8804;s</a
+  ><a name="1995"
+  > </a
+  ><a name="1996" class="Symbol"
+  >(</a
+  ><a name="1997" href="Functions.Large.html#1934" class="Function"
+  >f</a
+  ><a name="1998"
+  > </a
+  ><a name="1999" href="Functions.Large.html#1987" class="Bound"
+  >x</a
+  ><a name="2000" class="Symbol"
+  >)</a
+  ><a name="2001"
+  >
+
+</a
+  ><a name="2003" href="Functions.Large.html#2003" class="Function"
+  >f&#8242;</a
+  ><a name="2005"
+  > </a
+  ><a name="2006" class="Symbol"
+  >:</a
+  ><a name="2007"
+  > </a
+  ><a name="2008" class="Symbol"
+  >{</a
+  ><a name="2009" href="Functions.Large.html#2009" class="Bound"
+  >n</a
+  ><a name="2010"
+  > </a
+  ><a name="2011" href="Functions.Large.html#2011" class="Bound"
+  >m</a
+  ><a name="2012"
+  > </a
+  ><a name="2013" class="Symbol"
+  >:</a
+  ><a name="2014"
+  > </a
+  ><a name="2015" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2016" class="Symbol"
+  >}</a
+  ><a name="2017"
+  > </a
+  ><a name="2018" class="Symbol"
+  >&#8594;</a
+  ><a name="2019"
+  > </a
+  ><a name="2020" href="Functions.Large.html#2009" class="Bound"
+  >n</a
+  ><a name="2021"
+  > </a
+  ><a name="2022" href="Functions.Large.html#976" class="Function Operator"
+  >&#8804;&#8242;</a
+  ><a name="2024"
+  > </a
+  ><a name="2025" href="Functions.Large.html#2011" class="Bound"
+  >m</a
+  ><a name="2026"
+  > </a
+  ><a name="2027" class="Symbol"
+  >&#8594;</a
+  ><a name="2028"
+  > </a
+  ><a name="2029" href="Functions.Large.html#2009" class="Bound"
+  >n</a
+  ><a name="2030"
+  > </a
+  ><a name="2031" href="Functions.Large.html#976" class="Function Operator"
+  >&#8804;&#8242;</a
+  ><a name="2033"
+  > </a
+  ><a name="2034" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2037"
+  > </a
+  ><a name="2038" href="Functions.Large.html#2011" class="Bound"
+  >m</a
+  ><a name="2039"
+  >
+</a
+  ><a name="2040" href="Functions.Large.html#2003" class="Function"
+  >f&#8242;</a
+  ><a name="2042"
+  > </a
+  ><a name="2043" class="Symbol"
+  >{</a
+  ><a name="2044" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="2048" class="Symbol"
+  >}</a
+  ><a name="2049"
+  > </a
+  ><a name="2050" class="Symbol"
+  >{</a
+  ><a name="2051" href="Functions.Large.html#2051" class="Bound"
+  >m</a
+  ><a name="2052" class="Symbol"
+  >}</a
+  ><a name="2053"
+  > </a
+  ><a name="2054" href="Data.Unit.html#681" class="InductiveConstructor"
+  >tt</a
+  ><a name="2056"
+  > </a
+  ><a name="2057" class="Symbol"
+  >=</a
+  ><a name="2058"
+  > </a
+  ><a name="2059" href="Data.Unit.html#681" class="InductiveConstructor"
+  >tt</a
+  ><a name="2061"
+  >
+</a
+  ><a name="2062" href="Functions.Large.html#2003" class="Function"
+  >f&#8242;</a
+  ><a name="2064"
+  > </a
+  ><a name="2065" class="Symbol"
+  >{</a
+  ><a name="2066" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2069"
+  > </a
+  ><a name="2070" href="Functions.Large.html#2070" class="Bound"
+  >n</a
+  ><a name="2071" class="Symbol"
+  >}</a
+  ><a name="2072"
+  > </a
+  ><a name="2073" class="Symbol"
+  >{</a
+  ><a name="2074" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="2078" class="Symbol"
+  >}</a
+  ><a name="2079"
+  > </a
+  ><a name="2080" class="Symbol"
+  >()</a
+  ><a name="2082"
+  >
+</a
+  ><a name="2083" href="Functions.Large.html#2003" class="Function"
+  >f&#8242;</a
+  ><a name="2085"
+  > </a
+  ><a name="2086" class="Symbol"
+  >{</a
+  ><a name="2087" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2090"
+  > </a
+  ><a name="2091" href="Functions.Large.html#2091" class="Bound"
+  >n</a
+  ><a name="2092" class="Symbol"
+  >}</a
+  ><a name="2093"
+  > </a
+  ><a name="2094" class="Symbol"
+  >{</a
+  ><a name="2095" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2098"
+  > </a
+  ><a name="2099" href="Functions.Large.html#2099" class="Bound"
+  >m</a
+  ><a name="2100" class="Symbol"
+  >}</a
+  ><a name="2101"
+  > </a
+  ><a name="2102" href="Functions.Large.html#2102" class="Bound"
+  >x</a
+  ><a name="2103"
+  > </a
+  ><a name="2104" class="Symbol"
+  >=</a
+  ><a name="2105"
+  > </a
+  ><a name="2106" href="Functions.Large.html#2003" class="Function"
+  >f&#8242;</a
+  ><a name="2108"
+  > </a
+  ><a name="2109" class="Symbol"
+  >{</a
+  ><a name="2110" href="Functions.Large.html#2091" class="Bound"
+  >n</a
+  ><a name="2111" class="Symbol"
+  >}</a
+  ><a name="2112"
+  > </a
+  ><a name="2113" class="Symbol"
+  >{</a
+  ><a name="2114" href="Functions.Large.html#2099" class="Bound"
+  >m</a
+  ><a name="2115" class="Symbol"
+  >}</a
+  ><a name="2116"
+  > </a
+  ><a name="2117" href="Functions.Large.html#2102" class="Bound"
+  >x</a
+  ></pre
+></p>
+<h1 id="exercises"><a href="#exercises">Exercises</a></h1>
+<p>Give recursive definitions for <code>_≡_</code> and <code>_≢_</code> on natural numbers!</p>
+<p>Give mutual recursive definitions for <code>Even</code> and <code>Odd</code>!</p>
+<h1 id="macro-like-set-definitions"><a href="#macro-like-set-definitions">Macro-like <code>Set</code> definitions</a></h1>
+<p>Macro-like functions don't pattern match on their argument:</p>
+<p><pre
+><a name="2701"
+  >
+</a
+  ><a name="2716" href="Functions.Large.html#2716" class="Function Operator"
+  >_&lt;_</a
+  ><a name="2719"
+  > </a
+  ><a name="2720" class="Symbol"
+  >:</a
+  ><a name="2721"
+  > </a
+  ><a name="2722" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2723"
+  > </a
+  ><a name="2724" class="Symbol"
+  >&#8594;</a
+  ><a name="2725"
+  > </a
+  ><a name="2726" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2727"
+  > </a
+  ><a name="2728" class="Symbol"
+  >&#8594;</a
+  ><a name="2729"
+  > </a
+  ><a name="2730" class="PrimitiveType"
+  >Set</a
+  ><a name="2733"
+  >
+</a
+  ><a name="2734" href="Functions.Large.html#2734" class="Bound"
+  >n</a
+  ><a name="2735"
+  > </a
+  ><a name="2736" href="Functions.Large.html#2716" class="Function Operator"
+  >&lt;</a
+  ><a name="2737"
+  > </a
+  ><a name="2738" href="Functions.Large.html#2738" class="Bound"
+  >m</a
+  ><a name="2739"
+  > </a
+  ><a name="2740" class="Symbol"
+  >=</a
+  ><a name="2741"
+  > </a
+  ><a name="2742" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="2745"
+  > </a
+  ><a name="2746" href="Functions.Large.html#2734" class="Bound"
+  >n</a
+  ><a name="2747"
+  > </a
+  ><a name="2748" href="Functions.Large.html#515" class="Datatype Operator"
+  >&#8804;</a
+  ><a name="2749"
+  > </a
+  ><a name="2750" href="Functions.Large.html#2738" class="Bound"
+  >m</a
+  ></pre
+></p>
+<p>Although we could have an inductive definition of <code>_&lt;_</code>, this definition is better because no conversion functions are needed between <code>_≤_</code> and <code>_&lt;_</code>.</p>
+<p>On the other hand,</p>
+<p><pre
+><a name="2934"
+  >
+</a
+  ><a name="2949" href="Functions.Large.html#2949" class="Function"
+  >Maybe</a
+  ><a name="2954"
+  > </a
+  ><a name="2955" class="Symbol"
+  >:</a
+  ><a name="2956"
+  > </a
+  ><a name="2957" class="PrimitiveType"
+  >Set</a
+  ><a name="2960"
+  > </a
+  ><a name="2961" class="Symbol"
+  >&#8594;</a
+  ><a name="2962"
+  > </a
+  ><a name="2963" class="PrimitiveType"
+  >Set</a
+  ><a name="2966"
+  >
+</a
+  ><a name="2967" href="Functions.Large.html#2949" class="Function"
+  >Maybe</a
+  ><a name="2972"
+  > </a
+  ><a name="2973" href="Functions.Large.html#2973" class="Bound"
+  >A</a
+  ><a name="2974"
+  > </a
+  ><a name="2975" class="Symbol"
+  >=</a
+  ><a name="2976"
+  > </a
+  ><a name="2977" href="Data.Unit.html#653" class="Record"
+  >&#8868;</a
+  ><a name="2978"
+  > </a
+  ><a name="2979" href="Data.Sum.html#404" class="Datatype Operator"
+  >&#8846;</a
+  ><a name="2980"
+  > </a
+  ><a name="2981" href="Functions.Large.html#2973" class="Bound"
+  >A</a
+  ></pre
+></p>
+<p>is possible, but not advised because then we can't distinguish <code>Maybe ⊤</code> from <code>⊤ ⊎ ⊤</code>, for example.</p>
+<p><em>General rule:</em><br /><strong>Macro-like <code>Set</code> definitions are better than inductive definitions if we don't want to distinguish the new type from the base type.</strong></p>
+<h1 id="exercises-1"><a href="#exercises-1">Exercises</a></h1>
+<p>Define <code>_&gt;_</code> and <code>_≥_</code> on top of <code>_≤_</code>!</p>
+<h1 id="another-example"><a href="#another-example">Another example</a></h1>
+<p><pre
+><a name="3344"
+  >
+</a
+  ><a name="3359" href="Functions.Large.html#3359" class="Function"
+  >&#172;</a
+  ><a name="3360"
+  > </a
+  ><a name="3361" class="Symbol"
+  >:</a
+  ><a name="3362"
+  > </a
+  ><a name="3363" class="PrimitiveType"
+  >Set</a
+  ><a name="3366"
+  > </a
+  ><a name="3367" class="Symbol"
+  >&#8594;</a
+  ><a name="3368"
+  > </a
+  ><a name="3369" class="PrimitiveType"
+  >Set</a
+  ><a name="3372"
+  >
+</a
+  ><a name="3373" href="Functions.Large.html#3359" class="Function"
+  >&#172;</a
+  ><a name="3374"
+  > </a
+  ><a name="3375" href="Functions.Large.html#3375" class="Bound"
+  >A</a
+  ><a name="3376"
+  > </a
+  ><a name="3377" class="Symbol"
+  >=</a
+  ><a name="3378"
+  > </a
+  ><a name="3379" href="Functions.Large.html#3375" class="Bound"
+  >A</a
+  ><a name="3380"
+  > </a
+  ><a name="3381" class="Symbol"
+  >&#8594;</a
+  ><a name="3382"
+  > </a
+  ><a name="3383" href="Data.Empty.html#243" class="Datatype"
+  >&#8869;</a
+  ></pre
+></p>
+<h1 id="another-example-recursive-fin"><a href="#another-example-recursive-fin">Another example: recursive <code>Fin</code></a></h1>
+<p><code>Fin₀ n</code> is isomorphic to <code>Fin n</code> for all <code>n</code>:</p>
+<p><pre
+><a name="3511"
+  >
+</a
+  ><a name="3526" href="Functions.Large.html#3526" class="Function"
+  >Fin&#8320;</a
+  ><a name="3530"
+  > </a
+  ><a name="3531" class="Symbol"
+  >:</a
+  ><a name="3532"
+  > </a
+  ><a name="3533" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="3534"
+  > </a
+  ><a name="3535" class="Symbol"
+  >&#8594;</a
+  ><a name="3536"
+  > </a
+  ><a name="3537" class="PrimitiveType"
+  >Set</a
+  ><a name="3540"
+  >
+</a
+  ><a name="3541" href="Functions.Large.html#3526" class="Function"
+  >Fin&#8320;</a
+  ><a name="3545"
+  > </a
+  ><a name="3546" href="Data.Nat.html#714" class="InductiveConstructor"
+  >zero</a
+  ><a name="3550"
+  >    </a
+  ><a name="3554" class="Symbol"
+  >=</a
+  ><a name="3555"
+  > </a
+  ><a name="3556" href="Data.Empty.html#243" class="Datatype"
+  >&#8869;</a
+  ><a name="3557"
+  >
+</a
+  ><a name="3558" href="Functions.Large.html#3526" class="Function"
+  >Fin&#8320;</a
+  ><a name="3562"
+  > </a
+  ><a name="3563" class="Symbol"
+  >(</a
+  ><a name="3564" href="Data.Nat.html#725" class="InductiveConstructor"
+  >suc</a
+  ><a name="3567"
+  > </a
+  ><a name="3568" href="Functions.Large.html#3568" class="Bound"
+  >n</a
+  ><a name="3569" class="Symbol"
+  >)</a
+  ><a name="3570"
+  > </a
+  ><a name="3571" class="Symbol"
+  >=</a
+  ><a name="3572"
+  > </a
+  ><a name="3573" href="Data.Unit.html#653" class="Record"
+  >&#8868;</a
+  ><a name="3574"
+  > </a
+  ><a name="3575" href="Data.Sum.html#404" class="Datatype Operator"
+  >&#8846;</a
+  ><a name="3576"
+  > </a
+  ><a name="3577" href="Functions.Large.html#3526" class="Function"
+  >Fin&#8320;</a
+  ><a name="3581"
+  > </a
+  ><a name="3582" href="Functions.Large.html#3568" class="Bound"
+  >n</a
+  ></pre
+></p>
+<p>Elements:</p>
+<pre><code>n    Fin₀ n                             Fin n
+------------------------------------------------------------------
+0    {                              }   {                      }
+1    { inj₁ tt                      }   { zero                 }
+2    { inj₁ tt                          { zero
+     , inj₂ (inj₁ tt)               }   , suc zero             }
+3    { inj₁ tt                          { zero
+     , inj₂ (inj₁ tt)                   , suc zero
+     , inj₂ (inj₂ (inj₁ tt)         }   , suc (suc zero)       }
+4    { inj₁ tt                          { zero
+     , inj₂ (inj₁ tt)                   , suc zero
+     , inj₂ (inj₂ (inj₁ tt))            , suc (suc zero)
+     , inj₂ (inj₂ (inj₂ (inj₁ tt))) }   , suc (suc (suc zero)) }
+...</code></pre>
+<p>Pattern:</p>
+<ul>
+<li><code>zero</code> ~ <code>inj₁ tt</code></li>
+<li><code>suc</code> ~ <code>inj₂</code></li>
+</ul>
+</body>
+</html>

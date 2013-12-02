@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Functions vs. Sets</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Functions vs. Sets</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#negation-as-a-relation">Negation as a relation</a></li>
+<li><a href="#negation-as-a-function">Negation as a function</a></li>
+<li><a href="#relations-vs.-functions">Relations vs. functions</a></li>
+<li><a href="#specification-vs.-implementation">Specification vs. implementation</a></li>
+<li><a href="#functions-with-boolean-value">Functions with Boolean value</a></li>
+</ul>
+</div>
+<p><pre
+><a name="21"
+  >
+</a
+  ><a name="36" class="Keyword"
+  >module</a
+  ><a name="42"
+  > </a
+  ><a name="43" href="Functions.Functions_vs_Sets.html#1" class="Module"
+  >Functions.</a
+  ><a name="53" href="Functions.Functions_vs_Sets.html#1" class="Module Operator"
+  >Functions_vs_Sets</a
+  ><a name="70"
+  > </a
+  ><a name="71" class="Keyword"
+  >where</a
+  ><a name="76"
+  >
+
+</a
+  ><a name="78" class="Keyword"
+  >open</a
+  ><a name="82"
+  > </a
+  ><a name="83" class="Keyword"
+  >import</a
+  ><a name="89"
+  > </a
+  ><a name="90" href="Sets.Enumerated.html#1" class="Module"
+  >Sets.Enumerated</a
+  ><a name="105"
+  > </a
+  ><a name="106" class="Keyword"
+  >using</a
+  ><a name="111"
+  > </a
+  ><a name="112" class="Symbol"
+  >(</a
+  ><a name="113"
+  >Bool</a
+  ><a name="117" class="Symbol"
+  >;</a
+  ><a name="118"
+  > true</a
+  ><a name="123" class="Symbol"
+  >;</a
+  ><a name="124"
+  > false</a
+  ><a name="130" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="negation-as-a-relation"><a href="#negation-as-a-relation">Negation as a relation</a></h1>
+<p>Representation of negation as a relation between <code>Bool</code> and <code>Bool</code>:</p>
+<p><pre
+><a name="265"
+  >
+</a
+  ><a name="280" class="Keyword"
+  >data</a
+  ><a name="284"
+  > </a
+  ><a name="285" href="Functions.Functions_vs_Sets.html#285" class="Datatype"
+  >Not</a
+  ><a name="288"
+  > </a
+  ><a name="289" class="Symbol"
+  >:</a
+  ><a name="290"
+  > </a
+  ><a name="291" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ><a name="295"
+  > </a
+  ><a name="296" class="Symbol"
+  >&#8594;</a
+  ><a name="297"
+  > </a
+  ><a name="298" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ><a name="302"
+  > </a
+  ><a name="303" class="Symbol"
+  >&#8594;</a
+  ><a name="304"
+  > </a
+  ><a name="305" class="PrimitiveType"
+  >Set</a
+  ><a name="308"
+  > </a
+  ><a name="309" class="Keyword"
+  >where</a
+  ><a name="314"
+  >
+  </a
+  ><a name="317" href="Functions.Functions_vs_Sets.html#317" class="InductiveConstructor"
+  >n&#8321;</a
+  ><a name="319"
+  > </a
+  ><a name="320" class="Symbol"
+  >:</a
+  ><a name="321"
+  > </a
+  ><a name="322" href="Functions.Functions_vs_Sets.html#285" class="Datatype"
+  >Not</a
+  ><a name="325"
+  > </a
+  ><a name="326" href="Sets.Enumerated.html#212" class="InductiveConstructor"
+  >true</a
+  ><a name="330"
+  > </a
+  ><a name="331" href="Sets.Enumerated.html#227" class="InductiveConstructor"
+  >false</a
+  ><a name="336"
+  >
+  </a
+  ><a name="339" href="Functions.Functions_vs_Sets.html#339" class="InductiveConstructor"
+  >n&#8322;</a
+  ><a name="341"
+  > </a
+  ><a name="342" class="Symbol"
+  >:</a
+  ><a name="343"
+  > </a
+  ><a name="344" href="Functions.Functions_vs_Sets.html#285" class="Datatype"
+  >Not</a
+  ><a name="347"
+  > </a
+  ><a name="348" href="Sets.Enumerated.html#227" class="InductiveConstructor"
+  >false</a
+  ><a name="353"
+  > </a
+  ><a name="354" href="Sets.Enumerated.html#212" class="InductiveConstructor"
+  >true</a
+  ></pre
+></p>
+<p>This creates four new sets of which two are non-empty.</p>
+<p><code>Not a b</code> is non-empty iff <code>b</code> is the negated value of <code>a</code>.</p>
+<h1 id="negation-as-a-function"><a href="#negation-as-a-function">Negation as a function</a></h1>
+<p>Recall the representation of negation as a function:</p>
+<p><pre
+><a name="594"
+  >
+</a
+  ><a name="609" href="Functions.Functions_vs_Sets.html#609" class="Function"
+  >not</a
+  ><a name="612"
+  > </a
+  ><a name="613" class="Symbol"
+  >:</a
+  ><a name="614"
+  > </a
+  ><a name="615" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ><a name="619"
+  > </a
+  ><a name="620" class="Symbol"
+  >&#8594;</a
+  ><a name="621"
+  > </a
+  ><a name="622" href="Sets.Enumerated.html#193" class="Datatype"
+  >Bool</a
+  ><a name="626"
+  >
+</a
+  ><a name="627" href="Functions.Functions_vs_Sets.html#609" class="Function"
+  >not</a
+  ><a name="630"
+  > </a
+  ><a name="631" href="Sets.Enumerated.html#212" class="InductiveConstructor"
+  >true</a
+  ><a name="635"
+  >  </a
+  ><a name="637" class="Symbol"
+  >=</a
+  ><a name="638"
+  > </a
+  ><a name="639" href="Sets.Enumerated.html#227" class="InductiveConstructor"
+  >false</a
+  ><a name="644"
+  >
+</a
+  ><a name="645" href="Functions.Functions_vs_Sets.html#609" class="Function"
+  >not</a
+  ><a name="648"
+  > </a
+  ><a name="649" href="Sets.Enumerated.html#227" class="InductiveConstructor"
+  >false</a
+  ><a name="654"
+  > </a
+  ><a name="655" class="Symbol"
+  >=</a
+  ><a name="656"
+  > </a
+  ><a name="657" href="Sets.Enumerated.html#212" class="InductiveConstructor"
+  >true</a
+  ></pre
+></p>
+<h1 id="relations-vs.-functions"><a href="#relations-vs.-functions">Relations vs. functions</a></h1>
+<p>Relation's advantages:</p>
+<ul>
+<li>Less restrictions
+<ul>
+<li>not all cases should be covered (partial specification)</li>
+<li>redundancy is allowed</li>
+<li>general recursion is allowed</li>
+<li>inconsistency is allowed (resulting in an empty relation)</li>
+</ul></li>
+<li>Shorter definitions (the difference increases with complexity)</li>
+</ul>
+<p>Function's advantages:</p>
+<ul>
+<li>More guarantees
+<ul>
+<li>coverage check ensures that all cases are covered</li>
+<li>reachability check excludes multiple cases<br /></li>
+<li>termination check ensures terminating recursion</li>
+<li>inconsistency is excluded by construction</li>
+</ul></li>
+<li>Functions have computational content
+<ul>
+<li>code generation possibility</li>
+<li>shorter proofs (see later)</li>
+</ul></li>
+<li>Easier to use<br /> <code>not (not a)</code> instead of <code>Not a b ∧ Not b c</code></li>
+</ul>
+<h1 id="specification-vs.-implementation"><a href="#specification-vs.-implementation">Specification vs. implementation</a></h1>
+<p>Relations are good for describing the problem/question (<strong>specification</strong>).</p>
+<p>Functions are good for describing the solution/answer (<strong>implementation</strong>).</p>
+<p><em>Notes</em></p>
+<ul>
+<li>Implementations are connected to specifications by the type system (see later).<br /></li>
+<li>Functions are used in specifications too because of the advantage &quot;easier to use&quot; and they can represent negation and universal quantification.
+<ul>
+<li>like in mathematics where definitions may need theorems in advance</li>
+</ul></li>
+</ul>
+<h1 id="functions-with-boolean-value"><a href="#functions-with-boolean-value">Functions with Boolean value</a></h1>
+<p><em>Remark</em></p>
+<p>An <code>A → B → C</code> function corresponds to specification <code>A → B → C → Set</code> according our previous remark. So <code>_≤?_ : ℕ → ℕ → Bool</code> would correspond to <code>ℕ → ℕ → Bool → Set</code>, but Boolean valued functions can be specified easier so we have <code>_≤_ : ℕ → ℕ → Set</code> as specification.</p>
+</body>
+</html>

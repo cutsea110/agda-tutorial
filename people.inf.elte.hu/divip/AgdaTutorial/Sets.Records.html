@@ -1,0 +1,1621 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Records</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Records</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#record-set-definitions">Record set definitions</a></li>
+<li><a href="#record-value-definitions">Record value definitions</a></li>
+<li><a href="#record-value-definitions-with-constructors">Record value definitions with constructors</a></li>
+<li><a href="#field-selectors">Field selectors</a></li>
+<li><a href="#record-vs.-data-definitions"><code>record</code> vs. <code>data</code> definitions</a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#dependent-records">Dependent records</a></li>
+<li><a href="#parameterised-record">Parameterised record</a></li>
+<li><a href="#exercises-1">Exercises</a></li>
+<li><a href="#implicit-record-fields">Implicit record fields</a></li>
+<li><a href="#exercise">Exercise</a></li>
+<li><a href="#exercise-1">Exercise</a></li>
+</ul>
+</div>
+<p><em><a href="http://wiki.portal.chalmers.se/agda/pmwiki.php?n=ReferenceManual.RecordsTutorial">After the Agda Records Tutorial</a></em></p>
+<p><pre
+><a name="129"
+  >
+</a
+  ><a name="144" class="Keyword"
+  >module</a
+  ><a name="150"
+  > </a
+  ><a name="151" href="Sets.Records.html#1" class="Module"
+  >Sets.Records</a
+  ><a name="163"
+  > </a
+  ><a name="164" class="Keyword"
+  >where</a
+  ><a name="169"
+  >
+
+</a
+  ><a name="171" class="Keyword"
+  >open</a
+  ><a name="175"
+  > </a
+  ><a name="176" class="Keyword"
+  >import</a
+  ><a name="182"
+  > </a
+  ><a name="183" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="191"
+  >
+</a
+  ><a name="192" class="Keyword"
+  >open</a
+  ><a name="196"
+  > </a
+  ><a name="197" class="Keyword"
+  >import</a
+  ><a name="203"
+  > </a
+  ><a name="204" href="Data.Bool.html#1" class="Module"
+  >Data.Bool</a
+  ><a name="213"
+  >
+</a
+  ><a name="214" class="Keyword"
+  >open</a
+  ><a name="218"
+  > </a
+  ><a name="219" class="Keyword"
+  >import</a
+  ><a name="225"
+  > </a
+  ><a name="226" href="Relation.Binary.PropositionalEquality.html#1" class="Module"
+  >Relation.Binary.PropositionalEquality</a
+  ><a name="263"
+  > </a
+  ><a name="264" class="Keyword"
+  >using</a
+  ><a name="269"
+  > </a
+  ><a name="270" class="Symbol"
+  >(</a
+  ><a name="271"
+  >_&#8801;_</a
+  ><a name="274" class="Symbol"
+  >)</a
+  ><a name="275"
+  >
+</a
+  ><a name="276" class="Keyword"
+  >import</a
+  ><a name="282"
+  > </a
+  ><a name="283" href="Relation.Binary.PropositionalEquality.html#1" class="Module"
+  >Relation.Binary.PropositionalEquality</a
+  ><a name="320"
+  > </a
+  ><a name="321" class="Symbol"
+  >as</a
+  ><a name="323"
+  > </a
+  ><a name="324" class="Module"
+  >Eq</a
+  ></pre
+></p>
+<h1 id="record-set-definitions"><a href="#record-set-definitions">Record set definitions</a></h1>
+<p>A record type is a special set for representing tuples of values. For example, the following set represents a <code>Bool</code>, <code>ℕ</code> pair:</p>
+<p><pre
+><a name="506"
+  >
+</a
+  ><a name="521" class="Keyword"
+  >record</a
+  ><a name="527"
+  > </a
+  ><a name="528" href="Sets.Records.html#528" class="Record"
+  >R</a
+  ><a name="529"
+  > </a
+  ><a name="530" class="Symbol"
+  >:</a
+  ><a name="531"
+  > </a
+  ><a name="532" class="PrimitiveType"
+  >Set</a
+  ><a name="535"
+  > </a
+  ><a name="536" class="Keyword"
+  >where</a
+  ><a name="541"
+  >
+  </a
+  ><a name="544" class="Keyword"
+  >field</a
+  ><a name="549"
+  >
+    </a
+  ><a name="554" href="Sets.Records.html#554" class="Field"
+  >r&#8321;</a
+  ><a name="556"
+  > </a
+  ><a name="557" class="Symbol"
+  >:</a
+  ><a name="558"
+  > </a
+  ><a name="559" href="Data.Bool.html#603" class="Datatype"
+  >Bool</a
+  ><a name="563"
+  >
+    </a
+  ><a name="568" href="Sets.Records.html#568" class="Field"
+  >r&#8322;</a
+  ><a name="570"
+  > </a
+  ><a name="571" class="Symbol"
+  >:</a
+  ><a name="572"
+  > </a
+  ><a name="573" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ></pre
+></p>
+<h1 id="record-value-definitions"><a href="#record-value-definitions">Record value definitions</a></h1>
+<p>An example:</p>
+<p><pre
+><a name="640"
+  >
+</a
+  ><a name="655" href="Sets.Records.html#655" class="Function"
+  >x</a
+  ><a name="656"
+  > </a
+  ><a name="657" class="Symbol"
+  >:</a
+  ><a name="658"
+  > </a
+  ><a name="659" href="Sets.Records.html#528" class="Record"
+  >R</a
+  ><a name="660"
+  >
+</a
+  ><a name="661" href="Sets.Records.html#655" class="Function"
+  >x</a
+  ><a name="662"
+  > </a
+  ><a name="663" class="Symbol"
+  >=</a
+  ><a name="664"
+  > </a
+  ><a name="665" class="Keyword"
+  >record</a
+  ><a name="671"
+  > </a
+  ><a name="672" class="Symbol"
+  >{</a
+  ><a name="673"
+  > </a
+  ><a name="674" class="Field"
+  >r&#8321;</a
+  ><a name="676"
+  > </a
+  ><a name="677" class="Symbol"
+  >=</a
+  ><a name="678"
+  > </a
+  ><a name="679" href="Data.Bool.html#622" class="InductiveConstructor"
+  >true</a
+  ><a name="683" class="Symbol"
+  >;</a
+  ><a name="684"
+  > </a
+  ><a name="685" class="Field"
+  >r&#8322;</a
+  ><a name="687"
+  > </a
+  ><a name="688" class="Symbol"
+  >=</a
+  ><a name="689"
+  > </a
+  ><a name="690" class="Number"
+  >2</a
+  ><a name="691"
+  > </a
+  ><a name="692" class="Symbol"
+  >}</a
+  ></pre
+></p>
+<h1 id="record-value-definitions-with-constructors"><a href="#record-value-definitions-with-constructors">Record value definitions with constructors</a></h1>
+<p>One could define a constructor for <code>R</code> values:</p>
+<p><pre
+><a name="812"
+  >
+</a
+  ><a name="827" href="Sets.Records.html#827" class="Function"
+  >r</a
+  ><a name="828"
+  > </a
+  ><a name="829" class="Symbol"
+  >:</a
+  ><a name="830"
+  > </a
+  ><a name="831" href="Data.Bool.html#603" class="Datatype"
+  >Bool</a
+  ><a name="835"
+  > </a
+  ><a name="836" class="Symbol"
+  >&#8594;</a
+  ><a name="837"
+  > </a
+  ><a name="838" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="839"
+  > </a
+  ><a name="840" class="Symbol"
+  >&#8594;</a
+  ><a name="841"
+  > </a
+  ><a name="842" href="Sets.Records.html#528" class="Record"
+  >R</a
+  ><a name="843"
+  >
+</a
+  ><a name="844" href="Sets.Records.html#827" class="Function"
+  >r</a
+  ><a name="845"
+  > </a
+  ><a name="846" href="Sets.Records.html#846" class="Bound"
+  >b</a
+  ><a name="847"
+  > </a
+  ><a name="848" href="Sets.Records.html#848" class="Bound"
+  >n</a
+  ><a name="849"
+  > </a
+  ><a name="850" class="Symbol"
+  >=</a
+  ><a name="851"
+  > </a
+  ><a name="852" class="Keyword"
+  >record</a
+  ><a name="858"
+  > </a
+  ><a name="859" class="Symbol"
+  >{</a
+  ><a name="860"
+  > </a
+  ><a name="861" class="Field"
+  >r&#8321;</a
+  ><a name="863"
+  > </a
+  ><a name="864" class="Symbol"
+  >=</a
+  ><a name="865"
+  > </a
+  ><a name="866" href="Sets.Records.html#846" class="Bound"
+  >b</a
+  ><a name="867" class="Symbol"
+  >;</a
+  ><a name="868"
+  > </a
+  ><a name="869" class="Field"
+  >r&#8322;</a
+  ><a name="871"
+  > </a
+  ><a name="872" class="Symbol"
+  >=</a
+  ><a name="873"
+  > </a
+  ><a name="874" href="Sets.Records.html#848" class="Bound"
+  >n</a
+  ><a name="875"
+  > </a
+  ><a name="876" class="Symbol"
+  >}</a
+  ><a name="877"
+  >
+
+</a
+  ><a name="879" href="Sets.Records.html#879" class="Function"
+  >x&#8242;</a
+  ><a name="881"
+  > </a
+  ><a name="882" class="Symbol"
+  >=</a
+  ><a name="883"
+  > </a
+  ><a name="884" href="Sets.Records.html#827" class="Function"
+  >r</a
+  ><a name="885"
+  > </a
+  ><a name="886" href="Data.Bool.html#622" class="InductiveConstructor"
+  >true</a
+  ><a name="890"
+  > </a
+  ><a name="891" class="Number"
+  >2</a
+  ></pre
+></p>
+<p>Agda provides this definition to us with the following syntax:</p>
+<p><pre
+><a name="967"
+  >
+</a
+  ><a name="982" class="Keyword"
+  >record</a
+  ><a name="988"
+  > </a
+  ><a name="989" href="Sets.Records.html#989" class="Record"
+  >R&#8242;</a
+  ><a name="991"
+  > </a
+  ><a name="992" class="Symbol"
+  >:</a
+  ><a name="993"
+  > </a
+  ><a name="994" class="PrimitiveType"
+  >Set</a
+  ><a name="997"
+  > </a
+  ><a name="998" class="Keyword"
+  >where</a
+  ><a name="1003"
+  >
+  </a
+  ><a name="1006" class="Keyword"
+  >constructor</a
+  ><a name="1017"
+  > </a
+  ><a name="1018" href="Sets.Records.html#1018" class="InductiveConstructor"
+  >r&#8242;</a
+  ><a name="1020"
+  >   </a
+  ><a name="1023" class="Comment"
+  >-- record constructor</a
+  ><a name="1044"
+  >
+  </a
+  ><a name="1047" class="Keyword"
+  >field</a
+  ><a name="1052"
+  >
+    </a
+  ><a name="1057" href="Sets.Records.html#1057" class="Field"
+  >r&#8321;</a
+  ><a name="1059"
+  > </a
+  ><a name="1060" class="Symbol"
+  >:</a
+  ><a name="1061"
+  > </a
+  ><a name="1062" href="Data.Bool.html#603" class="Datatype"
+  >Bool</a
+  ><a name="1066"
+  >
+    </a
+  ><a name="1071" href="Sets.Records.html#1071" class="Field"
+  >r&#8322;</a
+  ><a name="1073"
+  > </a
+  ><a name="1074" class="Symbol"
+  >:</a
+  ><a name="1075"
+  > </a
+  ><a name="1076" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1077"
+  >
+
+</a
+  ><a name="1079" href="Sets.Records.html#1079" class="Function"
+  >x&#8243;</a
+  ><a name="1081"
+  > </a
+  ><a name="1082" class="Symbol"
+  >=</a
+  ><a name="1083"
+  > </a
+  ><a name="1084" href="Sets.Records.html#1018" class="InductiveConstructor"
+  >r&#8242;</a
+  ><a name="1086"
+  > </a
+  ><a name="1087" href="Data.Bool.html#622" class="InductiveConstructor"
+  >true</a
+  ><a name="1091"
+  > </a
+  ><a name="1092" class="Number"
+  >2</a
+  ></pre
+></p>
+<h1 id="field-selectors"><a href="#field-selectors">Field selectors</a></h1>
+<p>Agda defines field selectors automatically:</p>
+<p><pre
+><a name="1183"
+  >
+</a
+  ><a name="1198" href="Sets.Records.html#1198" class="Function"
+  >sel&#8321;</a
+  ><a name="1202"
+  > </a
+  ><a name="1203" class="Symbol"
+  >:</a
+  ><a name="1204"
+  > </a
+  ><a name="1205" href="Sets.Records.html#528" class="Record"
+  >R</a
+  ><a name="1206"
+  > </a
+  ><a name="1207" class="Symbol"
+  >&#8594;</a
+  ><a name="1208"
+  > </a
+  ><a name="1209" href="Data.Bool.html#603" class="Datatype"
+  >Bool</a
+  ><a name="1213"
+  >
+</a
+  ><a name="1214" href="Sets.Records.html#1198" class="Function"
+  >sel&#8321;</a
+  ><a name="1218"
+  > </a
+  ><a name="1219" class="Symbol"
+  >=</a
+  ><a name="1220"
+  > </a
+  ><a name="1221" href="Sets.Records.html#554" class="Function"
+  >R.r&#8321;</a
+  ><a name="1225"
+  >
+
+</a
+  ><a name="1227" href="Sets.Records.html#1227" class="Function"
+  >sel&#8322;</a
+  ><a name="1231"
+  > </a
+  ><a name="1232" class="Symbol"
+  >:</a
+  ><a name="1233"
+  > </a
+  ><a name="1234" href="Sets.Records.html#528" class="Record"
+  >R</a
+  ><a name="1235"
+  > </a
+  ><a name="1236" class="Symbol"
+  >&#8594;</a
+  ><a name="1237"
+  > </a
+  ><a name="1238" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1239"
+  >
+</a
+  ><a name="1240" href="Sets.Records.html#1227" class="Function"
+  >sel&#8322;</a
+  ><a name="1244"
+  > </a
+  ><a name="1245" class="Symbol"
+  >=</a
+  ><a name="1246"
+  > </a
+  ><a name="1247" href="Sets.Records.html#568" class="Function"
+  >R.r&#8322;</a
+  ><a name="1251"
+  >
+
+</a
+  ><a name="1253" href="Sets.Records.html#1253" class="Function"
+  >x&#8244;</a
+  ><a name="1255"
+  > </a
+  ><a name="1256" class="Symbol"
+  >=</a
+  ><a name="1257"
+  > </a
+  ><a name="1258" href="Sets.Records.html#827" class="Function"
+  >r</a
+  ><a name="1259"
+  > </a
+  ><a name="1260" class="Symbol"
+  >(</a
+  ><a name="1261" href="Sets.Records.html#554" class="Function"
+  >R.r&#8321;</a
+  ><a name="1265"
+  > </a
+  ><a name="1266" href="Sets.Records.html#655" class="Function"
+  >x</a
+  ><a name="1267" class="Symbol"
+  >)</a
+  ><a name="1268"
+  > </a
+  ><a name="1269" class="Symbol"
+  >(</a
+  ><a name="1270" href="Sets.Records.html#568" class="Function"
+  >R.r&#8322;</a
+  ><a name="1274"
+  > </a
+  ><a name="1275" href="Sets.Records.html#655" class="Function"
+  >x</a
+  ><a name="1276" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="record-vs.-data-definitions"><a href="#record-vs.-data-definitions"><code>record</code> vs. <code>data</code> definitions</a></h1>
+<p>For every set defined with <code>record</code> there is an equivalent set defined with <code>data</code>.</p>
+<p>For example, the following set is equivalent to <code>R</code>:</p>
+<p><pre
+><a name="1476"
+  >
+</a
+  ><a name="1491" class="Keyword"
+  >data</a
+  ><a name="1495"
+  > </a
+  ><a name="1496" href="Sets.Records.html#1496" class="Datatype"
+  >R&#8243;</a
+  ><a name="1498"
+  > </a
+  ><a name="1499" class="Symbol"
+  >:</a
+  ><a name="1500"
+  > </a
+  ><a name="1501" class="PrimitiveType"
+  >Set</a
+  ><a name="1504"
+  > </a
+  ><a name="1505" class="Keyword"
+  >where</a
+  ><a name="1510"
+  >
+  </a
+  ><a name="1513" href="Sets.Records.html#1513" class="InductiveConstructor"
+  >r&#8243;</a
+  ><a name="1515"
+  > </a
+  ><a name="1516" class="Symbol"
+  >:</a
+  ><a name="1517"
+  > </a
+  ><a name="1518" class="Symbol"
+  >(</a
+  ><a name="1519" href="Sets.Records.html#1519" class="Bound"
+  >r&#8321;</a
+  ><a name="1521"
+  > </a
+  ><a name="1522" class="Symbol"
+  >:</a
+  ><a name="1523"
+  > </a
+  ><a name="1524" href="Data.Bool.html#603" class="Datatype"
+  >Bool</a
+  ><a name="1528" class="Symbol"
+  >)</a
+  ><a name="1529"
+  > </a
+  ><a name="1530" class="Symbol"
+  >(</a
+  ><a name="1531" href="Sets.Records.html#1531" class="Bound"
+  >r&#8322;</a
+  ><a name="1533"
+  > </a
+  ><a name="1534" class="Symbol"
+  >:</a
+  ><a name="1535"
+  > </a
+  ><a name="1536" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1537" class="Symbol"
+  >)</a
+  ><a name="1538"
+  > </a
+  ><a name="1539" class="Symbol"
+  >&#8594;</a
+  ><a name="1540"
+  > </a
+  ><a name="1541" href="Sets.Records.html#1496" class="Datatype"
+  >R&#8243;</a
+  ><a name="1543"
+  > 
+
+</a
+  ><a name="1546" href="Sets.Records.html#1546" class="Function"
+  >r&#8321;</a
+  ><a name="1548"
+  > </a
+  ><a name="1549" class="Symbol"
+  >:</a
+  ><a name="1550"
+  > </a
+  ><a name="1551" href="Sets.Records.html#1496" class="Datatype"
+  >R&#8243;</a
+  ><a name="1553"
+  > </a
+  ><a name="1554" class="Symbol"
+  >&#8594;</a
+  ><a name="1555"
+  > </a
+  ><a name="1556" href="Data.Bool.html#603" class="Datatype"
+  >Bool</a
+  ><a name="1560"
+  >
+</a
+  ><a name="1561" href="Sets.Records.html#1546" class="Function"
+  >r&#8321;</a
+  ><a name="1563"
+  > </a
+  ><a name="1564" class="Symbol"
+  >(</a
+  ><a name="1565" href="Sets.Records.html#1513" class="InductiveConstructor"
+  >r&#8243;</a
+  ><a name="1567"
+  > </a
+  ><a name="1568" href="Sets.Records.html#1568" class="Bound"
+  >a</a
+  ><a name="1569"
+  > </a
+  ><a name="1570" href="Sets.Records.html#1570" class="Bound"
+  >b</a
+  ><a name="1571" class="Symbol"
+  >)</a
+  ><a name="1572"
+  > </a
+  ><a name="1573" class="Symbol"
+  >=</a
+  ><a name="1574"
+  > </a
+  ><a name="1575" href="Sets.Records.html#1568" class="Bound"
+  >a</a
+  ><a name="1576"
+  >
+
+</a
+  ><a name="1578" href="Sets.Records.html#1578" class="Function"
+  >r&#8322;</a
+  ><a name="1580"
+  > </a
+  ><a name="1581" class="Symbol"
+  >:</a
+  ><a name="1582"
+  > </a
+  ><a name="1583" href="Sets.Records.html#1496" class="Datatype"
+  >R&#8243;</a
+  ><a name="1585"
+  > </a
+  ><a name="1586" class="Symbol"
+  >&#8594;</a
+  ><a name="1587"
+  > </a
+  ><a name="1588" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="1589"
+  >
+</a
+  ><a name="1590" href="Sets.Records.html#1578" class="Function"
+  >r&#8322;</a
+  ><a name="1592"
+  > </a
+  ><a name="1593" class="Symbol"
+  >(</a
+  ><a name="1594" href="Sets.Records.html#1513" class="InductiveConstructor"
+  >r&#8243;</a
+  ><a name="1596"
+  > </a
+  ><a name="1597" href="Sets.Records.html#1597" class="Bound"
+  >a</a
+  ><a name="1598"
+  > </a
+  ><a name="1599" href="Sets.Records.html#1599" class="Bound"
+  >b</a
+  ><a name="1600" class="Symbol"
+  >)</a
+  ><a name="1601"
+  > </a
+  ><a name="1602" class="Symbol"
+  >=</a
+  ><a name="1603"
+  > </a
+  ><a name="1604" href="Sets.Records.html#1599" class="Bound"
+  >b</a
+  ></pre
+></p>
+<p>Records have the following advantages over <code>data</code> definitions:</p>
+<ul>
+<li>We get selector functions for free.</li>
+<li>A record is definitionally equivalent to its recombined parts:</li>
+</ul>
+<p><pre
+><a name="1790"
+  >
+</a
+  ><a name="1805" href="Sets.Records.html#1805" class="Function"
+  >extRec</a
+  ><a name="1811"
+  > </a
+  ><a name="1812" class="Symbol"
+  >:</a
+  ><a name="1813"
+  > </a
+  ><a name="1814" class="Symbol"
+  >(</a
+  ><a name="1815" href="Sets.Records.html#1815" class="Bound"
+  >x</a
+  ><a name="1816"
+  > </a
+  ><a name="1817" class="Symbol"
+  >:</a
+  ><a name="1818"
+  > </a
+  ><a name="1819" href="Sets.Records.html#528" class="Record"
+  >R</a
+  ><a name="1820" class="Symbol"
+  >)</a
+  ><a name="1821"
+  > </a
+  ><a name="1822" class="Symbol"
+  >&#8594;</a
+  ><a name="1823"
+  > </a
+  ><a name="1824" href="Sets.Records.html#1815" class="Bound"
+  >x</a
+  ><a name="1825"
+  > </a
+  ><a name="1826" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >&#8801;</a
+  ><a name="1827"
+  > </a
+  ><a name="1828" href="Sets.Records.html#827" class="Function"
+  >r</a
+  ><a name="1829"
+  > </a
+  ><a name="1830" class="Symbol"
+  >(</a
+  ><a name="1831" href="Sets.Records.html#554" class="Function"
+  >R.r&#8321;</a
+  ><a name="1835"
+  > </a
+  ><a name="1836" href="Sets.Records.html#1815" class="Bound"
+  >x</a
+  ><a name="1837" class="Symbol"
+  >)</a
+  ><a name="1838"
+  > </a
+  ><a name="1839" class="Symbol"
+  >(</a
+  ><a name="1840" href="Sets.Records.html#568" class="Function"
+  >R.r&#8322;</a
+  ><a name="1844"
+  > </a
+  ><a name="1845" href="Sets.Records.html#1815" class="Bound"
+  >x</a
+  ><a name="1846" class="Symbol"
+  >)</a
+  ><a name="1847"
+  >
+</a
+  ><a name="1848" href="Sets.Records.html#1805" class="Function"
+  >extRec</a
+  ><a name="1854"
+  > </a
+  ><a name="1855" class="Symbol"
+  >_</a
+  ><a name="1856"
+  > </a
+  ><a name="1857" class="Symbol"
+  >=</a
+  ><a name="1858"
+  > </a
+  ><a name="1859" href="Relation.Binary.Core.html#4653" class="InductiveConstructor"
+  >Eq.refl</a
+  ><a name="1866"
+  >
+
+</a
+  ><a name="1868" class="Comment"
+  >-- {- not possible -}</a
+  ><a name="1889"
+  >
+</a
+  ><a name="1890" class="Comment"
+  >-- extData : (x : R&#8243;) &#8594; x &#8801; r&#8243; (r&#8321; x) (r&#8322; x)</a
+  ><a name="1934"
+  >
+</a
+  ><a name="1935" class="Comment"
+  >-- extData _ = refl</a
+  ></pre
+></p>
+<p><strong>It is advised to use <code>record</code> definitions whenever it is possible.</strong></p>
+<h1 id="exercises"><a href="#exercises">Exercises</a></h1>
+<ul>
+<li>Define <code>⊤</code> as a record!</li>
+<li>Define <code>_×_</code> as a record!</li>
+</ul>
+<h1 id="dependent-records"><a href="#dependent-records">Dependent records</a></h1>
+<p>The type of a field can depend on the values of the previous fields.</p>
+<p>For example the following set is equivalent to <code>List ℕ</code>:</p>
+<p><pre
+><a name="2285"
+  >
+</a
+  ><a name="2300" class="Keyword"
+  >open</a
+  ><a name="2304"
+  > </a
+  ><a name="2305" class="Keyword"
+  >import</a
+  ><a name="2311"
+  > </a
+  ><a name="2312" href="Data.Vec.html#1" class="Module"
+  >Data.Vec</a
+  ><a name="2320"
+  > </a
+  ><a name="2321" class="Keyword"
+  >using</a
+  ><a name="2326"
+  > </a
+  ><a name="2327" class="Symbol"
+  >(</a
+  ><a name="2328"
+  >Vec</a
+  ><a name="2331" class="Symbol"
+  >;</a
+  ><a name="2332"
+  > []</a
+  ><a name="2335" class="Symbol"
+  >;</a
+  ><a name="2336"
+  > _&#8759;_</a
+  ><a name="2340" class="Symbol"
+  >)</a
+  ><a name="2341"
+  >
+
+</a
+  ><a name="2343" class="Keyword"
+  >record</a
+  ><a name="2349"
+  > </a
+  ><a name="2350" href="Sets.Records.html#2350" class="Record"
+  >List&#8469;</a
+  ><a name="2355"
+  > </a
+  ><a name="2356" class="Symbol"
+  >:</a
+  ><a name="2357"
+  > </a
+  ><a name="2358" class="PrimitiveType"
+  >Set</a
+  ><a name="2361"
+  > </a
+  ><a name="2362" class="Keyword"
+  >where</a
+  ><a name="2367"
+  >
+  </a
+  ><a name="2370" class="Keyword"
+  >constructor</a
+  ><a name="2381"
+  > </a
+  ><a name="2382" href="Sets.Records.html#2382" class="InductiveConstructor"
+  >L&#8469;</a
+  ><a name="2384"
+  >
+  </a
+  ><a name="2387" class="Keyword"
+  >field</a
+  ><a name="2392"
+  >
+    </a
+  ><a name="2397" href="Sets.Records.html#2397" class="Field"
+  >length</a
+  ><a name="2403"
+  > </a
+  ><a name="2404" class="Symbol"
+  >:</a
+  ><a name="2405"
+  > </a
+  ><a name="2406" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2407"
+  >
+    </a
+  ><a name="2412" href="Sets.Records.html#2412" class="Field"
+  >vector</a
+  ><a name="2418"
+  > </a
+  ><a name="2419" class="Symbol"
+  >:</a
+  ><a name="2420"
+  > </a
+  ><a name="2421" href="Data.Vec.html#604" class="Datatype"
+  >Vec</a
+  ><a name="2424"
+  > </a
+  ><a name="2425" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2426"
+  > </a
+  ><a name="2427" href="Sets.Records.html#2397" class="Bound"
+  >length</a
+  ><a name="2433"
+  >
+
+</a
+  ><a name="2435" href="Sets.Records.html#2435" class="Function"
+  >list</a
+  ><a name="2439"
+  > </a
+  ><a name="2440" class="Symbol"
+  >:</a
+  ><a name="2441"
+  > </a
+  ><a name="2442" href="Sets.Records.html#2350" class="Record"
+  >List&#8469;</a
+  ><a name="2447"
+  >
+</a
+  ><a name="2448" href="Sets.Records.html#2435" class="Function"
+  >list</a
+  ><a name="2452"
+  > </a
+  ><a name="2453" class="Symbol"
+  >=</a
+  ><a name="2454"
+  > </a
+  ><a name="2455" href="Sets.Records.html#2382" class="InductiveConstructor"
+  >L&#8469;</a
+  ><a name="2457"
+  > </a
+  ><a name="2458" class="Number"
+  >3</a
+  ><a name="2459"
+  > </a
+  ><a name="2460" class="Symbol"
+  >(</a
+  ><a name="2461" class="Number"
+  >0</a
+  ><a name="2462"
+  > </a
+  ><a name="2463" href="Data.Vec.html#663" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="2464"
+  > </a
+  ><a name="2465" class="Number"
+  >1</a
+  ><a name="2466"
+  > </a
+  ><a name="2467" href="Data.Vec.html#663" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="2468"
+  > </a
+  ><a name="2469" class="Number"
+  >2</a
+  ><a name="2470"
+  > </a
+  ><a name="2471" href="Data.Vec.html#663" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="2472"
+  > </a
+  ><a name="2473" href="Data.Vec.html#644" class="InductiveConstructor"
+  >[]</a
+  ><a name="2475" class="Symbol"
+  >)</a
+  ><a name="2476"
+  >
+
+</a
+  ><a name="2478" href="Sets.Records.html#2478" class="Function"
+  >list&#8242;</a
+  ><a name="2483"
+  > </a
+  ><a name="2484" class="Symbol"
+  >:</a
+  ><a name="2485"
+  > </a
+  ><a name="2486" href="Sets.Records.html#2350" class="Record"
+  >List&#8469;</a
+  ><a name="2491"
+  >
+</a
+  ><a name="2492" href="Sets.Records.html#2478" class="Function"
+  >list&#8242;</a
+  ><a name="2497"
+  > </a
+  ><a name="2498" class="Symbol"
+  >=</a
+  ><a name="2499"
+  > </a
+  ><a name="2500" href="Sets.Records.html#2382" class="InductiveConstructor"
+  >L&#8469;</a
+  ><a name="2502"
+  > </a
+  ><a name="2503" class="Symbol"
+  >_</a
+  ><a name="2504"
+  > </a
+  ><a name="2505" class="Symbol"
+  >(</a
+  ><a name="2506" class="Number"
+  >0</a
+  ><a name="2507"
+  > </a
+  ><a name="2508" href="Data.Vec.html#663" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="2509"
+  > </a
+  ><a name="2510" class="Number"
+  >1</a
+  ><a name="2511"
+  > </a
+  ><a name="2512" href="Data.Vec.html#663" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="2513"
+  > </a
+  ><a name="2514" class="Number"
+  >2</a
+  ><a name="2515"
+  > </a
+  ><a name="2516" href="Data.Vec.html#663" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="2517"
+  > </a
+  ><a name="2518" href="Data.Vec.html#644" class="InductiveConstructor"
+  >[]</a
+  ><a name="2520" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p>The type of the selector functions:</p>
+<p><pre
+><a name="2569"
+  >
+</a
+  ><a name="2584" href="Sets.Records.html#2584" class="Function"
+  >length&#8242;</a
+  ><a name="2591"
+  > </a
+  ><a name="2592" class="Symbol"
+  >:</a
+  ><a name="2593"
+  > </a
+  ><a name="2594" href="Sets.Records.html#2350" class="Record"
+  >List&#8469;</a
+  ><a name="2599"
+  > </a
+  ><a name="2600" class="Symbol"
+  >&#8594;</a
+  ><a name="2601"
+  > </a
+  ><a name="2602" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2603"
+  > 
+</a
+  ><a name="2605" href="Sets.Records.html#2584" class="Function"
+  >length&#8242;</a
+  ><a name="2612"
+  > </a
+  ><a name="2613" class="Symbol"
+  >=</a
+  ><a name="2614"
+  > </a
+  ><a name="2615" href="Sets.Records.html#2397" class="Function"
+  >List&#8469;.length</a
+  ><a name="2627"
+  >
+
+</a
+  ><a name="2629" href="Sets.Records.html#2629" class="Function"
+  >vector&#8242;</a
+  ><a name="2636"
+  > </a
+  ><a name="2637" class="Symbol"
+  >:</a
+  ><a name="2638"
+  > </a
+  ><a name="2639" class="Symbol"
+  >(</a
+  ><a name="2640" href="Sets.Records.html#2640" class="Bound"
+  >x</a
+  ><a name="2641"
+  > </a
+  ><a name="2642" class="Symbol"
+  >:</a
+  ><a name="2643"
+  > </a
+  ><a name="2644" href="Sets.Records.html#2350" class="Record"
+  >List&#8469;</a
+  ><a name="2649" class="Symbol"
+  >)</a
+  ><a name="2650"
+  > </a
+  ><a name="2651" class="Symbol"
+  >&#8594;</a
+  ><a name="2652"
+  > </a
+  ><a name="2653" href="Data.Vec.html#604" class="Datatype"
+  >Vec</a
+  ><a name="2656"
+  > </a
+  ><a name="2657" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2658"
+  > </a
+  ><a name="2659" class="Symbol"
+  >(</a
+  ><a name="2660" href="Sets.Records.html#2584" class="Function"
+  >length&#8242;</a
+  ><a name="2667"
+  > </a
+  ><a name="2668" href="Sets.Records.html#2640" class="Bound"
+  >x</a
+  ><a name="2669" class="Symbol"
+  >)</a
+  ><a name="2670"
+  >   </a
+  ><a name="2673" class="Comment"
+  >-- dependent</a
+  ><a name="2685"
+  >
+</a
+  ><a name="2686" href="Sets.Records.html#2629" class="Function"
+  >vector&#8242;</a
+  ><a name="2693"
+  > </a
+  ><a name="2694" class="Symbol"
+  >=</a
+  ><a name="2695"
+  > </a
+  ><a name="2696" href="Sets.Records.html#2412" class="Function"
+  >List&#8469;.vector</a
+  ></pre
+></p>
+<h1 id="parameterised-record"><a href="#parameterised-record">Parameterised record</a></h1>
+<p>The previous example parameterised with the types of the vector elements:</p>
+<p><pre
+><a name="2838"
+  >
+</a
+  ><a name="2853" class="Keyword"
+  >record</a
+  ><a name="2859"
+  > </a
+  ><a name="2860" href="Sets.Records.html#2860" class="Record"
+  >List</a
+  ><a name="2864"
+  > </a
+  ><a name="2865" class="Symbol"
+  >(</a
+  ><a name="2866" href="Sets.Records.html#2866" class="Bound"
+  >A</a
+  ><a name="2867"
+  > </a
+  ><a name="2868" class="Symbol"
+  >:</a
+  ><a name="2869"
+  > </a
+  ><a name="2870" class="PrimitiveType"
+  >Set</a
+  ><a name="2873" class="Symbol"
+  >)</a
+  ><a name="2874"
+  > </a
+  ><a name="2875" class="Symbol"
+  >:</a
+  ><a name="2876"
+  > </a
+  ><a name="2877" class="PrimitiveType"
+  >Set</a
+  ><a name="2880"
+  > </a
+  ><a name="2881" class="Keyword"
+  >where</a
+  ><a name="2886"
+  >
+  </a
+  ><a name="2889" class="Keyword"
+  >constructor</a
+  ><a name="2900"
+  > </a
+  ><a name="2901" href="Sets.Records.html#2901" class="InductiveConstructor"
+  >L</a
+  ><a name="2902"
+  >
+  </a
+  ><a name="2905" class="Keyword"
+  >field</a
+  ><a name="2910"
+  >
+    </a
+  ><a name="2915" href="Sets.Records.html#2915" class="Field"
+  >length</a
+  ><a name="2921"
+  > </a
+  ><a name="2922" class="Symbol"
+  >:</a
+  ><a name="2923"
+  > </a
+  ><a name="2924" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="2925"
+  >
+    </a
+  ><a name="2930" href="Sets.Records.html#2930" class="Field"
+  >vector</a
+  ><a name="2936"
+  > </a
+  ><a name="2937" class="Symbol"
+  >:</a
+  ><a name="2938"
+  > </a
+  ><a name="2939" href="Data.Vec.html#604" class="Datatype"
+  >Vec</a
+  ><a name="2942"
+  > </a
+  ><a name="2943" href="Sets.Records.html#2866" class="Bound"
+  >A</a
+  ><a name="2944"
+  > </a
+  ><a name="2945" href="Sets.Records.html#2915" class="Bound"
+  >length</a
+  ><a name="2951"
+  >
+
+</a
+  ><a name="2953" href="Sets.Records.html#2953" class="Function"
+  >list&#8322;</a
+  ><a name="2958"
+  > </a
+  ><a name="2959" class="Symbol"
+  >:</a
+  ><a name="2960"
+  > </a
+  ><a name="2961" href="Sets.Records.html#2860" class="Record"
+  >List</a
+  ><a name="2965"
+  > </a
+  ><a name="2966" href="Data.Bool.html#603" class="Datatype"
+  >Bool</a
+  ><a name="2970"
+  >
+</a
+  ><a name="2971" href="Sets.Records.html#2953" class="Function"
+  >list&#8322;</a
+  ><a name="2976"
+  > </a
+  ><a name="2977" class="Symbol"
+  >=</a
+  ><a name="2978"
+  > </a
+  ><a name="2979" href="Sets.Records.html#2901" class="InductiveConstructor"
+  >L</a
+  ><a name="2980"
+  > </a
+  ><a name="2981" class="Symbol"
+  >_</a
+  ><a name="2982"
+  > </a
+  ><a name="2983" class="Symbol"
+  >(</a
+  ><a name="2984" href="Data.Bool.html#622" class="InductiveConstructor"
+  >true</a
+  ><a name="2988"
+  > </a
+  ><a name="2989" href="Data.Vec.html#663" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="2990"
+  > </a
+  ><a name="2991" href="Data.Bool.html#637" class="InductiveConstructor"
+  >false</a
+  ><a name="2996"
+  > </a
+  ><a name="2997" href="Data.Vec.html#663" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="2998"
+  > </a
+  ><a name="2999" href="Data.Bool.html#622" class="InductiveConstructor"
+  >true</a
+  ><a name="3003"
+  > </a
+  ><a name="3004" href="Data.Vec.html#663" class="InductiveConstructor Operator"
+  >&#8759;</a
+  ><a name="3005"
+  > </a
+  ><a name="3006" href="Data.Vec.html#644" class="InductiveConstructor"
+  >[]</a
+  ><a name="3008" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<p>The type of the selector functions:</p>
+<p><pre
+><a name="3057"
+  >
+</a
+  ><a name="3072" href="Sets.Records.html#3072" class="Function"
+  >length&#8243;</a
+  ><a name="3079"
+  > </a
+  ><a name="3080" class="Symbol"
+  >:</a
+  ><a name="3081"
+  > </a
+  ><a name="3082" class="Symbol"
+  >{</a
+  ><a name="3083" href="Sets.Records.html#3083" class="Bound"
+  >A</a
+  ><a name="3084"
+  > </a
+  ><a name="3085" class="Symbol"
+  >:</a
+  ><a name="3086"
+  > </a
+  ><a name="3087" class="PrimitiveType"
+  >Set</a
+  ><a name="3090" class="Symbol"
+  >}</a
+  ><a name="3091"
+  > </a
+  ><a name="3092" class="Symbol"
+  >&#8594;</a
+  ><a name="3093"
+  > </a
+  ><a name="3094" href="Sets.Records.html#2860" class="Record"
+  >List</a
+  ><a name="3098"
+  > </a
+  ><a name="3099" href="Sets.Records.html#3083" class="Bound"
+  >A</a
+  ><a name="3100"
+  > </a
+  ><a name="3101" class="Symbol"
+  >&#8594;</a
+  ><a name="3102"
+  > </a
+  ><a name="3103" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="3104"
+  > 
+</a
+  ><a name="3106" href="Sets.Records.html#3072" class="Function"
+  >length&#8243;</a
+  ><a name="3113"
+  > </a
+  ><a name="3114" class="Symbol"
+  >=</a
+  ><a name="3115"
+  > </a
+  ><a name="3116" href="Sets.Records.html#2915" class="Function"
+  >List.length</a
+  ><a name="3127"
+  >
+
+</a
+  ><a name="3129" href="Sets.Records.html#3129" class="Function"
+  >vector&#8243;</a
+  ><a name="3136"
+  > </a
+  ><a name="3137" class="Symbol"
+  >:</a
+  ><a name="3138"
+  > </a
+  ><a name="3139" class="Symbol"
+  >{</a
+  ><a name="3140" href="Sets.Records.html#3140" class="Bound"
+  >A</a
+  ><a name="3141"
+  > </a
+  ><a name="3142" class="Symbol"
+  >:</a
+  ><a name="3143"
+  > </a
+  ><a name="3144" class="PrimitiveType"
+  >Set</a
+  ><a name="3147" class="Symbol"
+  >}</a
+  ><a name="3148"
+  > </a
+  ><a name="3149" class="Symbol"
+  >(</a
+  ><a name="3150" href="Sets.Records.html#3150" class="Bound"
+  >x</a
+  ><a name="3151"
+  > </a
+  ><a name="3152" class="Symbol"
+  >:</a
+  ><a name="3153"
+  > </a
+  ><a name="3154" href="Sets.Records.html#2860" class="Record"
+  >List</a
+  ><a name="3158"
+  > </a
+  ><a name="3159" href="Sets.Records.html#3140" class="Bound"
+  >A</a
+  ><a name="3160" class="Symbol"
+  >)</a
+  ><a name="3161"
+  > </a
+  ><a name="3162" class="Symbol"
+  >&#8594;</a
+  ><a name="3163"
+  > </a
+  ><a name="3164" href="Data.Vec.html#604" class="Datatype"
+  >Vec</a
+  ><a name="3167"
+  > </a
+  ><a name="3168" href="Sets.Records.html#3140" class="Bound"
+  >A</a
+  ><a name="3169"
+  > </a
+  ><a name="3170" class="Symbol"
+  >(</a
+  ><a name="3171" href="Sets.Records.html#3072" class="Function"
+  >length&#8243;</a
+  ><a name="3178"
+  > </a
+  ><a name="3179" href="Sets.Records.html#3150" class="Bound"
+  >x</a
+  ><a name="3180" class="Symbol"
+  >)</a
+  ><a name="3181"
+  >   </a
+  ><a name="3184" class="Comment"
+  >-- dependent</a
+  ><a name="3196"
+  >
+</a
+  ><a name="3197" href="Sets.Records.html#3129" class="Function"
+  >vector&#8243;</a
+  ><a name="3204"
+  > </a
+  ><a name="3205" class="Symbol"
+  >=</a
+  ><a name="3206"
+  > </a
+  ><a name="3207" href="Sets.Records.html#2930" class="Function"
+  >List.vector</a
+  ></pre
+></p>
+<p>Note that the parameters became implicit in the field selectors' type.<br />(This is a design decision of the Agda language.)</p>
+<h1 id="exercises-1"><a href="#exercises-1">Exercises</a></h1>
+<p>Define <code>Σ</code> with <code>record</code>!</p>
+<h1 id="implicit-record-fields"><a href="#implicit-record-fields">Implicit record fields</a></h1>
+<p>TODO</p>
+<h1 id="exercise"><a href="#exercise">Exercise</a></h1>
+<p>Define the predicate of being an equivalence relation!</p>
+<p><pre
+><a name="3532"
+  >
+</a
+  ><a name="3547" class="Keyword"
+  >record</a
+  ><a name="3553"
+  > </a
+  ><a name="3554" href="Sets.Records.html#3554" class="Record"
+  >IsEquivalence</a
+  ><a name="3567"
+  > </a
+  ><a name="3568" class="Symbol"
+  >{</a
+  ><a name="3569" href="Sets.Records.html#3569" class="Bound"
+  >A</a
+  ><a name="3570"
+  > </a
+  ><a name="3571" class="Symbol"
+  >:</a
+  ><a name="3572"
+  > </a
+  ><a name="3573" class="PrimitiveType"
+  >Set</a
+  ><a name="3576" class="Symbol"
+  >}</a
+  ><a name="3577"
+  > </a
+  ><a name="3578" class="Symbol"
+  >(</a
+  ><a name="3579" href="Sets.Records.html#3579" class="Bound Operator"
+  >_&#8776;_</a
+  ><a name="3582"
+  > </a
+  ><a name="3583" class="Symbol"
+  >:</a
+  ><a name="3584"
+  > </a
+  ><a name="3585" href="Sets.Records.html#3569" class="Bound"
+  >A</a
+  ><a name="3586"
+  > </a
+  ><a name="3587" class="Symbol"
+  >&#8594;</a
+  ><a name="3588"
+  > </a
+  ><a name="3589" href="Sets.Records.html#3569" class="Bound"
+  >A</a
+  ><a name="3590"
+  > </a
+  ><a name="3591" class="Symbol"
+  >&#8594;</a
+  ><a name="3592"
+  > </a
+  ><a name="3593" class="PrimitiveType"
+  >Set</a
+  ><a name="3596" class="Symbol"
+  >)</a
+  ><a name="3597"
+  > </a
+  ><a name="3598" class="Symbol"
+  >:</a
+  ><a name="3599"
+  > </a
+  ><a name="3600" class="PrimitiveType"
+  >Set</a
+  ><a name="3603"
+  > </a
+  ><a name="3604" class="Keyword"
+  >where</a
+  ></pre
+></p>
+<p>Prove that <code>_≡_</code> is an equivalence relation on any set!</p>
+<p><pre
+><a name="3827"
+  >
+</a
+  ><a name="3842" href="Sets.Records.html#3842" class="Function"
+  >isEquivalence</a
+  ><a name="3855"
+  > </a
+  ><a name="3856" class="Symbol"
+  >:</a
+  ><a name="3857"
+  > </a
+  ><a name="3858" class="Symbol"
+  >{</a
+  ><a name="3859" href="Sets.Records.html#3859" class="Bound"
+  >A</a
+  ><a name="3860"
+  > </a
+  ><a name="3861" class="Symbol"
+  >:</a
+  ><a name="3862"
+  > </a
+  ><a name="3863" class="PrimitiveType"
+  >Set</a
+  ><a name="3866" class="Symbol"
+  >}</a
+  ><a name="3867"
+  > </a
+  ><a name="3868" class="Symbol"
+  >&#8594;</a
+  ><a name="3869"
+  > </a
+  ><a name="3870" href="Sets.Records.html#3554" class="Record"
+  >IsEquivalence</a
+  ><a name="3883"
+  > </a
+  ><a name="3884" class="Symbol"
+  >{</a
+  ><a name="3885" href="Sets.Records.html#3859" class="Bound"
+  >A</a
+  ><a name="3886" class="Symbol"
+  >}</a
+  ><a name="3887"
+  > </a
+  ><a name="3888" href="Relation.Binary.Core.html#4603" class="Datatype Operator"
+  >_&#8801;_</a
+  ></pre
+></p>
+<h1 id="exercise-1"><a href="#exercise-1">Exercise</a></h1>
+<p>Define the predicate of being a semigroup!</p>
+<p>Prove that <code>ℕ</code> is a semigroup with <code>_+_</code>!</p>
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Record Modules</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="Agda.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Record Modules</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#record-modules">Record modules</a></li>
+<li><a href="#applied-opening">Applied opening</a></li>
+</ul>
+</div>
+<p><em><a href="http://wiki.portal.chalmers.se/agda/pmwiki.php?n=ReferenceManual.RecordsTutorial">After the Agda Records Tutorial</a></em></p>
+<p><pre
+><a name="136"
+  >
+</a
+  ><a name="151" class="Keyword"
+  >module</a
+  ><a name="157"
+  > </a
+  ><a name="158" href="Modules.Records.html#1" class="Module"
+  >Modules.Records</a
+  ><a name="173"
+  > </a
+  ><a name="174" class="Keyword"
+  >where</a
+  ><a name="179"
+  >
+
+</a
+  ><a name="181" class="Keyword"
+  >open</a
+  ><a name="185"
+  > </a
+  ><a name="186" class="Keyword"
+  >import</a
+  ><a name="192"
+  > </a
+  ><a name="193" href="Data.Nat.html#1" class="Module"
+  >Data.Nat</a
+  ><a name="201"
+  >
+</a
+  ><a name="202" class="Keyword"
+  >open</a
+  ><a name="206"
+  > </a
+  ><a name="207" class="Keyword"
+  >import</a
+  ><a name="213"
+  > </a
+  ><a name="214" href="Data.Bool.html#1" class="Module"
+  >Data.Bool</a
+  ><a name="223"
+  >
+</a
+  ><a name="224" class="Keyword"
+  >open</a
+  ><a name="228"
+  > </a
+  ><a name="229" class="Keyword"
+  >import</a
+  ><a name="235"
+  > </a
+  ><a name="236" href="Relation.Binary.PropositionalEquality.html#1" class="Module"
+  >Relation.Binary.PropositionalEquality</a
+  ><a name="273"
+  > </a
+  ><a name="274" class="Keyword"
+  >using</a
+  ><a name="279"
+  > </a
+  ><a name="280" class="Symbol"
+  >(</a
+  ><a name="281"
+  >_&#8801;_</a
+  ><a name="284" class="Symbol"
+  >;</a
+  ><a name="285"
+  > refl</a
+  ><a name="290" class="Symbol"
+  >)</a
+  ></pre
+></p>
+<h1 id="record-modules"><a href="#record-modules">Record modules</a></h1>
+<p>Record defines modules similar to data definitions but these modules are not automatically opened:</p>
+<p><pre
+><a name="434"
+  >
+</a
+  ><a name="449" class="Keyword"
+  >record</a
+  ><a name="455"
+  > </a
+  ><a name="456" href="Modules.Records.html#456" class="Record"
+  >R</a
+  ><a name="457"
+  > </a
+  ><a name="458" class="Symbol"
+  >:</a
+  ><a name="459"
+  > </a
+  ><a name="460" class="PrimitiveType"
+  >Set</a
+  ><a name="463"
+  > </a
+  ><a name="464" class="Keyword"
+  >where</a
+  ><a name="469"
+  >
+  </a
+  ><a name="472" class="Keyword"
+  >field</a
+  ><a name="477"
+  >
+    </a
+  ><a name="482" href="Modules.Records.html#482" class="Field"
+  >r&#8321;</a
+  ><a name="484"
+  > </a
+  ><a name="485" class="Symbol"
+  >:</a
+  ><a name="486"
+  > </a
+  ><a name="487" href="Data.Bool.html#603" class="Datatype"
+  >Bool</a
+  ><a name="491"
+  >
+    </a
+  ><a name="496" href="Modules.Records.html#496" class="Field"
+  >r&#8322;</a
+  ><a name="498"
+  > </a
+  ><a name="499" class="Symbol"
+  >:</a
+  ><a name="500"
+  > </a
+  ><a name="501" href="Data.Nat.html#698" class="Datatype"
+  >&#8469;</a
+  ><a name="502"
+  >
+
+</a
+  ><a name="504" href="Modules.Records.html#504" class="Function"
+  >x</a
+  ><a name="505"
+  > </a
+  ><a name="506" class="Symbol"
+  >:</a
+  ><a name="507"
+  > </a
+  ><a name="508" href="Modules.Records.html#456" class="Record"
+  >R</a
+  ><a name="509"
+  >
+</a
+  ><a name="510" href="Modules.Records.html#504" class="Function"
+  >x</a
+  ><a name="511"
+  > </a
+  ><a name="512" class="Symbol"
+  >=</a
+  ><a name="513"
+  > </a
+  ><a name="514" class="Keyword"
+  >record</a
+  ><a name="520"
+  > </a
+  ><a name="521" class="Symbol"
+  >{</a
+  ><a name="522"
+  > </a
+  ><a name="523" class="Field"
+  >r&#8321;</a
+  ><a name="525"
+  > </a
+  ><a name="526" class="Symbol"
+  >=</a
+  ><a name="527"
+  > </a
+  ><a name="528" href="Data.Bool.html#622" class="InductiveConstructor"
+  >true</a
+  ><a name="532" class="Symbol"
+  >;</a
+  ><a name="533"
+  > </a
+  ><a name="534" class="Field"
+  >r&#8322;</a
+  ><a name="536"
+  > </a
+  ><a name="537" class="Symbol"
+  >=</a
+  ><a name="538"
+  > </a
+  ><a name="539" class="Number"
+  >2</a
+  ><a name="540"
+  > </a
+  ><a name="541" class="Symbol"
+  >}</a
+  ></pre
+></p>
+<p>We can open <code>R</code>:</p>
+<p><pre
+><a name="571"
+  >
+</a
+  ><a name="586" class="Keyword"
+  >module</a
+  ><a name="592"
+  > </a
+  ><a name="593" href="Modules.Records.html#593" class="Module"
+  >SimpleOpening</a
+  ><a name="606"
+  > </a
+  ><a name="607" class="Keyword"
+  >where</a
+  ><a name="612"
+  >
+
+  </a
+  ><a name="616" class="Keyword"
+  >open</a
+  ><a name="620"
+  > </a
+  ><a name="621" href="Modules.Records.html#456" class="Module"
+  >R</a
+  ><a name="622"
+  >  </a
+  ><a name="624" class="Comment"
+  >-- brings r&#8321; and r&#8322; into scope</a
+  ><a name="654"
+  >
+
+  </a
+  ><a name="658" href="Modules.Records.html#658" class="Function"
+  >y</a
+  ><a name="659"
+  > </a
+  ><a name="660" class="Symbol"
+  >:</a
+  ><a name="661"
+  > </a
+  ><a name="662" href="Data.Bool.html#603" class="Datatype"
+  >Bool</a
+  ><a name="666"
+  >
+  </a
+  ><a name="669" href="Modules.Records.html#658" class="Function"
+  >y</a
+  ><a name="670"
+  > </a
+  ><a name="671" class="Symbol"
+  >=</a
+  ><a name="672"
+  > </a
+  ><a name="673" href="Modules.Records.html#482" class="Function"
+  >r&#8321;</a
+  ><a name="675"
+  > </a
+  ><a name="676" href="Modules.Records.html#504" class="Function"
+  >x</a
+  ><a name="677"
+  >  </a
+  ><a name="679" class="Comment"
+  >-- no qualification</a
+  ></pre
+></p>
+<h1 id="applied-opening"><a href="#applied-opening">Applied opening</a></h1>
+<p>Applied opening also works for <code>R</code>:</p>
+<p><pre
+><a name="780"
+  >
+</a
+  ><a name="795" class="Keyword"
+  >module</a
+  ><a name="801"
+  > </a
+  ><a name="802" href="Modules.Records.html#802" class="Module"
+  >AppliedOpening</a
+  ><a name="816"
+  > </a
+  ><a name="817" class="Keyword"
+  >where</a
+  ><a name="822"
+  >
+
+  </a
+  ><a name="826" class="Keyword"
+  >open</a
+  ><a name="830"
+  > </a
+  ><a name="831" href="Modules.Records.html#456" class="Module"
+  >R</a
+  ><a name="832"
+  > </a
+  ><a name="833" href="Modules.Records.html#504" class="Function"
+  >x</a
+  ><a name="834"
+  >  </a
+  ><a name="836" class="Comment"
+  >-- brings r&#8321; and r&#8322; into scope, first parameter filled in </a
+  ><a name="894"
+  >
+
+  </a
+  ><a name="898" href="Modules.Records.html#898" class="Function"
+  >y</a
+  ><a name="899"
+  > </a
+  ><a name="900" class="Symbol"
+  >:</a
+  ><a name="901"
+  > </a
+  ><a name="902" href="Data.Bool.html#603" class="Datatype"
+  >Bool</a
+  ><a name="906"
+  >
+  </a
+  ><a name="909" href="Modules.Records.html#898" class="Function"
+  >y</a
+  ><a name="910"
+  > </a
+  ><a name="911" class="Symbol"
+  >=</a
+  ><a name="912"
+  > </a
+  ><a name="913" href="Modules.Records.html#482" class="Function"
+  >r&#8321;</a
+  ></pre
+></p>
+<p>Another example:</p>
+<p><pre
+><a name="944"
+  >
+</a
+  ><a name="959" class="Keyword"
+  >module</a
+  ><a name="965"
+  > </a
+  ><a name="966" href="Modules.Records.html#966" class="Module"
+  >AppliedOpening&#8242;</a
+  ><a name="981"
+  > </a
+  ><a name="982" class="Keyword"
+  >where</a
+  ><a name="987"
+  >
+
+  </a
+  ><a name="991" href="Modules.Records.html#991" class="Function"
+  >y</a
+  ><a name="992"
+  > </a
+  ><a name="993" class="Symbol"
+  >:</a
+  ><a name="994"
+  > </a
+  ><a name="995" href="Data.Bool.html#603" class="Datatype"
+  >Bool</a
+  ><a name="999"
+  >
+  </a
+  ><a name="1002" href="Modules.Records.html#991" class="Function"
+  >y</a
+  ><a name="1003"
+  > </a
+  ><a name="1004" class="Symbol"
+  >=</a
+  ><a name="1005"
+  > </a
+  ><a name="1006" href="Modules.Records.html#482" class="Function"
+  >r&#8321;</a
+  ><a name="1008"
+  > </a
+  ><a name="1009" class="Keyword"
+  >where</a
+  ><a name="1014"
+  >
+    </a
+  ><a name="1019" class="Keyword"
+  >open</a
+  ><a name="1023"
+  > </a
+  ><a name="1024" href="Modules.Records.html#456" class="Module"
+  >R</a
+  ><a name="1025"
+  > </a
+  ><a name="1026" href="Modules.Records.html#504" class="Function"
+  >x</a
+  ></pre
+></p>
+</body>
+</html>
