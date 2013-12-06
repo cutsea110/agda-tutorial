@@ -60,7 +60,7 @@ raise : ∀ {n} x → Fin n → Fin (x + n)
 raise {n} zero fn = fn
 raise {n} (suc x) fn = suc (raise {n} x fn)
 
-t4 : ∀ {m n i} → toℕ (raise {m} n i) ≡ n + toℕ i
+t4 : ∀ {m n} {i : Fin m} → toℕ (raise n i) ≡ n + toℕ i
 t4 {n = zero} = refl
 t4 {n = suc n} {i} = cong suc (t4 {n = n})
 
