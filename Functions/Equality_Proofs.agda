@@ -40,13 +40,14 @@ m+1+n≡1+m+n : ∀ m n → m + suc n ≡ suc (m + n)
 m+1+n≡1+m+n zero n = refl
 m+1+n≡1+m+n (suc m) n = cong suc $ m+1+n≡1+m+n m n
 
-mutual
-  1+m+n≡m+1+n : ∀ m n → suc (m + n) ≡ n + suc m
-  1+m+n≡m+1+n m zero = cong suc $ +-right-identity m
-  1+m+n≡m+1+n m (suc n) = cong suc $ m+Sn≡n+Sm m n
+-- mutual here
+1+m+n≡m+1+n : ∀ m n → suc (m + n) ≡ n + suc m
+m+Sn≡n+Sm : ∀ m n → m + suc n ≡ n + suc m
 
-  m+Sn≡n+Sm : ∀ m n → m + suc n ≡ n + suc m
-  m+Sn≡n+Sm m n = trans (m+1+n≡1+m+n m n) (1+m+n≡m+1+n m n)
+1+m+n≡m+1+n m zero = cong suc $ +-right-identity m
+1+m+n≡m+1+n m (suc n) = cong suc $ m+Sn≡n+Sm m n
+
+m+Sn≡n+Sm m n = trans (m+1+n≡1+m+n m n) (1+m+n≡m+1+n m n)
 
 -- see the definition of +-comm' below
 +-commutativity : ∀ a b → a + b ≡ b + a
