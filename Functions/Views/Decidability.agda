@@ -20,7 +20,10 @@ data Dec (A : Set) : Set where
 1≡1 = yes refl
 
 1≡2 : Dec (1 ≡ 2)
-1≡2 = no (λ ())
+1≡2 = no 1≡2' -- no (λ ())
+  where
+    1≡2' : 1 ≡ 2 → ⊥
+    1≡2' ()
 
 1>2 : Dec (1 > 2)
 1>2 = no 3≤1
@@ -30,8 +33,14 @@ data Dec (A : Set) : Set where
 
 _≟_ : (a b : ℕ) → Dec (a ≡ b)
 zero ≟ zero = yes refl
-zero ≟ suc y = no (λ ())
-suc x ≟ zero = no (λ ())
+zero ≟ suc y = no 0≡Sn -- no (λ ())
+  where
+    0≡Sn : ∀ {x} → 0 ≡ suc x → ⊥
+    0≡Sn ()
+suc x ≟ zero = no Sn≡0 -- no (λ ())
+  where
+    Sn≡0 : ∀ {x} → suc x ≡ 0 → ⊥
+    Sn≡0 ()
 suc x ≟ suc y with x ≟ y
 ... | yes x≡y = yes (cong suc x≡y)
 ... | no x≢y = no (x≢y ∘ cong pred)
