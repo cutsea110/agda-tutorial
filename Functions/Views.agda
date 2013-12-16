@@ -58,3 +58,17 @@ compare (suc .(suc (n + k))) (suc n) | greater .n k = greater (suc n) k
 ⌊ zero /2⌋ = zero
 ⌊ suc n /2⌋ = n
 
+data Mod4 : ℕ → Set where
+  zero  : ∀ k → Mod4 ((k * 2) * 2)
+  one   : ∀ k → Mod4 (1 + ((k * 2) * 2))
+  two   : ∀ k → Mod4 ((1 + k * 2) * 2)
+  three : ∀ k → Mod4 (1 + ((1 + k * 2) * 2))
+
+mod4 : ∀ n → Mod4 n
+mod4 n with parity' n
+mod4 .(n * 2) | even n with parity' n
+mod4 .(n * 2 * _) | even .(n * 2) | even n = zero n
+mod4 .(suc (n * 2) * _) | even .(suc (n * 2)) | odd n = two n
+mod4 .(suc (n * 2)) | odd n with parity' n
+mod4 .(suc (n * 2 * _)) | odd .(n * 2) | even n = one n
+mod4 .(suc (suc (n * 2) * _)) | odd .(suc (n * 2)) | odd n = three n
