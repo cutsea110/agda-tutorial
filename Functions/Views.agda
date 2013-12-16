@@ -20,11 +20,14 @@ parity (suc n) with parity n
 parity (suc n) | inj₁ x = inj₂ (even x)
 parity (suc n) | inj₂ y = inj₁ (odd y)
 
-ordering : ∀ n m → n < m ⊎ n ≡ m ⊎ n > m
+ordering : ∀ n m → (n < m) ⊎ (n ≡ m) ⊎ (n > m)
 ordering zero zero = inj₂ (inj₁ refl)
 ordering zero (suc m) = inj₁ (s≤s z≤n)
 ordering (suc n) zero = inj₂ (inj₂ (s≤s z≤n))
-ordering (suc n) (suc m)  = {!!}
+ordering (suc n) (suc m) with ordering n m
+ordering (suc n) (suc m) | inj₁ x = inj₁ (s≤s x)
+ordering (suc .m) (suc m) | inj₂ (inj₁ refl) = inj₂ (inj₁ refl)
+ordering (suc .(suc n)) (suc m) | inj₂ (inj₂ (s≤s {.m} {n} y)) = inj₂ (inj₂ (s≤s (s≤s y)))
 
 data Parity : ℕ → Set where
   even : ∀ n → Parity (n * 2)
@@ -36,10 +39,22 @@ data Ordering : ℕ → ℕ → Set where
   greater : ∀ m k → Ordering (suc (m + k)) m
 
 parity' : ∀ n → Parity n
-parity' n = {!!}
+parity' zero = even zero
+parity' (suc zero) = odd zero
+parity' (suc (suc n)) with parity' n
+parity' (suc (suc .(n * 2))) | even n = even (suc n)
+parity' (suc (suc .(suc (n * 2)))) | odd n = odd (suc n)
 
 compare : ∀ m n → Ordering m n
-compare m n = {!!}
+compare zero zero = equal zero
+compare zero (suc n) = less zero n
+compare (suc m) zero = greater zero m
+compare (suc m) (suc n) with compare m n
+compare (suc m) (suc .(suc (m + k))) | less .m k = less (suc m) k
+compare (suc .n) (suc n) | equal .n = equal (suc n)
+compare (suc .(suc (n + k))) (suc n) | greater .n k = greater (suc n) k
 
 ⌊_/2⌋ : ℕ → ℕ
-⌊ n /2⌋ = {!!}
+⌊ zero /2⌋ = zero
+⌊ suc n /2⌋ = n
+
