@@ -23,7 +23,10 @@ data Dec (A : Set) : Set where
 1≡2 = no (λ ())
 
 1>2 : Dec (1 > 2)
-1>2 = {!!}
+1>2 = no (2≤0 ∘ ≤-pred)
+  where
+    2≤0 : 2 ≤ 0 → ⊥
+    2≤0 = λ ()
 
 _≟_ : (a b : ℕ) → Dec (a ≡ b)
 zero ≟ zero = yes refl
