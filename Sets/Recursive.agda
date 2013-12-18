@@ -14,3 +14,10 @@ data ℕ⁺ : Set where
 data ℕ₂ : Set where
   zero : ℕ₂
   id   : ℕ⁺ → ℕ₂
+
+-- This is like newtype in Haskell
+{--
+data ℕ́ : Set where
+  cast : ℕ → ℕ́
+--}
+
