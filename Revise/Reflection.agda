@@ -30,10 +30,11 @@ module _ {A : Set} where
     exch : ∀ {n a b} {xs : V n} → a ∷ b ∷ xs ∼ b ∷ a ∷ xs
 
   -- Reflexivity and symmetry of _∼_
+  -- maybe this implementation beat auto proved code on performance.
   ∼-refl : ∀ {n} {xs : V n} → xs ∼ xs
   ∼-refl {xs = []} = zero
   ∼-refl {xs = _ ∷ []} = suc zero
-  ∼-refl {xs = _ ∷ _ ∷ xs} = exch ∘ exch -- why? 
+  ∼-refl {xs = _ ∷ _ ∷ xs} = exch ∘ exch
 
   ∼-sym : ∀ {n} {xs ys : V n} → xs ∼ ys → ys ∼ xs
   ∼-sym zero = zero
@@ -122,3 +123,6 @@ module _ {A : Set} where
   cancel : ∀ {n} {x} {xs ys : V n} → x ∷ xs ≈ x ∷ ys → xs ≈ ys
   cancel (zero ∷ e) = e
   cancel (suc x₁ ∷ b ∷ e) = zero ∷ e ∘≈ b ∷ ≈-refl ∘≈ x₁ ∷ ≈-refl
+
+--  t1 : 1 ∷ 2 ∷ 3 ∷ 4 ∷ [] ≈ 3 ∷ 2 ∷ 4 ∷ 1 ∷ []
+--  t1 = suc (suc (suc zero)) ∷ suc zero ∷ zero ∷ zero ∷ []
