@@ -47,7 +47,12 @@ data _∼_ {A : Set} : ∀ {n} → Vec A n → Vec A n → Set where
   _∘_  : ∀ {n} {xs ys zs : Vec A n} → xs ∼ ys → ys ∼ zs → xs ∼ zs
   exch : ∀ {n a b} {xs : Vec A n} → a ∷ b ∷ xs ∼ b ∷ a ∷ xs
 
-
+t0 : 1 ∷ 2 ∷ 3 ∷ [] ∼ 2 ∷ 3 ∷ 1 ∷ []
+t0 = exch ∘ suc exch
+-- _∘_ : 1 ∷ 2 ∷ 3 ∷ [] ∼ 2 ∷ 1 ∷ 3 ∷ [] → 2 ∷ 1 ∷ 3 ∷ [] ∼ 2 ∷ 3 ∷ 1 ∷ [] → 1 ∷ 2 ∷ 3 ∷ [] ∼ 2 ∷ 3 ∷ 1 ∷ []
+--      |<-           exch            ->|   |<-          suc exch         ->|
+t0' : 3 ∷ 2 ∷ 1 ∷ [] ∼ 2 ∷ 1 ∷ 3 ∷ []
+t0' = exch ∘ suc exch
 
 infixr 3 _↪_
 data Into {A : Set} (n : ℕ) : Set where
