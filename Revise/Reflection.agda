@@ -52,6 +52,7 @@ module _ {A : Set} where
   sucSimp : ∀ {n x} {xs ys : V n} → xs ∼ ys → x ∷ xs ∼ x ∷ ys
   sucSimp zero = suc zero
   sucSimp (suc zero) = exch ∘ exch
+  sucSimp (exch ∘ exch) = exch ∘ exch
   sucSimp x = suc x
 
   -- Permutation relation _≈_
@@ -124,5 +125,56 @@ module _ {A : Set} where
   cancel (zero ∷ e) = e
   cancel (suc x₁ ∷ b ∷ e) = zero ∷ e ∘≈ b ∷ ≈-refl ∘≈ x₁ ∷ ≈-refl
 
---  t1 : 1 ∷ 2 ∷ 3 ∷ 4 ∷ [] ≈ 3 ∷ 2 ∷ 4 ∷ 1 ∷ []
---  t1 = suc (suc (suc zero)) ∷ suc zero ∷ zero ∷ zero ∷ []
+t1 : 1 ∷ 2 ∷ 3 ∷ 4 ∷ [] ≈ 3 ∷ 2 ∷ 4 ∷ 1 ∷ []
+t1 = suc (suc (suc zero)) ∷ suc zero ∷ zero ∷ zero ∷ []
+-- [] => [] ≈ []
+-- zero ∷ [] => 4 ∷ [] ≈ 4 ∷ []
+-- zero ∷ zero ∷ [] => 3 ∷ 4 ∷ [] ≈ 3 ∷ 4 ∷ []
+-- suc zero ∷ zero ∷ zero ∷ [] => 2 ∷ 3 ∷ 4 ∷ [] ≈ 3 ∷ 2 ∷ 4 ∷ []
+-- suc (suc (suc zero)) ∷ suc zero ∷ zero ∷ zero ∷ [] => 1 ∷ 2 ∷ 3 ∷ 4 ∷ [] ≈ 3 ∷ 2 ∷ 4 ∷ 1 ∷ []
+t2 : 1 ∷ 2 ∷ 3 ∷ 4 ∷ [] ≈ 4 ∷ 3 ∷ 2 ∷ 1 ∷ []
+t2 = suc (suc (suc zero)) ∷ suc (suc zero) ∷ suc zero ∷ zero ∷ []
+-- [] => [] ≈ []
+-- zero ∷ [] => 4 ∷ [] ≈ 4 ∷ []
+-- suc zero ∷ zero ∷ [] => 3 ∷ 4 ∷ [] ≈ 4 ∷ 3 ∷ []
+-- suc (suc zero) ∷ suc zero ∷ zero ∷ [] => 2 ∷ 3 ∷ 4 ∷ [] ≈ 4 ∷ 3 ∷ 2 ∷ []
+-- suc (suc (suc zero)) ∷ suc (suc zero) ∷ suc zero ∷ zero ∷ [] => 1 ∷ 2 ∷ 3 ∷ 4 ∷ [] ≈ 4 ∷ 3 ∷ 2 ∷ 1 ∷ []
+
+f2 : 1 ∷ 2 ∷ [] ≈ 1 ∷ 1 ∷ [] → ⊥
+f2 (zero ∷ () ∷ [])
+f2 (suc x ∷ () ∷ [])
+
+module _ {A : Set} ⦃ eq : Decidable {A = A} _≡_ ⦄ where
+
+  private V = Vec A
+
+  getOut' : ∀ {n} x (xs : V (suc n)) → Dec (ys ∣ x ↪ ys ≋ xs)
+  getOut'  x  (x₁ ∷ xs) with eq x x₁
+  getOut' .x₁ (x₁ ∷ xs) | yes refl = yes (xs , zero)
+  getOut'  x  (x₁ ∷ []) | no ¬p = no (¬p ∘f f x refl) where
+    f : ∀ a → x ≡ a → (ys ∣ a ↪ ys ≋ x₁ ∷ []) → x ≡ x₁
+    f .x₁ k (.[] , zero) = k
+  getOut'  x  (x₁ ∷ y ∷ xs) | no ¬p with getOut' x (y ∷ xs)
+  ... | yes (a , b) = yes (x₁ ∷ a , suc b)
+  ... | no ¬q = no (f x refl) where
+    f : ∀ a → x ≡ a → (ys ∣ a ↪ ys ≋ x₁ ∷ y ∷ xs) → ⊥
+    f .x₁ e (.(y ∷ xs) , zero) = ¬p e
+    f a e (.x₁ ∷ xs , suc q) with a | e
+    ... | .x | refl = ¬q (xs , q)
+
+  infix 2 _≈?_
+
+  _≈?_ : ∀ {n} → (xs ys : V n) → Dec (xs ≈ ys)
+  [] ≈? [] = yes []
+  x ∷ xs ≈? ys with getOut' x ys
+  ... | no ¬p = no λ { (h ∷ _) → ¬p (_ , h)}
+  ... | yes (zs , p) with xs ≈? zs
+  ... | yes p' = yes (p ∷ p')
+  ... | no ¬p = no λ e → ¬p (cancel (e ∘≈ ≈-sym (p ∷ ≈-refl)))
+
+-- try : 1 ∷ 20 ∷ 3 ∷ 4 ∷ [] ≈? 3 ∷ 2 ∷ 4 ∷ 1 ∷ []
+-- try = {!!}
+
+open import Reflection hiding (_≟_)
+open import Data.List using ([]; _∷_)
+open import Data.Maybe using (Maybe; just; nothing; maybe′)
