@@ -30,3 +30,39 @@ test2 : 1 ∷ 2 ∷ 3 ∷ [] ⊆ 1 ∷ 2 ∷ [] → ⊥
 test2 (xs⊆xys (xs⊆xys ()))
 test2 (xxs⊆xys (xs⊆xys ()))
 test2 (xxs⊆xys (xxs⊆xys ()))
+
+
+
+infixr 5 _∷_
+data Vec (A : Set) : (n : ℕ) → Set where
+  []  : Vec A zero
+  _∷_ : ∀ {n} → A → Vec A n → Vec A (suc n)
+
+
+infix 1 _∼_
+infixl 3 _∘_
+data _∼_ {A : Set} : ∀ {n} → Vec A n → Vec A n → Set where
+  zero : [] ∼ []
+  suc  : ∀ {n a} {xs ys : Vec A n} → xs ∼ ys → a ∷ xs ∼ a ∷ ys
+  _∘_  : ∀ {n} {xs ys zs : Vec A n} → xs ∼ ys → ys ∼ zs → xs ∼ zs
+  exch : ∀ {n a b} {xs : Vec A n} → a ∷ b ∷ xs ∼ b ∷ a ∷ xs
+
+
+
+infixr 3 _↪_
+data Into {A : Set} (n : ℕ) : Set where
+  _↪_ : A → Vec A n → Into n
+
+infix 1 _≋_
+data _≋_ {A : Set} : ∀ {n} → Into {A} n → Vec A (suc n) → Set where
+  zero : ∀ {n x} {xs : Vec A n} → x ↪ xs ≋ x ∷ xs
+  suc  : ∀ {n x y} {xs : Vec A n} {ys} → x ↪ xs ≋ ys → x ↪ y ∷ xs ≋ y ∷ ys
+
+infix 1 _≈_
+infixr 4 _◂_
+data _≈_ {A : Set} : ∀ {n} → Vec A n → Vec A n → Set where
+  [] : [] ≈ []
+  _◂_ : ∀ {n x} {xs ys : Vec A n} {xxs} → x ↪ xs ≋ xxs → ys ≈ xs → x ∷ ys ≈ xxs
+
+t1 : 1 ∷ 2 ∷ 3 ∷ 4 ∷ [] ≈ 3 ∷ 2 ∷ 4 ∷ 1 ∷ []
+t1 = suc (suc (suc zero)) ◂ suc zero ◂ zero ◂ zero ◂ []
