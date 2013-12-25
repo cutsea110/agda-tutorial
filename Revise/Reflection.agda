@@ -172,8 +172,7 @@ module _ {A : Set} ⦃ eq : Decidable {A = A} _≡_ ⦄ where
   ... | yes p' = yes (p ∷ p')
   ... | no ¬p = no λ e → ¬p (cancel (e ∘≈ ≈-sym (p ∷ ≈-refl)))
 
--- try : 1 ∷ 20 ∷ 3 ∷ 4 ∷ [] ≈? 3 ∷ 2 ∷ 4 ∷ 1 ∷ []
--- try = {!!}
+try = 1 ∷ 20 ∷ 3 ∷ 4 ∷ [] ≈? 3 ∷ 2 ∷ 4 ∷ 1 ∷ []
 
 open import Reflection hiding (_≟_)
 open import Data.List using ([]; _∷_)
